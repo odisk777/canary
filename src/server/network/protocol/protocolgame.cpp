@@ -4852,7 +4852,7 @@ void ProtocolGame::sendCreatureHealth(const Creature* creature) {
 	msg.addByte(0x8C);
 	msg.add<uint32_t>(creature->getID());
 
-	if (creature->isHealthHidden()) {
+	if (creature->isHealthHidden() && creature != player) {
 		msg.addByte(0x00);
 	} else {
 		msg.addByte(std::ceil((static_cast<double>(creature->getHealth()) / std::max<int32_t>(creature->getMaxHealth(), 1)) * 100));
@@ -5865,7 +5865,7 @@ void ProtocolGame::AddCreature(NetworkMessage &msg, const Creature* creature, bo
 		}
 	}
 
-	if (creature->isHealthHidden()) {
+	if (creatureType == CREATURETYPE_HIDDEN && creature != player) {
 		msg.addByte(0x00);
 	} else {
 		msg.addByte(std::ceil((static_cast<double>(creature->getHealth()) / std::max<int32_t>(creature->getMaxHealth(), 1)) * 100));

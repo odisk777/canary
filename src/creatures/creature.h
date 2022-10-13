@@ -117,7 +117,8 @@ class Creature : virtual public Thing {
 			return skull;
 		}
 		virtual Skulls_t getSkullClient(const Creature* creature) const {
-			if (!creature) return SKULL_NONE;
+			if (!creature)
+				return SKULL_NONE;
 			return creature->getSkull();
 		}
 		void setSkull(Skulls_t newSkull);
@@ -446,7 +447,8 @@ class Creature : virtual public Thing {
 			return tile;
 		}
 		void setParent(Cylinder* cylinder) override final {
-			if (!cylinder) return;
+			if (!cylinder)
+				return;
 			tile = static_cast<Tile*>(cylinder);
 			position = tile->getPosition();
 		}
@@ -500,6 +502,11 @@ class Creature : virtual public Thing {
 			return false;
 		}
 
+		struct CountBlock_t {
+				int32_t total;
+				int64_t ticks;
+		};
+
 		static constexpr int32_t mapWalkWidth = Map::maxViewportX * 2 + 1;
 		static constexpr int32_t mapWalkHeight = Map::maxViewportY * 2 + 1;
 		static constexpr int32_t maxWalkCacheWidth = (mapWalkWidth - 1) / 2;
@@ -512,8 +519,6 @@ class Creature : virtual public Thing {
 		std::list<Creature*> summons;
 		CreatureEventList eventsList;
 		ConditionList conditions;
-
-		std::vector<Direction> listWalkDir;
 
 		Tile* tile = nullptr;
 		Creature* attackedCreature = nullptr;
@@ -610,6 +615,11 @@ class Creature : virtual public Thing {
 		bool canFollowMaster() const;
 		bool isLostSummon() const;
 		void handleLostSummon(bool teleportSummons);
+
+		std::vector<Direction> listWalkDir;
+
+		friend class Npc;
+		friend class Player;
 };
 
 #endif // SRC_CREATURES_CREATURE_H_

@@ -706,9 +706,8 @@ bool Game::removeCreature(Creature* creature, bool isLogout /* = true*/) {
 	auto i = static_cast<size_t>(-1); // Start index at -1 to avoid copying it
 	for (Creature* spectator : spectators) {
 		if (Player* player = spectator->getPlayer()) {
-			if (player->canSeeCreature(creature)) {
-				oldStackPosVector[++i] = (player->canSeeCreature(creature) ? tile->getStackposOfCreature(player, creature) : -1);
-			}
+			auto newI = ++i;
+			oldStackPosVector[newI] = (player->canSeeCreature(creature) ? tile->getStackposOfCreature(player, creature) : -1);
 		}
 	}
 

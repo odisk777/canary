@@ -30,7 +30,7 @@ enum LuaDataType {
 	LuaData_Tile,
 };
 
-enum CreatureEventType_t {
+enum class CreatureEventType_t {
 	CREATURE_EVENT_NONE,
 	CREATURE_EVENT_LOGIN,
 	CREATURE_EVENT_LOGOUT,
@@ -148,7 +148,7 @@ enum class MapMark_t {
 	MAPMARK_GREENSOUTH = 19,
 };
 
-enum RuleViolationType_t : uint8_t {
+enum class RuleViolationType_t : uint8_t {
 	REPORT_TYPE_NAME = 0,
 	REPORT_TYPE_STATEMENT = 1,
 	REPORT_TYPE_BOT = 2
@@ -178,7 +178,7 @@ enum class RuleViolationReasons_t : uint8_t {
 	REPORT_REASON_SERVICEAGREEMENT = 20
 };
 
-enum BugReportType_t : uint8_t {
+enum class BugReportType_t : uint8_t {
 	BUG_CATEGORY_MAP = 0,
 	BUG_CATEGORY_TYPO = 1,
 	BUG_CATEGORY_TECHNICAL = 2,

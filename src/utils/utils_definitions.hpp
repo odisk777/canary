@@ -103,7 +103,7 @@ enum Cipbia_Elementals_t : uint8_t {
 	CIPBIA_ELEMENTAL_UNDEFINED = 10
 };
 
-enum MagicEffectClasses : uint8_t {
+enum class MagicEffectClasses : uint8_t {
 	CONST_ME_NONE,
 
 	CONST_ME_DRAWBLOOD = 1,
@@ -259,7 +259,7 @@ enum MagicEffectClasses : uint8_t {
 	CONST_ME_LAST = CONST_ME_DIVINE_DAZZLE,
 };
 
-enum ShootType_t : uint8_t {
+enum class ShootType_t : uint8_t {
 	CONST_ANI_NONE,
 
 	CONST_ANI_SPEAR = 1,

@@ -46,7 +46,7 @@ enum WorldType_t {
 	WORLD_TYPE_PVP_ENFORCED = 3,
 };
 
-enum GameState_t {
+enum class GameState_t {
 	GAME_STATE_STARTUP,
 	GAME_STATE_INIT,
 	GAME_STATE_NORMAL,
@@ -61,7 +61,7 @@ enum QuickLootFilter_t {
 	QUICKLOOTFILTER_ACCEPTEDLOOT = 1,
 };
 
-enum Faction_t {
+enum class Faction_t {
 	FACTION_DEFAULT = 0,
 	FACTION_PLAYER = 1,
 	FACTION_LION = 2,

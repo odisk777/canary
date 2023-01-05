@@ -13,7 +13,7 @@
 class Imbuement;
 
 // Enums
-enum ItemProperty {
+enum class ItemProperty {
 	CONST_PROP_BLOCKSOLID = 0,
 	CONST_PROP_HASHEIGHT,
 	CONST_PROP_BLOCKPROJECTILE,
@@ -276,7 +276,7 @@ enum SlotPositionBits : uint32_t {
 	SLOTP_HAND = (SLOTP_LEFT | SLOTP_RIGHT)
 };
 
-enum class ItemAttrTypes : uint32_t {
+enum ItemAttrTypes : uint32_t {
 	ITEM_ATTRIBUTE_NONE,
 
 	ITEM_ATTRIBUTE_ACTIONID = 1 << 0,

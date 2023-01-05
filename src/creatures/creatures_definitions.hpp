@@ -96,7 +96,7 @@ enum ConditionType_t {
 	CONDITION_ROOTED = 1 << 28,
 };
 
-enum ConditionParam_t {
+enum class ConditionParam_t {
 	CONDITION_PARAM_OWNER = 1,
 	CONDITION_PARAM_TICKS = 2,
 	//CONDITION_PARAM_OUTFIT = 3,
@@ -175,14 +175,14 @@ enum buffs_t {
 	BUFF_LAST = BUFF_DAMAGERECEIVED,
 };
 
-enum formulaType_t {
+enum class formulaType_t {
 	COMBAT_FORMULA_UNDEFINED,
 	COMBAT_FORMULA_LEVELMAGIC,
 	COMBAT_FORMULA_SKILL,
 	COMBAT_FORMULA_DAMAGE,
 };
 
-enum CombatParam_t {
+enum class CombatParam_t {
 	COMBAT_PARAM_TYPE,
 	COMBAT_PARAM_EFFECT,
 	COMBAT_PARAM_DISTANCEEFFECT,
@@ -203,7 +203,7 @@ enum CombatOrigin {
 	ORIGIN_RANGED,
 };
 
-enum CallBackParam_t {
+enum class CallBackParam_t {
 	CALLBACK_PARAM_LEVELMAGICVALUE,
 	CALLBACK_PARAM_SKILLVALUE,
 	CALLBACK_PARAM_TARGETTILE,
@@ -285,7 +285,7 @@ enum RespawnPeriod_t {
 	RESPAWNPERIOD_NIGHT
 };
 
-enum Slots_t : uint8_t {
+enum class Slots_t : uint8_t {
 	CONST_SLOT_WHEREEVER = 0,
 	CONST_SLOT_HEAD = 1,
 	CONST_SLOT_NECKLACE = 2,
@@ -328,7 +328,7 @@ enum charmRune_t : int8_t {
 	CHARM_LAST = CHARM_VOID,
 };
 
-enum ConditionId_t : int8_t {
+enum class ConditionId_t : int8_t {
 	CONDITIONID_DEFAULT = -1,
 	CONDITIONID_COMBAT,
 	CONDITIONID_HEAD,
@@ -469,7 +469,7 @@ enum DailyRewardBonus : uint8_t {
 	DAILY_REWARD_LAST = 7,
 };
 
-enum DailyRewardStatus : uint8_t {
+enum class DailyRewardStatus : uint8_t {
 	DAILY_REWARD_COLLECTED = 0,
 	DAILY_REWARD_NOTCOLLECTED = 1,
 	DAILY_REWARD_NOTAVAILABLE = 2

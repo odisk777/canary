@@ -217,7 +217,7 @@ enum charm_t {
 	CHARM_PASSIVE = 3,
 };
 
-enum SpeechBubble_t {
+enum class SpeechBubble_t {
 	SPEECHBUBBLE_NONE = 0,
 	SPEECHBUBBLE_NORMAL = 1,
 	SPEECHBUBBLE_TRADE = 2,
@@ -350,7 +350,7 @@ enum PlayerSex_t : uint8_t {
 	PLAYERSEX_LAST = PLAYERSEX_MALE
 };
 
-enum skills_t : int8_t {
+enum class skills_t : int8_t {
 	SKILL_NONE = -1,
 	SKILL_FIST = 0,
 	SKILL_CLUB = 1,
@@ -373,7 +373,7 @@ enum skills_t : int8_t {
 	SKILL_LAST = SKILL_MANA_LEECH_AMOUNT
 };
 
-enum CreatureType_t : uint8_t {
+enum class CreatureType_t : uint8_t {
 	CREATURETYPE_PLAYER = 0,
 	CREATURETYPE_MONSTER = 1,
 	CREATURETYPE_NPC = 2,
@@ -406,7 +406,7 @@ enum BlockType_t : uint8_t {
 	BLOCK_DODGE
 };
 
-enum BestiaryType_t : uint8_t {
+enum class BestiaryType_t : uint8_t {
 	BESTY_RACE_NONE = 0,
 
 	BESTY_RACE_AMPHIBIC = 1,
@@ -434,7 +434,7 @@ enum BestiaryType_t : uint8_t {
 	BESTY_RACE_LAST = BESTY_RACE_VERMIN,
 };
 
-enum MonstersEvent_t : uint8_t {
+enum class MonstersEvent_t : uint8_t {
 	MONSTERS_EVENT_NONE = 0,
 	MONSTERS_EVENT_THINK = 1,
 	MONSTERS_EVENT_APPEAR = 2,
@@ -481,7 +481,7 @@ enum class ForgeClassifications_t : uint8_t {
 	FORGE_FIENDISH_MONSTER = 2,
 };
 
-enum OperatingSystem_t : uint8_t {
+enum class OperatingSystem_t : uint8_t {
 	CLIENTOS_NONE = 0,
 
 	CLIENTOS_LINUX = 1,
@@ -535,7 +535,7 @@ enum Vocation_t : uint16_t {
 	VOCATION_LAST = VOCATION_ELITE_KNIGHT
 };
 
-enum FightMode_t : uint8_t {
+enum class FightMode_t : uint8_t {
 	FIGHTMODE_ATTACK = 1,
 	FIGHTMODE_BALANCED = 2,
 	FIGHTMODE_DEFENSE = 3,

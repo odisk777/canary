@@ -34,7 +34,7 @@ enum Attr_ReadValue {
 	ATTR_READ_END,
 };
 
-enum ReturnValue {
+enum class ReturnValue {
 	RETURNVALUE_NOERROR,
 	RETURNVALUE_NOTPOSSIBLE,
 	RETURNVALUE_NOTENOUGHROOM,
@@ -131,7 +131,7 @@ enum ItemGroup_t {
 	ITEM_GROUP_LAST
 };
 
-enum ItemTypes_t {
+enum class ItemTypes_t {
 	ITEM_TYPE_NONE,
 
 	// Odered to make the cast from protobuf::itemCategory to ItemTypes_t easier.
@@ -276,7 +276,7 @@ enum SlotPositionBits : uint32_t {
 	SLOTP_HAND = (SLOTP_LEFT | SLOTP_RIGHT)
 };
 
-enum ItemAttrTypes : uint32_t {
+enum class ItemAttrTypes : uint32_t {
 	ITEM_ATTRIBUTE_NONE,
 
 	ITEM_ATTRIBUTE_ACTIONID = 1 << 0,

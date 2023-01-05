@@ -116,7 +116,7 @@ enum HighscoreType_t : uint8_t {
 	HIGHSCORE_OURRANK = 1
 };
 
-enum Webhook_Colors_t : uint32_t {
+enum class Webhook_Colors_t : uint32_t {
 	WEBHOOK_COLOR_ONLINE = 0x00FF00,
 	WEBHOOK_COLOR_OFFLINE = 0xFF0000,
 	WEBHOOK_COLOR_WARNING = 0xFFFF00,

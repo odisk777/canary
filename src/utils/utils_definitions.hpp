@@ -327,7 +327,7 @@ enum ShootType_t : uint8_t {
 	CONST_ANI_WEAPONTYPE = 0xFE, // 254
 };
 
-enum SpeakClasses : uint8_t {
+enum class SpeakClasses : uint8_t {
 	TALKTYPE_SAY = 1,
 	TALKTYPE_WHISPER = 2,
 	TALKTYPE_YELL = 3,
@@ -350,7 +350,7 @@ enum SpeakClasses : uint8_t {
 	TALKTYPE_CHANNEL_R2 = 0xFF, //#d
 };
 
-enum MessageClasses : uint8_t {
+enum class MessageClasses : uint8_t {
 	MESSAGE_NONE = 0, /* None */
 
 	MESSAGE_GAMEMASTER_CONSOLE = 13, /* Red message in the console*/ /* TALKTYPE_BROADCAST */
@@ -416,7 +416,7 @@ enum SquareColor_t : uint8_t {
 	SQ_COLOR_BLACK = 0,
 };
 
-enum TextColor_t : uint8_t {
+enum class TextColor_t : uint8_t {
 	TEXTCOLOR_BLUE = 5,
 	TEXTCOLOR_LIGHTGREEN = 30,
 	TEXTCOLOR_LIGHTBLUE = 35,
@@ -469,7 +469,7 @@ enum PartyAnalyzerAction_t : uint8_t {
 	PARTYANALYZERACTION_PRICEVALUE = 2,
 };
 
-enum Skulls_t : uint8_t {
+enum class Skulls_t : uint8_t {
 	SKULL_NONE = 0,
 	SKULL_YELLOW = 1,
 	SKULL_GREEN = 2,
@@ -512,7 +512,7 @@ enum NameEval_t : uint8_t {
 	INVALID_CHARACTER
 };
 
-enum item_t : uint16_t {
+enum class item_t : uint16_t {
 	ITEM_BROWSEFIELD = 470, // for internal use
 	ITEM_SUPPLY_STASH_INDEX = 1, //for internal use
 	ITEM_DEPOT_NULL = 22796, // for internal use - Actual Item ID: 168

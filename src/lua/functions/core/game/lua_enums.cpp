@@ -625,193 +625,45 @@ void LuaEnums::initGameStateEnums(lua_State* L) {
 }
 
 void LuaEnums::initMessageEnums(lua_State* L) {
-	registerEnum(L, MESSAGE_GAMEMASTER_CONSOLE);
-	registerEnum(L, MESSAGE_LOGIN);
-	registerEnum(L, MESSAGE_ADMINISTRADOR);
-	registerEnum(L, MESSAGE_EVENT_ADVANCE);
-	registerEnum(L, MESSAGE_GAME_HIGHLIGHT);
-	registerEnum(L, MESSAGE_FAILURE);
-	registerEnum(L, MESSAGE_LOOK);
-	registerEnum(L, MESSAGE_DAMAGE_DEALT);
-	registerEnum(L, MESSAGE_DAMAGE_RECEIVED);
-	registerEnum(L, MESSAGE_HEALED);
-	registerEnum(L, MESSAGE_EXPERIENCE);
-	registerEnum(L, MESSAGE_DAMAGE_OTHERS);
-	registerEnum(L, MESSAGE_HEALED_OTHERS);
-	registerEnum(L, MESSAGE_EXPERIENCE_OTHERS);
-	registerEnum(L, MESSAGE_STATUS);
-	registerEnum(L, MESSAGE_LOOT);
-	registerEnum(L, MESSAGE_TRADE);
-	registerEnum(L, MESSAGE_GUILD);
-	registerEnum(L, MESSAGE_PARTY_MANAGEMENT);
-	registerEnum(L, MESSAGE_PARTY);
-	registerEnum(L, MESSAGE_REPORT);
-	registerEnum(L, MESSAGE_HOTKEY_PRESSED);
-	registerEnum(L, MESSAGE_TUTORIAL_HINT);
-	registerEnum(L, MESSAGE_THANK_YOU);
-	registerEnum(L, MESSAGE_MARKET);
-	registerEnum(L, MESSAGE_MANA);
-	registerEnum(L, MESSAGE_BEYOND_LAST);
-	registerEnum(L, MESSAGE_ATTENTION);
-	registerEnum(L, MESSAGE_BOOSTED_CREATURE);
-	registerEnum(L, MESSAGE_OFFLINE_TRAINING);
-	registerEnum(L, MESSAGE_TRANSACTION);
-	registerEnum(L, MESSAGE_POTION);
+	for (auto value : magic_enum::enum_values<MessageClasses>()) {
+		registerEnumClass(L, value);
+	}
 }
 
 void LuaEnums::initCreatureTypeEnums(lua_State* L) {
-	registerEnum(L, CREATURETYPE_PLAYER);
-	registerEnum(L, CREATURETYPE_MONSTER);
-	registerEnum(L, CREATURETYPE_NPC);
-	registerEnum(L, CREATURETYPE_SUMMON_PLAYER);
-	registerEnum(L, CREATURETYPE_SUMMON_OTHERS);
-	registerEnum(L, CREATURETYPE_HIDDEN);
+	for (auto value : magic_enum::enum_values<CreatureType_t>()) {
+		registerEnumClass(L, value);
+	}
 }
 
 void LuaEnums::initClientOsEnums(lua_State* L) {
-	registerEnum(L, CLIENTOS_LINUX);
-	registerEnum(L, CLIENTOS_WINDOWS);
-	registerEnum(L, CLIENTOS_FLASH);
-	registerEnum(L, CLIENTOS_NEW_WINDOWS);
-	registerEnum(L, CLIENTOS_NEW_MAC);
-	registerEnum(L, CLIENTOS_OTCLIENT_LINUX);
-	registerEnum(L, CLIENTOS_OTCLIENT_WINDOWS);
-	registerEnum(L, CLIENTOS_OTCLIENT_MAC);
+	for (auto value : magic_enum::enum_values<OperatingSystem_t>()) {
+		registerEnumClass(L, value);
+	}
 }
 
 void LuaEnums::initFightModeEnums(lua_State* L) {
-	registerEnum(L, FIGHTMODE_ATTACK);
-	registerEnum(L, FIGHTMODE_BALANCED);
-	registerEnum(L, FIGHTMODE_DEFENSE);
+	for (auto value : magic_enum::enum_values<FightMode_t>()) {
+		registerEnumClass(L, value);
+	}
 }
 
 void LuaEnums::initItemAttributeEnums(lua_State* L) {
-	registerEnum(L, ITEM_ATTRIBUTE_NONE);
-	registerEnum(L, ITEM_ATTRIBUTE_ACTIONID);
-	registerEnum(L, ITEM_ATTRIBUTE_UNIQUEID);
-	registerEnum(L, ITEM_ATTRIBUTE_DESCRIPTION);
-	registerEnum(L, ITEM_ATTRIBUTE_TEXT);
-	registerEnum(L, ITEM_ATTRIBUTE_DATE);
-	registerEnum(L, ITEM_ATTRIBUTE_WRITER);
-	registerEnum(L, ITEM_ATTRIBUTE_NAME);
-	registerEnum(L, ITEM_ATTRIBUTE_ARTICLE);
-	registerEnum(L, ITEM_ATTRIBUTE_PLURALNAME);
-	registerEnum(L, ITEM_ATTRIBUTE_WEIGHT);
-	registerEnum(L, ITEM_ATTRIBUTE_ATTACK);
-	registerEnum(L, ITEM_ATTRIBUTE_DEFENSE);
-	registerEnum(L, ITEM_ATTRIBUTE_EXTRADEFENSE);
-	registerEnum(L, ITEM_ATTRIBUTE_ARMOR);
-	registerEnum(L, ITEM_ATTRIBUTE_HITCHANCE);
-	registerEnum(L, ITEM_ATTRIBUTE_SHOOTRANGE);
-	registerEnum(L, ITEM_ATTRIBUTE_OWNER);
-	registerEnum(L, ITEM_ATTRIBUTE_DURATION);
-	registerEnum(L, ITEM_ATTRIBUTE_DECAYSTATE);
-	registerEnum(L, ITEM_ATTRIBUTE_CORPSEOWNER);
-	registerEnum(L, ITEM_ATTRIBUTE_CHARGES);
-	registerEnum(L, ITEM_ATTRIBUTE_FLUIDTYPE);
-	registerEnum(L, ITEM_ATTRIBUTE_DOORID);
-	registerEnum(L, ITEM_ATTRIBUTE_SPECIAL);
-	registerEnum(L, ITEM_ATTRIBUTE_OPENCONTAINER);
-	registerEnum(L, ITEM_ATTRIBUTE_QUICKLOOTCONTAINER);
-	registerEnum(L, ITEM_ATTRIBUTE_DURATION_TIMESTAMP);
+	for (auto value : magic_enum::enum_values<ItemAttrTypes>()) {
+		registerEnumClass(L, value);
+	}
 }
 
 void LuaEnums::initItemTypeEnums(lua_State* L) {
-	registerEnum(L, ITEM_TYPE_DEPOT);
-	registerEnum(L, ITEM_TYPE_REWARDCHEST);
-	registerEnum(L, ITEM_TYPE_MAILBOX);
-	registerEnum(L, ITEM_TYPE_TRASHHOLDER);
-	registerEnum(L, ITEM_TYPE_DOOR);
-	registerEnum(L, ITEM_TYPE_MAGICFIELD);
-	registerEnum(L, ITEM_TYPE_TELEPORT);
-	registerEnum(L, ITEM_TYPE_BED);
-	registerEnum(L, ITEM_TYPE_KEY);
-	registerEnum(L, ITEM_TYPE_SUPPLY);
-
-	// Quickloot
-	registerEnum(L, ITEM_TYPE_ARMOR);
-	registerEnum(L, ITEM_TYPE_AMULET);
-	registerEnum(L, ITEM_TYPE_BOOTS);
-	registerEnum(L, ITEM_TYPE_DECORATION);
-	registerEnum(L, ITEM_TYPE_CONTAINER);
-	registerEnum(L, ITEM_TYPE_FOOD);
-	registerEnum(L, ITEM_TYPE_HELMET);
-	registerEnum(L, ITEM_TYPE_LEGS);
-	registerEnum(L, ITEM_TYPE_OTHER);
-	registerEnum(L, ITEM_TYPE_POTION);
-	registerEnum(L, ITEM_TYPE_RING);
-	registerEnum(L, ITEM_TYPE_RUNE);
-	registerEnum(L, ITEM_TYPE_SHIELD);
-	registerEnum(L, ITEM_TYPE_TOOLS);
-	registerEnum(L, ITEM_TYPE_VALUABLE);
-	registerEnum(L, ITEM_TYPE_AMMO);
-	registerEnum(L, ITEM_TYPE_AXE);
-	registerEnum(L, ITEM_TYPE_CLUB);
-	registerEnum(L, ITEM_TYPE_DISTANCE);
-	registerEnum(L, ITEM_TYPE_SWORD);
-	registerEnum(L, ITEM_TYPE_WAND);
-	registerEnum(L, ITEM_TYPE_CREATUREPRODUCT);
-	registerEnum(L, ITEM_TYPE_RETRIEVE);
-	registerEnum(L, ITEM_TYPE_GOLD);
-	registerEnum(L, ITEM_TYPE_UNASSIGNED);
+	for (auto value : magic_enum::enum_values<ItemTypes_t>()) {
+		registerEnumClass(L, value);
+	}
 }
 
 void LuaEnums::initItemIdEnums(lua_State* L) {
-	registerEnum(L, ITEM_BAG);
-	registerEnum(L, ITEM_SHOPPING_BAG);
-	registerEnum(L, ITEM_GOLD_COIN);
-	registerEnum(L, ITEM_PLATINUM_COIN);
-	registerEnum(L, ITEM_CRYSTAL_COIN);
-	registerEnum(L, ITEM_REWARD_CHEST);
-	registerEnum(L, ITEM_REWARD_CONTAINER);
-	registerEnum(L, ITEM_AMULETOFLOSS);
-	registerEnum(L, ITEM_PARCEL);
-	registerEnum(L, ITEM_LABEL);
-	registerEnum(L, ITEM_FIREFIELD_PVP_FULL);
-	registerEnum(L, ITEM_FIREFIELD_PVP_MEDIUM);
-	registerEnum(L, ITEM_FIREFIELD_PVP_SMALL);
-	registerEnum(L, ITEM_FIREFIELD_PERSISTENT_FULL);
-	registerEnum(L, ITEM_FIREFIELD_PERSISTENT_MEDIUM);
-	registerEnum(L, ITEM_FIREFIELD_PERSISTENT_SMALL);
-	registerEnum(L, ITEM_FIREFIELD_NOPVP);
-	registerEnum(L, ITEM_POISONFIELD_PVP);
-	registerEnum(L, ITEM_POISONFIELD_PERSISTENT);
-	registerEnum(L, ITEM_POISONFIELD_NOPVP);
-	registerEnum(L, ITEM_ENERGYFIELD_PVP);
-	registerEnum(L, ITEM_ENERGYFIELD_PERSISTENT);
-	registerEnum(L, ITEM_ENERGYFIELD_NOPVP);
-	registerEnum(L, ITEM_MAGICWALL);
-	registerEnum(L, ITEM_MAGICWALL_PERSISTENT);
-	registerEnum(L, ITEM_MAGICWALL_SAFE);
-	registerEnum(L, ITEM_WILDGROWTH);
-	registerEnum(L, ITEM_WILDGROWTH_PERSISTENT);
-	registerEnum(L, ITEM_WILDGROWTH_SAFE);
-
-	registerEnum(L, ITEM_EXERCISE_START);
-	registerEnum(L, ITEM_EXERCISE_END);
-
-	registerEnum(L, ITEM_HEALTH_CASK_START);
-	registerEnum(L, ITEM_HEALTH_CASK_END);
-
-	registerEnum(L, ITEM_MANA_CASK_START);
-	registerEnum(L, ITEM_MANA_CASK_END);
-
-	registerEnum(L, ITEM_SPIRIT_CASK_START);
-	registerEnum(L, ITEM_SPIRIT_CASK_END);
-
-	registerEnum(L, ITEM_KEG_START);
-	registerEnum(L, ITEM_KEG_END);
-
-	registerEnum(L, ITEM_STONE_SKIN_AMULET);
-
-	registerEnum(L, ITEM_OLD_DIAMOND_ARROW);
-	registerEnum(L, ITEM_DIAMOND_ARROW);
-
-	registerEnum(L, ITEM_GOLD_POUCH);
-	registerEnum(L, ITEM_STORE_INBOX);
-
-	registerEnum(L, ITEM_FORGE_SLIVER);
-	registerEnum(L, ITEM_FORGE_CORE);
+	for (auto value : magic_enum::enum_values<item_t>()) {
+		registerEnumClass(L, value);
+	}
 }
 
 void LuaEnums::initPlayerFlagEnums(lua_State* L) {
@@ -821,119 +673,39 @@ void LuaEnums::initPlayerFlagEnums(lua_State* L) {
 }
 
 void LuaEnums::initReportReasonEnums(lua_State* L) {
-	registerEnum(L, REPORT_REASON_NAMEINAPPROPRIATE);
-	registerEnum(L, REPORT_REASON_NAMEPOORFORMATTED);
-	registerEnum(L, REPORT_REASON_NAMEADVERTISING);
-	registerEnum(L, REPORT_REASON_NAMEUNFITTING);
-	registerEnum(L, REPORT_REASON_NAMERULEVIOLATION);
-	registerEnum(L, REPORT_REASON_INSULTINGSTATEMENT);
-	registerEnum(L, REPORT_REASON_SPAMMING);
-	registerEnum(L, REPORT_REASON_ADVERTISINGSTATEMENT);
-	registerEnum(L, REPORT_REASON_UNFITTINGSTATEMENT);
-	registerEnum(L, REPORT_REASON_LANGUAGESTATEMENT);
-	registerEnum(L, REPORT_REASON_DISCLOSURE);
-	registerEnum(L, REPORT_REASON_RULEVIOLATION);
-	registerEnum(L, REPORT_REASON_STATEMENT_BUGABUSE);
-	registerEnum(L, REPORT_REASON_UNOFFICIALSOFTWARE);
-	registerEnum(L, REPORT_REASON_PRETENDING);
-	registerEnum(L, REPORT_REASON_HARASSINGOWNERS);
-	registerEnum(L, REPORT_REASON_FALSEINFO);
-	registerEnum(L, REPORT_REASON_ACCOUNTSHARING);
-	registerEnum(L, REPORT_REASON_STEALINGDATA);
-	registerEnum(L, REPORT_REASON_SERVICEATTACKING);
-	registerEnum(L, REPORT_REASON_SERVICEAGREEMENT);
+	for (auto value : magic_enum::enum_values<RuleViolationReasons_t>()) {
+		registerEnumClass(L, value);
+	}
 }
 
 void LuaEnums::initSkillEnums(lua_State* L) {
-	registerEnum(L, SKILL_NONE);
-	registerEnum(L, SKILL_FIST);
-	registerEnum(L, SKILL_CLUB);
-	registerEnum(L, SKILL_SWORD);
-	registerEnum(L, SKILL_AXE);
-	registerEnum(L, SKILL_DISTANCE);
-	registerEnum(L, SKILL_SHIELD);
-	registerEnum(L, SKILL_FISHING);
-	registerEnum(L, SKILL_CRITICAL_HIT_CHANCE);
-	registerEnum(L, SKILL_CRITICAL_HIT_DAMAGE);
-	registerEnum(L, SKILL_LIFE_LEECH_CHANCE);
-	registerEnum(L, SKILL_LIFE_LEECH_AMOUNT);
-	registerEnum(L, SKILL_MANA_LEECH_CHANCE);
-	registerEnum(L, SKILL_MANA_LEECH_AMOUNT);
-	registerEnum(L, SKILL_MAGLEVEL);
-	registerEnum(L, SKILL_LEVEL);
+	for (auto value : magic_enum::enum_values<skills_t>()) {
+		registerEnumClass(L, value);
+	}
 }
 
 void LuaEnums::initSkullEnums(lua_State* L) {
-	registerEnum(L, SKULL_NONE);
-	registerEnum(L, SKULL_YELLOW);
-	registerEnum(L, SKULL_GREEN);
-	registerEnum(L, SKULL_WHITE);
-	registerEnum(L, SKULL_RED);
-	registerEnum(L, SKULL_BLACK);
-	registerEnum(L, SKULL_ORANGE);
+	for (auto value : magic_enum::enum_values<Skulls_t>()) {
+		registerEnumClass(L, value);
+	}
 }
 
 void LuaEnums::initTalkTypeEnums(lua_State* L) {
-	registerEnum(L, TALKTYPE_SAY);
-	registerEnum(L, TALKTYPE_WHISPER);
-	registerEnum(L, TALKTYPE_YELL);
-	registerEnum(L, TALKTYPE_PRIVATE_FROM);
-	registerEnum(L, TALKTYPE_PRIVATE_TO);
-	registerEnum(L, TALKTYPE_CHANNEL_Y);
-	registerEnum(L, TALKTYPE_CHANNEL_O);
-	registerEnum(L, TALKTYPE_PRIVATE_NP);
-	registerEnum(L, TALKTYPE_PRIVATE_PN);
-	registerEnum(L, TALKTYPE_BROADCAST);
-	registerEnum(L, TALKTYPE_CHANNEL_R1);
-	registerEnum(L, TALKTYPE_PRIVATE_RED_FROM);
-	registerEnum(L, TALKTYPE_PRIVATE_RED_TO);
-	registerEnum(L, TALKTYPE_MONSTER_SAY);
-	registerEnum(L, TALKTYPE_MONSTER_YELL);
-	registerEnum(L, TALKTYPE_CHANNEL_R2);
+	for (auto value : magic_enum::enum_values<SpeakClasses>()) {
+		registerEnumClass(L, value);
+	}
 }
 
 void LuaEnums::initBestiaryEnums(lua_State* L) {
-	registerEnum(L, BESTY_RACE_NONE);
-	registerEnum(L, BESTY_RACE_FIRST);
-	registerEnum(L, BESTY_RACE_AMPHIBIC);
-	registerEnum(L, BESTY_RACE_AQUATIC);
-	registerEnum(L, BESTY_RACE_BIRD);
-	registerEnum(L, BESTY_RACE_CONSTRUCT);
-	registerEnum(L, BESTY_RACE_DEMON);
-	registerEnum(L, BESTY_RACE_DRAGON);
-	registerEnum(L, BESTY_RACE_ELEMENTAL);
-	registerEnum(L, BESTY_RACE_EXTRA_DIMENSIONAL);
-	registerEnum(L, BESTY_RACE_FEY);
-	registerEnum(L, BESTY_RACE_GIANT);
-	registerEnum(L, BESTY_RACE_HUMAN);
-	registerEnum(L, BESTY_RACE_HUMANOID);
-	registerEnum(L, BESTY_RACE_LYCANTHROPE);
-	registerEnum(L, BESTY_RACE_MAGICAL);
-	registerEnum(L, BESTY_RACE_MAMMAL);
-	registerEnum(L, BESTY_RACE_PLANT);
-	registerEnum(L, BESTY_RACE_REPTILE);
-	registerEnum(L, BESTY_RACE_SLIME);
-	registerEnum(L, BESTY_RACE_UNDEAD);
-	registerEnum(L, BESTY_RACE_VERMIN);
-	registerEnum(L, BESTY_RACE_LAST);
+	for (auto value : magic_enum::enum_values<BestiaryType_t>()) {
+		registerEnumClass(L, value);
+	}
 }
 
 void LuaEnums::initTextColorEnums(lua_State* L) {
-	registerEnum(L, TEXTCOLOR_BLUE);
-	registerEnum(L, TEXTCOLOR_LIGHTGREEN);
-	registerEnum(L, TEXTCOLOR_LIGHTBLUE);
-	registerEnum(L, TEXTCOLOR_MAYABLUE);
-	registerEnum(L, TEXTCOLOR_DARKRED);
-	registerEnum(L, TEXTCOLOR_LIGHTGREY);
-	registerEnum(L, TEXTCOLOR_SKYBLUE);
-	registerEnum(L, TEXTCOLOR_PURPLE);
-	registerEnum(L, TEXTCOLOR_ELECTRICPURPLE);
-	registerEnum(L, TEXTCOLOR_RED);
-	registerEnum(L, TEXTCOLOR_PASTELRED);
-	registerEnum(L, TEXTCOLOR_ORANGE);
-	registerEnum(L, TEXTCOLOR_YELLOW);
-	registerEnum(L, TEXTCOLOR_WHITE_EXP);
-	registerEnum(L, TEXTCOLOR_NONE);
+	for (auto value : magic_enum::enum_values<TextColor_t>()) {
+		registerEnumClass(L, value);
+	}
 }
 
 void LuaEnums::initTileStateEnums(lua_State* L) {
@@ -967,118 +739,23 @@ void LuaEnums::initTileStateEnums(lua_State* L) {
 
 // Use with npc:setSpeechBubble
 void LuaEnums::initSpeechBubbleEnums(lua_State* L) {
-	registerEnum(L, SPEECHBUBBLE_NONE);
-	registerEnum(L, SPEECHBUBBLE_NORMAL);
-	registerEnum(L, SPEECHBUBBLE_TRADE);
-	registerEnum(L, SPEECHBUBBLE_QUEST);
-	registerEnum(L, SPEECHBUBBLE_QUESTTRADER);
+	for (auto value : magic_enum::enum_values<SpeechBubble_t>()) {
+		registerEnumClass(L, value);
+	}
 }
 
 // Use with player:addMapMark
 void LuaEnums::initMapMarkEnums(lua_State* L) {
-	registerEnum(L, MAPMARK_TICK);
-	registerEnum(L, MAPMARK_QUESTION);
-	registerEnum(L, MAPMARK_EXCLAMATION);
-	registerEnum(L, MAPMARK_STAR);
-	registerEnum(L, MAPMARK_CROSS);
-	registerEnum(L, MAPMARK_TEMPLE);
-	registerEnum(L, MAPMARK_KISS);
-	registerEnum(L, MAPMARK_SHOVEL);
-	registerEnum(L, MAPMARK_SWORD);
-	registerEnum(L, MAPMARK_FLAG);
-	registerEnum(L, MAPMARK_LOCK);
-	registerEnum(L, MAPMARK_BAG);
-	registerEnum(L, MAPMARK_SKULL);
-	registerEnum(L, MAPMARK_DOLLAR);
-	registerEnum(L, MAPMARK_REDNORTH);
-	registerEnum(L, MAPMARK_REDSOUTH);
-	registerEnum(L, MAPMARK_REDEAST);
-	registerEnum(L, MAPMARK_REDWEST);
-	registerEnum(L, MAPMARK_GREENNORTH);
-	registerEnum(L, MAPMARK_GREENSOUTH);
+	for (auto value : magic_enum::enum_values<MapMark_t>()) {
+		registerEnumClass(L, value);
+	}
 }
 
 // Use with Game.getReturnMessage
 void LuaEnums::initReturnValueEnums(lua_State* L) {
-	registerEnum(L, RETURNVALUE_NOERROR);
-	registerEnum(L, RETURNVALUE_NOTPOSSIBLE);
-	registerEnum(L, RETURNVALUE_NOTENOUGHROOM);
-	registerEnum(L, RETURNVALUE_PLAYERISPZLOCKED);
-	registerEnum(L, RETURNVALUE_PLAYERISNOTINVITED);
-	registerEnum(L, RETURNVALUE_CANNOTTHROW);
-	registerEnum(L, RETURNVALUE_THEREISNOWAY);
-	registerEnum(L, RETURNVALUE_DESTINATIONOUTOFREACH);
-	registerEnum(L, RETURNVALUE_CREATUREBLOCK);
-	registerEnum(L, RETURNVALUE_NOTMOVEABLE);
-	registerEnum(L, RETURNVALUE_DROPTWOHANDEDITEM);
-	registerEnum(L, RETURNVALUE_BOTHHANDSNEEDTOBEFREE);
-	registerEnum(L, RETURNVALUE_CANONLYUSEONEWEAPON);
-	registerEnum(L, RETURNVALUE_NEEDEXCHANGE);
-	registerEnum(L, RETURNVALUE_CANNOTBEDRESSED);
-	registerEnum(L, RETURNVALUE_PUTTHISOBJECTINYOURHAND);
-	registerEnum(L, RETURNVALUE_PUTTHISOBJECTINBOTHHANDS);
-	registerEnum(L, RETURNVALUE_TOOFARAWAY);
-	registerEnum(L, RETURNVALUE_FIRSTGODOWNSTAIRS);
-	registerEnum(L, RETURNVALUE_FIRSTGOUPSTAIRS);
-	registerEnum(L, RETURNVALUE_CONTAINERNOTENOUGHROOM);
-	registerEnum(L, RETURNVALUE_NOTENOUGHCAPACITY);
-	registerEnum(L, RETURNVALUE_CANNOTPICKUP);
-	registerEnum(L, RETURNVALUE_THISISIMPOSSIBLE);
-	registerEnum(L, RETURNVALUE_DEPOTISFULL);
-	registerEnum(L, RETURNVALUE_CREATUREDOESNOTEXIST);
-	registerEnum(L, RETURNVALUE_CANNOTUSETHISOBJECT);
-	registerEnum(L, RETURNVALUE_PLAYERWITHTHISNAMEISNOTONLINE);
-	registerEnum(L, RETURNVALUE_NOTREQUIREDLEVELTOUSERUNE);
-	registerEnum(L, RETURNVALUE_YOUAREALREADYTRADING);
-	registerEnum(L, RETURNVALUE_THISPLAYERISALREADYTRADING);
-	registerEnum(L, RETURNVALUE_YOUMAYNOTLOGOUTDURINGAFIGHT);
-	registerEnum(L, RETURNVALUE_DIRECTPLAYERSHOOT);
-	registerEnum(L, RETURNVALUE_NOTENOUGHLEVEL);
-	registerEnum(L, RETURNVALUE_NOTENOUGHMAGICLEVEL);
-	registerEnum(L, RETURNVALUE_NOTENOUGHMANA);
-	registerEnum(L, RETURNVALUE_NOTENOUGHSOUL);
-	registerEnum(L, RETURNVALUE_YOUAREEXHAUSTED);
-	registerEnum(L, RETURNVALUE_YOUCANNOTUSEOBJECTSTHATFAST);
-	registerEnum(L, RETURNVALUE_PLAYERISNOTREACHABLE);
-	registerEnum(L, RETURNVALUE_CANONLYUSETHISRUNEONCREATURES);
-	registerEnum(L, RETURNVALUE_ACTIONNOTPERMITTEDINPROTECTIONZONE);
-	registerEnum(L, RETURNVALUE_YOUMAYNOTATTACKTHISPLAYER);
-	registerEnum(L, RETURNVALUE_YOUMAYNOTATTACKAPERSONINPROTECTIONZONE);
-	registerEnum(L, RETURNVALUE_YOUMAYNOTATTACKAPERSONWHILEINPROTECTIONZONE);
-	registerEnum(L, RETURNVALUE_YOUMAYNOTATTACKTHISCREATURE);
-	registerEnum(L, RETURNVALUE_YOUCANONLYUSEITONCREATURES);
-	registerEnum(L, RETURNVALUE_CREATUREISNOTREACHABLE);
-	registerEnum(L, RETURNVALUE_TURNSECUREMODETOATTACKUNMARKEDPLAYERS);
-	registerEnum(L, RETURNVALUE_YOUNEEDPREMIUMACCOUNT);
-	registerEnum(L, RETURNVALUE_YOUNEEDTOLEARNTHISSPELL);
-	registerEnum(L, RETURNVALUE_YOURVOCATIONCANNOTUSETHISSPELL);
-	registerEnum(L, RETURNVALUE_YOUNEEDAWEAPONTOUSETHISSPELL);
-	registerEnum(L, RETURNVALUE_PLAYERISPZLOCKEDLEAVEPVPZONE);
-	registerEnum(L, RETURNVALUE_PLAYERISPZLOCKEDENTERPVPZONE);
-	registerEnum(L, RETURNVALUE_ACTIONNOTPERMITTEDINANOPVPZONE);
-	registerEnum(L, RETURNVALUE_YOUCANNOTLOGOUTHERE);
-	registerEnum(L, RETURNVALUE_YOUNEEDAMAGICITEMTOCASTSPELL);
-	registerEnum(L, RETURNVALUE_CANNOTCONJUREITEMHERE);
-	registerEnum(L, RETURNVALUE_YOUNEEDTOSPLITYOURSPEARS);
-	registerEnum(L, RETURNVALUE_NAMEISTOOAMBIGUOUS);
-	registerEnum(L, RETURNVALUE_CANONLYUSEONESHIELD);
-	registerEnum(L, RETURNVALUE_NOPARTYMEMBERSINRANGE);
-	registerEnum(L, RETURNVALUE_YOUARENOTTHEOWNER);
-	registerEnum(L, RETURNVALUE_TRADEPLAYERFARAWAY);
-	registerEnum(L, RETURNVALUE_YOUDONTOWNTHISHOUSE);
-	registerEnum(L, RETURNVALUE_TRADEPLAYERALREADYOWNSAHOUSE);
-	registerEnum(L, RETURNVALUE_TRADEPLAYERHIGHESTBIDDER);
-	registerEnum(L, RETURNVALUE_YOUCANNOTTRADETHISHOUSE);
-	registerEnum(L, RETURNVALUE_YOUDONTHAVEREQUIREDPROFESSION);
-	registerEnum(L, RETURNVALUE_NOTENOUGHFISTLEVEL);
-	registerEnum(L, RETURNVALUE_NOTENOUGHCLUBLEVEL);
-	registerEnum(L, RETURNVALUE_NOTENOUGHSWORDLEVEL);
-	registerEnum(L, RETURNVALUE_NOTENOUGHAXELEVEL);
-	registerEnum(L, RETURNVALUE_NOTENOUGHDISTANCELEVEL);
-	registerEnum(L, RETURNVALUE_NOTENOUGHSHIELDLEVEL);
-	registerEnum(L, RETURNVALUE_NOTENOUGHFISHLEVEL);
-	registerEnum(L, RETURNVALUE_REWARDCHESTISEMPTY);
-	registerEnum(L, RETURNVALUE_CONTACTADMINISTRATOR);
+	for (auto value : magic_enum::enum_values<ReturnValue>()) {
+		registerEnumClass(L, value);
+	}
 }
 
 // Reload
@@ -1089,23 +766,10 @@ void LuaEnums::initReloadTypeEnums(lua_State* L) {
 }
 
 void LuaEnums::initCreaturesEventEnums(lua_State* L) {
-	// Monsters
-	registerEnum(L, MONSTERS_EVENT_THINK);
-	registerEnum(L, MONSTERS_EVENT_APPEAR);
-	registerEnum(L, MONSTERS_EVENT_DISAPPEAR);
-	registerEnum(L, MONSTERS_EVENT_MOVE);
-	registerEnum(L, MONSTERS_EVENT_SAY);
-
-	// Npcs
-	registerEnum(L, NPCS_EVENT_THINK);
-	registerEnum(L, NPCS_EVENT_APPEAR);
-	registerEnum(L, NPCS_EVENT_DISAPPEAR);
-	registerEnum(L, NPCS_EVENT_MOVE);
-	registerEnum(L, NPCS_EVENT_SAY);
-	registerEnum(L, NPCS_EVENT_PLAYER_BUY);
-	registerEnum(L, NPCS_EVENT_PLAYER_SELL);
-	registerEnum(L, NPCS_EVENT_PLAYER_CHECK_ITEM);
-	registerEnum(L, NPCS_EVENT_PLAYER_CLOSE_CHANNEL);
+	// Monsters and npcs
+		for (auto value : magic_enum::enum_values<MonstersEvent_t>()) {
+		registerEnumClass(L, value);
+	}
 }
 
 void LuaEnums::initForgeEnums(lua_State* L) {
@@ -1116,8 +780,7 @@ void LuaEnums::initForgeEnums(lua_State* L) {
 
 // Webhook default colors
 void LuaEnums::initWebhookEnums(lua_State* L) {
-	registerEnum(L, WEBHOOK_COLOR_ONLINE);
-	registerEnum(L, WEBHOOK_COLOR_OFFLINE);
-	registerEnum(L, WEBHOOK_COLOR_WARNING);
-	registerEnum(L, WEBHOOK_COLOR_RAID);
+	for (auto value : magic_enum::enum_values<Webhook_Colors_t>()) {
+		registerEnumClass(L, value);
+	}
 }

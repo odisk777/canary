@@ -125,7 +125,7 @@ enum TargetSearchType_t {
 	TARGETSEARCH_RANDOM
 };
 
-enum MapMark_t {
+enum class MapMark_t {
 	MAPMARK_TICK = 0,
 	MAPMARK_QUESTION = 1,
 	MAPMARK_EXCLAMATION = 2,
@@ -154,7 +154,7 @@ enum RuleViolationType_t : uint8_t {
 	REPORT_TYPE_BOT = 2
 };
 
-enum RuleViolationReasons_t : uint8_t {
+enum class RuleViolationReasons_t : uint8_t {
 	REPORT_REASON_NAMEINAPPROPRIATE = 0,
 	REPORT_REASON_NAMEPOORFORMATTED = 1,
 	REPORT_REASON_NAMEADVERTISING = 2,

@@ -139,6 +139,6 @@ RemoveBracesLLVM: false
 LambdaBodyIndentation: OuterScope
 NamespaceIndentation: Inner
 QualifierAlignment: Left
-ReferenceAlignment: Right
+ReferenceAlignment: Left
 MaxEmptyLinesToKeep: 1
 IndentExternBlock: Indent

@@ -17,10 +17,10 @@ public:
 	explicit Town(uint32_t initId) :
 		id(initId) { }
 
-	const Position &getTemplePosition() const {
+	const Position& getTemplePosition() const {
 		return templePosition;
 	}
-	const std::string &getName() const {
+	const std::string& getName() const {
 		return name;
 	}
 
@@ -46,21 +46,21 @@ class Towns {
 public:
 	Towns() = default;
 	~Towns() {
-		for (const auto &it : townMap) {
+		for (const auto& it : townMap) {
 			delete it.second;
 		}
 	}
 
 	// non-copyable
-	Towns(const Towns &) = delete;
-	Towns &operator=(const Towns &) = delete;
+	Towns(const Towns&) = delete;
+	Towns& operator=(const Towns&) = delete;
 
 	bool addTown(uint32_t townId, Town* town) {
 		return townMap.emplace(townId, town).second;
 	}
 
-	Town* getTown(const std::string &townName) const {
-		for (const auto &it : townMap) {
+	Town* getTown(const std::string& townName) const {
+		for (const auto& it : townMap) {
 			if (strcasecmp(townName.c_str(), it.second->getName().c_str()) == 0) {
 				return it.second;
 			}
@@ -76,7 +76,7 @@ public:
 		return it->second;
 	}
 
-	const TownMap &getTowns() const {
+	const TownMap& getTowns() const {
 		return townMap;
 	}
 

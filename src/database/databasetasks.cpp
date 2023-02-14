@@ -75,7 +75,7 @@ void DatabaseTasks::addTask(std::string query, std::function<void(DBResult_ptr, 
 	}
 }
 
-void DatabaseTasks::runTask(const DatabaseTask &task) {
+void DatabaseTasks::runTask(const DatabaseTask& task) {
 	if (db_ == nullptr) {
 		return;
 	}

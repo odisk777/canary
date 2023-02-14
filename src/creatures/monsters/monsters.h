@@ -19,8 +19,8 @@ public:
 	Loot() = default;
 
 	// non-copyable
-	Loot(const Loot &) = delete;
-	Loot &operator=(const Loot &) = delete;
+	Loot(const Loot&) = delete;
+	Loot& operator=(const Loot&) = delete;
 
 	LootBlock lootBlock;
 };
@@ -29,9 +29,9 @@ class BaseSpell;
 struct spellBlock_t {
 	constexpr spellBlock_t() = default;
 	~spellBlock_t();
-	spellBlock_t(const spellBlock_t &other) = delete;
-	spellBlock_t &operator=(const spellBlock_t &other) = delete;
-	spellBlock_t(spellBlock_t &&other) :
+	spellBlock_t(const spellBlock_t& other) = delete;
+	spellBlock_t& operator=(const spellBlock_t& other) = delete;
+	spellBlock_t(spellBlock_t&& other) :
 		spell(other.spell),
 		chance(other.chance),
 		speed(other.speed),
@@ -151,12 +151,12 @@ class MonsterType {
 
 public:
 	MonsterType() = default;
-	explicit MonsterType(const std::string &initName) :
+	explicit MonsterType(const std::string& initName) :
 		name(initName), typeName(initName), nameDescription(initName){};
 
 	// non-copyable
-	MonsterType(const MonsterType &) = delete;
-	MonsterType &operator=(const MonsterType &) = delete;
+	MonsterType(const MonsterType&) = delete;
+	MonsterType& operator=(const MonsterType&) = delete;
 
 	bool loadCallback(LuaScriptInterface* scriptInterface);
 
@@ -176,15 +176,15 @@ public:
 
 	void loadLoot(MonsterType* monsterType, LootBlock lootblock);
 
-	bool canSpawn(const Position &pos);
+	bool canSpawn(const Position& pos);
 };
 
 class MonsterSpell {
 public:
 	MonsterSpell() = default;
 
-	MonsterSpell(const MonsterSpell &) = delete;
-	MonsterSpell &operator=(const MonsterSpell &) = delete;
+	MonsterSpell(const MonsterSpell&) = delete;
+	MonsterSpell& operator=(const MonsterSpell&) = delete;
 
 	std::string name = "";
 	std::string scriptName = "";
@@ -228,20 +228,20 @@ class Monsters {
 public:
 	Monsters() = default;
 	// non-copyable
-	Monsters(const Monsters &) = delete;
-	Monsters &operator=(const Monsters &) = delete;
+	Monsters(const Monsters&) = delete;
+	Monsters& operator=(const Monsters&) = delete;
 
-	static Monsters &getInstance() {
+	static Monsters& getInstance() {
 		// Guaranteed to be destroyed
 		static Monsters instance;
 		// Instantiated on first use
 		return instance;
 	}
 
-	MonsterType* getMonsterType(const std::string &name);
+	MonsterType* getMonsterType(const std::string& name);
 	MonsterType* getMonsterTypeByRaceId(uint16_t thisrace);
-	void addMonsterType(const std::string &name, MonsterType* mType);
-	bool deserializeSpell(MonsterSpell* spell, spellBlock_t &sb, const std::string &description = "");
+	void addMonsterType(const std::string& name, MonsterType* mType);
+	bool deserializeSpell(MonsterSpell* spell, spellBlock_t& sb, const std::string& description = "");
 
 	std::unique_ptr<LuaScriptInterface> scriptInterface;
 	std::map<std::string, MonsterType*> monsters;
@@ -249,7 +249,7 @@ public:
 private:
 	ConditionDamage* getDamageCondition(ConditionType_t conditionType, int32_t maxDamage, int32_t minDamage, int32_t startDamage, uint32_t tickInterval);
 
-	MonsterType* loadMonster(const std::string &file, const std::string &monsterName, bool reloading = false);
+	MonsterType* loadMonster(const std::string& file, const std::string& monsterName, bool reloading = false);
 };
 
 constexpr auto g_monsters = &Monsters::getInstance;

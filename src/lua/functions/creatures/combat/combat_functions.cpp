@@ -117,7 +117,7 @@ int CombatFunctions::luaCombatSetCallback(lua_State* L) {
 		return 1;
 	}
 
-	const std::string &function = getString(L, 3);
+	const std::string& function = getString(L, 3);
 	pushBoolean(L, callback->loadCallBack(getScriptEnv()->getScriptInterface(), function));
 	return 1;
 }
@@ -152,7 +152,7 @@ int CombatFunctions::luaCombatExecute(lua_State* L) {
 
 	Creature* creature = getCreature(L, 2);
 
-	const LuaVariant &variant = getVariant(L, 3);
+	const LuaVariant& variant = getVariant(L, 3);
 	switch (variant.type) {
 		case VARIANT_NUMBER: {
 			Creature* target = g_game().getCreatureByID(variant.number);

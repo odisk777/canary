@@ -17,31 +17,31 @@ CustomAttribute::CustomAttribute() = default;
 CustomAttribute::~CustomAttribute() = default;
 
 // Constructor for int64_t
-CustomAttribute::CustomAttribute(const std::string &initStringKey, const int64_t initInt64) :
+CustomAttribute::CustomAttribute(const std::string& initStringKey, const int64_t initInt64) :
 	stringKey(initStringKey) {
 	setValue(initInt64);
 }
 // Constructor for string
-CustomAttribute::CustomAttribute(const std::string &initStringKey, const std::string &initStringValue) :
+CustomAttribute::CustomAttribute(const std::string& initStringKey, const std::string& initStringValue) :
 	stringKey(initStringKey) {
 	setValue(initStringValue);
 }
 // Constructor for double
-CustomAttribute::CustomAttribute(const std::string &initStringKey, const double initDoubleValue) :
+CustomAttribute::CustomAttribute(const std::string& initStringKey, const double initDoubleValue) :
 	stringKey(initStringKey) {
 	setValue(initDoubleValue);
 }
 // Constructor for boolean
-CustomAttribute::CustomAttribute(const std::string &initStringKey, const bool initBoolValue) :
+CustomAttribute::CustomAttribute(const std::string& initStringKey, const bool initBoolValue) :
 	stringKey(initStringKey) {
 	setValue(initBoolValue);
 }
 
-const std::string &CustomAttribute::getStringKey() const {
+const std::string& CustomAttribute::getStringKey() const {
 	return stringKey;
 }
 
-const int64_t &CustomAttribute::getInteger() const {
+const int64_t& CustomAttribute::getInteger() const {
 	if (std::holds_alternative<int64_t>(value)) {
 		return std::get<int64_t>(value);
 	}
@@ -50,7 +50,7 @@ const int64_t &CustomAttribute::getInteger() const {
 	return emptyValue;
 }
 
-const std::string &CustomAttribute::getString() const {
+const std::string& CustomAttribute::getString() const {
 	if (std::holds_alternative<std::string>(value)) {
 		return std::get<std::string>(value);
 	}
@@ -59,7 +59,7 @@ const std::string &CustomAttribute::getString() const {
 	return emptyValue;
 }
 
-const double &CustomAttribute::getDouble() const {
+const double& CustomAttribute::getDouble() const {
 	if (std::holds_alternative<double>(value)) {
 		return std::get<double>(value);
 	}
@@ -68,7 +68,7 @@ const double &CustomAttribute::getDouble() const {
 	return emptyValue;
 }
 
-const bool &CustomAttribute::getBool() const {
+const bool& CustomAttribute::getBool() const {
 	if (std::holds_alternative<bool>(value)) {
 		return std::get<bool>(value);
 	}
@@ -91,7 +91,7 @@ void CustomAttribute::pushToLua(lua_State* L) const {
 	}
 }
 
-void CustomAttribute::serialize(PropWriteStream &propWriteStream) const {
+void CustomAttribute::serialize(PropWriteStream& propWriteStream) const {
 	if (hasValue<std::string>()) {
 		propWriteStream.write<uint8_t>(1);
 		propWriteStream.writeString(getString());
@@ -107,7 +107,7 @@ void CustomAttribute::serialize(PropWriteStream &propWriteStream) const {
 	}
 }
 
-bool CustomAttribute::unserialize(PropStream &propStream, const std::string &function) {
+bool CustomAttribute::unserialize(PropStream& propStream, const std::string& function) {
 	uint8_t type;
 	if (!propStream.read<uint8_t>(type)) {
 		SPDLOG_ERROR("[{}] Failed to read type", function);

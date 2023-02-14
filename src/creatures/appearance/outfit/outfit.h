@@ -24,17 +24,17 @@ struct Outfit {
 };
 
 struct ProtocolOutfit {
-	ProtocolOutfit(const std::string &initName, uint16_t initLookType, uint8_t initAddons) :
+	ProtocolOutfit(const std::string& initName, uint16_t initLookType, uint8_t initAddons) :
 		name(initName), lookType(initLookType), addons(initAddons) { }
 
-	const std::string &name;
+	const std::string& name;
 	uint16_t lookType;
 	uint8_t addons;
 };
 
 class Outfits {
 public:
-	static Outfits &getInstance() {
+	static Outfits& getInstance() {
 		static Outfits instance;
 		return instance;
 	}
@@ -44,7 +44,7 @@ public:
 	bool loadFromXml();
 
 	const Outfit* getOutfitByLookType(PlayerSex_t sex, uint16_t lookType) const;
-	const std::vector<Outfit> &getOutfits(PlayerSex_t sex) const {
+	const std::vector<Outfit>& getOutfits(PlayerSex_t sex) const {
 		return outfits[sex];
 	}
 

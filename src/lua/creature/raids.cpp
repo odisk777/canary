@@ -161,7 +161,7 @@ bool Raids::reload() {
 	return loadFromXml();
 }
 
-Raid* Raids::getRaidByName(const std::string &name) {
+Raid* Raids::getRaidByName(const std::string& name) {
 	for (Raid* raid : raidList) {
 		if (strcasecmp(raid->getName().c_str(), name.c_str()) == 0) {
 			return raid;
@@ -176,7 +176,7 @@ Raid::~Raid() {
 	}
 }
 
-bool Raid::loadFromXml(const std::string &filename) {
+bool Raid::loadFromXml(const std::string& filename) {
 	if (isLoaded()) {
 		return true;
 	}
@@ -267,7 +267,7 @@ RaidEvent* Raid::getNextRaidEvent() {
 	}
 }
 
-bool RaidEvent::configureRaidEvent(const pugi::xml_node &eventNode) {
+bool RaidEvent::configureRaidEvent(const pugi::xml_node& eventNode) {
 	pugi::xml_attribute delayAttribute = eventNode.attribute("delay");
 	if (!delayAttribute) {
 		SPDLOG_ERROR("{} - 'delay' tag missing", __FUNCTION__);
@@ -278,7 +278,7 @@ bool RaidEvent::configureRaidEvent(const pugi::xml_node &eventNode) {
 	return true;
 }
 
-bool AnnounceEvent::configureRaidEvent(const pugi::xml_node &eventNode) {
+bool AnnounceEvent::configureRaidEvent(const pugi::xml_node& eventNode) {
 	if (!RaidEvent::configureRaidEvent(eventNode)) {
 		return false;
 	}
@@ -330,7 +330,7 @@ bool AnnounceEvent::executeEvent() {
 	return true;
 }
 
-bool SingleSpawnEvent::configureRaidEvent(const pugi::xml_node &eventNode) {
+bool SingleSpawnEvent::configureRaidEvent(const pugi::xml_node& eventNode) {
 	if (!RaidEvent::configureRaidEvent(eventNode)) {
 		return false;
 	}
@@ -391,7 +391,7 @@ bool SingleSpawnEvent::executeEvent() {
 	return true;
 }
 
-bool AreaSpawnEvent::configureRaidEvent(const pugi::xml_node &eventNode) {
+bool AreaSpawnEvent::configureRaidEvent(const pugi::xml_node& eventNode) {
 	if (!RaidEvent::configureRaidEvent(eventNode)) {
 		return false;
 	}
@@ -536,7 +536,7 @@ bool AreaSpawnEvent::configureRaidEvent(const pugi::xml_node &eventNode) {
 }
 
 bool AreaSpawnEvent::executeEvent() {
-	for (const MonsterSpawn &spawn : spawnMonsterList) {
+	for (const MonsterSpawn& spawn : spawnMonsterList) {
 		uint32_t amount = uniform_random(spawn.minAmount, spawn.maxAmount);
 		for (uint32_t i = 0; i < amount; ++i) {
 			Monster* monster = Monster::createMonster(spawn.name);
@@ -563,7 +563,7 @@ bool AreaSpawnEvent::executeEvent() {
 	return true;
 }
 
-bool ScriptEvent::configureRaidEvent(const pugi::xml_node &eventNode) {
+bool ScriptEvent::configureRaidEvent(const pugi::xml_node& eventNode) {
 	if (!RaidEvent::configureRaidEvent(eventNode)) {
 		return false;
 	}

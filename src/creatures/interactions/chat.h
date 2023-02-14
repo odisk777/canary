@@ -28,20 +28,20 @@ public:
 
 	virtual ~ChatChannel() = default;
 
-	bool addUser(Player &player);
-	bool removeUser(const Player &player);
-	bool hasUser(const Player &player);
+	bool addUser(Player& player);
+	bool removeUser(const Player& player);
+	bool hasUser(const Player& player);
 
-	bool talk(const Player &fromPlayer, SpeakClasses type, const std::string &text);
-	void sendToAll(const std::string &message, SpeakClasses type) const;
+	bool talk(const Player& fromPlayer, SpeakClasses type, const std::string& text);
+	void sendToAll(const std::string& message, SpeakClasses type) const;
 
-	const std::string &getName() const {
+	const std::string& getName() const {
 		return name;
 	}
 	uint16_t getId() const {
 		return id;
 	}
-	const UsersMap &getUsers() const {
+	const UsersMap& getUsers() const {
 		return users;
 	}
 	virtual const InvitedMap* getInvitedUsers() const {
@@ -56,10 +56,10 @@ public:
 		return publicChannel;
 	}
 
-	bool executeOnJoinEvent(const Player &player);
-	bool executeCanJoinEvent(const Player &player);
-	bool executeOnLeaveEvent(const Player &player);
-	bool executeOnSpeakEvent(const Player &player, SpeakClasses &type, const std::string &message);
+	bool executeOnJoinEvent(const Player& player);
+	bool executeCanJoinEvent(const Player& player);
+	bool executeOnLeaveEvent(const Player& player);
+	bool executeOnSpeakEvent(const Player& player, SpeakClasses& type, const std::string& message);
 
 protected:
 	UsersMap users;
@@ -91,8 +91,8 @@ public:
 
 	bool isInvited(uint32_t guid) const;
 
-	void invitePlayer(const Player &player, Player &invitePlayer);
-	void excludePlayer(const Player &player, Player &excludePlayer);
+	void invitePlayer(const Player& player, Player& invitePlayer);
+	void excludePlayer(const Player& player, Player& excludePlayer);
 
 	bool removeInvite(uint32_t guid);
 
@@ -114,10 +114,10 @@ public:
 	Chat();
 
 	// non-copyable
-	Chat(const Chat &) = delete;
-	Chat &operator=(const Chat &) = delete;
+	Chat(const Chat&) = delete;
+	Chat& operator=(const Chat&) = delete;
 
-	static Chat &getInstance() {
+	static Chat& getInstance() {
 		// Guaranteed to be destroyed
 		static Chat instance;
 		// Instantiated on first use
@@ -126,21 +126,21 @@ public:
 
 	bool load();
 
-	ChatChannel* createChannel(const Player &player, uint16_t channelId);
-	bool deleteChannel(const Player &player, uint16_t channelId);
+	ChatChannel* createChannel(const Player& player, uint16_t channelId);
+	bool deleteChannel(const Player& player, uint16_t channelId);
 
-	ChatChannel* addUserToChannel(Player &player, uint16_t channelId);
-	bool removeUserFromChannel(const Player &player, uint16_t channelId);
-	void removeUserFromAllChannels(const Player &player);
+	ChatChannel* addUserToChannel(Player& player, uint16_t channelId);
+	bool removeUserFromChannel(const Player& player, uint16_t channelId);
+	void removeUserFromAllChannels(const Player& player);
 
-	bool talkToChannel(const Player &player, SpeakClasses type, const std::string &text, uint16_t channelId);
+	bool talkToChannel(const Player& player, SpeakClasses type, const std::string& text, uint16_t channelId);
 
-	ChannelList getChannelList(const Player &player);
+	ChannelList getChannelList(const Player& player);
 
-	ChatChannel* getChannel(const Player &player, uint16_t channelId);
+	ChatChannel* getChannel(const Player& player, uint16_t channelId);
 	ChatChannel* getChannelById(uint16_t channelId);
 	ChatChannel* getGuildChannelById(uint32_t guildId);
-	PrivateChatChannel* getPrivateChannel(const Player &player);
+	PrivateChatChannel* getPrivateChannel(const Player& player);
 
 	LuaScriptInterface* getScriptInterface() {
 		return &scriptInterface;

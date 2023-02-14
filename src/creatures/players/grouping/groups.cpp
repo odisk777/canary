@@ -49,7 +49,7 @@ bool Groups::reload() const {
 	return g_game().groups.load();
 }
 
-void parseGroupFlags(Group &group, const pugi::xml_node &groupNode) {
+void parseGroupFlags(Group& group, const pugi::xml_node& groupNode) {
 	if (pugi::xml_node node = groupNode.child("flags")) {
 		for (auto flagNode : node.children()) {
 			pugi::xml_attribute attr = flagNode.first_attribute();
@@ -100,7 +100,7 @@ bool Groups::load() {
 }
 
 Group* Groups::getGroup(uint16_t id) {
-	for (Group &group : groups_vector) {
+	for (Group& group : groups_vector) {
 		if (group.id == id) {
 			return &group;
 		}

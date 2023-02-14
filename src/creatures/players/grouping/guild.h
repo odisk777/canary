@@ -33,10 +33,10 @@ public:
 	uint32_t getId() const {
 		return id;
 	}
-	const std::string &getName() const {
+	const std::string& getName() const {
 		return name;
 	}
-	const std::list<Player*> &getMembersOnline() const {
+	const std::list<Player*>& getMembersOnline() const {
 		return membersOnline;
 	}
 	uint32_t getMemberCount() const {
@@ -52,19 +52,19 @@ public:
 		bankBalance = balance;
 	}
 
-	const std::vector<GuildRank_ptr> &getRanks() const {
+	const std::vector<GuildRank_ptr>& getRanks() const {
 		return ranks;
 	}
 
 	GuildRank_ptr getRankById(uint32_t id);
-	GuildRank_ptr getRankByName(const std::string &name) const;
+	GuildRank_ptr getRankByName(const std::string& name) const;
 	GuildRank_ptr getRankByLevel(uint8_t level) const;
-	void addRank(uint32_t id, const std::string &name, uint8_t level);
+	void addRank(uint32_t id, const std::string& name, uint8_t level);
 
-	const std::string &getMotd() const {
+	const std::string& getMotd() const {
 		return motd;
 	}
-	void setMotd(const std::string &newMotd) {
+	void setMotd(const std::string& newMotd) {
 		this->motd = newMotd;
 	}
 

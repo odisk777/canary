@@ -561,7 +561,7 @@ void IOPrey::InitializeTaskHuntOptions() {
 	msg.addByte(0xBA);
 	std::map<uint16_t, std::string> bestiaryList = g_game().getBestiaryList();
 	msg.add<uint16_t>(static_cast<uint16_t>(bestiaryList.size()));
-	std::for_each(bestiaryList.begin(), bestiaryList.end(), [&msg](auto &mType) {
+	std::for_each(bestiaryList.begin(), bestiaryList.end(), [&msg](auto& mType) {
 		const MonsterType* mtype = g_monsters().getMonsterType(mType.second);
 		if (!mtype) {
 			return;

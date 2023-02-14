@@ -16,7 +16,7 @@
 
 Protocol::~Protocol() = default;
 
-void Protocol::onSendMessage(const OutputMessage_ptr &msg) {
+void Protocol::onSendMessage(const OutputMessage_ptr& msg) {
 	if (!rawMessages) {
 		uint32_t sendMessageChecksum = 0;
 		if (compreesionEnabled && msg->getLength() >= 128 && compression(*msg)) {
@@ -43,7 +43,7 @@ void Protocol::onSendMessage(const OutputMessage_ptr &msg) {
 	}
 }
 
-bool Protocol::sendRecvMessageCallback(NetworkMessage &msg) {
+bool Protocol::sendRecvMessageCallback(NetworkMessage& msg) {
 	if (encryptionEnabled && !XTEA_decrypt(msg)) {
 		SPDLOG_ERROR("[Protocol::onRecvMessage] - XTEA_decrypt Failed");
 		return false;
@@ -62,7 +62,7 @@ bool Protocol::sendRecvMessageCallback(NetworkMessage &msg) {
 	return true;
 }
 
-bool Protocol::onRecvMessage(NetworkMessage &msg) {
+bool Protocol::onRecvMessage(NetworkMessage& msg) {
 	if (checksumMethod != CHECKSUM_METHOD_NONE) {
 		uint32_t recvChecksum = msg.get<uint32_t>();
 		if (checksumMethod == CHECKSUM_METHOD_SEQUENCE) {
@@ -112,7 +112,7 @@ OutputMessage_ptr Protocol::getOutputBuffer(int32_t size) {
 	return outputBuffer;
 }
 
-void Protocol::XTEA_encrypt(OutputMessage &msg) const {
+void Protocol::XTEA_encrypt(OutputMessage& msg) const {
 	const uint32_t delta = 0x61C88647;
 
 	// The message must be a multiple of 8
@@ -145,7 +145,7 @@ void Protocol::XTEA_encrypt(OutputMessage &msg) const {
 	}
 }
 
-bool Protocol::XTEA_decrypt(NetworkMessage &msg) const {
+bool Protocol::XTEA_decrypt(NetworkMessage& msg) const {
 	uint16_t msgLength = msg.getLength() - (checksumMethod == CHECKSUM_METHOD_NONE ? 2 : 6);
 	if ((msgLength & 7) != 0) {
 		return false;
@@ -185,7 +185,7 @@ bool Protocol::XTEA_decrypt(NetworkMessage &msg) const {
 	return true;
 }
 
-bool Protocol::RSA_decrypt(NetworkMessage &msg) {
+bool Protocol::RSA_decrypt(NetworkMessage& msg) {
 	if ((msg.getLength() - msg.getBufferPosition()) < 128) {
 		return false;
 	}
@@ -222,7 +222,7 @@ void Protocol::enableCompression() {
 	}
 }
 
-bool Protocol::compression(OutputMessage &msg) const {
+bool Protocol::compression(OutputMessage& msg) const {
 	auto outputMessageSize = msg.getLength();
 	if (outputMessageSize > NETWORKMESSAGE_MAXSIZE) {
 		SPDLOG_ERROR("[NetworkMessage::compression] - Exceded NetworkMessage max size: {}, actually size: {}", NETWORKMESSAGE_MAXSIZE, outputMessageSize);

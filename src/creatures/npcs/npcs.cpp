@@ -18,7 +18,7 @@
 #include "lua/scripts/scripts.h"
 #include "game/game.h"
 
-bool NpcType::canSpawn(const Position &pos) {
+bool NpcType::canSpawn(const Position& pos) {
 	bool canSpawn = true;
 	bool isDay = g_game().gameIsDay();
 
@@ -74,7 +74,7 @@ bool NpcType::loadCallback(LuaScriptInterface* scriptInterface) {
 }
 
 void NpcType::loadShop(NpcType* npcType, ShopBlock shopBlock) {
-	ItemType &iType = Item::items.getItemType(shopBlock.itemId);
+	ItemType& iType = Item::items.getItemType(shopBlock.itemId);
 
 	// Registering item prices globaly.
 	if (shopBlock.itemSellPrice > iType.sellPrice) {
@@ -126,7 +126,7 @@ bool Npcs::reload() {
 	return false;
 }
 
-NpcType* Npcs::getNpcType(const std::string &name, bool create /* = false*/) {
+NpcType* Npcs::getNpcType(const std::string& name, bool create /* = false*/) {
 	std::string key = asLowerCaseString(name);
 	auto it = npcs.find(key);
 

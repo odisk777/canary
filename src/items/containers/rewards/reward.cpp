@@ -18,7 +18,7 @@ Reward::Reward() :
 	pagination = true;
 }
 
-ReturnValue Reward::queryAdd(int32_t, const Thing &thing, uint32_t, uint32_t, Creature* actor /* = nullptr*/) const {
+ReturnValue Reward::queryAdd(int32_t, const Thing& thing, uint32_t, uint32_t, Creature* actor /* = nullptr*/) const {
 	if (actor) {
 		return RETURNVALUE_NOTPOSSIBLE;
 	}

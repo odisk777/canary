@@ -20,7 +20,7 @@ Modules::Modules() :
 
 void Modules::clear(bool) {
 	// clear recvbyte list
-	for (auto &it : recvbyteList) {
+	for (auto& it : recvbyteList) {
 		it.second.clearEvent();
 	}
 
@@ -28,7 +28,7 @@ void Modules::clear(bool) {
 	scriptInterface.reInitState();
 }
 
-LuaScriptInterface &Modules::getScriptInterface() {
+LuaScriptInterface& Modules::getScriptInterface() {
 	return scriptInterface;
 }
 
@@ -36,14 +36,14 @@ std::string Modules::getScriptBaseName() const {
 	return "modules";
 }
 
-Event_ptr Modules::getEvent(const std::string &nodeName) {
+Event_ptr Modules::getEvent(const std::string& nodeName) {
 	if (strcasecmp(nodeName.c_str(), "module") != 0) {
 		return nullptr;
 	}
 	return Event_ptr(new Module(&scriptInterface));
 }
 
-bool Modules::registerEvent(Event_ptr event, const pugi::xml_node &) {
+bool Modules::registerEvent(Event_ptr event, const pugi::xml_node&) {
 	Module_ptr module{ static_cast<Module*>(event.release()) };
 	if (module->getEventType() == MODULE_TYPE_NONE) {
 		SPDLOG_ERROR("Trying to register event without type!");
@@ -77,13 +77,13 @@ Module* Modules::getEventByRecvbyte(uint8_t recvbyte, bool force) {
 	return nullptr;
 }
 
-void Modules::executeOnRecvbyte(uint32_t playerId, NetworkMessage &msg, uint8_t byte) const {
+void Modules::executeOnRecvbyte(uint32_t playerId, NetworkMessage& msg, uint8_t byte) const {
 	Player* player = g_game().getPlayerByID(playerId);
 	if (!player) {
 		return;
 	}
 
-	for (auto &it : recvbyteList) {
+	for (auto& it : recvbyteList) {
 		Module module = it.second;
 		if (module.getEventType() == MODULE_TYPE_RECVBYTE && module.getRecvbyte() == byte && player->canRunModule(module.getRecvbyte())) {
 			player->setModuleDelay(module.getRecvbyte(), module.getDelay());
@@ -96,7 +96,7 @@ void Modules::executeOnRecvbyte(uint32_t playerId, NetworkMessage &msg, uint8_t 
 Module::Module(LuaScriptInterface* interface) :
 	Event(interface), type(MODULE_TYPE_NONE), loaded(false) { }
 
-bool Module::configureEvent(const pugi::xml_node &node) {
+bool Module::configureEvent(const pugi::xml_node& node) {
 	delay = 0;
 
 	pugi::xml_attribute typeAttribute = node.attribute("type");
@@ -152,7 +152,7 @@ void Module::clearEvent() {
 	loaded = false;
 }
 
-void Module::executeOnRecvbyte(Player* player, NetworkMessage &msg) {
+void Module::executeOnRecvbyte(Player* player, NetworkMessage& msg) {
 	// onAdvance(player, skill, oldLevel, newLevel)
 	if (!scriptInterface->reserveScriptEnv()) {
 		SPDLOG_ERROR("Call stack overflow. Too many lua script calls being nested {}", player->getName());

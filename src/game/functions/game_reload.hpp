@@ -42,8 +42,8 @@ public:
 	~GameReload();
 
 	// non-copyable
-	GameReload(const GameReload &) = delete;
-	GameReload &operator=(const GameReload &) = delete;
+	GameReload(const GameReload&) = delete;
+	GameReload& operator=(const GameReload&) = delete;
 
 	bool init(Reload_t reloadType) const;
 	uint8_t getReloadNumber(Reload_t reloadTypes) const;

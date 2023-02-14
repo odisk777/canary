@@ -44,10 +44,10 @@ public:
 	IOBestiary() = default;
 
 	// non-copyable
-	IOBestiary(const IOBestiary &) = delete;
-	void operator=(const IOBestiary &) = delete;
+	IOBestiary(const IOBestiary&) = delete;
+	void operator=(const IOBestiary&) = delete;
 
-	static IOBestiary &getInstance() {
+	static IOBestiary& getInstance() {
 		// Guaranteed to be destroyed
 		static IOBestiary instance;
 		// Instantiated on first use
@@ -78,7 +78,7 @@ public:
 
 	std::map<uint16_t, uint32_t> getBestiaryKillCountByMonsterIDs(Player* player, std::map<uint16_t, std::string> mtype_list) const;
 	std::map<uint8_t, int16_t> getMonsterElements(MonsterType* mtype) const;
-	std::map<uint16_t, std::string> findRaceByName(const std::string &race, bool Onlystring = true, BestiaryType_t raceNumber = BESTY_RACE_NONE) const;
+	std::map<uint16_t, std::string> findRaceByName(const std::string& race, bool Onlystring = true, BestiaryType_t raceNumber = BESTY_RACE_NONE) const;
 };
 
 constexpr auto g_iobestiary = &IOBestiary::getInstance;

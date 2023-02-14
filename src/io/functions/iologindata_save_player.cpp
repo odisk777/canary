@@ -21,7 +21,7 @@ bool IOLoginDataSave::savePlayerForgeHistory(Player* player) {
 	query.str(std::string());
 
 	DBInsert insertQuery("INSERT INTO `forge_history` (`player_id`, `action_type`, `description`, `done_at`, `is_success`) VALUES");
-	for (const auto &history : player->getForgeHistory()) {
+	for (const auto& history : player->getForgeHistory()) {
 		const auto stringDescription = Database::getInstance().escapeString(history.description);
 		auto actionString = magic_enum::enum_integer(history.actionType);
 		// Append query informations
@@ -56,7 +56,7 @@ bool IOLoginDataSave::saveRewardItems(Player* player) {
 
 	ItemBlockList itemList;
 	if (!rewardList.empty()) {
-		for (const auto &rewardId : rewardList) {
+		for (const auto& rewardId : rewardList) {
 			auto reward = player->getReward(rewardId, false);
 			if (!reward->empty() && (getTimeNow() - rewardId / 1000 <= 60 * 60 * 24 * 7)) {
 				itemList.emplace_back(0, reward.get());

@@ -16,7 +16,7 @@
 #include "creatures/monsters/monster.h"
 #include "io/ioprey.h"
 
-bool IOLoginData::authenticateAccountPassword(const std::string &email, const std::string &password, account::Account* account) {
+bool IOLoginData::authenticateAccountPassword(const std::string& email, const std::string& password, account::Account* account) {
 	if (account::ERROR_NO != account->LoadAccountDB(email)) {
 		SPDLOG_ERROR("Email {} doesn't match any account.", email);
 		return false;
@@ -32,7 +32,7 @@ bool IOLoginData::authenticateAccountPassword(const std::string &email, const st
 	return true;
 }
 
-bool IOLoginData::gameWorldAuthentication(const std::string &email, const std::string &password, std::string &characterName, uint32_t* accountId) {
+bool IOLoginData::gameWorldAuthentication(const std::string& email, const std::string& password, std::string& characterName, uint32_t* accountId) {
 	account::Account account;
 	if (!IOLoginData::authenticateAccountPassword(email, password, &account)) {
 		return false;
@@ -79,8 +79,8 @@ void IOLoginData::updateOnlineStatus(uint32_t guid, bool login) {
 	Database::getInstance().executeQuery(query.str());
 }
 
-bool IOLoginData::preloadPlayer(Player* player, const std::string &name) {
-	Database &db = Database::getInstance();
+bool IOLoginData::preloadPlayer(Player* player, const std::string& name) {
+	Database& db = Database::getInstance();
 
 	std::ostringstream query;
 	query << "SELECT `id`, `account_id`, `group_id`, `deletion`, (SELECT `type` FROM `accounts` WHERE `accounts`.`id` = `account_id`) AS `account_type`";
@@ -115,14 +115,14 @@ bool IOLoginData::preloadPlayer(Player* player, const std::string &name) {
 }
 
 bool IOLoginData::loadPlayerById(Player* player, uint32_t id) {
-	Database &db = Database::getInstance();
+	Database& db = Database::getInstance();
 	std::ostringstream query;
 	query << "SELECT * FROM `players` WHERE `id` = " << id;
 	return loadPlayer(player, db.storeQuery(query.str()));
 }
 
-bool IOLoginData::loadPlayerByName(Player* player, const std::string &name) {
-	Database &db = Database::getInstance();
+bool IOLoginData::loadPlayerByName(Player* player, const std::string& name) {
+	Database& db = Database::getInstance();
 	std::ostringstream query;
 	query << "SELECT * FROM `players` WHERE `name` = " << db.escapeString(name);
 	return loadPlayer(player, db.storeQuery(query.str()));
@@ -133,7 +133,7 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result) {
 		return false;
 	}
 
-	Database &db = Database::getInstance();
+	Database& db = Database::getInstance();
 
 	uint32_t accountId = result->getNumber<uint32_t>("account_id");
 	account::Account acc;
@@ -290,7 +290,7 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result) {
 
 	player->town = town;
 
-	const Position &loginPos = player->loginPosition;
+	const Position& loginPos = player->loginPosition;
 	if (loginPos.x == 0 && loginPos.y == 0 && loginPos.z == 0) {
 		player->loginPosition = player->getTemplePosition();
 	}
@@ -447,7 +447,7 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result) {
 		loadItems(itemMap, result, *player);
 
 		for (ItemMap::const_reverse_iterator it = itemMap.rbegin(), end = itemMap.rend(); it != end; ++it) {
-			const std::pair<Item*, int32_t> &pair = it->second;
+			const std::pair<Item*, int32_t>& pair = it->second;
 			Item* item = pair.first;
 			if (!item) {
 				continue;
@@ -489,11 +489,11 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result) {
 		}
 	}
 
-	std::sort(openContainersList.begin(), openContainersList.end(), [](const std::pair<uint8_t, Container*> &left, const std::pair<uint8_t, Container*> &right) {
+	std::sort(openContainersList.begin(), openContainersList.end(), [](const std::pair<uint8_t, Container*>& left, const std::pair<uint8_t, Container*>& right) {
 		return left.first < right.first;
 	});
 
-	for (auto &it : openContainersList) {
+	for (auto& it : openContainersList) {
 		player->addContainer(it.first - 1, it.second);
 		player->onSendContainer(it.second);
 	}
@@ -517,7 +517,7 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result) {
 		loadItems(itemMap, result, *player);
 
 		for (ItemMap::const_reverse_iterator it = itemMap.rbegin(), end = itemMap.rend(); it != end; ++it) {
-			const std::pair<Item*, int32_t> &pair = it->second;
+			const std::pair<Item*, int32_t>& pair = it->second;
 			Item* item = pair.first;
 			int32_t pid = pair.second;
 
@@ -652,8 +652,8 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result) {
 	return true;
 }
 
-bool IOLoginData::saveItems(const Player* player, const ItemBlockList &itemList, DBInsert &query_insert, PropWriteStream &propWriteStream) {
-	Database &db = Database::getInstance();
+bool IOLoginData::saveItems(const Player* player, const ItemBlockList& itemList, DBInsert& query_insert, PropWriteStream& propWriteStream) {
+	Database& db = Database::getInstance();
 
 	std::ostringstream ss;
 
@@ -662,8 +662,8 @@ bool IOLoginData::saveItems(const Player* player, const ItemBlockList &itemList,
 
 	int32_t runningId = 100;
 
-	const auto &openContainers = player->getOpenContainers();
-	for (const auto &it : itemList) {
+	const auto& openContainers = player->getOpenContainers();
+	for (const auto& it : itemList) {
 		int32_t pid = it.first;
 		Item* item = it.second;
 		++runningId;
@@ -674,7 +674,7 @@ bool IOLoginData::saveItems(const Player* player, const ItemBlockList &itemList,
 			}
 
 			if (!openContainers.empty()) {
-				for (const auto &its : openContainers) {
+				for (const auto& its : openContainers) {
 					auto openContainer = its.second;
 					auto opcontainer = openContainer.container;
 
@@ -701,7 +701,7 @@ bool IOLoginData::saveItems(const Player* player, const ItemBlockList &itemList,
 	}
 
 	while (!queue.empty()) {
-		const ContainerBlock &cb = queue.front();
+		const ContainerBlock& cb = queue.front();
 		Container* container = cb.first;
 		int32_t parentId = cb.second;
 		queue.pop_front();
@@ -717,7 +717,7 @@ bool IOLoginData::saveItems(const Player* player, const ItemBlockList &itemList,
 				}
 
 				if (!openContainers.empty()) {
-					for (const auto &it : openContainers) {
+					for (const auto& it : openContainers) {
 						auto openContainer = it.second;
 						auto opcontainer = openContainer.container;
 
@@ -748,7 +748,7 @@ bool IOLoginData::savePlayer(Player* player) {
 	if (player->getHealth() <= 0) {
 		player->changeHealth(1);
 	}
-	Database &db = Database::getInstance();
+	Database& db = Database::getInstance();
 
 	std::ostringstream query;
 	query << "SELECT `save` FROM `players` WHERE `id` = " << player->getGUID();
@@ -792,7 +792,7 @@ bool IOLoginData::savePlayer(Player* player) {
 	query << "`soul` = " << static_cast<uint16_t>(player->soul) << ',';
 	query << "`town_id` = " << player->town->getID() << ',';
 
-	const Position &loginPosition = player->getLoginPosition();
+	const Position& loginPosition = player->getLoginPosition();
 	query << "`posx` = " << loginPosition.getX() << ',';
 	query << "`posy` = " << loginPosition.getY() << ',';
 	query << "`posz` = " << loginPosition.getZ() << ',';
@@ -924,7 +924,7 @@ bool IOLoginData::savePlayer(Player* player) {
 	query.str(std::string());
 
 	DBInsert spellsQuery("INSERT INTO `player_spells` (`player_id`, `name` ) VALUES ");
-	for (const std::string &spellName : player->learnedInstantSpellList) {
+	for (const std::string& spellName : player->learnedInstantSpellList) {
 		query << player->getGUID() << ',' << db.escapeString(spellName);
 		if (!spellsQuery.addRow(query)) {
 			return false;
@@ -987,7 +987,7 @@ bool IOLoginData::savePlayer(Player* player) {
 	query.str(std::string());
 
 	DBInsert killsQuery("INSERT INTO `player_kills` (`player_id`, `target`, `time`, `unavenged`) VALUES");
-	for (const auto &kill : player->unjustifiedKills) {
+	for (const auto& kill : player->unjustifiedKills) {
 		query << player->getGUID() << ',' << kill.target << ',' << kill.time << ',' << kill.unavenged;
 		if (!killsQuery.addRow(query)) {
 			return false;
@@ -1032,7 +1032,7 @@ bool IOLoginData::savePlayer(Player* player) {
 		DBInsert depotQuery("INSERT INTO `player_depotitems` (`player_id`, `pid`, `sid`, `itemtype`, `count`, `attributes`) VALUES ");
 		itemList.clear();
 
-		for (const auto &it : player->depotChests) {
+		for (const auto& it : player->depotChests) {
 			DepotChest* depotChest = it.second;
 			for (Item* item : depotChest->getItemList()) {
 				itemList.emplace_back(it.first, item);
@@ -1162,7 +1162,7 @@ bool IOLoginData::savePlayer(Player* player) {
 	DBInsert storageQuery("INSERT INTO `player_storage` (`player_id`, `key`, `value`) VALUES ");
 	player->genReservedStorageRange();
 
-	for (const auto &it : player->storageMap) {
+	for (const auto& it : player->storageMap) {
 		query << player->getGUID() << ',' << it.first << ',' << it.second;
 		if (!storageQuery.addRow(query)) {
 			return false;
@@ -1187,8 +1187,8 @@ std::string IOLoginData::getNameByGuid(uint32_t guid) {
 	return result->getString("name");
 }
 
-uint32_t IOLoginData::getGuidByName(const std::string &name) {
-	Database &db = Database::getInstance();
+uint32_t IOLoginData::getGuidByName(const std::string& name) {
+	Database& db = Database::getInstance();
 
 	std::ostringstream query;
 	query << "SELECT `id` FROM `players` WHERE `name` = " << db.escapeString(name);
@@ -1199,8 +1199,8 @@ uint32_t IOLoginData::getGuidByName(const std::string &name) {
 	return result->getNumber<uint32_t>("id");
 }
 
-bool IOLoginData::getGuidByNameEx(uint32_t &guid, bool &specialVip, std::string &name) {
-	Database &db = Database::getInstance();
+bool IOLoginData::getGuidByNameEx(uint32_t& guid, bool& specialVip, std::string& name) {
+	Database& db = Database::getInstance();
 
 	std::ostringstream query;
 	query << "SELECT `name`, `id`, `group_id`, `account_id` FROM `players` WHERE `name` = " << db.escapeString(name);
@@ -1219,8 +1219,8 @@ bool IOLoginData::getGuidByNameEx(uint32_t &guid, bool &specialVip, std::string 
 	return true;
 }
 
-bool IOLoginData::formatPlayerName(std::string &name) {
-	Database &db = Database::getInstance();
+bool IOLoginData::formatPlayerName(std::string& name) {
+	Database& db = Database::getInstance();
 
 	std::ostringstream query;
 	query << "SELECT `name` FROM `players` WHERE `name` = " << db.escapeString(name);
@@ -1234,7 +1234,7 @@ bool IOLoginData::formatPlayerName(std::string &name) {
 	return true;
 }
 
-void IOLoginData::loadItems(ItemMap &itemMap, DBResult_ptr result, Player &player) {
+void IOLoginData::loadItems(ItemMap& itemMap, DBResult_ptr result, Player& player) {
 	do {
 		uint32_t sid = result->getNumber<uint32_t>("sid");
 		uint32_t pid = result->getNumber<uint32_t>("pid");
@@ -1267,7 +1267,7 @@ void IOLoginData::increaseBankBalance(uint32_t guid, uint64_t bankBalance) {
 }
 
 bool IOLoginData::hasBiddedOnHouse(uint32_t guid) {
-	Database &db = Database::getInstance();
+	Database& db = Database::getInstance();
 
 	std::ostringstream query;
 	query << "SELECT `id` FROM `houses` WHERE `highest_bidder` = " << guid << " LIMIT 1";
@@ -1295,16 +1295,16 @@ std::forward_list<VIPEntry> IOLoginData::getVIPEntries(uint32_t accountId) {
 	return entries;
 }
 
-void IOLoginData::addVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify) {
-	Database &db = Database::getInstance();
+void IOLoginData::addVIPEntry(uint32_t accountId, uint32_t guid, const std::string& description, uint32_t icon, bool notify) {
+	Database& db = Database::getInstance();
 
 	std::ostringstream query;
 	query << "INSERT INTO `account_viplist` (`account_id`, `player_id`, `description`, `icon`, `notify`) VALUES (" << accountId << ',' << guid << ',' << db.escapeString(description) << ',' << icon << ',' << notify << ')';
 	db.executeQuery(query.str());
 }
 
-void IOLoginData::editVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify) {
-	Database &db = Database::getInstance();
+void IOLoginData::editVIPEntry(uint32_t accountId, uint32_t guid, const std::string& description, uint32_t icon, bool notify) {
+	Database& db = Database::getInstance();
 
 	std::ostringstream query;
 	query << "UPDATE `account_viplist` SET `description` = " << db.escapeString(description) << ", `icon` = " << icon << ", `notify` = " << notify << " WHERE `account_id` = " << accountId << " AND `player_id` = " << guid;

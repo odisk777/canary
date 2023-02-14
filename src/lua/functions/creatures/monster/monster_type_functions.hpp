@@ -135,7 +135,7 @@ public:
 	}
 
 private:
-	static void createMonsterTypeLootLuaTable(lua_State* L, const std::vector<LootBlock> &lootList);
+	static void createMonsterTypeLootLuaTable(lua_State* L, const std::vector<LootBlock>& lootList);
 
 	static int luaMonsterTypeCreate(lua_State* L);
 

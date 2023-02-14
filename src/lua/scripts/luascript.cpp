@@ -39,7 +39,7 @@ bool LuaScriptInterface::reInitState() {
 }
 
 /// Same as lua_pcall, but adds stack trace to error strings in called function.
-int32_t LuaScriptInterface::loadFile(const std::string &file, const std::string &scriptName) {
+int32_t LuaScriptInterface::loadFile(const std::string& file, const std::string& scriptName) {
 	// loads file as a chunk at stack top
 	int ret = luaL_loadfile(luaState, file.c_str());
 	if (ret != 0) {
@@ -75,7 +75,7 @@ int32_t LuaScriptInterface::loadFile(const std::string &file, const std::string 
 	return 0;
 }
 
-int32_t LuaScriptInterface::getEvent(const std::string &eventName) {
+int32_t LuaScriptInterface::getEvent(const std::string& eventName) {
 	// get our events table
 	lua_rawgeti(luaState, LUA_REGISTRYINDEX, eventTableRef);
 	if (!isTable(luaState, -1)) {
@@ -125,7 +125,7 @@ int32_t LuaScriptInterface::getEvent() {
 	return runningEventId++;
 }
 
-int32_t LuaScriptInterface::getMetaEvent(const std::string &globalName, const std::string &eventName) {
+int32_t LuaScriptInterface::getMetaEvent(const std::string& globalName, const std::string& eventName) {
 	// get our events table
 	lua_rawgeti(luaState, LUA_REGISTRYINDEX, eventTableRef);
 	if (!isTable(luaState, -1)) {
@@ -155,20 +155,20 @@ int32_t LuaScriptInterface::getMetaEvent(const std::string &globalName, const st
 	return runningEventId++;
 }
 
-const std::string &LuaScriptInterface::getFileById(int32_t scriptId) {
+const std::string& LuaScriptInterface::getFileById(int32_t scriptId) {
 	if (scriptId == EVENT_ID_LOADING) {
 		return loadingFile;
 	}
 
 	auto it = cacheFiles.find(scriptId);
 	if (it == cacheFiles.end()) {
-		static const std::string &unk = "(Unknown scriptfile)";
+		static const std::string& unk = "(Unknown scriptfile)";
 		return unk;
 	}
 	return it->second;
 }
 
-std::string LuaScriptInterface::getStackTrace(const std::string &error_desc) {
+std::string LuaScriptInterface::getStackTrace(const std::string& error_desc) {
 	lua_getglobal(luaState, "debug");
 	if (!isTable(luaState, -1)) {
 		lua_pop(luaState, 1);

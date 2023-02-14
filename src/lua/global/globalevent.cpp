@@ -70,7 +70,7 @@ void GlobalEvents::timer() {
 
 	auto it = timerMap.begin();
 	while (it != timerMap.end()) {
-		GlobalEvent &globalEvent = it->second;
+		GlobalEvent& globalEvent = it->second;
 
 		int64_t nextExecutionTime = globalEvent.getNextExecution() - now;
 		if (nextExecutionTime > 0) {
@@ -106,8 +106,8 @@ void GlobalEvents::think() {
 	int64_t now = OTSYS_TIME();
 
 	int64_t nextScheduledTime = std::numeric_limits<int64_t>::max();
-	for (auto &it : thinkMap) {
-		GlobalEvent &globalEvent = it.second;
+	for (auto& it : thinkMap) {
+		GlobalEvent& globalEvent = it.second;
 
 		int64_t nextExecutionTime = globalEvent.getNextExecution() - now;
 		if (nextExecutionTime > 0) {
@@ -138,8 +138,8 @@ void GlobalEvents::think() {
 }
 
 void GlobalEvents::execute(GlobalEvent_t type) const {
-	for (const auto &it : serverMap) {
-		const GlobalEvent &globalEvent = it.second;
+	for (const auto& it : serverMap) {
+		const GlobalEvent& globalEvent = it.second;
 		if (globalEvent.getEventType() == type) {
 			globalEvent.executeEvent();
 		}
@@ -158,7 +158,7 @@ GlobalEventMap GlobalEvents::getEventMap(GlobalEvent_t type) {
 		case GLOBALEVENT_SHUTDOWN:
 		case GLOBALEVENT_RECORD: {
 			GlobalEventMap retMap;
-			for (const auto &it : serverMap) {
+			for (const auto& it : serverMap) {
 				if (it.second.getEventType() == type) {
 					retMap.emplace(it.first, it.second);
 				}

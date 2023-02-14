@@ -62,7 +62,7 @@ void Decay::stopDecay(Item* item) {
 		if (item->hasAttribute(ItemAttribute_t::DURATION_TIMESTAMP)) {
 			auto it = decayMap.find(timestamp);
 			if (it != decayMap.end()) {
-				std::vector<Item*> &decayItems = it->second;
+				std::vector<Item*>& decayItems = it->second;
 
 				size_t i = 0, end = decayItems.size();
 				if (end == 1) {
@@ -114,7 +114,7 @@ void Decay::checkDecay() {
 		}
 
 		// Iterating here is unsafe so let's copy our items into temporary vector
-		std::vector<Item*> &decayItems = it->second;
+		std::vector<Item*>& decayItems = it->second;
 		tempItems.insert(tempItems.end(), decayItems.begin(), decayItems.end());
 		it = decayMap.erase(it);
 	}
@@ -137,7 +137,7 @@ void Decay::checkDecay() {
 }
 
 void Decay::internalDecayItem(Item* item) {
-	const ItemType &it = Item::items[item->getID()];
+	const ItemType& it = Item::items[item->getID()];
 	if (it.decayTo != 0) {
 		Player* player = item->getHoldingPlayer();
 		if (player) {

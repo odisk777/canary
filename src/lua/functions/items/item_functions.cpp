@@ -639,7 +639,7 @@ int ItemFunctions::luaItemTransform(lua_State* L) {
 		return 1;
 	}
 
-	Item*&item = *itemPtr;
+	Item*& item = *itemPtr;
 	if (!item) {
 		lua_pushnil(L);
 		return 1;
@@ -662,7 +662,7 @@ int ItemFunctions::luaItemTransform(lua_State* L) {
 		return 1;
 	}
 
-	const ItemType &it = Item::items[itemId];
+	const ItemType& it = Item::items[itemId];
 	if (it.stackable) {
 		subType = std::min<int32_t>(subType, 100);
 	}
@@ -689,7 +689,7 @@ int ItemFunctions::luaItemDecay(lua_State* L) {
 	Item* item = getUserdata<Item>(L, 1);
 	if (item) {
 		if (isNumber(L, 2)) {
-			ItemType &it = Item::items.getItemType(item->getID());
+			ItemType& it = Item::items.getItemType(item->getID());
 			it.decayTo = getNumber<int32_t>(L, 2);
 		}
 
@@ -820,7 +820,7 @@ int ItemFunctions::luaItemSetDuration(lua_State* L) {
 		showDuration = getBoolean(L, 5);
 	}
 
-	ItemType &it = Item::items.getItemType(item->getID());
+	ItemType& it = Item::items.getItemType(item->getID());
 	if (maxDuration == 0) {
 		it.decayTime = minDuration;
 	} else {

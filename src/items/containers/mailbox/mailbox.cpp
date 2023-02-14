@@ -13,7 +13,7 @@
 #include "game/game.h"
 #include "io/iologindata.h"
 
-ReturnValue Mailbox::queryAdd(int32_t, const Thing &thing, uint32_t, uint32_t, Creature*) const {
+ReturnValue Mailbox::queryAdd(int32_t, const Thing& thing, uint32_t, uint32_t, Creature*) const {
 	const Item* item = thing.getItem();
 	if (item && Mailbox::canSend(item)) {
 		return RETURNVALUE_NOERROR;
@@ -21,16 +21,16 @@ ReturnValue Mailbox::queryAdd(int32_t, const Thing &thing, uint32_t, uint32_t, C
 	return RETURNVALUE_NOTPOSSIBLE;
 }
 
-ReturnValue Mailbox::queryMaxCount(int32_t, const Thing &, uint32_t count, uint32_t &maxQueryCount, uint32_t) const {
+ReturnValue Mailbox::queryMaxCount(int32_t, const Thing&, uint32_t count, uint32_t& maxQueryCount, uint32_t) const {
 	maxQueryCount = std::max<uint32_t>(1, count);
 	return RETURNVALUE_NOERROR;
 }
 
-ReturnValue Mailbox::queryRemove(const Thing &, uint32_t, uint32_t, Creature* /*= nullptr */) const {
+ReturnValue Mailbox::queryRemove(const Thing&, uint32_t, uint32_t, Creature* /*= nullptr */) const {
 	return RETURNVALUE_NOTPOSSIBLE;
 }
 
-Cylinder* Mailbox::queryDestination(int32_t &, const Thing &, Item**, uint32_t &) {
+Cylinder* Mailbox::queryDestination(int32_t&, const Thing&, Item**, uint32_t&) {
 	return this;
 }
 
@@ -116,7 +116,7 @@ bool Mailbox::sendItem(Item* item) const {
 	return false;
 }
 
-bool Mailbox::getReceiver(Item* item, std::string &name) const {
+bool Mailbox::getReceiver(Item* item, std::string& name) const {
 	const Container* container = item->getContainer();
 	if (container) {
 		for (Item* containerItem : container->getItemList()) {
@@ -127,7 +127,7 @@ bool Mailbox::getReceiver(Item* item, std::string &name) const {
 		return false;
 	}
 
-	const std::string &text = item->getAttribute<std::string>(ItemAttribute_t::TEXT);
+	const std::string& text = item->getAttribute<std::string>(ItemAttribute_t::TEXT);
 	if (text.empty()) {
 		return false;
 	}

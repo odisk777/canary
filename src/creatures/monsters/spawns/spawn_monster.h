@@ -31,10 +31,10 @@ public:
 	~SpawnMonster();
 
 	// non-copyable
-	SpawnMonster(const SpawnMonster &) = delete;
-	SpawnMonster &operator=(const SpawnMonster &) = delete;
+	SpawnMonster(const SpawnMonster&) = delete;
+	SpawnMonster& operator=(const SpawnMonster&) = delete;
 
-	bool addMonster(const std::string &name, const Position &pos, Direction dir, uint32_t interval);
+	bool addMonster(const std::string& name, const Position& pos, Direction dir, uint32_t interval);
 	void removeMonster(Monster* monster);
 
 	uint32_t getInterval() const {
@@ -45,7 +45,7 @@ public:
 	void startSpawnMonsterCheck();
 	void stopEvent();
 
-	bool isInSpawnMonsterZone(const Position &pos);
+	bool isInSpawnMonsterZone(const Position& pos);
 	void cleanup();
 
 private:
@@ -63,17 +63,17 @@ private:
 	uint32_t interval = 30000;
 	uint32_t checkSpawnMonsterEvent = 0;
 
-	static bool findPlayer(const Position &pos);
-	bool spawnMonster(uint32_t spawnMonsterId, MonsterType* monsterType, const Position &pos, Direction dir, bool startup = false);
+	static bool findPlayer(const Position& pos);
+	bool spawnMonster(uint32_t spawnMonsterId, MonsterType* monsterType, const Position& pos, Direction dir, bool startup = false);
 	void checkSpawnMonster();
-	void scheduleSpawn(uint32_t spawnMonsterId, spawnBlock_t &sb, uint16_t interval);
+	void scheduleSpawn(uint32_t spawnMonsterId, spawnBlock_t& sb, uint16_t interval);
 };
 
 class SpawnsMonster {
 public:
-	static bool isInZone(const Position &centerPos, int32_t radius, const Position &pos);
+	static bool isInZone(const Position& centerPos, int32_t radius, const Position& pos);
 
-	bool loadFromXML(const std::string &filemonstername);
+	bool loadFromXML(const std::string& filemonstername);
 	void startup();
 	void clear();
 
@@ -83,7 +83,7 @@ public:
 	bool isLoaded() const {
 		return loaded;
 	}
-	std::forward_list<SpawnMonster> &getspawnMonsterList() {
+	std::forward_list<SpawnMonster>& getspawnMonsterList() {
 		return spawnMonsterList;
 	}
 

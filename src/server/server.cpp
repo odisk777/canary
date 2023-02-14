@@ -20,7 +20,7 @@ Ban g_bans;
 ServiceManager::~ServiceManager() {
 	try {
 		stop();
-	} catch (std::exception &exception) {
+	} catch (std::exception& exception) {
 		SPDLOG_ERROR("{} - Catch exception error: {}", __FUNCTION__, exception.what());
 	}
 }
@@ -42,10 +42,10 @@ void ServiceManager::stop() {
 
 	running = false;
 
-	for (auto &servicePortIt : acceptors) {
+	for (auto& servicePortIt : acceptors) {
 		try {
 			io_service.post(std::bind_front(&ServicePort::onStopServer, servicePortIt.second));
-		} catch (const std::system_error &e) {
+		} catch (const std::system_error& e) {
 			SPDLOG_WARN("[ServiceManager::stop] - Network error: {}", e.what());
 		}
 	}
@@ -87,7 +87,7 @@ void ServicePort::accept() {
 	acceptor->async_accept(connection->getSocket(), std::bind(&ServicePort::onAccept, shared_from_this(), connection, std::placeholders::_1));
 }
 
-void ServicePort::onAccept(Connection_ptr connection, const std::error_code &error) {
+void ServicePort::onAccept(Connection_ptr connection, const std::error_code& error) {
 	if (!error) {
 		if (services.empty()) {
 			return;
@@ -115,9 +115,9 @@ void ServicePort::onAccept(Connection_ptr connection, const std::error_code &err
 	}
 }
 
-Protocol_ptr ServicePort::make_protocol(bool checksummed, NetworkMessage &msg, const Connection_ptr &connection) const {
+Protocol_ptr ServicePort::make_protocol(bool checksummed, NetworkMessage& msg, const Connection_ptr& connection) const {
 	uint8_t protocolID = msg.getByte();
-	for (auto &service : services) {
+	for (auto& service : services) {
 		if (protocolID != service->get_protocol_identifier()) {
 			continue;
 		}
@@ -155,7 +155,7 @@ void ServicePort::open(uint16_t port) {
 		acceptor->set_option(asio::ip::tcp::no_delay(true));
 
 		accept();
-	} catch (const std::system_error &e) {
+	} catch (const std::system_error& e) {
 		SPDLOG_WARN("[ServicePort::open] - Error code: {}", e.what());
 
 		pendingStart = true;
@@ -170,8 +170,8 @@ void ServicePort::close() {
 	}
 }
 
-bool ServicePort::add_service(const Service_ptr &new_svc) {
-	if (std::ranges::any_of(services, [](const Service_ptr &svc) { return svc->is_single_socket(); })) {
+bool ServicePort::add_service(const Service_ptr& new_svc) {
+	if (std::ranges::any_of(services, [](const Service_ptr& svc) { return svc->is_single_socket(); })) {
 		return false;
 	}
 

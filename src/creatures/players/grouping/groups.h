@@ -28,7 +28,7 @@ public:
 	bool reload() const;
 	bool load();
 	Group* getGroup(uint16_t id);
-	std::vector<Group> &getGroups() {
+	std::vector<Group>& getGroups() {
 		return groups_vector;
 	}
 

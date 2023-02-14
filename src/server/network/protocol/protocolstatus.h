@@ -26,10 +26,10 @@ public:
 	explicit ProtocolStatus(Connection_ptr conn) :
 		Protocol(conn) { }
 
-	void onRecvFirstMessage(NetworkMessage &msg) override;
+	void onRecvFirstMessage(NetworkMessage& msg) override;
 
 	void sendStatusString();
-	void sendInfo(uint16_t requestedInfo, const std::string &characterName);
+	void sendInfo(uint16_t requestedInfo, const std::string& characterName);
 
 	static const uint64_t start;
 

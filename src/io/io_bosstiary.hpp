@@ -31,10 +31,10 @@ class Player;
 class IOBosstiary {
 public:
 	// Non copyable
-	IOBosstiary(const IOBosstiary &) = delete;
-	void operator=(const IOBosstiary &) = delete;
+	IOBosstiary(const IOBosstiary&) = delete;
+	void operator=(const IOBosstiary&) = delete;
 
-	static IOBosstiary &getInstance() {
+	static IOBosstiary& getInstance() {
 		// Guaranteed to be destroyed
 		static IOBosstiary instance;
 		// Instantiated on first use
@@ -43,8 +43,8 @@ public:
 
 	void loadBoostedBoss();
 
-	void addBosstiaryMonster(uint32_t raceId, const std::string &name);
-	const std::map<uint32_t, std::string> &getBosstiaryMap() const;
+	void addBosstiaryMonster(uint32_t raceId, const std::string& name);
+	const std::map<uint32_t, std::string>& getBosstiaryMap() const;
 
 	const std::map<BosstiaryRarity_t, std::vector<LevelInfo>> levelInfos = {
 		{ BosstiaryRarity_t::RARITY_BANE, { { 25, 5 }, { 100, 15 }, { 300, 30 } } },
@@ -52,7 +52,7 @@ public:
 		{ BosstiaryRarity_t::RARITY_NEMESIS, { { 1, 10 }, { 3, 30 }, { 5, 60 } } }
 	};
 
-	void setBossBoostedName(const std::string_view &name);
+	void setBossBoostedName(const std::string_view& name);
 	std::string getBoostedBossName() const;
 	void setBossBoostedId(uint32_t raceId);
 	uint32_t getBoostedBossId() const;

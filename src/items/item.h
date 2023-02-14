@@ -75,14 +75,14 @@ public:
 	}
 
 	// Custom Attributes
-	const std::map<std::string, CustomAttribute, std::less<>> &getCustomAttributeMap() const {
+	const std::map<std::string, CustomAttribute, std::less<>>& getCustomAttributeMap() const {
 		static std::map<std::string, CustomAttribute, std::less<>> map = {};
 		if (!attributePtr) {
 			return map;
 		}
 		return attributePtr->getCustomAttributeMap();
 	}
-	const CustomAttribute* getCustomAttribute(const std::string &attributeName) const {
+	const CustomAttribute* getCustomAttribute(const std::string& attributeName) const {
 		if (!attributePtr) {
 			return nullptr;
 		}
@@ -91,11 +91,11 @@ public:
 	}
 
 	template <typename GenericType>
-	void setCustomAttribute(const std::string &key, GenericType value) {
+	void setCustomAttribute(const std::string& key, GenericType value) {
 		initAttributePtr()->setCustomAttribute(key, value);
 	}
 
-	void addCustomAttribute(const std::string &key, const CustomAttribute &customAttribute) {
+	void addCustomAttribute(const std::string& key, const CustomAttribute& customAttribute) {
 		initAttributePtr()->addCustomAttribute(key, customAttribute);
 	}
 
@@ -103,7 +103,7 @@ public:
 		return !getCustomAttributeMap().empty();
 	}
 
-	bool removeCustomAttribute(const std::string &attributeName) {
+	bool removeCustomAttribute(const std::string& attributeName) {
 		if (!attributePtr) {
 			return false;
 		}
@@ -147,14 +147,14 @@ public:
 	}
 
 protected:
-	std::unique_ptr<ItemAttribute> &initAttributePtr() {
+	std::unique_ptr<ItemAttribute>& initAttributePtr() {
 		if (!attributePtr) {
 			attributePtr.reset(new ItemAttribute());
 		}
 
 		return attributePtr;
 	}
-	const std::unique_ptr<ItemAttribute> &initAttributePtr() const {
+	const std::unique_ptr<ItemAttribute>& initAttributePtr() const {
 		if (!attributePtr) {
 			std::bit_cast<ItemProperties*>(this)->attributePtr.reset(new ItemAttribute());
 		}
@@ -162,7 +162,7 @@ protected:
 		return attributePtr;
 	}
 
-	const std::underlying_type_t<ItemAttribute_t> &getAttributeBits() const {
+	const std::underlying_type_t<ItemAttribute_t>& getAttributeBits() const {
 		static std::underlying_type_t<ItemAttribute_t> emptyType = {};
 		if (!attributePtr) {
 			return emptyType;
@@ -170,7 +170,7 @@ protected:
 
 		return attributePtr->getAttributeBits();
 	}
-	const std::vector<Attributes> &getAttributeVector() const {
+	const std::vector<Attributes>& getAttributeVector() const {
 		static std::vector<Attributes> emptyVector = {};
 		if (!attributePtr) {
 			return emptyVector;
@@ -179,7 +179,7 @@ protected:
 		return attributePtr->getAttributeVector();
 	}
 
-	const int64_t &getInteger(ItemAttribute_t type) const {
+	const int64_t& getInteger(ItemAttribute_t type) const {
 		static int64_t emptyInt;
 		if (!attributePtr) {
 			return emptyInt;
@@ -187,7 +187,7 @@ protected:
 
 		return attributePtr->getAttributeValue(type);
 	}
-	const std::string &getString(ItemAttribute_t type) const {
+	const std::string& getString(ItemAttribute_t type) const {
 		static std::string emptyString;
 		if (!attributePtr) {
 			return emptyString;
@@ -213,18 +213,18 @@ public:
 	// Factory member to create item of right type based on type
 	static Item* CreateItem(const uint16_t type, uint16_t count = 0);
 	static Container* CreateItemAsContainer(const uint16_t type, uint16_t size);
-	static Item* CreateItem(PropStream &propStream);
+	static Item* CreateItem(PropStream& propStream);
 	static Items items;
 
 	// Constructor for items
 	Item(const uint16_t type, uint16_t count = 0);
-	Item(const Item &i);
+	Item(const Item& i);
 	virtual Item* clone() const;
 
 	virtual ~Item() = default;
 
 	// non-assignable
-	Item &operator=(const Item &) = delete;
+	Item& operator=(const Item&) = delete;
 
 	bool equals(const Item* compareItem) const;
 
@@ -283,21 +283,21 @@ public:
 	static std::string parseShowAttributesDescription(const Item* item, const uint16_t itemId);
 	static std::string parseClassificationDescription(const Item* item);
 
-	static std::vector<std::pair<std::string, std::string>> getDescriptions(const ItemType &it, const Item* item = nullptr);
-	static std::string getDescription(const ItemType &it, int32_t lookDistance, const Item* item = nullptr, int32_t subType = -1, bool addArticle = true);
-	static std::string getNameDescription(const ItemType &it, const Item* item = nullptr, int32_t subType = -1, bool addArticle = true);
-	static std::string getWeightDescription(const ItemType &it, uint32_t weight, uint32_t count = 1);
+	static std::vector<std::pair<std::string, std::string>> getDescriptions(const ItemType& it, const Item* item = nullptr);
+	static std::string getDescription(const ItemType& it, int32_t lookDistance, const Item* item = nullptr, int32_t subType = -1, bool addArticle = true);
+	static std::string getNameDescription(const ItemType& it, const Item* item = nullptr, int32_t subType = -1, bool addArticle = true);
+	static std::string getWeightDescription(const ItemType& it, uint32_t weight, uint32_t count = 1);
 
 	std::string getDescription(int32_t lookDistance) const override final;
 	std::string getNameDescription() const;
 	std::string getWeightDescription() const;
 
 	// serialization
-	virtual Attr_ReadValue readAttr(AttrTypes_t attr, PropStream &propStream);
-	bool unserializeAttr(PropStream &propStream);
-	virtual bool unserializeItemNode(OTB::Loader &, const OTB::Node &, PropStream &propStream);
+	virtual Attr_ReadValue readAttr(AttrTypes_t attr, PropStream& propStream);
+	bool unserializeAttr(PropStream& propStream);
+	virtual bool unserializeItemNode(OTB::Loader&, const OTB::Node&, PropStream& propStream);
 
-	virtual void serializeAttr(PropWriteStream &propWriteStream) const;
+	virtual void serializeAttr(PropWriteStream& propWriteStream) const;
 
 	bool isPushable() const override final {
 		return isMoveable();
@@ -432,7 +432,7 @@ public:
 		return items[id].isQuiver();
 	}
 
-	const std::string &getName() const {
+	const std::string& getName() const {
 		if (hasAttribute(ItemAttribute_t::NAME)) {
 			return getString(ItemAttribute_t::NAME);
 		}
@@ -444,7 +444,7 @@ public:
 		}
 		return items[id].getPluralName();
 	}
-	const std::string &getArticle() const {
+	const std::string& getArticle() const {
 		if (hasAttribute(ItemAttribute_t::ARTICLE)) {
 			return getString(ItemAttribute_t::ARTICLE);
 		}

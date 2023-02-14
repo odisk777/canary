@@ -62,7 +62,7 @@ bool Familiars::loadFromXml() {
 }
 
 const Familiar* Familiars::getFamiliarByLookType(uint16_t vocation, uint16_t lookType) const {
-	for (const Familiar &familiar : familiars[vocation]) {
+	for (const Familiar& familiar : familiars[vocation]) {
 		if (familiar.lookType == lookType) {
 			return &familiar;
 		}

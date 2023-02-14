@@ -12,7 +12,7 @@
 #include "items/thing.h"
 #include "items/tile.h"
 
-const Position &Thing::getPosition() const {
+const Position& Thing::getPosition() const {
 	const Tile* tile = getTile();
 	if (!tile) {
 		return Tile::nullptr_tile.getPosition();

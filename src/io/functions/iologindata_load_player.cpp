@@ -40,8 +40,8 @@ void IOLoginDataLoad::loadRewardItems(Player* player) {
 	}
 }
 
-void IOLoginDataLoad::bindRewardBag(Player* player, IOLoginData::ItemMap &itemMap) {
-	for (auto &[id, itemPair] : itemMap) {
+void IOLoginDataLoad::bindRewardBag(Player* player, IOLoginData::ItemMap& itemMap) {
+	for (auto& [id, itemPair] : itemMap) {
 		const auto [item, pid] = itemPair;
 		if (pid == 0) {
 			auto reward = player->getReward(item->getAttribute<uint64_t>(ItemAttribute_t::DATE), true);
@@ -54,9 +54,9 @@ void IOLoginDataLoad::bindRewardBag(Player* player, IOLoginData::ItemMap &itemMa
 	}
 }
 
-void IOLoginDataLoad::insertItemsIntoRewardBag(const IOLoginData::ItemMap &itemMap) {
-	for (const auto &it : std::views::reverse(itemMap)) {
-		const std::pair<Item*, int32_t> &pair = it.second;
+void IOLoginDataLoad::insertItemsIntoRewardBag(const IOLoginData::ItemMap& itemMap) {
+	for (const auto& it : std::views::reverse(itemMap)) {
+		const std::pair<Item*, int32_t>& pair = it.second;
 		Item* item = pair.first;
 		int32_t pid = pair.second;
 		if (pid == 0) {

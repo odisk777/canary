@@ -27,10 +27,10 @@ public:
 	void setEventType(CreatureEventType_t eventType) {
 		type = eventType;
 	}
-	const std::string &getName() const {
+	const std::string& getName() const {
 		return eventName;
 	}
-	void setName(const std::string &name) {
+	void setName(const std::string& name) {
 		eventName = name;
 	}
 	bool isLoaded() const {
@@ -52,10 +52,10 @@ public:
 	void executeOnKill(Creature* creature, Creature* target, bool lastHit) const;
 	bool executeAdvance(Player* player, skills_t, uint32_t, uint32_t) const;
 	void executeModalWindow(Player* player, uint32_t modalWindowId, uint8_t buttonId, uint8_t choiceId) const;
-	bool executeTextEdit(Player* player, Item* item, const std::string &text) const;
-	void executeHealthChange(Creature* creature, Creature* attacker, CombatDamage &damage) const;
-	void executeManaChange(Creature* creature, Creature* attacker, CombatDamage &damage) const;
-	void executeExtendedOpcode(Player* player, uint8_t opcode, const std::string &buffer) const;
+	bool executeTextEdit(Player* player, Item* item, const std::string& text) const;
+	void executeHealthChange(Creature* creature, Creature* attacker, CombatDamage& damage) const;
+	void executeManaChange(Creature* creature, Creature* attacker, CombatDamage& damage) const;
+	void executeExtendedOpcode(Player* player, uint8_t opcode, const std::string& buffer) const;
 	//
 
 private:
@@ -71,10 +71,10 @@ public:
 	CreatureEvents() = default;
 
 	// non-copyable
-	CreatureEvents(const CreatureEvents &) = delete;
-	CreatureEvents &operator=(const CreatureEvents &) = delete;
+	CreatureEvents(const CreatureEvents&) = delete;
+	CreatureEvents& operator=(const CreatureEvents&) = delete;
 
-	static CreatureEvents &getInstance() {
+	static CreatureEvents& getInstance() {
 		// Guaranteed to be destroyed
 		static CreatureEvents instance;
 		// Instantiated on first use
@@ -86,7 +86,7 @@ public:
 	bool playerLogout(Player* player) const;
 	bool playerAdvance(Player* player, skills_t, uint32_t, uint32_t) const;
 
-	CreatureEvent* getEventByName(const std::string &name, bool forceLoaded = true);
+	CreatureEvent* getEventByName(const std::string& name, bool forceLoaded = true);
 
 	bool registerLuaEvent(CreatureEvent* event);
 	void removeInvalidEvents();

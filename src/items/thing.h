@@ -24,8 +24,8 @@ public:
 	virtual ~Thing() = default;
 
 	// non-copyable
-	Thing(const Thing &) = delete;
-	Thing &operator=(const Thing &) = delete;
+	Thing(const Thing&) = delete;
+	Thing& operator=(const Thing&) = delete;
 
 	virtual std::string getDescription(int32_t lookDistance) const = 0;
 
@@ -43,7 +43,7 @@ public:
 	virtual Tile* getTile();
 	virtual const Tile* getTile() const;
 
-	virtual const Position &getPosition() const;
+	virtual const Position& getPosition() const;
 	virtual int32_t getThrowRange() const = 0;
 	virtual bool isPushable() const = 0;
 

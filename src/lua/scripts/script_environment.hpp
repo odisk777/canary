@@ -29,8 +29,8 @@ public:
 	virtual ~ScriptEnvironment();
 
 	// non-copyable
-	ScriptEnvironment(const ScriptEnvironment &) = delete;
-	ScriptEnvironment &operator=(const ScriptEnvironment &) = delete;
+	ScriptEnvironment(const ScriptEnvironment&) = delete;
+	ScriptEnvironment& operator=(const ScriptEnvironment&) = delete;
 
 	void resetEnv();
 
@@ -51,7 +51,7 @@ public:
 		timerEvent = true;
 	}
 
-	void getEventInfo(int32_t &scriptId, LuaScriptInterface*&scriptInterface, int32_t &callbackId, bool &timerEvent) const;
+	void getEventInfo(int32_t& scriptId, LuaScriptInterface*& scriptInterface, int32_t& callbackId, bool& timerEvent) const;
 
 	void addTempItem(Item* item);
 	static void removeTempItem(Item* item);

@@ -51,14 +51,14 @@ public:
 	void setTicks(int32_t newTicks);
 
 	static Condition* createCondition(ConditionId_t id, ConditionType_t type, int32_t ticks, int32_t param = 0, bool buff = false, uint32_t subId = 0);
-	static Condition* createCondition(PropStream &propStream);
+	static Condition* createCondition(PropStream& propStream);
 
 	virtual bool setParam(ConditionParam_t param, int32_t value);
 
 	// serialization
-	bool unserialize(PropStream &propStream);
-	virtual void serialize(PropWriteStream &propWriteStream);
-	virtual bool unserializeProp(ConditionAttr_t attr, PropStream &propStream);
+	bool unserialize(PropStream& propStream);
+	virtual void serialize(PropWriteStream& propWriteStream);
+	virtual bool unserializeProp(ConditionAttr_t attr, PropStream& propStream);
 
 	bool isPersistent() const;
 
@@ -106,8 +106,8 @@ public:
 	}
 
 	// serialization
-	void serialize(PropWriteStream &propWriteStream) final;
-	bool unserializeProp(ConditionAttr_t attr, PropStream &propStream) final;
+	void serialize(PropWriteStream& propWriteStream) final;
+	bool unserializeProp(ConditionAttr_t attr, PropStream& propStream) final;
 
 private:
 	int32_t skills[SKILL_LAST + 1] = {};
@@ -150,8 +150,8 @@ public:
 	}
 
 	// serialization
-	void serialize(PropWriteStream &propWriteStream) override;
-	bool unserializeProp(ConditionAttr_t attr, PropStream &propStream) override;
+	void serialize(PropWriteStream& propWriteStream) override;
+	bool unserializeProp(ConditionAttr_t attr, PropStream& propStream) override;
 
 private:
 	uint32_t internalHealthTicks = 0;
@@ -180,8 +180,8 @@ public:
 	}
 
 	// serialization
-	void serialize(PropWriteStream &propWriteStream) override;
-	bool unserializeProp(ConditionAttr_t attr, PropStream &propStream) override;
+	void serialize(PropWriteStream& propWriteStream) override;
+	bool unserializeProp(ConditionAttr_t attr, PropStream& propStream) override;
 
 private:
 	uint16_t manaShield = 0;
@@ -202,8 +202,8 @@ public:
 	}
 
 	// serialization
-	void serialize(PropWriteStream &propWriteStream) override;
-	bool unserializeProp(ConditionAttr_t attr, PropStream &propStream) override;
+	void serialize(PropWriteStream& propWriteStream) override;
+	bool unserializeProp(ConditionAttr_t attr, PropStream& propStream) override;
 
 private:
 	uint32_t internalSoulTicks = 0;
@@ -230,7 +230,7 @@ public:
 	ConditionDamage(ConditionId_t intiId, ConditionType_t initType, bool initBuff = false, uint32_t initSubId = 0) :
 		Condition(intiId, initType, 0, initBuff, initSubId) { }
 
-	static void generateDamageList(int32_t amount, int32_t start, std::list<int32_t> &list);
+	static void generateDamageList(int32_t amount, int32_t start, std::list<int32_t>& list);
 
 	bool startCondition(Creature* creature) override;
 	bool executeCondition(Creature* creature, int32_t interval) override;
@@ -251,8 +251,8 @@ public:
 	int32_t getTotalDamage() const;
 
 	// serialization
-	void serialize(PropWriteStream &propWriteStream) override;
-	bool unserializeProp(ConditionAttr_t attr, PropStream &propStream) override;
+	void serialize(PropWriteStream& propWriteStream) override;
+	bool unserializeProp(ConditionAttr_t attr, PropStream& propStream) override;
 
 private:
 	int32_t maxDamage = 0;
@@ -271,7 +271,7 @@ private:
 
 	std::list<IntervalInfo> damageList;
 
-	bool getNextDamage(int32_t &damage);
+	bool getNextDamage(int32_t& damage);
 	bool doDamage(Creature* creature, int32_t healthChange);
 
 	bool updateCondition(const Condition* addCondition) override;
@@ -297,11 +297,11 @@ public:
 	void setFormulaVars(float mina, float minb, float maxa, float maxb);
 
 	// serialization
-	void serialize(PropWriteStream &propWriteStream) override;
-	bool unserializeProp(ConditionAttr_t attr, PropStream &propStream) override;
+	void serialize(PropWriteStream& propWriteStream) override;
+	bool unserializeProp(ConditionAttr_t attr, PropStream& propStream) override;
 
 private:
-	void getFormulaValues(int32_t var, int32_t &min, int32_t &max) const;
+	void getFormulaValues(int32_t var, int32_t& min, int32_t& max) const;
 
 	int32_t speedDelta;
 
@@ -326,12 +326,12 @@ public:
 		return new ConditionOutfit(*this);
 	}
 
-	void setOutfit(const Outfit_t &outfit);
-	void setLazyMonsterOutfit(const std::string &monsterName);
+	void setOutfit(const Outfit_t& outfit);
+	void setLazyMonsterOutfit(const std::string& monsterName);
 
 	// serialization
-	void serialize(PropWriteStream &propWriteStream) override;
-	bool unserializeProp(ConditionAttr_t attr, PropStream &propStream) override;
+	void serialize(PropWriteStream& propWriteStream) override;
+	bool unserializeProp(ConditionAttr_t attr, PropStream& propStream) override;
 
 private:
 	Outfit_t outfit;
@@ -355,8 +355,8 @@ public:
 	bool setParam(ConditionParam_t param, int32_t value) override;
 
 	// serialization
-	void serialize(PropWriteStream &propWriteStream) override;
-	bool unserializeProp(ConditionAttr_t attr, PropStream &propStream) override;
+	void serialize(PropWriteStream& propWriteStream) override;
+	bool unserializeProp(ConditionAttr_t attr, PropStream& propStream) override;
 
 private:
 	LightInfo lightInfo;

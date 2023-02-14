@@ -25,7 +25,7 @@ bool Ban::acceptConnection(uint32_t clientIP) {
 		return true;
 	}
 
-	ConnectBlock &connectBlock = it->second;
+	ConnectBlock& connectBlock = it->second;
 	if (connectBlock.blockTime > currentTime) {
 		connectBlock.blockTime += 250;
 		return false;
@@ -47,8 +47,8 @@ bool Ban::acceptConnection(uint32_t clientIP) {
 	return true;
 }
 
-bool IOBan::isAccountBanned(uint32_t accountId, BanInfo &banInfo) {
-	Database &db = Database::getInstance();
+bool IOBan::isAccountBanned(uint32_t accountId, BanInfo& banInfo) {
+	Database& db = Database::getInstance();
 
 	std::ostringstream query;
 	query << "SELECT `reason`, `expires_at`, `banned_at`, `banned_by`, (SELECT `name` FROM `players` WHERE `id` = `banned_by`) AS `name` FROM `account_bans` WHERE `account_id` = " << accountId;
@@ -77,12 +77,12 @@ bool IOBan::isAccountBanned(uint32_t accountId, BanInfo &banInfo) {
 	return true;
 }
 
-bool IOBan::isIpBanned(uint32_t clientIP, BanInfo &banInfo) {
+bool IOBan::isIpBanned(uint32_t clientIP, BanInfo& banInfo) {
 	if (clientIP == 0) {
 		return false;
 	}
 
-	Database &db = Database::getInstance();
+	Database& db = Database::getInstance();
 
 	std::ostringstream query;
 	query << "SELECT `reason`, `expires_at`, (SELECT `name` FROM `players` WHERE `id` = `banned_by`) AS `name` FROM `ip_bans` WHERE `ip` = " << clientIP;

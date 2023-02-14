@@ -33,7 +33,7 @@ bool Vocations::loadFromXml() {
 		uint16_t id = pugi::cast<uint16_t>(attr.value());
 
 		auto res = vocationsMap.emplace(std::piecewise_construct, std::forward_as_tuple(id), std::forward_as_tuple(id));
-		Vocation &voc = res.first->second;
+		Vocation& voc = res.first->second;
 
 		if ((attr = vocationNode.attribute("name"))) {
 			voc.name = attr.as_string();
@@ -165,8 +165,8 @@ Vocation* Vocations::getVocation(uint16_t id) {
 	return &it->second;
 }
 
-uint16_t Vocations::getVocationId(const std::string &name) const {
-	for (const auto &it : vocationsMap) {
+uint16_t Vocations::getVocationId(const std::string& name) const {
+	for (const auto& it : vocationsMap) {
 		if (strcasecmp(it.second.name.c_str(), name.c_str()) == 0) {
 			return it.first;
 		}
@@ -175,7 +175,7 @@ uint16_t Vocations::getVocationId(const std::string &name) const {
 }
 
 uint16_t Vocations::getPromotedVocation(uint16_t vocationId) const {
-	for (const auto &it : vocationsMap) {
+	for (const auto& it : vocationsMap) {
 		if (it.second.fromVocation == vocationId && it.first != vocationId) {
 			return it.first;
 		}

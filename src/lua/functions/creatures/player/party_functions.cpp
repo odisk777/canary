@@ -39,7 +39,7 @@ int PartyFunctions::luaPartyDisband(lua_State* L) {
 	// party:disband()
 	Party** partyPtr = getRawUserdata<Party>(L, 1);
 	if (partyPtr && *partyPtr) {
-		Party*&party = *partyPtr;
+		Party*& party = *partyPtr;
 		party->disband();
 		party = nullptr;
 		pushBoolean(L, true);

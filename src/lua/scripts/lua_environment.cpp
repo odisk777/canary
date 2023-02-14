@@ -43,15 +43,15 @@ bool LuaEnvironment::closeState() {
 		return false;
 	}
 
-	for (const auto &combatEntry : combatIdMap) {
+	for (const auto& combatEntry : combatIdMap) {
 		clearCombatObjects(combatEntry.first);
 	}
 
-	for (const auto &areaEntry : areaIdMap) {
+	for (const auto& areaEntry : areaIdMap) {
 		clearAreaObjects(areaEntry.first);
 	}
 
-	for (auto &timerEntry : timerEvents) {
+	for (auto& timerEntry : timerEvents) {
 		LuaTimerEventDesc timerEventDesc = std::move(timerEntry.second);
 		for (int32_t parameter : timerEventDesc.parameters) {
 			luaL_unref(luaState, LUA_REGISTRYINDEX, parameter);

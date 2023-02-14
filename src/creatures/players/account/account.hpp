@@ -83,7 +83,7 @@ public:
 	 *
 	 * @param name Set Account Name to be used by LoadAccountDB
 	 */
-	explicit Account(const std::string &name);
+	explicit Account(const std::string& name);
 
 	/***************************************************************************
 	 * Interfaces
@@ -143,7 +143,7 @@ public:
 	 * @param description Description of the transaction
 	 * @return error_t ERROR_NO(0) Success, otherwise Fail.
 	 */
-	error_t RegisterCoinsTransaction(CoinTransactionType type, uint32_t coins, const std::string &description);
+	error_t RegisterCoinsTransaction(CoinTransactionType type, uint32_t coins, const std::string& description);
 
 	/***************************************************************************
 	 * Database
@@ -201,14 +201,14 @@ public:
 	error_t SetAccountType(AccountType account_type);
 	error_t GetAccountType(AccountType* account_type);
 
-	error_t GetAccountPlayer(Player* player, std::string &characterName);
+	error_t GetAccountPlayer(Player* player, std::string& characterName);
 	error_t GetAccountPlayers(std::vector<Player>* players);
 
 private:
 	error_t SetID(uint32_t id);
-	error_t LoadAccountDB(std::ostringstream &query);
+	error_t LoadAccountDB(std::ostringstream& query);
 	error_t LoadAccountPlayersDB(std::vector<Player>* players);
-	error_t LoadAccountPlayerDB(Player* player, std::string &characterName);
+	error_t LoadAccountPlayerDB(Player* player, std::string& characterName);
 
 	Database* db_;
 	DatabaseTasks* db_tasks_;

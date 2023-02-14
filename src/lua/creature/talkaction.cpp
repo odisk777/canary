@@ -35,10 +35,10 @@ bool TalkActions::registerLuaEvent(TalkAction* event) {
 	return true;
 }
 
-TalkActionResult_t TalkActions::playerSaySpell(Player* player, SpeakClasses type, const std::string &words) const {
+TalkActionResult_t TalkActions::playerSaySpell(Player* player, SpeakClasses type, const std::string& words) const {
 	size_t wordsLength = words.length();
 	for (auto it = talkActions.begin(); it != talkActions.end();) {
-		const std::string &talkactionWords = it->first;
+		const std::string& talkactionWords = it->first;
 		size_t talkactionLength = talkactionWords.length();
 		if (wordsLength < talkactionLength || strncasecmp(words.c_str(), talkactionWords.c_str(), talkactionLength) != 0) {
 			++it;
@@ -76,7 +76,7 @@ TalkActionResult_t TalkActions::playerSaySpell(Player* player, SpeakClasses type
 	return TALKACTION_CONTINUE;
 }
 
-bool TalkAction::executeSay(Player* player, const std::string &words, const std::string &param, SpeakClasses type) const {
+bool TalkAction::executeSay(Player* player, const std::string& words, const std::string& param, SpeakClasses type) const {
 	// onSay(player, words, param, type)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[TalkAction::executeSay - Player {} words {}] "

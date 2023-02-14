@@ -143,7 +143,7 @@ int SpellFunctions::luaSpellRegister(lua_State* L) {
 		RuneSpell* rune = dynamic_cast<RuneSpell*>(getUserdata<Spell>(L, 1));
 		if (rune->getMagicLevel() != 0 || rune->getLevel() != 0) {
 			// Change information in the ItemType to get accurate description
-			ItemType &iType = Item::items.getItemType(rune->getRuneItemId());
+			ItemType& iType = Item::items.getItemType(rune->getRuneItemId());
 			// If the item is not registered in items.xml then we will register it by rune name
 			if (iType.name.empty()) {
 				iType.name = rune->getName();

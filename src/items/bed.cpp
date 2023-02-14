@@ -19,7 +19,7 @@ BedItem::BedItem(uint16_t id) :
 	internalRemoveSleeper();
 }
 
-Attr_ReadValue BedItem::readAttr(AttrTypes_t attr, PropStream &propStream) {
+Attr_ReadValue BedItem::readAttr(AttrTypes_t attr, PropStream& propStream) {
 	switch (attr) {
 		case ATTR_SLEEPERGUID: {
 			uint32_t guid;
@@ -54,7 +54,7 @@ Attr_ReadValue BedItem::readAttr(AttrTypes_t attr, PropStream &propStream) {
 	return Item::readAttr(attr, propStream);
 }
 
-void BedItem::serializeAttr(PropWriteStream &propWriteStream) const {
+void BedItem::serializeAttr(PropWriteStream& propWriteStream) const {
 	if (sleeperGUID != 0) {
 		propWriteStream.write<uint8_t>(ATTR_SLEEPERGUID);
 		propWriteStream.write<uint32_t>(sleeperGUID);
@@ -222,15 +222,15 @@ void BedItem::regeneratePlayer(Player* player) const {
 }
 
 void BedItem::updateAppearance(const Player* player) {
-	const ItemType &it = Item::items[id];
+	const ItemType& it = Item::items[id];
 	if (it.type == ITEM_TYPE_BED) {
 		if ((player != nullptr) && it.transformToOnUse[player->getSex()] != 0) {
-			const ItemType &newType = Item::items[it.transformToOnUse[player->getSex()]];
+			const ItemType& newType = Item::items[it.transformToOnUse[player->getSex()]];
 			if (newType.type == ITEM_TYPE_BED) {
 				g_game().transformItem(this, it.transformToOnUse[player->getSex()]);
 			}
 		} else if (it.transformToFree != 0) {
-			const ItemType &newType = Item::items[it.transformToFree];
+			const ItemType& newType = Item::items[it.transformToFree];
 			if (newType.type == ITEM_TYPE_BED) {
 				g_game().transformItem(this, it.transformToFree);
 			}

@@ -18,10 +18,10 @@ public:
 	~Scripts();
 
 	// non-copyable
-	Scripts(const Scripts &) = delete;
-	Scripts &operator=(const Scripts &) = delete;
+	Scripts(const Scripts&) = delete;
+	Scripts& operator=(const Scripts&) = delete;
 
-	static Scripts &getInstance() {
+	static Scripts& getInstance() {
 		// Guaranteed to be destroyed
 		static Scripts instance;
 		// Instantiated on first use
@@ -30,9 +30,9 @@ public:
 
 	void clearAllScripts() const;
 
-	bool loadEventSchedulerScripts(const std::string &fileName);
+	bool loadEventSchedulerScripts(const std::string& fileName);
 	bool loadScripts(std::string folderName, bool isLib, bool reload);
-	LuaScriptInterface &getScriptInterface() {
+	LuaScriptInterface& getScriptInterface() {
 		return scriptInterface;
 	}
 	/**

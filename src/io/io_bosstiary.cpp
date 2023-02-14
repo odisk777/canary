@@ -17,7 +17,7 @@
 #include "utils/tools.h"
 
 void IOBosstiary::loadBoostedBoss() {
-	Database &database = Database::getInstance();
+	Database& database = Database::getInstance();
 	std::ostringstream query;
 	query << "SELECT * FROM `boosted_boss`";
 	DBResult_ptr result = database.storeQuery(query.str());
@@ -52,7 +52,7 @@ void IOBosstiary::loadBoostedBoss() {
 	while (true) {
 		uint32_t randomIndex = uniform_random(0, static_cast<int32_t>(bossMap.size()));
 		auto it = std::next(bossMap.begin(), randomIndex);
-		const auto &[randomBossId, randomBossName] = *it;
+		const auto& [randomBossId, randomBossName] = *it;
 
 		auto mapBossRaceId = randomBossId;
 		if (mapBossRaceId == oldBossRace) {
@@ -99,7 +99,7 @@ void IOBosstiary::loadBoostedBoss() {
 	SPDLOG_INFO("Boosted boss: {}", bossName);
 }
 
-void IOBosstiary::addBosstiaryMonster(uint32_t raceId, const std::string &name) {
+void IOBosstiary::addBosstiaryMonster(uint32_t raceId, const std::string& name) {
 	if (auto it = bosstiaryMap.find(raceId);
 		it != bosstiaryMap.end()) {
 		return;
@@ -110,11 +110,11 @@ void IOBosstiary::addBosstiaryMonster(uint32_t raceId, const std::string &name) 
 	bosstiaryMap.insert(boss);
 }
 
-const std::map<uint32_t, std::string> &IOBosstiary::getBosstiaryMap() const {
+const std::map<uint32_t, std::string>& IOBosstiary::getBosstiaryMap() const {
 	return bosstiaryMap;
 }
 
-void IOBosstiary::setBossBoostedName(const std::string_view &name) {
+void IOBosstiary::setBossBoostedName(const std::string_view& name) {
 	boostedBoss = name;
 }
 
@@ -131,7 +131,7 @@ uint32_t IOBosstiary::getBoostedBossId() const {
 }
 
 MonsterType* IOBosstiary::getMonsterTypeByBossRaceId(uint32_t raceId) const {
-	for ([[maybe_unused]] const auto &[bossRaceId, bossName] : getBosstiaryMap()) {
+	for ([[maybe_unused]] const auto& [bossRaceId, bossName] : getBosstiaryMap()) {
 		if (bossRaceId == raceId) {
 			MonsterType* monsterType = g_monsters().getMonsterType(bossName);
 			if (!monsterType) {
@@ -165,7 +165,7 @@ void IOBosstiary::addBosstiaryKill(Player* player, const MonsterType* mtype, uin
 	player->sendBosstiaryEntryChanged(bossId);
 
 	auto bossRace = mtype->info.bosstiaryRace;
-	const std::vector<LevelInfo> &infoForCurrentRace = levelInfos.at(bossRace);
+	const std::vector<LevelInfo>& infoForCurrentRace = levelInfos.at(bossRace);
 
 	auto pointsForCurrentLevel = infoForCurrentRace[newBossLevel - 1].points;
 	player->addBossPoints(pointsForCurrentLevel);
@@ -217,7 +217,7 @@ std::vector<uint32_t> IOBosstiary::getBosstiaryFinished(const Player* player, ui
 	}
 
 	for (std::map<uint32_t, std::string> bossesMap = getBosstiaryMap();
-		 const auto &[bossId, bossName] : bossesMap) {
+		 const auto& [bossId, bossName] : bossesMap) {
 		uint32_t bossKills = player->getBestiaryKillCount(static_cast<uint16_t>(bossId));
 		if (bossKills == 0) {
 			continue;
@@ -231,7 +231,7 @@ std::vector<uint32_t> IOBosstiary::getBosstiaryFinished(const Player* player, ui
 		auto bossRace = mType->info.bosstiaryRace;
 		auto it = levelInfos.find(bossRace);
 		if (it != levelInfos.end()) {
-			const std::vector<LevelInfo> &infoForCurrentRace = it->second;
+			const std::vector<LevelInfo>& infoForCurrentRace = it->second;
 			auto levelKills = infoForCurrentRace.at(level - 1).kills;
 			if (bossKills >= levelKills) {
 				unlockedMonsters.push_back(bossId);
@@ -259,8 +259,8 @@ uint8_t IOBosstiary::getBossCurrentLevel(const Player* player, uint32_t bossId) 
 	uint8_t level = 0;
 	if (auto it = levelInfos.find(bossRace);
 		it != levelInfos.end()) {
-		const std::vector<LevelInfo> &infoForCurrentRace = it->second;
-		for (const auto &raceInfo : infoForCurrentRace) {
+		const std::vector<LevelInfo>& infoForCurrentRace = it->second;
+		for (const auto& raceInfo : infoForCurrentRace) {
 			if (currentKills >= raceInfo.kills) {
 				++level;
 			}
@@ -285,7 +285,7 @@ std::vector<uint32_t> IOBosstiary::getBosstiaryCooldown(const Player* player) co
 	}
 
 	for (std::map<uint32_t, std::string> bossesMap = getBosstiaryMap();
-		 const auto &[bossId, bossName] : bossesMap) {
+		 const auto& [bossId, bossName] : bossesMap) {
 		uint32_t bossKills = player->getBestiaryKillCount(static_cast<uint16_t>(bossId));
 		if (bossKills == 0) {
 			continue;

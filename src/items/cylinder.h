@@ -31,7 +31,7 @@ public:
 	 * \param actor the creature trying to add the thing
 	 * \returns ReturnValue holds the return value
 	 */
-	virtual ReturnValue queryAdd(int32_t index, const Thing &thing, uint32_t count, uint32_t flags, Creature* actor = nullptr) const = 0;
+	virtual ReturnValue queryAdd(int32_t index, const Thing& thing, uint32_t count, uint32_t flags, Creature* actor = nullptr) const = 0;
 
 	/**
 	 * Query the cylinder how much it can accept
@@ -43,7 +43,7 @@ public:
 	 * \param flags optional flags to modify the default behaviour
 	 * \returns ReturnValue holds the return value
 	 */
-	virtual ReturnValue queryMaxCount(int32_t index, const Thing &thing, uint32_t count, uint32_t &maxQueryCount, uint32_t flags) const = 0;
+	virtual ReturnValue queryMaxCount(int32_t index, const Thing& thing, uint32_t count, uint32_t& maxQueryCount, uint32_t flags) const = 0;
 
 	/**
 	 * Query if the cylinder can remove an object
@@ -52,7 +52,7 @@ public:
 	 * \param flags optional flags to modify the default behaviour
 	 * \returns ReturnValue holds the return value
 	 */
-	virtual ReturnValue queryRemove(const Thing &thing, uint32_t count, uint32_t flags, Creature* = nullptr) const = 0;
+	virtual ReturnValue queryRemove(const Thing& thing, uint32_t count, uint32_t flags, Creature* = nullptr) const = 0;
 
 	/**
 	 * Query the destination cylinder
@@ -64,7 +64,7 @@ public:
 	 * this method can modify the flags
 	 * \returns Cylinder returns the destination cylinder
 	 */
-	virtual Cylinder* queryDestination(int32_t &index, const Thing &thing, Item** destItem, uint32_t &flags) = 0;
+	virtual Cylinder* queryDestination(int32_t& index, const Thing& thing, Item** destItem, uint32_t& flags) = 0;
 
 	/**
 	 * Add the object to the cylinder
@@ -155,7 +155,7 @@ public:
 	 * \param countMap a map to put the itemID:count mapping in
 	 * \returns a map mapping item id to count (same as first argument)
 	 */
-	virtual std::map<uint32_t, uint32_t> &getAllItemTypeCount(std::map<uint32_t, uint32_t> &countMap) const;
+	virtual std::map<uint32_t, uint32_t>& getAllItemTypeCount(std::map<uint32_t, uint32_t>& countMap) const;
 
 	/**
 	 * Adds an object to the cylinder without sending to the client(s)
@@ -177,16 +177,16 @@ class VirtualCylinder final : public Cylinder {
 public:
 	static VirtualCylinder* virtualCylinder;
 
-	virtual ReturnValue queryAdd(int32_t, const Thing &, uint32_t, uint32_t, Creature* = nullptr) const override {
+	virtual ReturnValue queryAdd(int32_t, const Thing&, uint32_t, uint32_t, Creature* = nullptr) const override {
 		return RETURNVALUE_NOTPOSSIBLE;
 	}
-	virtual ReturnValue queryMaxCount(int32_t, const Thing &, uint32_t, uint32_t &, uint32_t) const override {
+	virtual ReturnValue queryMaxCount(int32_t, const Thing&, uint32_t, uint32_t&, uint32_t) const override {
 		return RETURNVALUE_NOTPOSSIBLE;
 	}
-	virtual ReturnValue queryRemove(const Thing &, uint32_t, uint32_t, Creature* = nullptr) const override {
+	virtual ReturnValue queryRemove(const Thing&, uint32_t, uint32_t, Creature* = nullptr) const override {
 		return RETURNVALUE_NOTPOSSIBLE;
 	}
-	virtual Cylinder* queryDestination(int32_t &, const Thing &, Item**, uint32_t &) override {
+	virtual Cylinder* queryDestination(int32_t&, const Thing&, Item**, uint32_t&) override {
 		return nullptr;
 	}
 

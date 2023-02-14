@@ -15,7 +15,7 @@
 #include "game/game.h"
 #include "game/scheduling/scheduler.h"
 
-uint8_t IOMarket::getTierFromDatabaseTable(const std::string &string) {
+uint8_t IOMarket::getTierFromDatabaseTable(const std::string& string) {
 	auto tier = static_cast<uint8_t>(std::atoi(string.c_str()));
 	if (tier > g_configManager().getNumber(FORGE_MAX_ITEM_TIER)) {
 		SPDLOG_ERROR("{} - Failed to get number value {} for tier table result", __FUNCTION__, tier);
@@ -126,7 +126,7 @@ void IOMarket::processExpiredOffers(DBResult_ptr result, bool) {
 		const uint16_t amount = result->getNumber<uint16_t>("amount");
 		auto tier = getTierFromDatabaseTable(result->getString("tier"));
 		if (result->getNumber<uint16_t>("sale") == 1) {
-			const ItemType &itemType = Item::items[result->getNumber<uint16_t>("itemtype")];
+			const ItemType& itemType = Item::items[result->getNumber<uint16_t>("itemtype")];
 			if (itemType.id == 0) {
 				continue;
 			}
@@ -279,7 +279,7 @@ void IOMarket::appendHistory(uint32_t playerId, MarketAction_t type, uint16_t it
 }
 
 bool IOMarket::moveOfferToHistory(uint32_t offerId, MarketOfferState_t state) {
-	Database &db = Database::getInstance();
+	Database& db = Database::getInstance();
 
 	std::ostringstream query;
 	query << "SELECT `player_id`, `sale`, `itemtype`, `amount`, `price`, `created`, `tier` FROM `market_offers` WHERE `id` = " << offerId;

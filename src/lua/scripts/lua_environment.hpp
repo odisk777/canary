@@ -27,8 +27,8 @@ public:
 	~LuaEnvironment();
 
 	// non-copyable
-	LuaEnvironment(const LuaEnvironment &) = delete;
-	LuaEnvironment &operator=(const LuaEnvironment &) = delete;
+	LuaEnvironment(const LuaEnvironment&) = delete;
+	LuaEnvironment& operator=(const LuaEnvironment&) = delete;
 
 	bool initState() override;
 	bool reInitState();

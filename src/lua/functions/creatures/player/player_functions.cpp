@@ -583,7 +583,7 @@ int PlayerFunctions::luaPlayerGetKills(lua_State* L) {
 
 	lua_createtable(L, player->unjustifiedKills.size(), 0);
 	int idx = 0;
-	for (const auto &kill : player->unjustifiedKills) {
+	for (const auto& kill : player->unjustifiedKills) {
 		lua_createtable(L, 3, 0);
 		lua_pushnumber(L, kill.target);
 		lua_rawseti(L, -2, 1);
@@ -671,7 +671,7 @@ int PlayerFunctions::luaPlayerGetRewardList(lua_State* L) {
 	lua_createtable(L, rewardVec.size(), 0);
 
 	int index = 0;
-	for (const auto &rewardId : rewardVec) {
+	for (const auto& rewardId : rewardVec) {
 		lua_pushnumber(L, static_cast<lua_Number>(rewardId));
 		lua_rawseti(L, -2, ++index);
 	}
@@ -1215,7 +1215,7 @@ int PlayerFunctions::luaPlayerGetStashItemCount(lua_State* L) {
 		}
 	}
 
-	const ItemType &itemType = Item::items[itemId];
+	const ItemType& itemType = Item::items[itemId];
 	if (itemType.id == 0) {
 		lua_pushnil(L);
 		return 1;
@@ -1427,7 +1427,7 @@ int PlayerFunctions::luaPlayerGetGuildNick(lua_State* L) {
 
 int PlayerFunctions::luaPlayerSetGuildNick(lua_State* L) {
 	// player:setGuildNick(nick)
-	const std::string &nick = getString(L, 2);
+	const std::string& nick = getString(L, 2);
 	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->setGuildNick(nick);
@@ -1623,7 +1623,7 @@ int PlayerFunctions::luaPlayerAddItem(lua_State* L) {
 	int32_t count = getNumber<int32_t>(L, 3, 1);
 	int32_t subType = getNumber<int32_t>(L, 5, 1);
 
-	const ItemType &it = Item::items[itemId];
+	const ItemType& it = Item::items[itemId];
 
 	int32_t itemCount = 1;
 	int parameters = lua_gettop(L);
@@ -1750,7 +1750,7 @@ int PlayerFunctions::luaPlayerRemoveStashItem(lua_State* L) {
 		}
 	}
 
-	const ItemType &itemType = Item::items[itemId];
+	const ItemType& itemType = Item::items[itemId];
 	if (itemType.id == 0) {
 		lua_pushnil(L);
 		return 1;
@@ -1949,8 +1949,8 @@ int PlayerFunctions::luaPlayerSendChannelMessage(lua_State* L) {
 
 	uint16_t channelId = getNumber<uint16_t>(L, 5);
 	SpeakClasses type = getNumber<SpeakClasses>(L, 4);
-	const std::string &text = getString(L, 3);
-	const std::string &author = getString(L, 2);
+	const std::string& text = getString(L, 3);
+	const std::string& author = getString(L, 2);
 	player->sendChannelMessage(author, text, type, channelId);
 	pushBoolean(L, true);
 	return 1;
@@ -1965,7 +1965,7 @@ int PlayerFunctions::luaPlayerSendPrivateMessage(lua_State* L) {
 	}
 
 	const Player* speaker = getUserdata<const Player>(L, 2);
-	const std::string &text = getString(L, 3);
+	const std::string& text = getString(L, 3);
 	SpeakClasses type = getNumber<SpeakClasses>(L, 4, TALKTYPE_PRIVATE_FROM);
 	player->sendPrivateMessage(speaker, type, text);
 	pushBoolean(L, true);
@@ -1982,7 +1982,7 @@ int PlayerFunctions::luaPlayerChannelSay(lua_State* L) {
 
 	Creature* speaker = getCreature(L, 2);
 	SpeakClasses type = getNumber<SpeakClasses>(L, 3);
-	const std::string &text = getString(L, 4);
+	const std::string& text = getString(L, 4);
 	uint16_t channelId = getNumber<uint16_t>(L, 5);
 	player->sendToChannel(speaker, type, text, channelId);
 	pushBoolean(L, true);
@@ -2433,7 +2433,7 @@ int PlayerFunctions::luaPlayerCanLearnSpell(lua_State* L) {
 		return 1;
 	}
 
-	const std::string &spellName = getString(L, 2);
+	const std::string& spellName = getString(L, 2);
 	const InstantSpell* spell = g_spells().getInstantSpellByName(spellName);
 	if (!spell) {
 		reportErrorFunc("Spell \"" + spellName + "\" not found");
@@ -2446,7 +2446,7 @@ int PlayerFunctions::luaPlayerCanLearnSpell(lua_State* L) {
 		return 1;
 	}
 
-	const auto &vocMap = spell->getVocMap();
+	const auto& vocMap = spell->getVocMap();
 	if (vocMap.count(player->getVocationId()) == 0) {
 		pushBoolean(L, false);
 	} else if (player->getLevel() < spell->getLevel()) {
@@ -2463,7 +2463,7 @@ int PlayerFunctions::luaPlayerLearnSpell(lua_State* L) {
 	// player:learnSpell(spellName)
 	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
-		const std::string &spellName = getString(L, 2);
+		const std::string& spellName = getString(L, 2);
 		player->learnInstantSpell(spellName);
 		pushBoolean(L, true);
 	} else {
@@ -2476,7 +2476,7 @@ int PlayerFunctions::luaPlayerForgetSpell(lua_State* L) {
 	// player:forgetSpell(spellName)
 	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
-		const std::string &spellName = getString(L, 2);
+		const std::string& spellName = getString(L, 2);
 		player->forgetInstantSpell(spellName);
 		pushBoolean(L, true);
 	} else {
@@ -2489,7 +2489,7 @@ int PlayerFunctions::luaPlayerHasLearnedSpell(lua_State* L) {
 	// player:hasLearnedSpell(spellName)
 	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
-		const std::string &spellName = getString(L, 2);
+		const std::string& spellName = getString(L, 2);
 		pushBoolean(L, player->hasLearnedInstantSpell(spellName));
 	} else {
 		lua_pushnil(L);
@@ -2547,9 +2547,9 @@ int PlayerFunctions::luaPlayerAddMapMark(lua_State* L) {
 	// player:addMapMark(position, type, description)
 	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
-		const Position &position = getPosition(L, 2);
+		const Position& position = getPosition(L, 2);
 		uint8_t type = getNumber<uint8_t>(L, 3);
-		const std::string &description = getString(L, 4);
+		const std::string& description = getString(L, 4);
 		player->sendAddMarker(position, type, description);
 		pushBoolean(L, true);
 	} else {
@@ -2577,7 +2577,7 @@ int PlayerFunctions::luaPlayerPopupFYI(lua_State* L) {
 	// player:popupFYI(message)
 	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
-		const std::string &message = getString(L, 2);
+		const std::string& message = getString(L, 2);
 		player->sendFYIBox(message);
 		pushBoolean(L, true);
 	} else {
@@ -2685,7 +2685,7 @@ int PlayerFunctions::luaPlayerSetGhostMode(lua_State* L) {
 	player->switchGhostMode();
 
 	Tile* tile = player->getTile();
-	const Position &position = player->getPosition();
+	const Position& position = player->getPosition();
 
 	SpectatorHashSet spectators;
 	g_game().map.getSpectators(spectators, position, true, true);
@@ -2703,14 +2703,14 @@ int PlayerFunctions::luaPlayerSetGhostMode(lua_State* L) {
 	}
 
 	if (player->isInGhostMode()) {
-		for (const auto &it : g_game().getPlayers()) {
+		for (const auto& it : g_game().getPlayers()) {
 			if (!it.second->isAccessPlayer()) {
 				it.second->notifyStatusChange(player, VIPSTATUS_OFFLINE);
 			}
 		}
 		IOLoginData::updateOnlineStatus(player->getGUID(), false);
 	} else {
-		for (const auto &it : g_game().getPlayers()) {
+		for (const auto& it : g_game().getPlayers()) {
 			if (!it.second->isAccessPlayer()) {
 				it.second->notifyStatusChange(player, player->statusVipList);
 			}
@@ -2776,7 +2776,7 @@ int PlayerFunctions::luaPlayerGetInstantSpells(lua_State* L) {
 	}
 
 	std::vector<const InstantSpell*> spells;
-	for (auto &[key, spell] : g_spells().getInstantSpells()) {
+	for (auto& [key, spell] : g_spells().getInstantSpells()) {
 		if (spell.canCast(player)) {
 			spells.push_back(&spell);
 		}

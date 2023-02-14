@@ -62,18 +62,18 @@ public:
 		type(type), value(getDefaultValueForType(type)) { }
 	~Attributes() = default;
 
-	Attributes(const Attributes &i) :
+	Attributes(const Attributes& i) :
 		type(i.type), value(i.value) { }
-	Attributes(Attributes &&attribute) noexcept :
+	Attributes(Attributes&& attribute) noexcept :
 		type(attribute.type), value(std::move(attribute.value)) { }
 
-	Attributes &operator=(Attributes &&other) noexcept {
+	Attributes& operator=(Attributes&& other) noexcept {
 		type = other.type;
 		value = std::move(other.value);
 		return *this;
 	}
 
-	const ItemAttribute_t &getAttributeType() const {
+	const ItemAttribute_t& getAttributeType() const {
 		return type;
 	}
 
@@ -92,12 +92,12 @@ public:
 			value = newValue;
 		}
 	}
-	void setValue(const std::string &newValue) {
+	void setValue(const std::string& newValue) {
 		if (std::holds_alternative<std::shared_ptr<std::string>>(value)) {
 			value = std::make_shared<std::string>(newValue);
 		}
 	}
-	const int64_t &getInteger() const {
+	const int64_t& getInteger() const {
 		if (std::holds_alternative<int64_t>(value)) {
 			return std::get<int64_t>(value);
 		}
@@ -105,7 +105,7 @@ public:
 		return emptyValue;
 	}
 
-	const std::shared_ptr<std::string> &getString() const {
+	const std::shared_ptr<std::string>& getString() const {
 		if (std::holds_alternative<std::shared_ptr<std::string>>(value)) {
 			return std::get<std::shared_ptr<std::string>>(value);
 		}
@@ -123,29 +123,29 @@ public:
 	ItemAttribute() = default;
 
 	// CustomAttribute map methods
-	const std::map<std::string, CustomAttribute, std::less<>> &getCustomAttributeMap() const;
+	const std::map<std::string, CustomAttribute, std::less<>>& getCustomAttributeMap() const;
 	// CustomAttribute object methods
-	const CustomAttribute* getCustomAttribute(const std::string &attributeName) const;
+	const CustomAttribute* getCustomAttribute(const std::string& attributeName) const;
 
-	void setCustomAttribute(const std::string &key, const int64_t value);
-	void setCustomAttribute(const std::string &key, const std::string &value);
-	void setCustomAttribute(const std::string &key, const double value);
-	void setCustomAttribute(const std::string &key, const bool value);
+	void setCustomAttribute(const std::string& key, const int64_t value);
+	void setCustomAttribute(const std::string& key, const std::string& value);
+	void setCustomAttribute(const std::string& key, const double value);
+	void setCustomAttribute(const std::string& key, const bool value);
 
-	void addCustomAttribute(const std::string &key, const CustomAttribute &customAttribute);
-	bool removeCustomAttribute(const std::string &attributeName);
+	void addCustomAttribute(const std::string& key, const CustomAttribute& customAttribute);
+	bool removeCustomAttribute(const std::string& attributeName);
 
 	void setAttribute(ItemAttribute_t type, int64_t value);
-	void setAttribute(ItemAttribute_t type, const std::string &value);
+	void setAttribute(ItemAttribute_t type, const std::string& value);
 	bool removeAttribute(ItemAttribute_t type);
 
-	const std::string &getAttributeString(ItemAttribute_t type) const;
-	const int64_t &getAttributeValue(ItemAttribute_t type) const;
+	const std::string& getAttributeString(ItemAttribute_t type) const;
+	const int64_t& getAttributeValue(ItemAttribute_t type) const;
 
-	const std::underlying_type_t<ItemAttribute_t> &getAttributeBits() const {
+	const std::underlying_type_t<ItemAttribute_t>& getAttributeBits() const {
 		return attributeBits;
 	}
-	const std::vector<Attributes> &getAttributeVector() const {
+	const std::vector<Attributes>& getAttributeVector() const {
 		return attributeVector;
 	}
 
@@ -155,12 +155,12 @@ public:
 
 	const Attributes* getAttribute(ItemAttribute_t type) const;
 
-	Attributes &getAttributesByType(ItemAttribute_t type);
+	Attributes& getAttributesByType(ItemAttribute_t type);
 
 private:
 	// Singleton - ensures we don't accidentally copy it.
-	ItemAttribute(const ItemAttribute &) = delete;
-	ItemAttribute &operator=(const ItemAttribute &) = delete;
+	ItemAttribute(const ItemAttribute&) = delete;
+	ItemAttribute& operator=(const ItemAttribute&) = delete;
 
 	std::map<std::string, CustomAttribute, std::less<>> customAttributeMap;
 	std::underlying_type_t<ItemAttribute_t> attributeBits = 0;

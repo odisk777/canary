@@ -14,7 +14,7 @@ struct WaitListInfo;
 
 class WaitingList {
 public:
-	static WaitingList &getInstance();
+	static WaitingList& getInstance();
 
 	bool clientLogin(const Player* player);
 	std::size_t getClientSlot(const Player* player);

@@ -49,10 +49,10 @@ public:
 	bool reload();
 
 	// non-copyable
-	Imbuements(const Imbuements &) = delete;
-	Imbuements &operator=(const Imbuements &) = delete;
+	Imbuements(const Imbuements&) = delete;
+	Imbuements& operator=(const Imbuements&) = delete;
 
-	static Imbuements &getInstance() {
+	static Imbuements& getInstance() {
 		// Guaranteed to be destroyed
 		static Imbuements instance;
 		// Instantiated on first use
@@ -115,7 +115,7 @@ public:
 		return category;
 	}
 
-	const std::vector<std::pair<uint16_t, uint16_t>> &getItems() const {
+	const std::vector<std::pair<uint16_t, uint16_t>>& getItems() const {
 		return items;
 	}
 

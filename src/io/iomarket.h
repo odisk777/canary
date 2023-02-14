@@ -17,7 +17,7 @@ class IOMarket {
 	using StatisticsMap = std::map<uint16_t, std::map<uint8_t, MarketStatistics>>;
 
 public:
-	static IOMarket &getInstance() {
+	static IOMarket& getInstance() {
 		static IOMarket instance;
 		return instance;
 	}
@@ -48,7 +48,7 @@ public:
 		return saleStatistics;
 	}
 
-	static uint8_t getTierFromDatabaseTable(const std::string &string);
+	static uint8_t getTierFromDatabaseTable(const std::string& string);
 
 private:
 	IOMarket() = default;

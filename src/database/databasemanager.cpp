@@ -15,7 +15,7 @@
 #include "lua/scripts/luascript.h"
 
 bool DatabaseManager::optimizeTables() {
-	Database &db = Database::getInstance();
+	Database& db = Database::getInstance();
 	std::ostringstream query;
 
 	query << "SELECT `TABLE_NAME` FROM `information_schema`.`TABLES` WHERE `TABLE_SCHEMA` = " << db.escapeString(g_configManager().getString(MYSQL_DB)) << " AND `DATA_FREE` > 0";
@@ -43,8 +43,8 @@ bool DatabaseManager::optimizeTables() {
 	return true;
 }
 
-bool DatabaseManager::tableExists(const std::string &tableName) {
-	Database &db = Database::getInstance();
+bool DatabaseManager::tableExists(const std::string& tableName) {
+	Database& db = Database::getInstance();
 
 	std::ostringstream query;
 	query << "SELECT `TABLE_NAME` FROM `information_schema`.`tables` WHERE `TABLE_SCHEMA` = " << db.escapeString(g_configManager().getString(MYSQL_DB)) << " AND `TABLE_NAME` = " << db.escapeString(tableName) << " LIMIT 1";
@@ -52,7 +52,7 @@ bool DatabaseManager::tableExists(const std::string &tableName) {
 }
 
 bool DatabaseManager::isDatabaseSetup() {
-	Database &db = Database::getInstance();
+	Database& db = Database::getInstance();
 	std::ostringstream query;
 	query << "SELECT `TABLE_NAME` FROM `information_schema`.`tables` WHERE `TABLE_SCHEMA` = " << db.escapeString(g_configManager().getString(MYSQL_DB));
 	return db.storeQuery(query.str()).get() != nullptr;
@@ -60,7 +60,7 @@ bool DatabaseManager::isDatabaseSetup() {
 
 int32_t DatabaseManager::getDatabaseVersion() {
 	if (!tableExists("server_config")) {
-		Database &db = Database::getInstance();
+		Database& db = Database::getInstance();
 		db.executeQuery("CREATE TABLE `server_config` (`config` VARCHAR(50) NOT NULL, `value` VARCHAR(256) NOT NULL DEFAULT '', UNIQUE(`config`)) ENGINE = InnoDB");
 		db.executeQuery("INSERT INTO `server_config` VALUES ('db_version', 0)");
 		return 0;
@@ -119,8 +119,8 @@ void DatabaseManager::updateDatabase() {
 	lua_close(L);
 }
 
-bool DatabaseManager::getDatabaseConfig(const std::string &config, int32_t &value) {
-	Database &db = Database::getInstance();
+bool DatabaseManager::getDatabaseConfig(const std::string& config, int32_t& value) {
+	Database& db = Database::getInstance();
 	std::ostringstream query;
 	query << "SELECT `value` FROM `server_config` WHERE `config` = " << db.escapeString(config);
 
@@ -133,8 +133,8 @@ bool DatabaseManager::getDatabaseConfig(const std::string &config, int32_t &valu
 	return true;
 }
 
-void DatabaseManager::registerDatabaseConfig(const std::string &config, int32_t value) {
-	Database &db = Database::getInstance();
+void DatabaseManager::registerDatabaseConfig(const std::string& config, int32_t value) {
+	Database& db = Database::getInstance();
 	std::ostringstream query;
 
 	int32_t tmp;

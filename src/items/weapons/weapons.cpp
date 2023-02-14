@@ -53,13 +53,13 @@ int32_t Weapons::getMaxWeaponDamage(uint32_t level, int32_t attackSkill, int32_t
 	}
 }
 
-void Weapon::configureWeapon(const ItemType &it) {
+void Weapon::configureWeapon(const ItemType& it) {
 	id = it.id;
 }
 
 int32_t Weapon::playerWeaponCheck(Player* player, Creature* target, uint8_t shootRange) const {
-	const Position &playerPos = player->getPosition();
-	const Position &targetPos = target->getPosition();
+	const Position& playerPos = player->getPosition();
+	const Position& targetPos = target->getPosition();
 	if (playerPos.z != targetPos.z) {
 		return 0;
 	}
@@ -284,7 +284,7 @@ int32_t Weapon::getHealthCost(const Player* player) const {
 	return (player->getMaxHealth() * healthPercent) / 100;
 }
 
-bool Weapon::executeUseWeapon(Player* player, const LuaVariant &var) const {
+bool Weapon::executeUseWeapon(Player* player, const LuaVariant& var) const {
 	// onUseWeapon(player, var)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[Weapon::executeUseWeapon - Player {} weaponId {}]"
@@ -323,7 +323,7 @@ WeaponMelee::WeaponMelee(LuaScriptInterface* interface) :
 	params.combatType = COMBAT_PHYSICALDAMAGE;
 }
 
-void WeaponMelee::configureWeapon(const ItemType &it) {
+void WeaponMelee::configureWeapon(const ItemType& it) {
 	if (it.abilities) {
 		elementType = it.abilities->elementType;
 		elementDamage = it.abilities->elementDamage;
@@ -346,7 +346,7 @@ bool WeaponMelee::useWeapon(Player* player, Item* item, Creature* target) const 
 	return true;
 }
 
-bool WeaponMelee::getSkillType(const Player* player, const Item* item, skills_t &skill, uint32_t &skillpoint) const {
+bool WeaponMelee::getSkillType(const Player* player, const Item* item, skills_t& skill, uint32_t& skillpoint) const {
 	if (player->getAddAttackSkill() && player->getLastAttackBlockType() != BLOCK_IMMUNITY) {
 		skillpoint = 1;
 	} else {
@@ -420,7 +420,7 @@ WeaponDistance::WeaponDistance(LuaScriptInterface* interface) :
 	params.combatType = COMBAT_PHYSICALDAMAGE;
 }
 
-void WeaponDistance::configureWeapon(const ItemType &it) {
+void WeaponDistance::configureWeapon(const ItemType& it) {
 	params.distanceEffect = it.shootType;
 	if (it.abilities) {
 		elementType = it.abilities->elementType;
@@ -437,7 +437,7 @@ void WeaponDistance::configureWeapon(const ItemType &it) {
 
 bool WeaponDistance::useWeapon(Player* player, Item* item, Creature* target) const {
 	int32_t damageModifier;
-	const ItemType &it = Item::items[id];
+	const ItemType& it = Item::items[id];
 	if (it.weaponType == WEAPON_AMMO) {
 		Item* mainWeaponItem = player->getWeapon(true);
 		const Weapon* mainWeapon = g_weapons().getWeapon(mainWeaponItem);
@@ -458,8 +458,8 @@ bool WeaponDistance::useWeapon(Player* player, Item* item, Creature* target) con
 	if (it.hitChance == 0) {
 		// hit chance is based on distance to target and distance skill
 		uint32_t skill = player->getSkillLevel(SKILL_DISTANCE);
-		const Position &playerPos = player->getPosition();
-		const Position &targetPos = target->getPosition();
+		const Position& playerPos = player->getPosition();
+		const Position& targetPos = target->getPosition();
 		uint32_t distance = std::max<uint32_t>(Position::getDistanceX(playerPos, targetPos), Position::getDistanceY(playerPos, targetPos));
 
 		uint32_t maxHitChance;
@@ -576,7 +576,7 @@ bool WeaponDistance::useWeapon(Player* player, Item* item, Creature* target) con
 
 			Position destPos = target->getPosition();
 
-			for (const auto &dir : destList) {
+			for (const auto& dir : destList) {
 				// Blocking tiles or tiles without ground ain't valid targets for spears
 				Tile* tmpTile = g_game().map.getTile(static_cast<uint16_t>(destPos.x + dir.first), static_cast<uint16_t>(destPos.y + dir.second), destPos.z);
 				if (tmpTile && !tmpTile->hasFlag(TILESTATE_IMMOVABLEBLOCKSOLID) && tmpTile->getGround() != nullptr) {
@@ -633,7 +633,7 @@ int32_t WeaponDistance::getWeaponDamage(const Player* player, const Creature* ta
 	if (item->getWeaponType() == WEAPON_AMMO) {
 		Item* weapon = player->getWeapon(true);
 		if (weapon) {
-			const ItemType &it = Item::items[item->getID()];
+			const ItemType& it = Item::items[item->getID()];
 			if (it.abilities && it.abilities->elementDamage != 0) {
 				attackValue += it.abilities->elementDamage;
 				hasElement = true;
@@ -668,7 +668,7 @@ int32_t WeaponDistance::getWeaponDamage(const Player* player, const Creature* ta
 	return -normal_random(minValue, (maxValue * static_cast<int32_t>(player->getVocation()->distDamageMultiplier)));
 }
 
-bool WeaponDistance::getSkillType(const Player* player, const Item*, skills_t &skill, uint32_t &skillpoint) const {
+bool WeaponDistance::getSkillType(const Player* player, const Item*, skills_t& skill, uint32_t& skillpoint) const {
 	skill = SKILL_DISTANCE;
 
 	if (player->getAddAttackSkill()) {
@@ -694,10 +694,10 @@ bool WeaponDistance::getSkillType(const Player* player, const Item*, skills_t &s
 	return true;
 }
 
-void WeaponWand::configureWeapon(const ItemType &it) {
+void WeaponWand::configureWeapon(const ItemType& it) {
 	params.distanceEffect = it.shootType;
-	const_cast<ItemType &>(it).combatType = params.combatType;
-	const_cast<ItemType &>(it).maxHitChance = (minChange + maxChange) / 2;
+	const_cast<ItemType&>(it).combatType = params.combatType;
+	const_cast<ItemType&>(it).maxHitChance = (minChange + maxChange) / 2;
 	Weapon::configureWeapon(it);
 }
 

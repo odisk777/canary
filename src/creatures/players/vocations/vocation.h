@@ -18,10 +18,10 @@ public:
 	explicit Vocation(uint16_t initId) :
 		id(initId) { }
 
-	const std::string &getVocName() const {
+	const std::string& getVocName() const {
 		return name;
 	}
-	const std::string &getVocDescription() const {
+	const std::string& getVocDescription() const {
 		return description;
 	}
 	uint64_t getReqSkillTries(uint8_t skill, uint16_t level);
@@ -141,10 +141,10 @@ class Vocations {
 public:
 	Vocations() = default;
 
-	Vocations(const Vocations &) = delete;
-	void operator=(const Vocations &) = delete;
+	Vocations(const Vocations&) = delete;
+	void operator=(const Vocations&) = delete;
 
-	static Vocations &getInstance() {
+	static Vocations& getInstance() {
 		// Guaranteed to be destroyed
 		static Vocations instance;
 		// Instantiated on first use
@@ -154,10 +154,10 @@ public:
 	bool loadFromXml();
 
 	Vocation* getVocation(uint16_t id);
-	const std::map<uint16_t, Vocation> &getVocations() const {
+	const std::map<uint16_t, Vocation>& getVocations() const {
 		return vocationsMap;
 	}
-	uint16_t getVocationId(const std::string &name) const;
+	uint16_t getVocationId(const std::string& name) const;
 	uint16_t getPromotedVocation(uint16_t vocationId) const;
 
 private:

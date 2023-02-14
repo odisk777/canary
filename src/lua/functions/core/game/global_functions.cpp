@@ -33,7 +33,7 @@ int GlobalFunctions::luaDoPlayerAddItem(lua_State* L) {
 	bool canDropOnMap = getBoolean(L, 4, true);
 	uint16_t subType = getNumber<uint16_t>(L, 5, 1);
 
-	const ItemType &it = Item::items[itemId];
+	const ItemType& it = Item::items[itemId];
 	int32_t itemCount;
 
 	auto parameters = lua_gettop(L);
@@ -144,7 +144,7 @@ int GlobalFunctions::luaDoAddContainerItem(lua_State* L) {
 	}
 
 	uint16_t itemId = getNumber<uint16_t>(L, 2);
-	const ItemType &it = Item::items[itemId];
+	const ItemType& it = Item::items[itemId];
 
 	int32_t itemCount = 1;
 	int32_t subType = 1;
@@ -578,7 +578,7 @@ int GlobalFunctions::luaAddEvent(lua_State* L) {
 					warningString += 's';
 				}
 
-				for (const auto &entry : indexes) {
+				for (const auto& entry : indexes) {
 					if (entry == indexes.front()) {
 						warningString += ' ';
 					} else if (entry == indexes.back()) {
@@ -600,7 +600,7 @@ int GlobalFunctions::luaAddEvent(lua_State* L) {
 			}
 
 			if (g_configManager().getBoolean(CONVERT_UNSAFE_SCRIPTS)) {
-				for (const auto &entry : indexes) {
+				for (const auto& entry : indexes) {
 					switch (entry.second) {
 						case LuaData_Item:
 						case LuaData_Container:
@@ -639,7 +639,7 @@ int GlobalFunctions::luaAddEvent(lua_State* L) {
 	eventDesc.function = luaL_ref(globalState, LUA_REGISTRYINDEX);
 	eventDesc.scriptId = getScriptEnv()->getScriptId();
 
-	auto &lastTimerEventId = g_luaEnvironment.lastEventTimerId;
+	auto& lastTimerEventId = g_luaEnvironment.lastEventTimerId;
 	eventDesc.eventId = g_scheduler().addEvent(createSchedulerTask(
 		delay, std::bind(&LuaEnvironment::executeTimerEvent, &g_luaEnvironment, lastTimerEventId)
 	));
@@ -660,7 +660,7 @@ int GlobalFunctions::luaStopEvent(lua_State* L) {
 
 	uint32_t eventId = getNumber<uint32_t>(L, 1);
 
-	auto &timerEvents = g_luaEnvironment.timerEvents;
+	auto& timerEvents = g_luaEnvironment.timerEvents;
 	auto it = timerEvents.find(eventId);
 	if (it == timerEvents.end()) {
 		pushBoolean(L, false);
@@ -720,7 +720,7 @@ int GlobalFunctions::luaIsInWar(lua_State* L) {
 
 int GlobalFunctions::luaGetWaypointPositionByName(lua_State* L) {
 	// getWaypointPositionByName(name)
-	auto &waypoints = g_game().map.waypoints;
+	auto& waypoints = g_game().map.waypoints;
 
 	auto it = waypoints.find(getString(L, -1));
 	if (it != waypoints.end()) {
@@ -806,7 +806,7 @@ int GlobalFunctions::luaSystemTime(lua_State* L) {
 	return 1;
 }
 
-bool GlobalFunctions::getArea(lua_State* L, std::list<uint32_t> &list, uint32_t &rows) {
+bool GlobalFunctions::getArea(lua_State* L, std::list<uint32_t>& list, uint32_t& rows) {
 	lua_pushnil(L);
 	for (rows = 0; lua_next(L, -2) != 0; ++rows) {
 		if (!isTable(L, -1)) {

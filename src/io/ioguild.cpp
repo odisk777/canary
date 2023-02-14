@@ -14,7 +14,7 @@
 #include "io/ioguild.h"
 
 Guild* IOGuild::loadGuild(uint32_t guildId) {
-	Database &db = Database::getInstance();
+	Database& db = Database::getInstance();
 	std::ostringstream query;
 	query << "SELECT `name`, `balance` FROM `guilds` WHERE `id` = " << guildId;
 	if (DBResult_ptr result = db.storeQuery(query.str())) {
@@ -36,7 +36,7 @@ Guild* IOGuild::loadGuild(uint32_t guildId) {
 void IOGuild::saveGuild(Guild* guild) {
 	if (!guild)
 		return;
-	Database &db = Database::getInstance();
+	Database& db = Database::getInstance();
 	std::ostringstream updateQuery;
 	updateQuery << "UPDATE `guilds` SET ";
 	updateQuery << "`balance` = " << guild->getBankBalance();
@@ -44,8 +44,8 @@ void IOGuild::saveGuild(Guild* guild) {
 	db.executeQuery(updateQuery.str());
 }
 
-uint32_t IOGuild::getGuildIdByName(const std::string &name) {
-	Database &db = Database::getInstance();
+uint32_t IOGuild::getGuildIdByName(const std::string& name) {
+	Database& db = Database::getInstance();
 
 	std::ostringstream query;
 	query << "SELECT `id` FROM `guilds` WHERE `name` = " << db.escapeString(name);
@@ -57,7 +57,7 @@ uint32_t IOGuild::getGuildIdByName(const std::string &name) {
 	return result->getNumber<uint32_t>("id");
 }
 
-void IOGuild::getWarList(uint32_t guildId, GuildWarVector &guildWarVector) {
+void IOGuild::getWarList(uint32_t guildId, GuildWarVector& guildWarVector) {
 	std::ostringstream query;
 	query << "SELECT `guild1`, `guild2` FROM `guild_wars` WHERE (`guild1` = " << guildId << " OR `guild2` = " << guildId << ") AND `ended` = 0 AND `status` = 1";
 

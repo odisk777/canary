@@ -119,7 +119,7 @@ StashContainerList Container::getStowableItems() const {
 	return toReturnList;
 }
 
-Attr_ReadValue Container::readAttr(AttrTypes_t attr, PropStream &propStream) {
+Attr_ReadValue Container::readAttr(AttrTypes_t attr, PropStream& propStream) {
 	if (attr == ATTR_CONTAINER_ITEMS) {
 		if (!propStream.read<uint32_t>(serializationCount)) {
 			return ATTR_READ_ERROR;
@@ -129,13 +129,13 @@ Attr_ReadValue Container::readAttr(AttrTypes_t attr, PropStream &propStream) {
 	return Item::readAttr(attr, propStream);
 }
 
-bool Container::unserializeItemNode(OTB::Loader &loader, const OTB::Node &node, PropStream &propStream) {
+bool Container::unserializeItemNode(OTB::Loader& loader, const OTB::Node& node, PropStream& propStream) {
 	bool ret = Item::unserializeItemNode(loader, node, propStream);
 	if (!ret) {
 		return false;
 	}
 
-	for (auto &itemNode : node.children) {
+	for (auto& itemNode : node.children) {
 		// load container items
 		if (itemNode.type != OTBM_ITEM) {
 			// unknown type
@@ -191,7 +191,7 @@ std::string Container::getContentDescription() const {
 	return getContentDescription(os).str();
 }
 
-std::ostringstream &Container::getContentDescription(std::ostringstream &os) const {
+std::ostringstream& Container::getContentDescription(std::ostringstream& os) const {
 	bool firstitem = true;
 	for (ContainerIterator it = iterator(); it.hasNext(); it.advance()) {
 		Item* item = *it;
@@ -313,7 +313,7 @@ void Container::onRemoveContainerItem(uint32_t index, Item* item) {
 	}
 }
 
-ReturnValue Container::queryAdd(int32_t addIndex, const Thing &addThing, uint32_t addCount, uint32_t flags, Creature* actor /* = nullptr*/) const {
+ReturnValue Container::queryAdd(int32_t addIndex, const Thing& addThing, uint32_t addCount, uint32_t flags, Creature* actor /* = nullptr*/) const {
 	bool childIsOwner = hasBitSet(FLAG_CHILDISOWNER, flags);
 	if (childIsOwner) {
 		// a child container is querying, since we are the top container (not carried by a player)
@@ -397,7 +397,7 @@ ReturnValue Container::queryAdd(int32_t addIndex, const Thing &addThing, uint32_
 	}
 }
 
-ReturnValue Container::queryMaxCount(int32_t index, const Thing &thing, uint32_t count, uint32_t &maxQueryCount, uint32_t flags) const {
+ReturnValue Container::queryMaxCount(int32_t index, const Thing& thing, uint32_t count, uint32_t& maxQueryCount, uint32_t flags) const {
 	const Item* item = thing.getItem();
 	if (item == nullptr) {
 		maxQueryCount = 0;
@@ -446,7 +446,7 @@ ReturnValue Container::queryMaxCount(int32_t index, const Thing &thing, uint32_t
 	return RETURNVALUE_NOERROR;
 }
 
-ReturnValue Container::queryRemove(const Thing &thing, uint32_t count, uint32_t flags, Creature* actor /*= nullptr */) const {
+ReturnValue Container::queryRemove(const Thing& thing, uint32_t count, uint32_t flags, Creature* actor /*= nullptr */) const {
 	int32_t index = getThingIndex(&thing);
 	if (index == -1) {
 		SPDLOG_DEBUG("{} - Failed to get thing index", __FUNCTION__);
@@ -475,7 +475,7 @@ ReturnValue Container::queryRemove(const Thing &thing, uint32_t count, uint32_t 
 	return RETURNVALUE_NOERROR;
 }
 
-Cylinder* Container::queryDestination(int32_t &index, const Thing &thing, Item** destItem, uint32_t &flags) {
+Cylinder* Container::queryDestination(int32_t& index, const Thing& thing, Item** destItem, uint32_t& flags) {
 	if (!unlocked) {
 		*destItem = nullptr;
 		return this;
@@ -688,7 +688,7 @@ uint32_t Container::getItemTypeCount(uint16_t itemId, int32_t subType /* = -1*/)
 	return count;
 }
 
-std::map<uint32_t, uint32_t> &Container::getAllItemTypeCount(std::map<uint32_t, uint32_t> &countMap) const {
+std::map<uint32_t, uint32_t>& Container::getAllItemTypeCount(std::map<uint32_t, uint32_t>& countMap) const {
 	for (Item* item : itemlist) {
 		countMap[item->getID()] += item->getItemCount();
 	}

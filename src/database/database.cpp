@@ -109,7 +109,7 @@ bool Database::commit() {
 	return true;
 }
 
-bool Database::executeQuery(const std::string &query) {
+bool Database::executeQuery(const std::string& query) {
 	if (!handle) {
 		SPDLOG_ERROR("Database not initialized!");
 		return false;
@@ -141,7 +141,7 @@ bool Database::executeQuery(const std::string &query) {
 	return success;
 }
 
-DBResult_ptr Database::storeQuery(const std::string &query) {
+DBResult_ptr Database::storeQuery(const std::string& query) {
 	if (!handle) {
 		SPDLOG_ERROR("Database not initialized!");
 		return nullptr;
@@ -183,7 +183,7 @@ retry:
 	return result;
 }
 
-std::string Database::escapeString(const std::string &s) const {
+std::string Database::escapeString(const std::string& s) const {
 	return escapeBlob(s.c_str(), s.length());
 }
 
@@ -224,7 +224,7 @@ DBResult::~DBResult() {
 	mysql_free_result(handle);
 }
 
-std::string DBResult::getString(const std::string &s) const {
+std::string DBResult::getString(const std::string& s) const {
 	auto it = listNames.find(s);
 	if (it == listNames.end()) {
 		SPDLOG_ERROR("Column '{}' does not exist in result set", s);
@@ -238,7 +238,7 @@ std::string DBResult::getString(const std::string &s) const {
 	return std::string(row[it->second]);
 }
 
-const char* DBResult::getStream(const std::string &s, unsigned long &size) const {
+const char* DBResult::getStream(const std::string& s, unsigned long& size) const {
 	auto it = listNames.find(s);
 	if (it == listNames.end()) {
 		SPDLOG_ERROR("Column '{}' doesn't exist in the result set", s);
@@ -255,7 +255,7 @@ const char* DBResult::getStream(const std::string &s, unsigned long &size) const
 	return row[it->second];
 }
 
-uint8_t DBResult::getU8FromString(const std::string &string, const std::string &function) const {
+uint8_t DBResult::getU8FromString(const std::string& string, const std::string& function) const {
 	auto result = static_cast<uint8_t>(std::atoi(string.c_str()));
 	if (result > std::numeric_limits<uint8_t>::max()) {
 		SPDLOG_ERROR("[{}] Failed to get number value {} for tier table result, on function call: {}", __FUNCTION__, result, function);
@@ -265,7 +265,7 @@ uint8_t DBResult::getU8FromString(const std::string &string, const std::string &
 	return result;
 }
 
-int8_t DBResult::getInt8FromString(const std::string &string, const std::string &function) const {
+int8_t DBResult::getInt8FromString(const std::string& string, const std::string& function) const {
 	auto result = static_cast<int8_t>(std::atoi(string.c_str()));
 	if (result > std::numeric_limits<int8_t>::max()) {
 		SPDLOG_ERROR("[{}] Failed to get number value {} for tier table result, on function call: {}", __FUNCTION__, result, function);
@@ -297,7 +297,7 @@ DBInsert::DBInsert(std::string insertQuery) :
 	this->length = this->query.length();
 }
 
-bool DBInsert::addRow(const std::string &row) {
+bool DBInsert::addRow(const std::string& row) {
 	// adds new row to buffer
 	const size_t rowLength = row.length();
 	length += rowLength;
@@ -320,7 +320,7 @@ bool DBInsert::addRow(const std::string &row) {
 	return true;
 }
 
-bool DBInsert::addRow(std::ostringstream &row) {
+bool DBInsert::addRow(std::ostringstream& row) {
 	bool ret = addRow(row.str());
 	row.str(std::string());
 	return ret;

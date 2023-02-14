@@ -19,7 +19,7 @@
 std::map<uint32_t, int64_t> ProtocolStatus::ipConnectMap;
 const uint64_t ProtocolStatus::start = OTSYS_TIME();
 
-void ProtocolStatus::onRecvFirstMessage(NetworkMessage &msg) {
+void ProtocolStatus::onRecvFirstMessage(NetworkMessage& msg) {
 	uint32_t ip = getIP();
 	if (ip != 0x0100007F) {
 		std::string ipStr = convertIPToString(ip);
@@ -97,7 +97,7 @@ void ProtocolStatus::sendStatusString() {
 	pugi::xml_node players = tsqp.append_child("players");
 	uint32_t real = 0;
 	std::map<uint32_t, uint32_t> listIP;
-	for (const auto &[key, player] : g_game().getPlayers()) {
+	for (const auto& [key, player] : g_game().getPlayers()) {
 		if (player->getIP() != 0) {
 			auto ip = listIP.find(player->getIP());
 			if (ip != listIP.end()) {
@@ -149,7 +149,7 @@ void ProtocolStatus::sendStatusString() {
 	disconnect();
 }
 
-void ProtocolStatus::sendInfo(uint16_t requestedInfo, const std::string &characterName) {
+void ProtocolStatus::sendInfo(uint16_t requestedInfo, const std::string& characterName) {
 	auto output = OutputMessagePool::getOutputMessage();
 
 	if (requestedInfo & REQUEST_BASIC_SERVER_INFO) {
@@ -193,9 +193,9 @@ void ProtocolStatus::sendInfo(uint16_t requestedInfo, const std::string &charact
 	if (requestedInfo & REQUEST_EXT_PLAYERS_INFO) {
 		output->addByte(0x21); // players info - online players list
 
-		const auto &players = g_game().getPlayers();
+		const auto& players = g_game().getPlayers();
 		output->add<uint32_t>(players.size());
-		for (const auto &it : players) {
+		for (const auto& it : players) {
 			output->addString(it.second->getName());
 			output->add<uint32_t>(it.second->getLevel());
 		}

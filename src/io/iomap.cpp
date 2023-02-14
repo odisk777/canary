@@ -37,7 +37,7 @@
 	|--- OTBM_ITEM_DEF (not implemented)
 */
 
-Tile* IOMap::createTile(Item*&ground, Item* item, uint16_t x, uint16_t y, uint8_t z) {
+Tile* IOMap::createTile(Item*& ground, Item* item, uint16_t x, uint16_t y, uint8_t z) {
 	if (!ground) {
 		return new StaticTile(x, y, z);
 	}
@@ -55,10 +55,10 @@ Tile* IOMap::createTile(Item*&ground, Item* item, uint16_t x, uint16_t y, uint8_
 	return tile;
 }
 
-bool IOMap::loadMap(Map* map, const std::string &fileName, const Position &pos, bool unload) {
+bool IOMap::loadMap(Map* map, const std::string& fileName, const Position& pos, bool unload) {
 	int64_t start = OTSYS_TIME();
 	OTB::Loader loader{ fileName, OTB::Identifier{ { 'O', 'T', 'B', 'M' } } };
-	auto &root = loader.parseTree();
+	auto& root = loader.parseTree();
 
 	PropStream propStream;
 	if (!loader.getProps(root, propStream)) {
@@ -100,12 +100,12 @@ bool IOMap::loadMap(Map* map, const std::string &fileName, const Position &pos, 
 		return false;
 	}
 
-	auto &mapNode = root.children.front();
+	auto& mapNode = root.children.front();
 	if (!parseMapDataAttributes(loader, mapNode, *map, fileName)) {
 		return false;
 	}
 
-	for (auto &mapDataNode : mapNode.children) {
+	for (auto& mapDataNode : mapNode.children) {
 		if (mapDataNode.type == OTBM_TILE_AREA) {
 			if (!parseTileArea(loader, mapDataNode, *map, pos, unload)) {
 				return false;
@@ -128,7 +128,7 @@ bool IOMap::loadMap(Map* map, const std::string &fileName, const Position &pos, 
 	return true;
 }
 
-bool IOMap::parseMapDataAttributes(OTB::Loader &loader, const OTB::Node &mapNode, Map &map, const std::string &fileName) {
+bool IOMap::parseMapDataAttributes(OTB::Loader& loader, const OTB::Node& mapNode, Map& map, const std::string& fileName) {
 	PropStream propStream;
 	if (!loader.getProps(mapNode, propStream)) {
 		setLastErrorString("Could not read map data attributes.");
@@ -186,7 +186,7 @@ bool IOMap::parseMapDataAttributes(OTB::Loader &loader, const OTB::Node &mapNode
 	return true;
 }
 
-bool IOMap::parseTileArea(OTB::Loader &loader, const OTB::Node &tileAreaNode, Map &map, const Position &pos, bool unload) {
+bool IOMap::parseTileArea(OTB::Loader& loader, const OTB::Node& tileAreaNode, Map& map, const Position& pos, bool unload) {
 	PropStream propStream;
 	if (!loader.getProps(tileAreaNode, propStream)) {
 		setLastErrorString("Invalid map node.");
@@ -205,7 +205,7 @@ bool IOMap::parseTileArea(OTB::Loader &loader, const OTB::Node &tileAreaNode, Ma
 
 	static std::map<uint64_t, uint64_t> teleportMap;
 
-	for (auto &tileNode : tileAreaNode.children) {
+	for (auto& tileNode : tileAreaNode.children) {
 		if (tileNode.type != OTBM_TILE && tileNode.type != OTBM_HOUSETILE) {
 			setLastErrorString("Unknown tile node.");
 			return false;
@@ -319,7 +319,7 @@ bool IOMap::parseTileArea(OTB::Loader &loader, const OTB::Node &tileAreaNode, Ma
 					}
 
 					if (Teleport* teleport = item->getTeleport()) {
-						const Position &destPos = teleport->getDestPos();
+						const Position& destPos = teleport->getDestPos();
 						uint64_t teleportPosition = (static_cast<uint64_t>(x) << 24) | (y << 8) | z;
 						uint64_t destinationPosition = (static_cast<uint64_t>(destPos.x) << 24) | (destPos.y << 8) | destPos.z;
 						teleportMap.emplace(teleportPosition, destinationPosition);
@@ -330,7 +330,7 @@ bool IOMap::parseTileArea(OTB::Loader &loader, const OTB::Node &tileAreaNode, Ma
 										"is leading to another teleport",
 										x, y, z);
 						}
-						for (const auto &it2 : teleportMap) {
+						for (const auto& it2 : teleportMap) {
 							if (it2.second == teleportPosition) {
 								uint16_t fx = (it2.first >> 24) & 0xFFFF;
 								uint16_t fy = (it2.first >> 8) & 0xFFFF;
@@ -379,7 +379,7 @@ bool IOMap::parseTileArea(OTB::Loader &loader, const OTB::Node &tileAreaNode, Ma
 			}
 		}
 
-		for (auto &itemNode : tileNode.children) {
+		for (auto& itemNode : tileNode.children) {
 			if (itemNode.type != OTBM_ITEM) {
 				std::ostringstream ss;
 				ss << "[x:" << x << ", y:" << y << ", z:" << z << "] Unknown node type.";
@@ -449,8 +449,8 @@ bool IOMap::parseTileArea(OTB::Loader &loader, const OTB::Node &tileAreaNode, Ma
 	return true;
 }
 
-bool IOMap::parseTowns(OTB::Loader &loader, const OTB::Node &townsNode, Map &map) {
-	for (auto &townNode : townsNode.children) {
+bool IOMap::parseTowns(OTB::Loader& loader, const OTB::Node& townsNode, Map& map) {
+	for (auto& townNode : townsNode.children) {
 		PropStream propStream;
 		if (townNode.type != OTBM_TOWN) {
 			setLastErrorString("Unknown town node.");
@@ -493,9 +493,9 @@ bool IOMap::parseTowns(OTB::Loader &loader, const OTB::Node &townsNode, Map &map
 	return true;
 }
 
-bool IOMap::parseWaypoints(OTB::Loader &loader, const OTB::Node &waypointsNode, Map &map) {
+bool IOMap::parseWaypoints(OTB::Loader& loader, const OTB::Node& waypointsNode, Map& map) {
 	PropStream propStream;
-	for (auto &node : waypointsNode.children) {
+	for (auto& node : waypointsNode.children) {
 		if (node.type != OTBM_WAYPOINT) {
 			setLastErrorString("Unknown waypoint node.");
 			return false;

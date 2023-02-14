@@ -17,10 +17,10 @@ using Identifier = std::array<char, 4>;
 
 struct Node {
 	Node() = default;
-	Node(Node &&) = default;
-	Node &operator=(Node &&) = default;
-	Node(const Node &) = delete;
-	Node &operator=(const Node &) = delete;
+	Node(Node&&) = default;
+	Node& operator=(Node&&) = default;
+	Node(const Node&) = delete;
+	Node& operator=(const Node&) = delete;
 
 	std::list<Node> children;
 	mio::mmap_source::const_iterator propsBegin;
@@ -49,9 +49,9 @@ class Loader {
 	std::vector<char> propBuffer;
 
 public:
-	Loader(const std::string &fileName, const Identifier &acceptedIdentifier);
-	bool getProps(const Node &node, PropStream &props);
-	const Node &parseTree();
+	Loader(const std::string& fileName, const Identifier& acceptedIdentifier);
+	bool getProps(const Node& node, PropStream& props);
+	const Node& parseTree();
 };
 
 } // namespace OTB
@@ -68,7 +68,7 @@ public:
 	}
 
 	template <typename T>
-	bool read(T &ret) {
+	bool read(T& ret) {
 		if (size() < sizeof(T)) {
 			return false;
 		}
@@ -78,7 +78,7 @@ public:
 		return true;
 	}
 
-	bool readString(std::string &ret) {
+	bool readString(std::string& ret) {
 		uint16_t strLen;
 		if (!read<uint16_t>(strLen)) {
 			return false;
@@ -116,10 +116,10 @@ public:
 	PropWriteStream() = default;
 
 	// non-copyable
-	PropWriteStream(const PropWriteStream &) = delete;
-	PropWriteStream &operator=(const PropWriteStream &) = delete;
+	PropWriteStream(const PropWriteStream&) = delete;
+	PropWriteStream& operator=(const PropWriteStream&) = delete;
 
-	const char* getStream(size_t &size) const {
+	const char* getStream(size_t& size) const {
 		size = buffer.size();
 		return buffer.data();
 	}
@@ -134,7 +134,7 @@ public:
 		std::copy(addr, addr + sizeof(T), std::back_inserter(buffer));
 	}
 
-	void writeString(const std::string &str) {
+	void writeString(const std::string& str) {
 		size_t strLength = str.size();
 		if (strLength > std::numeric_limits<uint16_t>::max()) {
 			write<uint16_t>(0);

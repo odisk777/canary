@@ -12,7 +12,7 @@
 #include "core.hpp"
 #include "utils/tools.h"
 
-void printXMLError(const std::string &where, const std::string &fileName, const pugi::xml_parse_result &result) {
+void printXMLError(const std::string& where, const std::string& fileName, const pugi::xml_parse_result& result) {
 	SPDLOG_ERROR("[{}] Failed to load {}: {}", where, fileName, result.description());
 
 	FILE* file = fopen(fileName.c_str(), "rb");
@@ -120,7 +120,7 @@ static void processSHA1MessageBlock(const uint8_t* messageBlock, uint32_t* H) {
 	H[4] += E;
 }
 
-std::string transformToSHA1(const std::string &input) {
+std::string transformToSHA1(const std::string& input) {
 	uint32_t H[] = {
 		0x67452301,
 		0xEFCDAB89,
@@ -194,7 +194,7 @@ uint16_t getStashSize(StashItemList itemList) {
 	return size;
 }
 
-std::string generateToken(const std::string &key, uint32_t ticks) {
+std::string generateToken(const std::string& key, uint32_t ticks) {
 	// generate message from ticks
 	std::string message(8, 0);
 	for (uint8_t i = 8; --i; ticks >>= 8) {
@@ -238,7 +238,7 @@ std::string generateToken(const std::string &key, uint32_t ticks) {
 	return message;
 }
 
-void replaceString(std::string &str, const std::string &sought, const std::string &replacement) {
+void replaceString(std::string& str, const std::string& sought, const std::string& replacement) {
 	size_t pos = 0;
 	size_t start = 0;
 	size_t soughtLen = sought.length();
@@ -250,15 +250,15 @@ void replaceString(std::string &str, const std::string &sought, const std::strin
 	}
 }
 
-void trim_right(std::string &source, char t) {
+void trim_right(std::string& source, char t) {
 	source.erase(source.find_last_not_of(t) + 1);
 }
 
-void trim_left(std::string &source, char t) {
+void trim_left(std::string& source, char t) {
 	source.erase(0, source.find_first_not_of(t));
 }
 
-void toLowerCaseString(std::string &source) {
+void toLowerCaseString(std::string& source) {
 	std::transform(source.begin(), source.end(), source.begin(), tolower);
 }
 
@@ -272,7 +272,7 @@ std::string asUpperCaseString(std::string source) {
 	return source;
 }
 
-StringVector explodeString(const std::string &inString, const std::string &separator, int32_t limit /* = -1*/) {
+StringVector explodeString(const std::string& inString, const std::string& separator, int32_t limit /* = -1*/) {
 	StringVector returnVector;
 	std::string::size_type start = 0, end = 0;
 
@@ -285,15 +285,15 @@ StringVector explodeString(const std::string &inString, const std::string &separ
 	return returnVector;
 }
 
-IntegerVector vectorAtoi(const StringVector &stringVector) {
+IntegerVector vectorAtoi(const StringVector& stringVector) {
 	IntegerVector returnVector;
-	for (const auto &string : stringVector) {
+	for (const auto& string : stringVector) {
 		returnVector.push_back(std::stoi(string));
 	}
 	return returnVector;
 }
 
-std::mt19937 &getRandomGenerator() {
+std::mt19937& getRandomGenerator() {
 	static std::random_device rd;
 	static std::mt19937 generator(rd());
 	return generator;
@@ -335,7 +335,7 @@ bool boolean_random(double probability /* = 0.5*/) {
 	return booleanRand(getRandomGenerator(), std::bernoulli_distribution::param_type(probability));
 }
 
-void trimString(std::string &str) {
+void trimString(std::string& str) {
 	str.erase(str.find_last_not_of(' ') + 1);
 	str.erase(0, str.find_first_not_of(' '));
 }
@@ -358,7 +358,7 @@ std::time_t getTimeNow() {
 	return std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 }
 
-Direction getDirection(const std::string &string) {
+Direction getDirection(const std::string& string) {
 	Direction direction = DIRECTION_NORTH;
 
 	if (string == "north" || string == "n" || string == "0") {
@@ -427,7 +427,7 @@ Position getNextPosition(Direction direction, Position pos) {
 	return pos;
 }
 
-Direction getDirectionTo(const Position &from, const Position &to) {
+Direction getDirectionTo(const Position& from, const Position& to) {
 	Direction dir;
 
 	int32_t x_offset = Position::getOffsetX(from, to);
@@ -745,7 +745,7 @@ SpawnTypeNames spawnTypeNames = {
 	{ "nightandcave", RESPAWN_IN_NIGHT_CAVE },
 };
 
-MagicEffectClasses getMagicEffect(const std::string &strValue) {
+MagicEffectClasses getMagicEffect(const std::string& strValue) {
 	auto magicEffect = magicEffectNames.find(strValue);
 	if (magicEffect != magicEffectNames.end()) {
 		return magicEffect->second;
@@ -753,7 +753,7 @@ MagicEffectClasses getMagicEffect(const std::string &strValue) {
 	return CONST_ME_NONE;
 }
 
-ShootType_t getShootType(const std::string &strValue) {
+ShootType_t getShootType(const std::string& strValue) {
 	auto shootType = shootTypeNames.find(strValue);
 	if (shootType != shootTypeNames.end()) {
 		return shootType->second;
@@ -769,15 +769,15 @@ std::string getCombatName(CombatType_t combatType) {
 	return "unknown";
 }
 
-CombatType_t getCombatType(const std::string &combatname) {
-	auto it = std::find_if(combatTypeNames.begin(), combatTypeNames.end(), [combatname](const std::pair<CombatType_t, std::string> &pair) {
+CombatType_t getCombatType(const std::string& combatname) {
+	auto it = std::find_if(combatTypeNames.begin(), combatTypeNames.end(), [combatname](const std::pair<CombatType_t, std::string>& pair) {
 		return pair.second == combatname;
 	});
 
 	return it != combatTypeNames.end() ? it->first : COMBAT_NONE;
 }
 
-Ammo_t getAmmoType(const std::string &strValue) {
+Ammo_t getAmmoType(const std::string& strValue) {
 	auto ammoType = ammoTypeNames.find(strValue);
 	if (ammoType != ammoTypeNames.end()) {
 		return ammoType->second;
@@ -785,7 +785,7 @@ Ammo_t getAmmoType(const std::string &strValue) {
 	return AMMO_NONE;
 }
 
-WeaponAction_t getWeaponAction(const std::string &strValue) {
+WeaponAction_t getWeaponAction(const std::string& strValue) {
 	auto weaponAction = weaponActionNames.find(strValue);
 	if (weaponAction != weaponActionNames.end()) {
 		return weaponAction->second;
@@ -793,7 +793,7 @@ WeaponAction_t getWeaponAction(const std::string &strValue) {
 	return WEAPONACTION_NONE;
 }
 
-Skulls_t getSkullType(const std::string &strValue) {
+Skulls_t getSkullType(const std::string& strValue) {
 	auto skullType = skullNames.find(strValue);
 	if (skullType != skullNames.end()) {
 		return skullType->second;
@@ -801,7 +801,7 @@ Skulls_t getSkullType(const std::string &strValue) {
 	return SKULL_NONE;
 }
 
-ImbuementTypes_t getImbuementType(const std::string &strValue) {
+ImbuementTypes_t getImbuementType(const std::string& strValue) {
 	auto imbuementType = imbuementTypeNames.find(strValue);
 	if (imbuementType != imbuementTypeNames.end()) {
 		return imbuementType->second;
@@ -813,7 +813,7 @@ ImbuementTypes_t getImbuementType(const std::string &strValue) {
  * @Deprecated
  * It will be dropped with monsters. Use RespawnPeriod_t instead.
  */
-SpawnType_t getSpawnType(const std::string &strValue) {
+SpawnType_t getSpawnType(const std::string& strValue) {
 	auto spawnType = spawnTypeNames.find(strValue);
 	if (spawnType != spawnTypeNames.end()) {
 		return spawnType->second;
@@ -899,7 +899,7 @@ uint32_t adlerChecksum(const uint8_t* data, size_t length) {
 }
 
 std::string ucfirst(std::string str) {
-	for (char &i : str) {
+	for (char& i : str) {
 		if (i != ' ') {
 			i = toupper(i);
 			break;
@@ -924,7 +924,7 @@ std::string ucwords(std::string str) {
 	return str;
 }
 
-bool booleanString(const std::string &str) {
+bool booleanString(const std::string& str) {
 	if (str.empty()) {
 		return false;
 	}
@@ -987,7 +987,7 @@ CombatType_t indexToCombatType(size_t v) {
 	return static_cast<CombatType_t>(1 << v);
 }
 
-ItemAttribute_t stringToItemAttribute(const std::string &str) {
+ItemAttribute_t stringToItemAttribute(const std::string& str) {
 	if (str == "aid") {
 		return ItemAttribute_t::ACTIONID;
 	} else if (str == "uid") {
@@ -1040,7 +1040,7 @@ ItemAttribute_t stringToItemAttribute(const std::string &str) {
 	return ItemAttribute_t::NONE;
 }
 
-std::string getFirstLine(const std::string &str) {
+std::string getFirstLine(const std::string& str) {
 	std::string firstLine;
 	firstLine.reserve(str.length());
 	for (const char c : str) {
@@ -1306,7 +1306,7 @@ int64_t OTSYS_TIME() {
 	return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
-SpellGroup_t stringToSpellGroup(const std::string &value) {
+SpellGroup_t stringToSpellGroup(const std::string& value) {
 	std::string tmpStr = asLowerCaseString(value);
 	if (tmpStr == "attack" || tmpStr == "1") {
 		return SPELLGROUP_ATTACK;
@@ -1333,7 +1333,7 @@ SpellGroup_t stringToSpellGroup(const std::string &value) {
  * capitalize the first letter of every word in source
  * @param source
  */
-void capitalizeWords(std::string &source) {
+void capitalizeWords(std::string& source) {
 	toLowerCaseString(source);
 	uint8_t size = (uint8_t)source.size();
 	for (uint8_t i = 0; i < size; i++) {
@@ -1356,7 +1356,7 @@ void consoleHandlerExit() {
 	return;
 }
 
-NameEval_t validateName(const std::string &name) {
+NameEval_t validateName(const std::string& name) {
 	StringVector prohibitedWords = { "owner", "gamemaster", "hoster", "admin", "staff", "tibia", "account", "god", "anal", "ass", "fuck", "sex", "hitler", "pussy", "dick", "rape", "cm", "gm", "tutor", "counsellor", "god" };
 	StringVector toks;
 	std::regex regexValidChars("^[a-zA-Z' ]+$");

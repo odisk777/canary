@@ -55,7 +55,7 @@ bool IOBestiary::parseCharmCombat(Charm* charm, Player* player, Creature* target
 				break;
 			}
 			case CHARM_DODGE: {
-				const Position &targetPos = target->getPosition();
+				const Position& targetPos = target->getPosition();
 				player->sendCancelMessage(charm->cancelMsg);
 				g_game().addMagicEffect(targetPos, charm->effect);
 				return true;
@@ -105,7 +105,7 @@ Charm* IOBestiary::getBestiaryCharm(charmRune_t activeCharm, bool force /*= fals
 	return nullptr;
 }
 
-std::map<uint16_t, std::string> IOBestiary::findRaceByName(const std::string &race, bool Onlystring /*= true*/, BestiaryType_t raceNumber /*= BESTY_RACE_NONE*/) const {
+std::map<uint16_t, std::string> IOBestiary::findRaceByName(const std::string& race, bool Onlystring /*= true*/, BestiaryType_t raceNumber /*= BESTY_RACE_NONE*/) const {
 	std::map<uint16_t, std::string> best_list = g_game().getBestiaryList();
 	std::map<uint16_t, std::string> race_list;
 
@@ -346,7 +346,7 @@ std::map<uint8_t, int16_t> IOBestiary::getMonsterElements(MonsterType* mtype) co
 	for (uint8_t i = 0; i <= 7; i++) {
 		defaultMap[i] = 100;
 	}
-	for (const auto &elementEntry : mtype->info.elementMap) {
+	for (const auto& elementEntry : mtype->info.elementMap) {
 		switch (elementEntry.first) {
 			case COMBAT_PHYSICALDAMAGE:
 				defaultMap[0] -= static_cast<int16_t>(elementEntry.second);

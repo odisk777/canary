@@ -24,12 +24,12 @@ Direction Position::getRandomDirection() {
 	return dirList.front();
 }
 
-std::ostream &operator<<(std::ostream &os, const Position &pos) {
+std::ostream& operator<<(std::ostream& os, const Position& pos) {
 	os << pos.toString();
 	return os;
 }
 
-std::ostream &operator<<(std::ostream &os, const Direction &dir) {
+std::ostream& operator<<(std::ostream& os, const Direction& dir) {
 	switch (dir) {
 		case DIRECTION_NORTH:
 			os << "North";

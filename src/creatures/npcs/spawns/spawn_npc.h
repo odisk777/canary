@@ -31,10 +31,10 @@ public:
 	~SpawnNpc();
 
 	// non-copyable
-	SpawnNpc(const SpawnNpc &) = delete;
-	SpawnNpc &operator=(const SpawnNpc &) = delete;
+	SpawnNpc(const SpawnNpc&) = delete;
+	SpawnNpc& operator=(const SpawnNpc&) = delete;
 
-	bool addNpc(const std::string &name, const Position &pos, Direction dir, uint32_t interval);
+	bool addNpc(const std::string& name, const Position& pos, Direction dir, uint32_t interval);
 	void removeNpc(Npc* npc);
 
 	uint32_t getInterval() const {
@@ -45,7 +45,7 @@ public:
 	void startSpawnNpcCheck();
 	void stopEvent();
 
-	bool isInSpawnNpcZone(const Position &pos);
+	bool isInSpawnNpcZone(const Position& pos);
 	void cleanup();
 
 private:
@@ -63,17 +63,17 @@ private:
 	uint32_t interval = 60000;
 	uint32_t checkSpawnNpcEvent = 0;
 
-	static bool findPlayer(const Position &pos);
-	bool spawnNpc(uint32_t spawnId, NpcType* npcType, const Position &pos, Direction dir, bool startup = false);
+	static bool findPlayer(const Position& pos);
+	bool spawnNpc(uint32_t spawnId, NpcType* npcType, const Position& pos, Direction dir, bool startup = false);
 	void checkSpawnNpc();
-	void scheduleSpawnNpc(uint32_t spawnId, spawnBlockNpc_t &sb, uint16_t interval);
+	void scheduleSpawnNpc(uint32_t spawnId, spawnBlockNpc_t& sb, uint16_t interval);
 };
 
 class SpawnsNpc {
 public:
-	static bool isInZone(const Position &centerPos, int32_t radius, const Position &pos);
+	static bool isInZone(const Position& centerPos, int32_t radius, const Position& pos);
 
-	bool loadFromXml(const std::string &filenpcname);
+	bool loadFromXml(const std::string& filenpcname);
 	void startup();
 	void clear();
 
@@ -95,7 +95,7 @@ public:
 		return fileName = setName;
 	}
 
-	std::forward_list<SpawnNpc> &getSpawnNpcList() {
+	std::forward_list<SpawnNpc>& getSpawnNpcList() {
 		return spawnNpcList;
 	}
 

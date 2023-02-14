@@ -31,7 +31,7 @@ public:
 	explicit Event(LuaScriptInterface* interface);
 	virtual ~Event() = default;
 
-	virtual bool configureEvent(const pugi::xml_node &node) = 0;
+	virtual bool configureEvent(const pugi::xml_node& node) = 0;
 
 	/**
 	 * @brief Test if script can be found and loaded.
@@ -48,7 +48,7 @@ public:
 	 * @return true Success, script can be loaded.
 	 * @return false Fail, script not found or couldn't be loaded.
 	 */
-	bool checkScript(const std::string &basePath, const std::string &scriptsName, const std::string &scriptFile) const;
+	bool checkScript(const std::string& basePath, const std::string& scriptsName, const std::string& scriptFile) const;
 
 	/**
 	 * @brief Load the script file.
@@ -57,7 +57,7 @@ public:
 	 * @return true Success
 	 * @return false Fail
 	 */
-	bool loadScript(const std::string &scriptFile, const std::string &scriptName);
+	bool loadScript(const std::string& scriptFile, const std::string& scriptName);
 
 	/**
 	 * @brief Load script ID using the lua script interface
@@ -66,7 +66,7 @@ public:
 	 * @return false Fail
 	 */
 
-	virtual bool loadFunction(const pugi::xml_attribute &, bool) {
+	virtual bool loadFunction(const pugi::xml_attribute&, bool) {
 		return false;
 	}
 
@@ -145,10 +145,10 @@ public:
 	void reInitState();
 
 private:
-	virtual LuaScriptInterface &getScriptInterface() = 0;
+	virtual LuaScriptInterface& getScriptInterface() = 0;
 	virtual std::string getScriptBaseName() const = 0;
-	virtual Event_ptr getEvent(const std::string &nodeName) = 0;
-	virtual bool registerEvent(Event_ptr event, const pugi::xml_node &node) = 0;
+	virtual Event_ptr getEvent(const std::string& nodeName) = 0;
+	virtual bool registerEvent(Event_ptr event, const pugi::xml_node& node) = 0;
 	virtual void clear(bool) = 0;
 
 	bool loaded = false;
@@ -172,7 +172,7 @@ public:
 	 * @return true
 	 * @return false
 	 */
-	bool loadCallBack(LuaScriptInterface* interface, const std::string &name);
+	bool loadCallBack(LuaScriptInterface* interface, const std::string& name);
 
 protected:
 	int32_t scriptId = 0;

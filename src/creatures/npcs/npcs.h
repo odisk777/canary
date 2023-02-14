@@ -17,8 +17,8 @@ public:
 	Shop() = default;
 
 	// non-copyable
-	Shop(const Shop &) = delete;
-	Shop &operator=(const Shop &) = delete;
+	Shop(const Shop&) = delete;
+	Shop& operator=(const Shop&) = delete;
 
 	ShopBlock shopBlock;
 };
@@ -70,12 +70,12 @@ class NpcType {
 
 public:
 	NpcType() = default;
-	explicit NpcType(const std::string &initName) :
+	explicit NpcType(const std::string& initName) :
 		name(initName), typeName(initName), nameDescription(initName){};
 
 	// non-copyable
-	NpcType(const NpcType &) = delete;
-	NpcType &operator=(const NpcType &) = delete;
+	NpcType(const NpcType&) = delete;
+	NpcType& operator=(const NpcType&) = delete;
 
 	std::string name;
 	std::string typeName;
@@ -85,24 +85,24 @@ public:
 	void loadShop(NpcType* npcType, ShopBlock shopBlock);
 
 	bool loadCallback(LuaScriptInterface* scriptInterface);
-	bool canSpawn(const Position &pos);
+	bool canSpawn(const Position& pos);
 };
 
 class Npcs {
 public:
 	Npcs() = default;
 	// non-copyable
-	Npcs(const Npcs &) = delete;
-	Npcs &operator=(const Npcs &) = delete;
+	Npcs(const Npcs&) = delete;
+	Npcs& operator=(const Npcs&) = delete;
 
-	static Npcs &getInstance() {
+	static Npcs& getInstance() {
 		// Guaranteed to be destroyed
 		static Npcs instance;
 		// Instantiated on first use
 		return instance;
 	}
 
-	NpcType* getNpcType(const std::string &name, bool create = false);
+	NpcType* getNpcType(const std::string& name, bool create = false);
 
 	// Reset npcs informations on reload
 	bool load(bool loadLibs = true, bool loadNpcs = true, bool reloading = false) const;

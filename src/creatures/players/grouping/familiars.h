@@ -14,12 +14,12 @@
 
 class Familiars {
 public:
-	static Familiars &getInstance() {
+	static Familiars& getInstance() {
 		static Familiars instance;
 		return instance;
 	}
 	bool loadFromXml();
-	const std::vector<Familiar> &getFamiliars(uint16_t vocation) const {
+	const std::vector<Familiar>& getFamiliars(uint16_t vocation) const {
 		return familiars[vocation];
 	}
 	const Familiar* getFamiliarByLookType(uint16_t vocation, uint16_t lookType) const;

@@ -132,7 +132,7 @@ int ContainerFunctions::luaContainerAddItem(lua_State* L) {
 	}
 
 	uint32_t count = getNumber<uint32_t>(L, 3, 1);
-	const ItemType &it = Item::items[itemId];
+	const ItemType& it = Item::items[itemId];
 	if (it.stackable) {
 		count = std::min<uint16_t>(count, 100);
 	}

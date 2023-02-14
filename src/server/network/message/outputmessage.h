@@ -21,8 +21,8 @@ public:
 	OutputMessage() = default;
 
 	// non-copyable
-	OutputMessage(const OutputMessage &) = delete;
-	OutputMessage &operator=(const OutputMessage &) = delete;
+	OutputMessage(const OutputMessage&) = delete;
+	OutputMessage& operator=(const OutputMessage&) = delete;
 
 	uint8_t* getOutputBuffer() {
 		return buffer + outputBufferStart;
@@ -40,14 +40,14 @@ public:
 		writeMessageLength();
 	}
 
-	void append(const NetworkMessage &msg) {
+	void append(const NetworkMessage& msg) {
 		auto msgLen = msg.getLength();
 		memcpy(buffer + info.position, msg.getBuffer() + INITIAL_BUFFER_POSITION, msgLen);
 		info.length += msgLen;
 		info.position += msgLen;
 	}
 
-	void append(const OutputMessage_ptr &msg) {
+	void append(const OutputMessage_ptr& msg) {
 		auto msgLen = msg->getLength();
 		memcpy(buffer + info.position, msg->getBuffer() + INITIAL_BUFFER_POSITION, msgLen);
 		info.length += msgLen;
@@ -70,10 +70,10 @@ private:
 class OutputMessagePool {
 public:
 	// non-copyable
-	OutputMessagePool(const OutputMessagePool &) = delete;
-	OutputMessagePool &operator=(const OutputMessagePool &) = delete;
+	OutputMessagePool(const OutputMessagePool&) = delete;
+	OutputMessagePool& operator=(const OutputMessagePool&) = delete;
 
-	static OutputMessagePool &getInstance() {
+	static OutputMessagePool& getInstance() {
 		static OutputMessagePool instance;
 		return instance;
 	}
@@ -84,7 +84,7 @@ public:
 	static OutputMessage_ptr getOutputMessage();
 
 	void addProtocolToAutosend(Protocol_ptr protocol);
-	void removeProtocolFromAutosend(const Protocol_ptr &protocol);
+	void removeProtocolFromAutosend(const Protocol_ptr& protocol);
 
 private:
 	OutputMessagePool() = default;

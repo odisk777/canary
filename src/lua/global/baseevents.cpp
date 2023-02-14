@@ -85,7 +85,7 @@ void BaseEvents::reInitState() {
 Event::Event(LuaScriptInterface* interface) :
 	scriptInterface(interface) { }
 
-bool Event::checkScript(const std::string &basePath, const std::string &scriptsName, const std::string &scriptFile) const {
+bool Event::checkScript(const std::string& basePath, const std::string& scriptsName, const std::string& scriptFile) const {
 	LuaScriptInterface* testInterface = g_luaEnvironment.getTestInterface();
 	testInterface->reInitState();
 
@@ -114,7 +114,7 @@ bool Event::checkScript(const std::string &basePath, const std::string &scriptsN
 	return true;
 }
 
-bool Event::loadScript(const std::string &scriptFile, const std::string &scriptName) {
+bool Event::loadScript(const std::string& scriptFile, const std::string& scriptName) {
 	if ((scriptInterface == nullptr) || scriptId != 0) {
 		SPDLOG_WARN(
 			"[{}] - ScriptInterface (nullptr), can not load scriptid: {}",
@@ -144,7 +144,7 @@ bool Event::loadScript(const std::string &scriptFile, const std::string &scriptN
 	return true;
 }
 
-bool CallBack::loadCallBack(LuaScriptInterface* interface, const std::string &name) {
+bool CallBack::loadCallBack(LuaScriptInterface* interface, const std::string& name) {
 	if (interface == nullptr) {
 		SPDLOG_WARN("[{}] - ScriptInterface (nullptr) for event: {}", __FUNCTION__, name);
 		return false;

@@ -17,10 +17,10 @@ public:
 	EventsScheduler() = default;
 
 	// Singleton - ensures we don't accidentally copy it.
-	EventsScheduler(const EventsScheduler &) = delete;
-	EventsScheduler &operator=(const EventsScheduler &) = delete;
+	EventsScheduler(const EventsScheduler&) = delete;
+	EventsScheduler& operator=(const EventsScheduler&) = delete;
 
-	static EventsScheduler &getInstance() {
+	static EventsScheduler& getInstance() {
 		// Guaranteed to be destroyed
 		static EventsScheduler instance;
 		// Instantiated on first use

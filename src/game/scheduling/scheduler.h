@@ -29,7 +29,7 @@ public:
 	}
 
 private:
-	SchedulerTask(uint32_t delay, std::function<void(void)> &&f) :
+	SchedulerTask(uint32_t delay, std::function<void(void)>&& f) :
 		Task(delay, std::move(f)) { }
 
 	uint32_t eventId = 0;
@@ -49,10 +49,10 @@ class Scheduler : public ThreadHolder<Scheduler> {
 public:
 	Scheduler() = default;
 
-	Scheduler(const Scheduler &) = delete;
-	void operator=(const Scheduler &) = delete;
+	Scheduler(const Scheduler&) = delete;
+	void operator=(const Scheduler&) = delete;
 
-	static Scheduler &getInstance() {
+	static Scheduler& getInstance() {
 		// Guaranteed to be destroyed
 		static Scheduler instance;
 		// Instantiated on first use

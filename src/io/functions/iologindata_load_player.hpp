@@ -19,8 +19,8 @@ public:
 	static void loadPlayerBosstiary(Player* player, DBResult_ptr result);
 
 private:
-	static void bindRewardBag(Player* player, ItemMap &itemMap);
-	static void insertItemsIntoRewardBag(const ItemMap &itemMap);
+	static void bindRewardBag(Player* player, ItemMap& itemMap);
+	static void insertItemsIntoRewardBag(const ItemMap& itemMap);
 };
 
 #endif // SRC_IO_FUNCTIONS_IOLOGINDATALOAD_HPP_

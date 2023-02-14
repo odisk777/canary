@@ -35,7 +35,7 @@ public:
 		LuaScriptInterface::setCreatureMetatable(L, -1, creature);
 	}
 
-	void pushPosition(const Position &position, int32_t stackpos = 0) {
+	void pushPosition(const Position& position, int32_t stackpos = 0) {
 		params++;
 		LuaScriptInterface::pushPosition(L, position, stackpos);
 	}
@@ -45,7 +45,7 @@ public:
 		lua_pushnumber(L, number);
 	}
 
-	void pushString(const std::string &str) {
+	void pushString(const std::string& str) {
 		params++;
 		LuaScriptInterface::pushString(L, str);
 	}

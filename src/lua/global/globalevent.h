@@ -23,10 +23,10 @@ public:
 	~GlobalEvents();
 
 	// non-copyable
-	GlobalEvents(const GlobalEvents &) = delete;
-	GlobalEvents &operator=(const GlobalEvents &) = delete;
+	GlobalEvents(const GlobalEvents&) = delete;
+	GlobalEvents& operator=(const GlobalEvents&) = delete;
 
-	static GlobalEvents &getInstance() {
+	static GlobalEvents& getInstance() {
 		// Guaranteed to be destroyed
 		static GlobalEvents instance;
 		// Instantiated on first use
@@ -66,7 +66,7 @@ public:
 		eventType = type;
 	}
 
-	const std::string &getName() const {
+	const std::string& getName() const {
 		return name;
 	}
 	void setName(std::string eventName) {

@@ -30,20 +30,20 @@ public:
 	~MoveEvents() = default;
 
 	// non-copyable
-	MoveEvents(const MoveEvents &) = delete;
-	MoveEvents &operator=(const MoveEvents &) = delete;
+	MoveEvents(const MoveEvents&) = delete;
+	MoveEvents& operator=(const MoveEvents&) = delete;
 
-	static MoveEvents &getInstance() {
+	static MoveEvents& getInstance() {
 		// Guaranteed to be destroyed
 		static MoveEvents instance;
 		// Instantiated on first use
 		return instance;
 	}
 
-	uint32_t onCreatureMove(Creature &creature, Tile &tile, MoveEvent_t eventType);
-	uint32_t onPlayerEquip(Player &player, Item &item, Slots_t slot, bool isCheck);
-	uint32_t onPlayerDeEquip(Player &player, Item &item, Slots_t slot);
-	uint32_t onItemMove(Item &item, Tile &tile, bool isAdd);
+	uint32_t onCreatureMove(Creature& creature, Tile& tile, MoveEvent_t eventType);
+	uint32_t onPlayerEquip(Player& player, Item& item, Slots_t slot, bool isCheck);
+	uint32_t onPlayerDeEquip(Player& player, Item& item, Slots_t slot);
+	uint32_t onItemMove(Item& item, Tile& tile, bool isAdd);
 
 	std::map<Position, MoveEventList> getPositionsMap() const {
 		return positionsMap;
@@ -109,24 +109,24 @@ public:
 		actionIdMap.try_emplace(actionId, moveEventList);
 	}
 
-	MoveEvent* getEvent(Item &item, MoveEvent_t eventType);
+	MoveEvent* getEvent(Item& item, MoveEvent_t eventType);
 
-	bool registerLuaItemEvent(MoveEvent &moveEvent);
-	bool registerLuaActionEvent(MoveEvent &moveEvent);
-	bool registerLuaUniqueEvent(MoveEvent &moveEvent);
-	bool registerLuaPositionEvent(MoveEvent &moveEvent);
-	bool registerLuaEvent(MoveEvent &event);
+	bool registerLuaItemEvent(MoveEvent& moveEvent);
+	bool registerLuaActionEvent(MoveEvent& moveEvent);
+	bool registerLuaUniqueEvent(MoveEvent& moveEvent);
+	bool registerLuaPositionEvent(MoveEvent& moveEvent);
+	bool registerLuaEvent(MoveEvent& event);
 	void clear();
 
 private:
-	void clearMap(std::map<int32_t, MoveEventList> &map) const;
-	void clearPosMap(std::map<Position, MoveEventList> &map);
+	void clearMap(std::map<int32_t, MoveEventList>& map) const;
+	void clearPosMap(std::map<Position, MoveEventList>& map);
 
-	bool registerEvent(MoveEvent &moveEvent, int32_t id, std::map<int32_t, MoveEventList> &moveListMap) const;
-	bool registerEvent(MoveEvent &moveEvent, const Position &position, std::map<Position, MoveEventList> &moveListMap) const;
-	MoveEvent* getEvent(Tile &tile, MoveEvent_t eventType);
+	bool registerEvent(MoveEvent& moveEvent, int32_t id, std::map<int32_t, MoveEventList>& moveListMap) const;
+	bool registerEvent(MoveEvent& moveEvent, const Position& position, std::map<Position, MoveEventList>& moveListMap) const;
+	MoveEvent* getEvent(Tile& tile, MoveEvent_t eventType);
 
-	MoveEvent* getEvent(Item &item, MoveEvent_t eventType, Slots_t slot);
+	MoveEvent* getEvent(Item& item, MoveEvent_t eventType, Slots_t slot);
 
 	std::map<int32_t, MoveEventList> uniqueIdMap;
 	std::map<int32_t, MoveEventList> actionIdMap;
@@ -143,21 +143,21 @@ public:
 	MoveEvent_t getEventType() const;
 	void setEventType(MoveEvent_t type);
 
-	uint32_t fireStepEvent(Creature &creature, Item* item, const Position &pos) const;
-	uint32_t fireAddRemItem(Item &item, Item &tileItem, const Position &pos) const;
-	uint32_t fireAddRemItem(Item &item, const Position &pos) const;
-	uint32_t fireEquip(Player &player, Item &item, Slots_t slot, bool isCheck);
+	uint32_t fireStepEvent(Creature& creature, Item* item, const Position& pos) const;
+	uint32_t fireAddRemItem(Item& item, Item& tileItem, const Position& pos) const;
+	uint32_t fireAddRemItem(Item& item, const Position& pos) const;
+	uint32_t fireEquip(Player& player, Item& item, Slots_t slot, bool isCheck);
 
 	uint32_t getSlot() const {
 		return slot;
 	}
 
 	// Scripting to lua interface
-	bool executeStep(Creature &creature, Item* item, const Position &pos) const;
-	bool executeEquip(Player &player, Item &item, Slots_t slot, bool isCheck) const;
-	bool executeAddRemItem(Item &item, Item &tileItem, const Position &pos) const;
+	bool executeStep(Creature& creature, Item* item, const Position& pos) const;
+	bool executeEquip(Player& player, Item& item, Slots_t slot, bool isCheck) const;
+	bool executeAddRemItem(Item& item, Item& tileItem, const Position& pos) const;
 	// No have tile item
-	bool executeAddRemItem(Item &item, const Position &pos) const;
+	bool executeAddRemItem(Item& item, const Position& pos) const;
 	//
 
 	// onEquip information
@@ -170,16 +170,16 @@ public:
 	bool isPremium() const {
 		return premium;
 	}
-	const std::string &getVocationString() const {
+	const std::string& getVocationString() const {
 		return vocationString;
 	}
-	void setVocationString(const std::string &str) {
+	void setVocationString(const std::string& str) {
 		vocationString = str;
 	}
 	uint32_t getWieldInfo() const {
 		return wieldInfo;
 	}
-	const std::map<uint16_t, bool> &getVocEquipMap() const {
+	const std::map<uint16_t, bool>& getVocEquipMap() const {
 		return vocEquipMap;
 	}
 	void addVocEquipMap(std::string vocName) {
@@ -246,11 +246,11 @@ public:
 		wieldInfo |= info;
 	}
 
-	static uint32_t StepInField(Creature* creature, Item* item, const Position &pos);
-	static uint32_t StepOutField(Creature* creature, Item* item, const Position &pos);
+	static uint32_t StepInField(Creature* creature, Item* item, const Position& pos);
+	static uint32_t StepOutField(Creature* creature, Item* item, const Position& pos);
 
-	static uint32_t AddItemField(Item* item, Item* tileItem, const Position &pos);
-	static uint32_t RemoveItemField(Item* item, Item* tileItem, const Position &pos);
+	static uint32_t AddItemField(Item* item, Item* tileItem, const Position& pos);
+	static uint32_t RemoveItemField(Item* item, Item* tileItem, const Position& pos);
 
 	static uint32_t EquipItem(MoveEvent* moveEvent, Player* player, Item* item, Slots_t slot, bool boolean);
 	static uint32_t DeEquipItem(MoveEvent* moveEvent, Player* player, Item* item, Slots_t slot, bool boolean);
@@ -265,14 +265,14 @@ private:
 	std::function<uint32_t(
 		Creature* creature,
 		Item* item,
-		const Position &pos
+		const Position& pos
 	)>
 		stepFunction;
 	// Move function
 	std::function<uint32_t(
 		Item* item,
 		Item* tileItem,
-		const Position &pos
+		const Position& pos
 	)>
 		moveFunction;
 	// equipFunction

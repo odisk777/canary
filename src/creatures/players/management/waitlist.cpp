@@ -24,7 +24,7 @@ struct Wait {
 
 using WaitList = std::list<Wait>;
 
-void cleanupList(WaitList &list) {
+void cleanupList(WaitList& list) {
 	int64_t time = OTSYS_TIME();
 
 	auto it = list.begin(), end = list.end();
@@ -65,7 +65,7 @@ struct WaitListInfo {
 	}
 };
 
-WaitingList &WaitingList::getInstance() {
+WaitingList& WaitingList::getInstance() {
 	static WaitingList waitingList;
 	return waitingList;
 }

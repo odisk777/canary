@@ -14,7 +14,7 @@
 #include "utils/thread_holder_base.h"
 
 struct DatabaseTask {
-	DatabaseTask(std::string &&initQuery, std::function<void(DBResult_ptr, bool)> &&initCallback, bool initStore) :
+	DatabaseTask(std::string&& initQuery, std::function<void(DBResult_ptr, bool)>&& initCallback, bool initStore) :
 		query(std::move(initQuery)), callback(std::move(initCallback)), store(initStore) { }
 
 	std::string query;
@@ -27,10 +27,10 @@ public:
 	DatabaseTasks();
 
 	// non-copyable
-	DatabaseTasks(const DatabaseTasks &) = delete;
-	void operator=(const DatabaseTasks &) = delete;
+	DatabaseTasks(const DatabaseTasks&) = delete;
+	void operator=(const DatabaseTasks&) = delete;
 
-	static DatabaseTasks &getInstance() {
+	static DatabaseTasks& getInstance() {
 		// Guaranteed to be destroyed
 		static DatabaseTasks instance;
 		// Instantiated on first use
@@ -48,7 +48,7 @@ public:
 	void threadMain();
 
 private:
-	void runTask(const DatabaseTask &task);
+	void runTask(const DatabaseTask& task);
 
 	Database* db_;
 	std::thread thread;

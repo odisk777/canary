@@ -91,12 +91,12 @@ public:
 	void addBytes(const char* bytes, size_t size);
 	void addPaddingBytes(size_t n);
 
-	void addString(const std::string &value);
+	void addString(const std::string& value);
 
 	void addDouble(double value, uint8_t precision = 2);
 
 	// write functions for complex types
-	void addPosition(const Position &pos);
+	void addPosition(const Position& pos);
 
 	MsgSize_t getLength() const {
 		return info.length;

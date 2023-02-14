@@ -167,7 +167,7 @@ bool Party::passPartyLeadership(Player* player) {
 	return true;
 }
 
-bool Party::joinParty(Player &player) {
+bool Party::joinParty(Player& player) {
 	if (!g_events().eventPartyOnJoin(this, &player)) {
 		return false;
 	}
@@ -203,7 +203,7 @@ bool Party::joinParty(Player &player) {
 	player.removePartyInvitation(this);
 	updateSharedExperience();
 
-	const std::string &leaderName = leader->getName();
+	const std::string& leaderName = leader->getName();
 	ss.str(std::string());
 	ss << "You have joined " << leaderName << "'" << (leaderName.back() == 's' ? "" : "s") << " party. Open the party channel to communicate with your companions.";
 	player.sendTextMessage(MESSAGE_PARTY_MANAGEMENT, ss.str());
@@ -211,7 +211,7 @@ bool Party::joinParty(Player &player) {
 	return true;
 }
 
-bool Party::removeInvite(Player &player, bool removeFromPlayer /* = true*/) {
+bool Party::removeInvite(Player& player, bool removeFromPlayer /* = true*/) {
 	auto it = std::find(inviteList.begin(), inviteList.end(), &player);
 	if (it == inviteList.end()) {
 		return false;
@@ -233,7 +233,7 @@ bool Party::removeInvite(Player &player, bool removeFromPlayer /* = true*/) {
 	return true;
 }
 
-void Party::revokeInvitation(Player &player) {
+void Party::revokeInvitation(Player& player) {
 	std::ostringstream ss;
 	ss << leader->getName() << " has revoked " << (leader->getSex() == PLAYERSEX_FEMALE ? "her" : "his") << " invitation.";
 	player.sendTextMessage(MESSAGE_PARTY_MANAGEMENT, ss.str());
@@ -245,7 +245,7 @@ void Party::revokeInvitation(Player &player) {
 	removeInvite(player);
 }
 
-bool Party::invitePlayer(Player &player) {
+bool Party::invitePlayer(Player& player) {
 	if (isPlayerInvited(&player)) {
 		return false;
 	}
@@ -291,7 +291,7 @@ void Party::updateAllPartyIcons() {
 	updateTrackerAnalyzer();
 }
 
-void Party::broadcastPartyMessage(MessageClasses msgClass, const std::string &msg, bool sendToInvitations /*= false*/) {
+void Party::broadcastPartyMessage(MessageClasses msgClass, const std::string& msg, bool sendToInvitations /*= false*/) {
 	for (Player* member : memberList) {
 		member->sendTextMessage(msgClass, msg);
 	}
@@ -485,7 +485,7 @@ void Party::updatePlayerStatus(Player* player) {
 	}
 }
 
-void Party::updatePlayerStatus(Player* player, const Position &oldPos, const Position &newPos) {
+void Party::updatePlayerStatus(Player* player, const Position& oldPos, const Position& newPos) {
 	int32_t maxDistance = g_configManager().getNumber(PARTY_LIST_MAX_DISTANCE);
 	if (maxDistance != 0) {
 		for (Player* member : memberList) {

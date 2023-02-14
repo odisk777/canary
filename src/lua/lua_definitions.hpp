@@ -201,7 +201,7 @@ struct LuaTimerEventDesc {
 	uint32_t eventId = 0;
 
 	LuaTimerEventDesc() = default;
-	LuaTimerEventDesc(LuaTimerEventDesc &&other) = default;
+	LuaTimerEventDesc(LuaTimerEventDesc&& other) = default;
 };
 
 #endif // SRC_LUA_LUA_DEFINITIONS_HPP_

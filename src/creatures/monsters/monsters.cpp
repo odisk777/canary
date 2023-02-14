@@ -36,7 +36,7 @@ void MonsterType::loadLoot(MonsterType* monsterType, LootBlock lootBlock) {
 	}
 }
 
-bool MonsterType::canSpawn(const Position &pos) {
+bool MonsterType::canSpawn(const Position& pos) {
 	bool canSpawn = true;
 	bool isDay = g_game().gameIsDay();
 
@@ -58,7 +58,7 @@ ConditionDamage* Monsters::getDamageCondition(ConditionType_t conditionType, int
 	return condition;
 }
 
-bool Monsters::deserializeSpell(MonsterSpell* spell, spellBlock_t &sb, const std::string &description) {
+bool Monsters::deserializeSpell(MonsterSpell* spell, spellBlock_t& sb, const std::string& description) {
 	if (!spell->scriptName.empty()) {
 		spell->isScripted = true;
 	} else if (!spell->name.empty()) {
@@ -279,7 +279,7 @@ bool MonsterType::loadCallback(LuaScriptInterface* scriptInterface) {
 	return true;
 }
 
-MonsterType* Monsters::getMonsterType(const std::string &name) {
+MonsterType* Monsters::getMonsterType(const std::string& name) {
 	std::string lowerCaseName = asLowerCaseString(name);
 	if (auto it = monsters.find(lowerCaseName);
 		it != monsters.end()
@@ -301,7 +301,7 @@ MonsterType* Monsters::getMonsterTypeByRaceId(uint16_t thisrace) {
 	return (mtype ? mtype : nullptr);
 }
 
-void Monsters::addMonsterType(const std::string &name, MonsterType* mType) {
+void Monsters::addMonsterType(const std::string& name, MonsterType* mType) {
 	std::string lowerName = asLowerCaseString(name);
 	monsters[lowerName] = mType;
 }

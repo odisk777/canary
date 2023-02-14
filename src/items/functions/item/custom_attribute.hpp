@@ -17,12 +17,12 @@ public:
 	CustomAttribute();
 	~CustomAttribute();
 
-	CustomAttribute(const std::string &initStringKey, const int64_t initInt64Value);
-	CustomAttribute(const std::string &initStringKey, const std::string &initStringValue);
-	CustomAttribute(const std::string &initStringKey, const double initDoubleValue);
-	CustomAttribute(const std::string &initStringKey, const bool initBoolValue);
+	CustomAttribute(const std::string& initStringKey, const int64_t initInt64Value);
+	CustomAttribute(const std::string& initStringKey, const std::string& initStringValue);
+	CustomAttribute(const std::string& initStringKey, const double initDoubleValue);
+	CustomAttribute(const std::string& initStringKey, const bool initBoolValue);
 
-	const std::string &getStringKey() const;
+	const std::string& getStringKey() const;
 
 	template <typename T>
 	T getAttribute() const {
@@ -42,17 +42,17 @@ public:
 		return {};
 	}
 
-	const int64_t &getInteger() const;
-	const std::string &getString() const;
-	const double &getDouble() const;
-	const bool &getBool() const;
+	const int64_t& getInteger() const;
+	const std::string& getString() const;
+	const double& getDouble() const;
+	const bool& getBool() const;
 
 	void setValue(const int64_t newValue) {
 		if (std::holds_alternative<int64_t>(value)) {
 			value = newValue;
 		}
 	}
-	void setValue(const std::string &newValue) {
+	void setValue(const std::string& newValue) {
 		if (std::holds_alternative<std::string>(value)) {
 			value = newValue;
 		}
@@ -75,8 +75,8 @@ public:
 
 	void pushToLua(lua_State* L) const;
 
-	void serialize(PropWriteStream &propWriteStream) const;
-	bool unserialize(PropStream &propStream, const std::string &function);
+	void serialize(PropWriteStream& propWriteStream) const;
+	bool unserialize(PropStream& propStream, const std::string& function);
 
 private:
 	std::string stringKey;

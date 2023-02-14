@@ -31,7 +31,7 @@ Items Item::items;
 Item* Item::CreateItem(const uint16_t type, uint16_t count /*= 0*/) {
 	Item* newItem = nullptr;
 
-	const ItemType &it = Item::items[type];
+	const ItemType& it = Item::items[type];
 	if (it.stackable && count == 0) {
 		count = 1;
 	}
@@ -127,7 +127,7 @@ bool Item::hasImbuementCategoryId(uint16_t categoryId) const {
 }
 
 Container* Item::CreateItemAsContainer(const uint16_t type, uint16_t size) {
-	if (const ItemType &it = Item::items[type];
+	if (const ItemType& it = Item::items[type];
 		it.id == 0
 		|| it.stackable
 		|| it.multiUse
@@ -144,7 +144,7 @@ Container* Item::CreateItemAsContainer(const uint16_t type, uint16_t size) {
 	return newItem;
 }
 
-Item* Item::CreateItem(PropStream &propStream) {
+Item* Item::CreateItem(PropStream& propStream) {
 	uint16_t id;
 	if (!propStream.read<uint16_t>(id)) {
 		return nullptr;
@@ -188,7 +188,7 @@ Item* Item::CreateItem(PropStream &propStream) {
 
 Item::Item(const uint16_t itemId, uint16_t itemCount /*= 0*/) :
 	id(itemId) {
-	const ItemType &it = items[id];
+	const ItemType& it = items[id];
 	auto itemCharges = it.charges;
 	if (it.isFluidContainer() || it.isSplash()) {
 		setAttribute(ItemAttribute_t::FLUIDTYPE, itemCount);
@@ -209,7 +209,7 @@ Item::Item(const uint16_t itemId, uint16_t itemCount /*= 0*/) :
 	setDefaultDuration();
 }
 
-Item::Item(const Item &i) :
+Item::Item(const Item& i) :
 	Thing(), id(i.id), count(i.count), loadedFromMap(i.loadedFromMap) {
 	if (i.initAttributePtr()) {
 		initAttributePtr().reset(new ItemAttribute());
@@ -239,8 +239,8 @@ bool Item::equals(const Item* compareItem) const {
 		return false;
 	}
 
-	for (const auto &attribute : initAttributePtr()->getAttributeVector()) {
-		for (const auto &compareAttribute : compareItem->getAttributeVector()) {
+	for (const auto& attribute : initAttributePtr()->getAttributeVector()) {
+		for (const auto& compareAttribute : compareItem->getAttributeVector()) {
 			if (attribute.getAttributeType() != compareAttribute.getAttributeType()) {
 				continue;
 			}
@@ -259,7 +259,7 @@ bool Item::equals(const Item* compareItem) const {
 }
 
 void Item::setDefaultSubtype() {
-	const ItemType &it = items[id];
+	const ItemType& it = items[id];
 
 	setItemCount(1);
 
@@ -282,10 +282,10 @@ void Item::onRemoved() {
 }
 
 void Item::setID(uint16_t newid) {
-	const ItemType &prevIt = Item::items[id];
+	const ItemType& prevIt = Item::items[id];
 	id = newid;
 
-	const ItemType &it = Item::items[newid];
+	const ItemType& it = Item::items[newid];
 	uint32_t newDuration = it.decayTime * 1000;
 
 	if (newDuration == 0 && !it.stopTime && it.decayTo < 0) {
@@ -361,7 +361,7 @@ const Tile* Item::getTile() const {
 }
 
 uint16_t Item::getSubType() const {
-	const ItemType &it = items[id];
+	const ItemType& it = items[id];
 	if (it.isFluidContainer() || it.isSplash()) {
 		return getAttribute<uint16_t>(ItemAttribute_t::FLUIDTYPE);
 	} else if (it.stackable) {
@@ -390,7 +390,7 @@ bool Item::isItemStorable() const {
 }
 
 void Item::setSubType(uint16_t n) {
-	const ItemType &it = items[id];
+	const ItemType& it = items[id];
 	if (it.isFluidContainer() || it.isSplash()) {
 		setAttribute(ItemAttribute_t::FLUIDTYPE, n);
 	} else if (it.stackable) {
@@ -402,7 +402,7 @@ void Item::setSubType(uint16_t n) {
 	}
 }
 
-Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream &propStream) {
+Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream& propStream) {
 	switch (attr) {
 		case ATTR_COUNT:
 		case ATTR_RUNE_CHARGES: {
@@ -784,7 +784,7 @@ Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream &propStream) {
 	return ATTR_READ_CONTINUE;
 }
 
-bool Item::unserializeAttr(PropStream &propStream) {
+bool Item::unserializeAttr(PropStream& propStream) {
 	uint8_t attr_type;
 	while (propStream.read<uint8_t>(attr_type) && attr_type != 0) {
 		Attr_ReadValue ret = readAttr(static_cast<AttrTypes_t>(attr_type), propStream);
@@ -797,12 +797,12 @@ bool Item::unserializeAttr(PropStream &propStream) {
 	return true;
 }
 
-bool Item::unserializeItemNode(OTB::Loader &, const OTB::Node &, PropStream &propStream) {
+bool Item::unserializeItemNode(OTB::Loader&, const OTB::Node&, PropStream& propStream) {
 	return unserializeAttr(propStream);
 }
 
-void Item::serializeAttr(PropWriteStream &propWriteStream) const {
-	const ItemType &it = items[id];
+void Item::serializeAttr(PropWriteStream& propWriteStream) const {
+	const ItemType& it = items[id];
 	if (it.stackable || it.isFluidContainer() || it.isSplash()) {
 		propWriteStream.write<uint8_t>(ATTR_COUNT);
 		propWriteStream.write<uint8_t>(getSubType());
@@ -820,7 +820,7 @@ void Item::serializeAttr(PropWriteStream &propWriteStream) const {
 		}
 	}
 
-	if (const std::string &text = getString(ItemAttribute_t::TEXT);
+	if (const std::string& text = getString(ItemAttribute_t::TEXT);
 		!text.empty()) {
 		propWriteStream.write<uint8_t>(ATTR_TEXT);
 		propWriteStream.writeString(text);
@@ -831,13 +831,13 @@ void Item::serializeAttr(PropWriteStream &propWriteStream) const {
 		propWriteStream.write<uint64_t>(writtenDate);
 	}
 
-	const std::string &writer = getString(ItemAttribute_t::WRITER);
+	const std::string& writer = getString(ItemAttribute_t::WRITER);
 	if (!writer.empty()) {
 		propWriteStream.write<uint8_t>(ATTR_WRITTENBY);
 		propWriteStream.writeString(writer);
 	}
 
-	const std::string &specialDesc = getString(ItemAttribute_t::DESCRIPTION);
+	const std::string& specialDesc = getString(ItemAttribute_t::DESCRIPTION);
 	if (!specialDesc.empty()) {
 		propWriteStream.write<uint8_t>(ATTR_DESC);
 		propWriteStream.writeString(specialDesc);
@@ -939,7 +939,7 @@ void Item::serializeAttr(PropWriteStream &propWriteStream) const {
 		auto customAttributeMap = getCustomAttributeMap();
 		propWriteStream.write<uint8_t>(ATTR_CUSTOM);
 		propWriteStream.write<uint64_t>(customAttributeMap.size());
-		for (const auto &[attributeKey, customAttribute] : customAttributeMap) {
+		for (const auto& [attributeKey, customAttribute] : customAttributeMap) {
 			// Serializing custom attribute key type
 			propWriteStream.writeString(attributeKey);
 			// Serializing custom attribute value type
@@ -949,7 +949,7 @@ void Item::serializeAttr(PropWriteStream &propWriteStream) const {
 }
 
 bool Item::hasProperty(ItemProperty prop) const {
-	const ItemType &it = items[id];
+	const ItemType& it = items[id];
 	switch (prop) {
 		case CONST_PROP_BLOCKSOLID:
 			return it.blockSolid;
@@ -989,12 +989,12 @@ uint32_t Item::getWeight() const {
 }
 
 std::vector<std::pair<std::string, std::string>>
-Item::getDescriptions(const ItemType &it, const Item* item /*= nullptr*/) {
+Item::getDescriptions(const ItemType& it, const Item* item /*= nullptr*/) {
 	std::ostringstream ss;
 	std::vector<std::pair<std::string, std::string>> descriptions;
 	descriptions.reserve(30);
 	if (item) {
-		const std::string &specialDescription = item->getAttribute<std::string>(ItemAttribute_t::DESCRIPTION);
+		const std::string& specialDescription = item->getAttribute<std::string>(ItemAttribute_t::DESCRIPTION);
 		if (!specialDescription.empty()) {
 			descriptions.emplace_back("Description", specialDescription);
 		} else if (!it.description.empty()) {
@@ -1134,7 +1134,7 @@ Item::getDescriptions(const ItemType &it, const Item* item /*= nullptr*/) {
 
 			uint16_t subType = item->getSubType();
 			if (subType > 0) {
-				const std::string &itemName = items[subType].name;
+				const std::string& itemName = items[subType].name;
 				ss << (!itemName.empty() ? itemName : "Nothing");
 			} else {
 				ss << "Nothing";
@@ -1522,7 +1522,7 @@ std::string Item::parseClassificationDescription(const Item* item) {
 
 std::string Item::parseShowAttributesDescription(const Item* item, const uint16_t itemId) {
 	std::ostringstream itemDescription;
-	const ItemType &itemType = Item::items[itemId];
+	const ItemType& itemType = Item::items[itemId];
 	if (itemType.armor != 0 || (item && item->getArmor() != 0) || itemType.showAttributes) {
 		bool begin = true;
 
@@ -1691,7 +1691,7 @@ std::string Item::parseShowAttributesDescription(const Item* item, const uint16_
 	return itemDescription.str();
 }
 
-std::string Item::getDescription(const ItemType &it, int32_t lookDistance, const Item* item /*= nullptr*/, int32_t subType /*= -1*/, bool addArticle /*= true*/) {
+std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const Item* item /*= nullptr*/, int32_t subType /*= -1*/, bool addArticle /*= true*/) {
 	const std::string* text = nullptr;
 
 	std::ostringstream s;
@@ -1710,13 +1710,13 @@ std::string Item::getDescription(const ItemType &it, int32_t lookDistance, const
 				}
 				s << " (\"" << it.runeSpellName << "\"). " << (it.stackable && tmpSubType > 1 ? "They" : "It") << " can only be used by ";
 
-				const VocSpellMap &vocMap = rune->getVocMap();
+				const VocSpellMap& vocMap = rune->getVocMap();
 				std::vector<Vocation*> showVocMap;
 
 				// vocations are usually listed with the unpromoted and promoted version, the latter being
 				// hidden from description, so `total / 2` is most likely the amount of vocations to be shown.
 				showVocMap.reserve(vocMap.size() / 2);
-				for (const auto &voc : vocMap) {
+				for (const auto& voc : vocMap) {
 					if (voc.second) {
 						showVocMap.push_back(g_vocations().getVocation(voc.first));
 					}
@@ -2166,7 +2166,7 @@ std::string Item::getDescription(const ItemType &it, int32_t lookDistance, const
 				s << fmt::format(" (Key:{:04})", item ? item->getAttribute<uint16_t>(ItemAttribute_t::ACTIONID) : 0);
 			} else if (it.isFluidContainer()) {
 				if (subType > 0) {
-					const std::string &itemName = items[subType].name;
+					const std::string& itemName = items[subType].name;
 					s << " of " << (!itemName.empty() ? itemName : "unknown");
 				} else {
 					s << ". It is empty";
@@ -2187,7 +2187,7 @@ std::string Item::getDescription(const ItemType &it, int32_t lookDistance, const
 						auto string = item->getAttribute<std::string>(ItemAttribute_t::TEXT);
 						text = &string;
 						if (!text->empty()) {
-							const std::string &writer = item->getAttribute<std::string>(ItemAttribute_t::WRITER);
+							const std::string& writer = item->getAttribute<std::string>(ItemAttribute_t::WRITER);
 							if (!writer.empty()) {
 								s << writer << " wrote";
 								auto date = item->getAttribute<time_t>(ItemAttribute_t::DATE);
@@ -2330,7 +2330,7 @@ std::string Item::getDescription(const ItemType &it, int32_t lookDistance, const
 	}
 
 	if (item) {
-		const std::string &specialDescription = item->getAttribute<std::string>(ItemAttribute_t::DESCRIPTION);
+		const std::string& specialDescription = item->getAttribute<std::string>(ItemAttribute_t::DESCRIPTION);
 		if (!specialDescription.empty()) {
 			s << std::endl
 			  << specialDescription;
@@ -2358,18 +2358,18 @@ std::string Item::getDescription(const ItemType &it, int32_t lookDistance, const
 }
 
 std::string Item::getDescription(int32_t lookDistance) const {
-	const ItemType &it = items[id];
+	const ItemType& it = items[id];
 	return getDescription(it, lookDistance, this);
 }
 
-std::string Item::getNameDescription(const ItemType &it, const Item* item /*= nullptr*/, int32_t subType /*= -1*/, bool addArticle /*= true*/) {
+std::string Item::getNameDescription(const ItemType& it, const Item* item /*= nullptr*/, int32_t subType /*= -1*/, bool addArticle /*= true*/) {
 	if (item) {
 		subType = item->getSubType();
 	}
 
 	std::ostringstream s;
 
-	const std::string &name = (item ? item->getName() : it.name);
+	const std::string& name = (item ? item->getName() : it.name);
 	if (!name.empty()) {
 		if (it.stackable && subType > 1) {
 			if (it.showCount) {
@@ -2379,7 +2379,7 @@ std::string Item::getNameDescription(const ItemType &it, const Item* item /*= nu
 			s << (item ? item->getPluralName() : it.getPluralName());
 		} else {
 			if (addArticle) {
-				const std::string &article = (item ? item->getArticle() : it.article);
+				const std::string& article = (item ? item->getArticle() : it.article);
 				if (!article.empty()) {
 					s << article << ' ';
 				}
@@ -2394,11 +2394,11 @@ std::string Item::getNameDescription(const ItemType &it, const Item* item /*= nu
 }
 
 std::string Item::getNameDescription() const {
-	const ItemType &it = items[id];
+	const ItemType& it = items[id];
 	return getNameDescription(it, this);
 }
 
-std::string Item::getWeightDescription(const ItemType &it, uint32_t weight, uint32_t count /*= 1*/) {
+std::string Item::getWeightDescription(const ItemType& it, uint32_t weight, uint32_t count /*= 1*/) {
 	std::ostringstream ss;
 	if (it.stackable && count > 1 && it.showCount != 0) {
 		ss << "They weigh ";
@@ -2421,7 +2421,7 @@ std::string Item::getWeightDescription(const ItemType &it, uint32_t weight, uint
 }
 
 std::string Item::getWeightDescription(uint32_t weight) const {
-	const ItemType &it = Item::items[id];
+	const ItemType& it = Item::items[id];
 	return getWeightDescription(it, weight, getItemCount());
 }
 
@@ -2448,7 +2448,7 @@ bool Item::canDecay() const {
 		return false;
 	}
 
-	const ItemType &it = Item::items[id];
+	const ItemType& it = Item::items[id];
 	if (it.decayTo < 0 || it.decayTime == 0) {
 		return false;
 	}
@@ -2491,7 +2491,7 @@ uint32_t Item::getForgeCores() const {
 }
 
 LightInfo Item::getLightInfo() const {
-	const ItemType &it = items[id];
+	const ItemType& it = items[id];
 	return { it.lightLevel, it.lightColor };
 }
 
@@ -2508,7 +2508,7 @@ bool Item::hasMarketAttributes() const {
 		return true;
 	}
 
-	for (const auto &attribute : getAttributeVector()) {
+	for (const auto& attribute : getAttributeVector()) {
 		if (attribute.getAttributeType() == ItemAttribute_t::CHARGES && static_cast<uint16_t>(attribute.getInteger()) != items[id].charges) {
 			return false;
 		}

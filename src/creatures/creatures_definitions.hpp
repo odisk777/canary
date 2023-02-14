@@ -682,7 +682,7 @@ struct MarketOffer {
 
 struct MarketOfferEx {
 	MarketOfferEx() = default;
-	MarketOfferEx(MarketOfferEx &&other) :
+	MarketOfferEx(MarketOfferEx&& other) :
 		id(other.id),
 		playerId(other.playerId),
 		timestamp(other.timestamp),
@@ -743,10 +743,10 @@ struct Familiar {
 };
 
 struct ProtocolFamiliars {
-	ProtocolFamiliars(const std::string &initName, uint16_t initLookType) :
+	ProtocolFamiliars(const std::string& initName, uint16_t initLookType) :
 		name(initName), lookType(initLookType) { }
 
-	const std::string &name;
+	const std::string& name;
 	uint16_t lookType;
 };
 

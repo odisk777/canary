@@ -68,7 +68,7 @@ int MonsterFunctions::luaMonsterSetType(lua_State* L) {
 			monsterType = g_monsters().getMonsterType(getString(L, 2));
 		}
 		// Unregister creature events (current MonsterType)
-		for (const std::string &scriptName : monster->mType->info.scripts) {
+		for (const std::string& scriptName : monster->mType->info.scripts) {
 			if (!monster->unregisterCreatureEvent(scriptName)) {
 				SPDLOG_WARN("[Warning - MonsterFunctions::luaMonsterSetType] Unknown event name: {}", scriptName);
 			}
@@ -87,7 +87,7 @@ int MonsterFunctions::luaMonsterSetType(lua_State* L) {
 		monster->hiddenHealth = monsterType->info.hiddenHealth;
 		monster->targetDistance = monsterType->info.targetDistance;
 		// Register creature events (new MonsterType)
-		for (const std::string &scriptName : monsterType->info.scripts) {
+		for (const std::string& scriptName : monsterType->info.scripts) {
 			if (!monster->registerCreatureEvent(scriptName)) {
 				SPDLOG_WARN("[Warning - MonsterFunctions::luaMonsterSetType] Unknown event name: {}", scriptName);
 			}
@@ -223,7 +223,7 @@ int MonsterFunctions::luaMonsterGetFriendList(lua_State* L) {
 		return 1;
 	}
 
-	const auto &friendList = monster->getFriendList();
+	const auto& friendList = monster->getFriendList();
 	lua_createtable(L, friendList.size(), 0);
 
 	int index = 0;
@@ -282,7 +282,7 @@ int MonsterFunctions::luaMonsterGetTargetList(lua_State* L) {
 		return 1;
 	}
 
-	const auto &targetList = monster->getTargetList();
+	const auto& targetList = monster->getTargetList();
 	lua_createtable(L, targetList.size(), 0);
 
 	int index = 0;
@@ -349,11 +349,11 @@ int MonsterFunctions::luaMonsterSetSpawnPosition(lua_State* L) {
 		return 1;
 	}
 
-	const Position &pos = monster->getPosition();
+	const Position& pos = monster->getPosition();
 	monster->setMasterPos(pos);
 
 	g_game().map.spawnsMonster.getspawnMonsterList().emplace_front(pos, 5);
-	SpawnMonster &spawnMonster = g_game().map.spawnsMonster.getspawnMonsterList().front();
+	SpawnMonster& spawnMonster = g_game().map.spawnsMonster.getspawnMonsterList().front();
 	spawnMonster.addMonster(monster->mType->name, pos, DIRECTION_NORTH, 60000);
 	spawnMonster.startSpawnMonsterCheck();
 

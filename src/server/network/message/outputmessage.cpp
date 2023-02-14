@@ -22,8 +22,8 @@ void OutputMessagePool::scheduleSendAll() {
 
 void OutputMessagePool::sendAll() {
 	// dispatcher thread
-	for (auto &protocol : bufferedProtocols) {
-		auto &msg = protocol->getCurrentBuffer();
+	for (auto& protocol : bufferedProtocols) {
+		auto& msg = protocol->getCurrentBuffer();
 		if (msg) {
 			protocol->send(std::move(msg));
 		}
@@ -42,7 +42,7 @@ void OutputMessagePool::addProtocolToAutosend(Protocol_ptr protocol) {
 	bufferedProtocols.emplace_back(protocol);
 }
 
-void OutputMessagePool::removeProtocolFromAutosend(const Protocol_ptr &protocol) {
+void OutputMessagePool::removeProtocolFromAutosend(const Protocol_ptr& protocol) {
 	// dispatcher thread
 	auto it = std::ranges::find(bufferedProtocols.begin(), bufferedProtocols.end(), protocol);
 	if (it != bufferedProtocols.end()) {

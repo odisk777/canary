@@ -20,7 +20,7 @@ int32_t Npc::despawnRadius;
 
 uint32_t Npc::npcAutoID = 0x80000000;
 
-Npc* Npc::createNpc(const std::string &name) {
+Npc* Npc::createNpc(const std::string& name) {
 	NpcType* npcType = g_npcs().getNpcType(name);
 	if (!npcType) {
 		return nullptr;
@@ -42,7 +42,7 @@ Npc::Npc(NpcType* npcType) :
 	floorChange = npcType->info.floorChange;
 
 	// register creature events
-	for (const std::string &scriptName : npcType->info.scripts) {
+	for (const std::string& scriptName : npcType->info.scripts) {
 		if (!registerCreatureEvent(scriptName)) {
 			SPDLOG_WARN("Unknown event name: {}", scriptName);
 		}
@@ -60,14 +60,14 @@ void Npc::removeList() {
 	g_game().removeNpc(this);
 }
 
-bool Npc::canSee(const Position &pos) const {
+bool Npc::canSee(const Position& pos) const {
 	if (pos.z != getPosition().z) {
 		return false;
 	}
 	return Creature::canSee(getPosition(), pos, 4, 4);
 }
 
-bool Npc::canSeeRange(const Position &pos, int32_t viewRangeX /* = 4*/, int32_t viewRangeY /* = 4*/) const {
+bool Npc::canSeeRange(const Position& pos, int32_t viewRangeX /* = 4*/, int32_t viewRangeY /* = 4*/) const {
 	if (pos.z != getPosition().z) {
 		return false;
 	}
@@ -115,7 +115,7 @@ void Npc::onRemoveCreature(Creature* creature, bool isLogout) {
 	shopPlayerSet.clear();
 }
 
-void Npc::onCreatureMove(Creature* creature, const Tile* newTile, const Position &newPos, const Tile* oldTile, const Position &oldPos, bool teleport) {
+void Npc::onCreatureMove(Creature* creature, const Tile* newTile, const Position& newPos, const Tile* oldTile, const Position& oldPos, bool teleport) {
 	Creature::onCreatureMove(creature, newTile, newPos, oldTile, oldPos, teleport);
 
 	// onCreatureMove(self, creature, oldPosition, newPosition)
@@ -144,7 +144,7 @@ void Npc::onCreatureMove(Creature* creature, const Tile* newTile, const Position
 	}
 }
 
-void Npc::onCreatureSay(Creature* creature, SpeakClasses type, const std::string &text) {
+void Npc::onCreatureSay(Creature* creature, SpeakClasses type, const std::string& text) {
 	Creature::onCreatureSay(creature, type, text);
 
 	if (!creature->getPlayer()) {
@@ -218,7 +218,7 @@ void Npc::onPlayerBuyItem(Player* player, uint16_t itemId, uint8_t subType, uint
 
 	uint32_t shoppingBagPrice = 20;
 	uint32_t shoppingBagSlots = 20;
-	const ItemType &itemType = Item::items[itemId];
+	const ItemType& itemType = Item::items[itemId];
 	if (const Tile* tile = ignore ? player->getTile() : nullptr; tile) {
 		double slotsNedeed = 0;
 		if (itemType.stackable) {
@@ -234,7 +234,7 @@ void Npc::onPlayerBuyItem(Player* player, uint16_t itemId, uint8_t subType, uint
 	}
 
 	uint32_t buyPrice = 0;
-	const std::vector<ShopBlock> &shopVector = getShopItemVector();
+	const std::vector<ShopBlock>& shopVector = getShopItemVector();
 	for (ShopBlock shopBlock : shopVector) {
 		if (itemType.id == shopBlock.itemId && shopBlock.itemBuyPrice != 0) {
 			buyPrice = shopBlock.itemBuyPrice;
@@ -283,8 +283,8 @@ void Npc::onPlayerSellItem(Player* player, uint16_t itemId, uint8_t subType, uin
 	}
 
 	uint32_t sellPrice = 0;
-	const ItemType &itemType = Item::items[itemId];
-	const std::vector<ShopBlock> &shopVector = getShopItemVector();
+	const ItemType& itemType = Item::items[itemId];
+	const std::vector<ShopBlock>& shopVector = getShopItemVector();
 	for (ShopBlock shopBlock : shopVector) {
 		if (itemType.id == shopBlock.itemId && shopBlock.itemSellPrice != 0) {
 			sellPrice = shopBlock.itemSellPrice;
@@ -352,7 +352,7 @@ void Npc::onPlayerCheckItem(Player* player, uint16_t itemId, uint8_t subType) {
 		return;
 	}
 
-	const ItemType &itemType = Item::items[itemId];
+	const ItemType& itemType = Item::items[itemId];
 	// onPlayerCheckItem(self, player, itemId, subType)
 	CreatureCallback callback = CreatureCallback(npcType->info.scriptInterface, this);
 	if (callback.startScriptInterface(npcType->info.playerLookEvent)) {
@@ -399,7 +399,7 @@ void Npc::onThinkYell(uint32_t interval) {
 
 		if (!npcType->info.voiceVector.empty() && (npcType->info.yellChance >= static_cast<uint32_t>(uniform_random(1, 100)))) {
 			uint32_t index = uniform_random(0, npcType->info.voiceVector.size() - 1);
-			const voiceBlock_t &vb = npcType->info.voiceVector[index];
+			const voiceBlock_t& vb = npcType->info.voiceVector[index];
 
 			if (vb.yellText) {
 				g_game().internalCreatureSay(this, TALKTYPE_YELL, vb.text, false);
@@ -440,7 +440,7 @@ void Npc::onPlacedCreature() {
 	addEventWalk();
 }
 
-bool Npc::isInSpawnRange(const Position &pos) const {
+bool Npc::isInSpawnRange(const Position& pos) const {
 	if (!spawnNpc) {
 		return true;
 	}
@@ -491,7 +491,7 @@ void Npc::resetPlayerInteractions() {
 	playerInteractions.clear();
 }
 
-bool Npc::canWalkTo(const Position &fromPos, Direction dir) const {
+bool Npc::canWalkTo(const Position& fromPos, Direction dir) const {
 	if (npcType->info.walkRadius == 0) {
 		return false;
 	}
@@ -517,11 +517,11 @@ bool Npc::canWalkTo(const Position &fromPos, Direction dir) const {
 	return true;
 }
 
-bool Npc::getNextStep(Direction &nextDirection, uint32_t &flags) {
+bool Npc::getNextStep(Direction& nextDirection, uint32_t& flags) {
 	return Creature::getNextStep(nextDirection, flags);
 }
 
-bool Npc::getRandomStep(Direction &moveDirection) const {
+bool Npc::getRandomStep(Direction& moveDirection) const {
 	static std::vector<Direction> directionvector{
 		Direction::DIRECTION_NORTH,
 		Direction::DIRECTION_WEST,
@@ -530,7 +530,7 @@ bool Npc::getRandomStep(Direction &moveDirection) const {
 	};
 	std::ranges::shuffle(directionvector, getRandomGenerator());
 
-	for (const Position &creaturePos = getPosition();
+	for (const Position& creaturePos = getPosition();
 		 Direction direction : directionvector) {
 		if (canWalkTo(creaturePos, direction)) {
 			moveDirection = direction;

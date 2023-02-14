@@ -18,9 +18,9 @@ const auto SYSTEM_TIME_ZERO = std::chrono::system_clock::time_point(std::chrono:
 class Task {
 public:
 	// DO NOT allocate this class on the stack
-	explicit Task(std::function<void(void)> &&f) :
+	explicit Task(std::function<void(void)>&& f) :
 		func(std::move(f)) { }
-	Task(uint32_t ms, std::function<void(void)> &&f) :
+	Task(uint32_t ms, std::function<void(void)>&& f) :
 		expiration(std::chrono::system_clock::now() + std::chrono::milliseconds(ms)), func(std::move(f)) { }
 
 	virtual ~Task() = default;
@@ -56,10 +56,10 @@ class Dispatcher : public ThreadHolder<Dispatcher> {
 public:
 	Dispatcher() = default;
 
-	Dispatcher(const Dispatcher &) = delete;
-	void operator=(const Dispatcher &) = delete;
+	Dispatcher(const Dispatcher&) = delete;
+	void operator=(const Dispatcher&) = delete;
 
-	static Dispatcher &getInstance() {
+	static Dispatcher& getInstance() {
 		// Guaranteed to be destroyed
 		static Dispatcher instance;
 		// Instantiated on first use

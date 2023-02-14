@@ -38,8 +38,8 @@ public:
 	~Raids();
 
 	// non-copyable
-	Raids(const Raids &) = delete;
-	Raids &operator=(const Raids &) = delete;
+	Raids(const Raids&) = delete;
+	Raids& operator=(const Raids&) = delete;
 
 	bool loadFromXml();
 	bool startup();
@@ -61,7 +61,7 @@ public:
 		running = newRunning;
 	}
 
-	Raid* getRaidByName(const std::string &name);
+	Raid* getRaidByName(const std::string& name);
 
 	uint64_t getLastRaidEnd() const {
 		return lastRaidEnd;
@@ -72,7 +72,7 @@ public:
 
 	void checkRaids();
 
-	LuaScriptInterface &getScriptInterface() {
+	LuaScriptInterface& getScriptInterface() {
 		return scriptInterface;
 	}
 
@@ -94,10 +94,10 @@ public:
 	~Raid();
 
 	// non-copyable
-	Raid(const Raid &) = delete;
-	Raid &operator=(const Raid &) = delete;
+	Raid(const Raid&) = delete;
+	Raid& operator=(const Raid&) = delete;
 
-	bool loadFromXml(const std::string &filename);
+	bool loadFromXml(const std::string& filename);
 
 	void startRaid();
 
@@ -108,7 +108,7 @@ public:
 	void setState(RaidState_t newState) {
 		state = newState;
 	}
-	const std::string &getName() const {
+	const std::string& getName() const {
 		return name;
 	}
 
@@ -143,7 +143,7 @@ class RaidEvent {
 public:
 	virtual ~RaidEvent() = default;
 
-	virtual bool configureRaidEvent(const pugi::xml_node &eventNode);
+	virtual bool configureRaidEvent(const pugi::xml_node& eventNode);
 
 	virtual bool executeEvent() = 0;
 	uint32_t getDelay() const {
@@ -158,7 +158,7 @@ class AnnounceEvent final : public RaidEvent {
 public:
 	AnnounceEvent() = default;
 
-	bool configureRaidEvent(const pugi::xml_node &eventNode) override;
+	bool configureRaidEvent(const pugi::xml_node& eventNode) override;
 
 	bool executeEvent() override;
 
@@ -169,7 +169,7 @@ private:
 
 class SingleSpawnEvent final : public RaidEvent {
 public:
-	bool configureRaidEvent(const pugi::xml_node &eventNode) override;
+	bool configureRaidEvent(const pugi::xml_node& eventNode) override;
 
 	bool executeEvent() override;
 
@@ -180,7 +180,7 @@ private:
 
 class AreaSpawnEvent final : public RaidEvent {
 public:
-	bool configureRaidEvent(const pugi::xml_node &eventNode) override;
+	bool configureRaidEvent(const pugi::xml_node& eventNode) override;
 
 	bool executeEvent() override;
 
@@ -194,12 +194,12 @@ public:
 	explicit ScriptEvent(LuaScriptInterface* interface) :
 		Event(interface) { }
 
-	bool configureRaidEvent(const pugi::xml_node &eventNode) override;
-	bool configureEvent(const pugi::xml_node &) override {
+	bool configureRaidEvent(const pugi::xml_node& eventNode) override;
+	bool configureEvent(const pugi::xml_node&) override {
 		return false;
 	}
 
-	std::string &getScriptName() {
+	std::string& getScriptName() {
 		return scriptName;
 	}
 	void setScriptName(std::string name) {

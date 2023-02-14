@@ -35,7 +35,7 @@ bool Actions::registerLuaItemEvent(Action* action) {
 	std::vector<uint16_t> tmpVector;
 	tmpVector.reserve(itemIdVector.size());
 
-	for (const auto &itemId : itemIdVector) {
+	for (const auto& itemId : itemIdVector) {
 		// Check if the item is already registered and prevent it from being registered again
 		if (hasItemId(itemId)) {
 			SPDLOG_WARN(
@@ -68,7 +68,7 @@ bool Actions::registerLuaUniqueEvent(Action* action) {
 	std::vector<uint16_t> tmpVector;
 	tmpVector.reserve(uniqueIdVector.size());
 
-	for (const auto &uniqueId : uniqueIdVector) {
+	for (const auto& uniqueId : uniqueIdVector) {
 		// Check if the unique is already registered and prevent it from being registered again
 		if (!hasUniqueId(uniqueId)) {
 			// Register unique id the unique item map
@@ -99,7 +99,7 @@ bool Actions::registerLuaActionEvent(Action* action) {
 	std::vector<uint16_t> tmpVector;
 	tmpVector.reserve(actionIdVector.size());
 
-	for (const auto &actionId : actionIdVector) {
+	for (const auto& actionId : actionIdVector) {
 		// Check if the unique is already registered and prevent it from being registered again
 		if (!hasActionId(actionId)) {
 			// Register action in the action item map
@@ -130,7 +130,7 @@ bool Actions::registerLuaPositionEvent(Action* action) {
 	std::vector<Position> tmpVector;
 	tmpVector.reserve(positionVector.size());
 
-	for (const auto &position : positionVector) {
+	for (const auto& position : positionVector) {
 		// Check if the position is already registered and prevent it from being registered again
 		if (!hasPosition(position)) {
 			// Register position in the action position map
@@ -168,9 +168,9 @@ bool Actions::registerLuaEvent(Action* action) {
 	return false;
 }
 
-ReturnValue Actions::canUse(const Player* player, const Position &pos) {
+ReturnValue Actions::canUse(const Player* player, const Position& pos) {
 	if (pos.x != 0xFFFF) {
-		const Position &playerPos = player->getPosition();
+		const Position& playerPos = player->getPosition();
 		if (playerPos.z != pos.z) {
 			return playerPos.z > pos.z ? RETURNVALUE_FIRSTGOUPSTAIRS : RETURNVALUE_FIRSTGODOWNSTAIRS;
 		}
@@ -182,7 +182,7 @@ ReturnValue Actions::canUse(const Player* player, const Position &pos) {
 	return RETURNVALUE_NOERROR;
 }
 
-ReturnValue Actions::canUse(const Player* player, const Position &pos, const Item* item) {
+ReturnValue Actions::canUse(const Player* player, const Position& pos, const Item* item) {
 	Action* action = getAction(item);
 	if (action != nullptr) {
 		return action->canExecuteAction(player, pos);
@@ -190,12 +190,12 @@ ReturnValue Actions::canUse(const Player* player, const Position &pos, const Ite
 	return RETURNVALUE_NOERROR;
 }
 
-ReturnValue Actions::canUseFar(const Creature* creature, const Position &toPos, bool checkLineOfSight, bool checkFloor) {
+ReturnValue Actions::canUseFar(const Creature* creature, const Position& toPos, bool checkLineOfSight, bool checkFloor) {
 	if (toPos.x == 0xFFFF) {
 		return RETURNVALUE_NOERROR;
 	}
 
-	const Position &creaturePos = creature->getPosition();
+	const Position& creaturePos = creature->getPosition();
 	if (checkFloor && creaturePos.z != toPos.z) {
 		return creaturePos.z > toPos.z ? RETURNVALUE_FIRSTGOUPSTAIRS : RETURNVALUE_FIRSTGODOWNSTAIRS;
 	}
@@ -249,7 +249,7 @@ Action* Actions::getAction(const Item* item) {
 	return g_spells().getRuneSpell(item->getID());
 }
 
-ReturnValue Actions::internalUseItem(Player* player, const Position &pos, uint8_t index, Item* item, bool isHotkey) {
+ReturnValue Actions::internalUseItem(Player* player, const Position& pos, uint8_t index, Item* item, bool isHotkey) {
 	if (Door* door = item->getDoor()) {
 		if (!door->canUse(player)) {
 			return RETURNVALUE_CANNOTUSETHISOBJECT;
@@ -304,7 +304,7 @@ ReturnValue Actions::internalUseItem(Player* player, const Position &pos, uint8_
 			}
 
 			myRewardChest->setParent(container->getParent()->getTile());
-			for (const auto &[mapRewardId, rewardPtr] : player->rewardMap) {
+			for (const auto& [mapRewardId, rewardPtr] : player->rewardMap) {
 				rewardPtr->setParent(myRewardChest);
 			}
 
@@ -348,7 +348,7 @@ ReturnValue Actions::internalUseItem(Player* player, const Position &pos, uint8_
 		return RETURNVALUE_NOERROR;
 	}
 
-	const ItemType &it = Item::items[item->getID()];
+	const ItemType& it = Item::items[item->getID()];
 	if (it.canReadText) {
 		if (it.canWriteText) {
 			player->setWriteItem(item, it.maxTextLen);
@@ -364,8 +364,8 @@ ReturnValue Actions::internalUseItem(Player* player, const Position &pos, uint8_
 	return RETURNVALUE_CANNOTUSETHISOBJECT;
 }
 
-bool Actions::useItem(Player* player, const Position &pos, uint8_t index, Item* item, bool isHotkey) {
-	const ItemType &it = Item::items[item->getID()];
+bool Actions::useItem(Player* player, const Position& pos, uint8_t index, Item* item, bool isHotkey) {
+	const ItemType& it = Item::items[item->getID()];
 	if (it.isRune() || it.type == ITEM_TYPE_POTION) {
 		if (player->walkExhausted()) {
 			player->sendCancelMessage(RETURNVALUE_YOUAREEXHAUSTED);
@@ -395,8 +395,8 @@ bool Actions::useItem(Player* player, const Position &pos, uint8_t index, Item* 
 	return true;
 }
 
-bool Actions::useItemEx(Player* player, const Position &fromPos, const Position &toPos, uint8_t toStackPos, Item* item, bool isHotkey, Creature* creature /* = nullptr*/) {
-	const ItemType &it = Item::items[item->getID()];
+bool Actions::useItemEx(Player* player, const Position& fromPos, const Position& toPos, uint8_t toStackPos, Item* item, bool isHotkey, Creature* creature /* = nullptr*/) {
+	const ItemType& it = Item::items[item->getID()];
 	if (it.isRune() || it.type == ITEM_TYPE_POTION) {
 		if (player->walkExhausted()) {
 			player->sendCancelMessage(RETURNVALUE_YOUAREEXHAUSTED);
@@ -447,7 +447,7 @@ bool Actions::useItemEx(Player* player, const Position &fromPos, const Position 
 void Actions::showUseHotkeyMessage(Player* player, const Item* item, uint32_t count) {
 	std::ostringstream ss;
 
-	const ItemType &it = Item::items[item->getID()];
+	const ItemType& it = Item::items[item->getID()];
 	if (!it.showCount) {
 		ss << "Using one of " << item->getName() << "...";
 	} else if (count == 1) {
@@ -468,7 +468,7 @@ void Actions::showUseHotkeyMessage(Player* player, const Item* item, uint32_t co
 Action::Action(LuaScriptInterface* interface) :
 	Script(interface) { }
 
-ReturnValue Action::canExecuteAction(const Player* player, const Position &toPos) {
+ReturnValue Action::canExecuteAction(const Player* player, const Position& toPos) {
 	if (!allowFarUse) {
 		return g_actions().canUse(player, toPos);
 	}
@@ -476,14 +476,14 @@ ReturnValue Action::canExecuteAction(const Player* player, const Position &toPos
 	return g_actions().canUseFar(player, toPos, checkLineOfSight, checkFloor);
 }
 
-Thing* Action::getTarget(Player* player, Creature* targetCreature, const Position &toPosition, uint8_t toStackPos) const {
+Thing* Action::getTarget(Player* player, Creature* targetCreature, const Position& toPosition, uint8_t toStackPos) const {
 	if (targetCreature != nullptr) {
 		return targetCreature;
 	}
 	return g_game().internalGetThing(player, toPosition, toStackPos, 0, STACKPOS_USETARGET);
 }
 
-bool Action::executeUse(Player* player, Item* item, const Position &fromPosition, Thing* target, const Position &toPosition, bool isHotkey) {
+bool Action::executeUse(Player* player, Item* item, const Position& fromPosition, Thing* target, const Position& toPosition, bool isHotkey) {
 	// onUse(player, item, fromPosition, target, toPosition, isHotkey)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[Action::executeUse - Player {}, on item {}] "

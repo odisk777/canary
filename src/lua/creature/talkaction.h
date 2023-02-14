@@ -23,10 +23,10 @@ class TalkAction : public Script {
 public:
 	using Script::Script;
 
-	const std::string &getWords() const {
+	const std::string& getWords() const {
 		return words;
 	}
-	const std::vector<std::string> &getWordsMap() const {
+	const std::vector<std::string>& getWordsMap() const {
 		return wordsMap;
 	}
 	void setWords(std::string word) {
@@ -41,7 +41,7 @@ public:
 	}
 
 	// scripting
-	bool executeSay(Player* player, const std::string &words, const std::string &param, SpeakClasses type) const;
+	bool executeSay(Player* player, const std::string& words, const std::string& param, SpeakClasses type) const;
 	//
 
 private:
@@ -60,17 +60,17 @@ public:
 	~TalkActions();
 
 	// non-copyable
-	TalkActions(const TalkActions &) = delete;
-	TalkActions &operator=(const TalkActions &) = delete;
+	TalkActions(const TalkActions&) = delete;
+	TalkActions& operator=(const TalkActions&) = delete;
 
-	static TalkActions &getInstance() {
+	static TalkActions& getInstance() {
 		// Guaranteed to be destroyed
 		static TalkActions instance;
 		// Instantiated on first use
 		return instance;
 	}
 
-	TalkActionResult_t playerSaySpell(Player* player, SpeakClasses type, const std::string &words) const;
+	TalkActionResult_t playerSaySpell(Player* player, SpeakClasses type, const std::string& words) const;
 
 	bool registerLuaEvent(TalkAction* event);
 	void clear();

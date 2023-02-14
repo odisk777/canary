@@ -19,7 +19,7 @@
 static constexpr int32_t MINSPAWN_INTERVAL = 1000; // 1 second
 static constexpr int32_t MAXSPAWN_INTERVAL = 86400000; // 1 day
 
-bool SpawnsNpc::loadFromXml(const std::string &fileNpcName) {
+bool SpawnsNpc::loadFromXml(const std::string& fileNpcName) {
 	if (isLoaded()) {
 		return true;
 	}
@@ -55,7 +55,7 @@ bool SpawnsNpc::loadFromXml(const std::string &fileNpcName) {
 		}
 
 		spawnNpcList.emplace_front(centerPos, radius);
-		SpawnNpc &spawnNpc = spawnNpcList.front();
+		SpawnNpc& spawnNpc = spawnNpcList.front();
 
 		for (auto childNode : spawnNode.children()) {
 			if (strcasecmp(childNode.name(), "npc") == 0) {
@@ -101,7 +101,7 @@ void SpawnsNpc::startup() {
 		return;
 	}
 
-	for (SpawnNpc &spawnNpc : spawnNpcList) {
+	for (SpawnNpc& spawnNpc : spawnNpcList) {
 		spawnNpc.startup();
 	}
 
@@ -109,7 +109,7 @@ void SpawnsNpc::startup() {
 }
 
 void SpawnsNpc::clear() {
-	for (SpawnNpc &spawnNpc : spawnNpcList) {
+	for (SpawnNpc& spawnNpc : spawnNpcList) {
 		spawnNpc.stopEvent();
 	}
 	spawnNpcList.clear();
@@ -119,7 +119,7 @@ void SpawnsNpc::clear() {
 	fileName.clear();
 }
 
-bool SpawnsNpc::isInZone(const Position &centerPos, int32_t radius, const Position &pos) {
+bool SpawnsNpc::isInZone(const Position& centerPos, int32_t radius, const Position& pos) {
 	if (radius == -1) {
 		return true;
 	}
@@ -134,14 +134,14 @@ void SpawnNpc::startSpawnNpcCheck() {
 }
 
 SpawnNpc::~SpawnNpc() {
-	for (const auto &it : spawnedNpcMap) {
+	for (const auto& it : spawnedNpcMap) {
 		Npc* npc = it.second;
 		npc->setSpawnNpc(nullptr);
 		npc->decrementReferenceCounter();
 	}
 }
 
-bool SpawnNpc::findPlayer(const Position &pos) {
+bool SpawnNpc::findPlayer(const Position& pos) {
 	SpectatorHashSet spectators;
 	g_game().map.getSpectators(spectators, pos, false, true);
 	for (Creature* spectator : spectators) {
@@ -152,11 +152,11 @@ bool SpawnNpc::findPlayer(const Position &pos) {
 	return false;
 }
 
-bool SpawnNpc::isInSpawnNpcZone(const Position &pos) {
+bool SpawnNpc::isInSpawnNpcZone(const Position& pos) {
 	return SpawnsNpc::isInZone(centerPos, radius, pos);
 }
 
-bool SpawnNpc::spawnNpc(uint32_t spawnId, NpcType* npcType, const Position &pos, Direction dir, bool startup /*= false*/) {
+bool SpawnNpc::spawnNpc(uint32_t spawnId, NpcType* npcType, const Position& pos, Direction dir, bool startup /*= false*/) {
 	std::unique_ptr<Npc> npc_ptr(new Npc(npcType));
 	if (startup) {
 		// No need to send out events to the surrounding since there is no one out there to listen!
@@ -182,9 +182,9 @@ bool SpawnNpc::spawnNpc(uint32_t spawnId, NpcType* npcType, const Position &pos,
 }
 
 void SpawnNpc::startup() {
-	for (const auto &it : spawnNpcMap) {
+	for (const auto& it : spawnNpcMap) {
 		uint32_t spawnId = it.first;
-		const spawnBlockNpc_t &sb = it.second;
+		const spawnBlockNpc_t& sb = it.second;
 		spawnNpc(spawnId, sb.npcType, sb.pos, sb.direction, true);
 	}
 }
@@ -194,13 +194,13 @@ void SpawnNpc::checkSpawnNpc() {
 
 	cleanup();
 
-	for (auto &it : spawnNpcMap) {
+	for (auto& it : spawnNpcMap) {
 		uint32_t spawnId = it.first;
 		if (spawnedNpcMap.find(spawnId) != spawnedNpcMap.end()) {
 			continue;
 		}
 
-		spawnBlockNpc_t &sb = it.second;
+		spawnBlockNpc_t& sb = it.second;
 		if (!sb.npcType->canSpawn(sb.pos)) {
 			sb.lastSpawnNpc = OTSYS_TIME();
 			continue;
@@ -221,7 +221,7 @@ void SpawnNpc::checkSpawnNpc() {
 	}
 }
 
-void SpawnNpc::scheduleSpawnNpc(uint32_t spawnId, spawnBlockNpc_t &sb, uint16_t interval) {
+void SpawnNpc::scheduleSpawnNpc(uint32_t spawnId, spawnBlockNpc_t& sb, uint16_t interval) {
 	if (interval <= 0) {
 		spawnNpc(spawnId, sb.npcType, sb.pos, sb.direction);
 	} else {
@@ -245,7 +245,7 @@ void SpawnNpc::cleanup() {
 	}
 }
 
-bool SpawnNpc::addNpc(const std::string &name, const Position &pos, Direction dir, uint32_t scheduleInterval) {
+bool SpawnNpc::addNpc(const std::string& name, const Position& pos, Direction dir, uint32_t scheduleInterval) {
 	NpcType* npcType = g_npcs().getNpcType(name);
 	if (!npcType) {
 		SPDLOG_ERROR("Can not find {}", name);

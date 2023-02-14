@@ -68,7 +68,7 @@ bool Outfits::loadFromXml() {
 }
 
 const Outfit* Outfits::getOutfitByLookType(PlayerSex_t sex, uint16_t lookType) const {
-	for (const Outfit &outfit : outfits[sex]) {
+	for (const Outfit& outfit : outfits[sex]) {
 		if (outfit.lookType == lookType) {
 			return &outfit;
 		}

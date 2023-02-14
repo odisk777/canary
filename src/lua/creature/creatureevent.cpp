@@ -14,7 +14,7 @@
 #include "creatures/players/player.h"
 
 void CreatureEvents::clear() {
-	for (auto &[name, event] : creatureEvents) {
+	for (auto& [name, event] : creatureEvents) {
 		event.clearEvent();
 	}
 }
@@ -46,7 +46,7 @@ bool CreatureEvents::registerLuaEvent(CreatureEvent* event) {
 	}
 }
 
-CreatureEvent* CreatureEvents::getEventByName(const std::string &name, bool forceLoaded /*= true*/) {
+CreatureEvent* CreatureEvents::getEventByName(const std::string& name, bool forceLoaded /*= true*/) {
 	auto it = creatureEvents.find(name);
 	if (it != creatureEvents.end()) {
 		if (!forceLoaded || it->second.isLoaded()) {
@@ -58,7 +58,7 @@ CreatureEvent* CreatureEvents::getEventByName(const std::string &name, bool forc
 
 bool CreatureEvents::playerLogin(Player* player) const {
 	// fire global event if is registered
-	for (const auto &it : creatureEvents) {
+	for (const auto& it : creatureEvents) {
 		if (it.second.getEventType() == CREATURE_EVENT_LOGIN) {
 			if (!it.second.executeOnLogin(player)) {
 				return false;
@@ -70,7 +70,7 @@ bool CreatureEvents::playerLogin(Player* player) const {
 
 bool CreatureEvents::playerLogout(Player* player) const {
 	// fire global event if is registered
-	for (const auto &it : creatureEvents) {
+	for (const auto& it : creatureEvents) {
 		if (it.second.getEventType() == CREATURE_EVENT_LOGOUT) {
 			if (!it.second.executeOnLogout(player)) {
 				return false;
@@ -86,7 +86,7 @@ bool CreatureEvents::playerAdvance(
 	uint32_t oldLevel,
 	uint32_t newLevel
 ) const {
-	for ([[maybe_unused]] const auto &[eventName, eventPtr] : creatureEvents) {
+	for ([[maybe_unused]] const auto& [eventName, eventPtr] : creatureEvents) {
 		if (eventPtr.getEventType() == CREATURE_EVENT_ADVANCE) {
 			if (!eventPtr.executeAdvance(player, skill, oldLevel, newLevel)) {
 				return false;
@@ -376,7 +376,7 @@ void CreatureEvent::executeModalWindow(Player* player, uint32_t modalWindowId, u
 	getScriptInterface()->callVoidFunction(4);
 }
 
-bool CreatureEvent::executeTextEdit(Player* player, Item* item, const std::string &text) const {
+bool CreatureEvent::executeTextEdit(Player* player, Item* item, const std::string& text) const {
 	// onTextEdit(player, item, text)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[CreatureEvent::executeTextEdit - Player {} event {}] "
@@ -400,7 +400,7 @@ bool CreatureEvent::executeTextEdit(Player* player, Item* item, const std::strin
 	return getScriptInterface()->callFunction(3);
 }
 
-void CreatureEvent::executeHealthChange(Creature* creature, Creature* attacker, CombatDamage &damage) const {
+void CreatureEvent::executeHealthChange(Creature* creature, Creature* attacker, CombatDamage& damage) const {
 	// onHealthChange(creature, attacker, primaryDamage, primaryType, secondaryDamage, secondaryType, origin)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[CreatureEvent::executeHealthChange - "
@@ -445,7 +445,7 @@ void CreatureEvent::executeHealthChange(Creature* creature, Creature* attacker, 
 	getScriptInterface()->resetScriptEnv();
 }
 
-void CreatureEvent::executeManaChange(Creature* creature, Creature* attacker, CombatDamage &damage) const {
+void CreatureEvent::executeManaChange(Creature* creature, Creature* attacker, CombatDamage& damage) const {
 	// onManaChange(creature, attacker, primaryDamage, primaryType, secondaryDamage, secondaryType, origin)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[CreatureEvent::executeManaChange - "
@@ -485,7 +485,7 @@ void CreatureEvent::executeManaChange(Creature* creature, Creature* attacker, Co
 	getScriptInterface()->resetScriptEnv();
 }
 
-void CreatureEvent::executeExtendedOpcode(Player* player, uint8_t opcode, const std::string &buffer) const {
+void CreatureEvent::executeExtendedOpcode(Player* player, uint8_t opcode, const std::string& buffer) const {
 	// onExtendedOpcode(player, opcode, buffer)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[CreatureEvent::executeExtendedOpcode - "

@@ -14,10 +14,10 @@
 
 class Decay {
 public:
-	Decay(const Decay &) = delete;
-	void operator=(const Decay &) = delete;
+	Decay(const Decay&) = delete;
+	void operator=(const Decay&) = delete;
 
-	static Decay &getInstance() {
+	static Decay& getInstance() {
 		// Guaranteed to be destroyed
 		static Decay instance;
 		// Instantiated on first use

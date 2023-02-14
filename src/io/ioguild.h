@@ -17,8 +17,8 @@ class IOGuild {
 public:
 	static Guild* loadGuild(uint32_t guildId);
 	static void saveGuild(Guild* guild);
-	static uint32_t getGuildIdByName(const std::string &name);
-	static void getWarList(uint32_t guildId, GuildWarVector &guildWarVector);
+	static uint32_t getGuildIdByName(const std::string& name);
+	static void getWarList(uint32_t guildId, GuildWarVector& guildWarVector);
 };
 
 #endif // SRC_IO_IOGUILD_H_

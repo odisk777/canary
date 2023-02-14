@@ -36,7 +36,7 @@ Account::Account(uint32_t id) {
 	db_tasks_ = &g_databaseTasks();
 }
 
-Account::Account(const std::string &email) :
+Account::Account(const std::string& email) :
 	email_(email) {
 	id_ = 0;
 	password_.clear();
@@ -137,7 +137,7 @@ error_t Account::RemoveCoins(uint32_t amount) {
 	return ERROR_NO;
 }
 
-error_t Account::RegisterCoinsTransaction(CoinTransactionType type, uint32_t coins, const std::string &description) {
+error_t Account::RegisterCoinsTransaction(CoinTransactionType type, uint32_t coins, const std::string& description) {
 	if (db_ == nullptr) {
 		return ERROR_NULLPTR;
 	}
@@ -182,7 +182,7 @@ error_t Account::LoadAccountDB(uint32_t id) {
 	return this->LoadAccountDB(query);
 }
 
-error_t Account::LoadAccountDB(std::ostringstream &query) {
+error_t Account::LoadAccountDB(std::ostringstream& query) {
 	if (db_ == nullptr) {
 		return ERROR_NULLPTR;
 	}
@@ -202,7 +202,7 @@ error_t Account::LoadAccountDB(std::ostringstream &query) {
 	return ERROR_NO;
 }
 
-error_t Account::LoadAccountPlayerDB(Player* player, std::string &characterName) {
+error_t Account::LoadAccountPlayerDB(Player* player, std::string& characterName) {
 	if (id_ == 0) {
 		return ERROR_NOT_INITIALIZED;
 	}
@@ -372,7 +372,7 @@ error_t Account::GetAccountType(AccountType* account_type) {
 	return ERROR_NO;
 }
 
-error_t Account::GetAccountPlayer(Player* player, std::string &characterName) {
+error_t Account::GetAccountPlayer(Player* player, std::string& characterName) {
 	if (player == nullptr) {
 		return ERROR_NULLPTR;
 	}

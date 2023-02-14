@@ -52,7 +52,7 @@ LootTypeNames lootTypeNames = {
 	{ "unassigned", ITEM_TYPE_UNASSIGNED },
 };
 
-ItemTypes_t Items::getLootType(const std::string &strValue) {
+ItemTypes_t Items::getLootType(const std::string& strValue) {
 	auto lootType = lootTypeNames.find(strValue);
 	if (lootType != lootTypeNames.end()) {
 		return lootType->second;
@@ -87,7 +87,7 @@ void Items::loadFromProtobuf() {
 			items.resize(object.id() + 1);
 		}
 
-		ItemType &iType = items[object.id()];
+		ItemType& iType = items[object.id()];
 		if (object.flags().container()) {
 			iType.type = ITEM_TYPE_CONTAINER;
 			iType.group = ITEM_GROUP_CONTAINER;
@@ -198,7 +198,7 @@ bool Items::loadFromXml() {
 
 void Items::buildInventoryList() {
 	inventory.reserve(items.size());
-	for (const auto &type : items) {
+	for (const auto& type : items) {
 		if (type.weaponType != WEAPON_NONE || type.ammoType != AMMO_NONE || type.attack != 0 || type.defense != 0 || type.extraDefense != 0 || type.armor != 0 || type.slotPosition & SLOTP_NECKLACE || type.slotPosition & SLOTP_RING || type.slotPosition & SLOTP_AMMO || type.slotPosition & SLOTP_FEET || type.slotPosition & SLOTP_HEAD || type.slotPosition & SLOTP_ARMOR || type.slotPosition & SLOTP_LEGS) {
 			inventory.push_back(type.id);
 		}
@@ -207,14 +207,14 @@ void Items::buildInventoryList() {
 	std::sort(inventory.begin(), inventory.end());
 }
 
-void Items::parseItemNode(const pugi::xml_node &itemNode, uint16_t id) {
+void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id) {
 	if (id >= items.size()) {
 		items.resize(id + 1);
 	}
-	ItemType &iType = items[id];
+	ItemType& iType = items[id];
 	iType.id = id;
 
-	ItemType &itemType = getItemType(id);
+	ItemType& itemType = getItemType(id);
 	if (itemType.id == 0) {
 		return;
 	}
@@ -276,21 +276,21 @@ void Items::parseItemNode(const pugi::xml_node &itemNode, uint16_t id) {
 	}
 }
 
-ItemType &Items::getItemType(size_t id) {
+ItemType& Items::getItemType(size_t id) {
 	if (id < items.size()) {
 		return items[id];
 	}
 	return items.front();
 }
 
-const ItemType &Items::getItemType(size_t id) const {
+const ItemType& Items::getItemType(size_t id) const {
 	if (id < items.size()) {
 		return items[id];
 	}
 	return items.front();
 }
 
-uint16_t Items::getItemIdByName(const std::string &name) {
+uint16_t Items::getItemIdByName(const std::string& name) {
 	auto result = nameToItems.find(asLowerCaseString(name));
 
 	if (result == nameToItems.end())

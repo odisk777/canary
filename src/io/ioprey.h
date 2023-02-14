@@ -210,10 +210,10 @@ public:
 	IOPrey() = default;
 
 	// non-copyable
-	IOPrey(const IOPrey &) = delete;
-	void operator=(const IOPrey &) = delete;
+	IOPrey(const IOPrey&) = delete;
+	void operator=(const IOPrey&) = delete;
 
-	static IOPrey &getInstance() {
+	static IOPrey& getInstance() {
 		// Guaranteed to be destroyed
 		static IOPrey instance;
 		// Instantiated on first use

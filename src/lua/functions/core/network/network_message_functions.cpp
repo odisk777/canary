@@ -149,7 +149,7 @@ int NetworkMessageFunctions::luaNetworkMessageAddU64(lua_State* L) {
 
 int NetworkMessageFunctions::luaNetworkMessageAddString(lua_State* L) {
 	// networkMessage:addString(string)
-	const std::string &string = getString(L, 2);
+	const std::string& string = getString(L, 2);
 	NetworkMessage* message = getUserdata<NetworkMessage>(L, 1);
 	if (message) {
 		message->addString(string);
@@ -162,7 +162,7 @@ int NetworkMessageFunctions::luaNetworkMessageAddString(lua_State* L) {
 
 int NetworkMessageFunctions::luaNetworkMessageAddPosition(lua_State* L) {
 	// networkMessage:addPosition(position)
-	const Position &position = getPosition(L, 2);
+	const Position& position = getPosition(L, 2);
 	NetworkMessage* message = getUserdata<NetworkMessage>(L, 1);
 	if (message) {
 		message->addPosition(position);

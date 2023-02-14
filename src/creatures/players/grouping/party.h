@@ -33,10 +33,10 @@ public:
 	Player* getLeader() const {
 		return leader;
 	}
-	PlayerVector &getMembers() {
+	PlayerVector& getMembers() {
 		return memberList;
 	}
-	const PlayerVector &getInvitees() const {
+	const PlayerVector& getInvitees() const {
 		return inviteList;
 	}
 	size_t getMemberCount() const {
@@ -47,17 +47,17 @@ public:
 	}
 
 	void disband();
-	bool invitePlayer(Player &player);
-	bool joinParty(Player &player);
-	void revokeInvitation(Player &player);
+	bool invitePlayer(Player& player);
+	bool joinParty(Player& player);
+	void revokeInvitation(Player& player);
 	bool passPartyLeadership(Player* player);
 	bool leaveParty(Player* player);
 
-	bool removeInvite(Player &player, bool removeFromPlayer = true);
+	bool removeInvite(Player& player, bool removeFromPlayer = true);
 
 	bool isPlayerInvited(const Player* player) const;
 	void updateAllPartyIcons();
-	void broadcastPartyMessage(MessageClasses msgClass, const std::string &msg, bool sendToInvitations = false);
+	void broadcastPartyMessage(MessageClasses msgClass, const std::string& msg, bool sendToInvitations = false);
 	bool empty() const {
 		return memberList.empty() && inviteList.empty();
 	}
@@ -80,7 +80,7 @@ public:
 
 	void showPlayerStatus(Player* player, Player* member, bool showStatus);
 	void updatePlayerStatus(Player* player);
-	void updatePlayerStatus(Player* player, const Position &oldPos, const Position &newPos);
+	void updatePlayerStatus(Player* player, const Position& oldPos, const Position& newPos);
 	void updatePlayerHealth(const Player* player, const Creature* target, uint8_t healthPercent);
 	void updatePlayerMana(const Player* player, uint8_t manaPercent);
 	void updatePlayerVocation(const Player* player);

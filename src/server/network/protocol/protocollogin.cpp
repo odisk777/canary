@@ -17,7 +17,7 @@
 #include "creatures/players/management/ban.h"
 #include "game/game.h"
 
-void ProtocolLogin::disconnectClient(const std::string &message, uint16_t version) {
+void ProtocolLogin::disconnectClient(const std::string& message, uint16_t version) {
 	auto output = OutputMessagePool::getOutputMessage();
 
 	output->addByte(version >= 1076 ? 0x0B : 0x0A);
@@ -27,7 +27,7 @@ void ProtocolLogin::disconnectClient(const std::string &message, uint16_t versio
 	disconnect();
 }
 
-void ProtocolLogin::getCharacterList(const std::string &email, const std::string &password, uint16_t version) {
+void ProtocolLogin::getCharacterList(const std::string& email, const std::string& password, uint16_t version) {
 	account::Account account;
 	if (!IOLoginData::authenticateAccountPassword(email, password, &account)) {
 		disconnectClient("Email or password is not correct", version);
@@ -38,7 +38,7 @@ void ProtocolLogin::getCharacterList(const std::string &email, const std::string
 	Game::updatePremium(account);
 
 	auto output = OutputMessagePool::getOutputMessage();
-	const std::string &motd = g_configManager().getString(MOTD);
+	const std::string& motd = g_configManager().getString(MOTD);
 	if (!motd.empty()) {
 		// Add MOTD
 		output->addByte(0x14);
@@ -92,7 +92,7 @@ void ProtocolLogin::getCharacterList(const std::string &email, const std::string
 	disconnect();
 }
 
-void ProtocolLogin::onRecvFirstMessage(NetworkMessage &msg) {
+void ProtocolLogin::onRecvFirstMessage(NetworkMessage& msg) {
 	if (g_game().getGameState() == GAME_STATE_SHUTDOWN) {
 		disconnect();
 		return;

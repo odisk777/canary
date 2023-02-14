@@ -316,7 +316,7 @@ bool ConfigManager::reload() {
 
 static std::string dummyStr;
 
-const std::string &ConfigManager::getString(stringConfig_t what) const {
+const std::string& ConfigManager::getString(stringConfig_t what) const {
 	if (what >= LAST_STRING_CONFIG) {
 		SPDLOG_WARN("[ConfigManager::getString] - Accessing invalid index: {}", what);
 		return dummyStr;

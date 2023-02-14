@@ -22,7 +22,7 @@ int ItemTypeFunctions::luaItemTypeCreate(lua_State* L) {
 		id = Item::items.getItemIdByName(getString(L, 2));
 	}
 
-	const ItemType &itemType = Item::items[id];
+	const ItemType& itemType = Item::items[id];
 	pushUserdata<const ItemType>(L, &itemType);
 	setMetatable(L, -1, "ItemType");
 	return 1;
@@ -436,7 +436,7 @@ int ItemTypeFunctions::luaItemTypeGetElementType(lua_State* L) {
 		return 1;
 	}
 
-	auto &abilities = itemType->abilities;
+	auto& abilities = itemType->abilities;
 	if (abilities) {
 		lua_pushnumber(L, abilities->elementType);
 	} else {
@@ -453,7 +453,7 @@ int ItemTypeFunctions::luaItemTypeGetElementDamage(lua_State* L) {
 		return 1;
 	}
 
-	auto &abilities = itemType->abilities;
+	auto& abilities = itemType->abilities;
 	if (abilities) {
 		lua_pushnumber(L, abilities->elementDamage);
 	} else {
@@ -525,7 +525,7 @@ int ItemTypeFunctions::luaItemTypeGetSpeed(lua_State* L) {
 		return 1;
 	}
 
-	auto &abilities = itemType->abilities;
+	auto& abilities = itemType->abilities;
 	if (abilities) {
 		lua_pushnumber(L, abilities->speed);
 	} else {

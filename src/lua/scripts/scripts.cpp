@@ -35,7 +35,7 @@ void Scripts::clearAllScripts() const {
 	g_weapons().clear();
 }
 
-bool Scripts::loadEventSchedulerScripts(const std::string &fileName) {
+bool Scripts::loadEventSchedulerScripts(const std::string& fileName) {
 	auto coreFolder = g_configManager().getString(CORE_DIRECTORY);
 	const auto dir = std::filesystem::current_path() / coreFolder / "events" / "scripts" / "scheduler";
 	if (!std::filesystem::exists(dir) || !std::filesystem::is_directory(dir)) {
@@ -73,9 +73,9 @@ bool Scripts::loadScripts(std::string folderName, bool isLib, bool reload) {
 	// Declare a string variable to store the last directory
 	std::string lastDirectory;
 	// Recursive iterate through all entries in the directory
-	for (const auto &entry : std::filesystem::recursive_directory_iterator(dir)) {
+	for (const auto& entry : std::filesystem::recursive_directory_iterator(dir)) {
 		// Get the filename of the entry as a string
-		const auto &realPath = entry.path();
+		const auto& realPath = entry.path();
 		std::string fileFolder = realPath.parent_path().filename().string();
 		// Script folder, example: "actions"
 		std::string scriptFolder = realPath.parent_path().string();

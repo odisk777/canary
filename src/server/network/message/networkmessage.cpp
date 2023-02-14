@@ -41,7 +41,7 @@ Position NetworkMessage::getPosition() {
 	return pos;
 }
 
-void NetworkMessage::addString(const std::string &value) {
+void NetworkMessage::addString(const std::string& value) {
 	size_t stringLen = value.length();
 	if (value.empty()) {
 		SPDLOG_DEBUG("[NetworkMessage::addString] - Value string is empty");
@@ -96,7 +96,7 @@ void NetworkMessage::addPaddingBytes(size_t n) {
 	info.length += n;
 }
 
-void NetworkMessage::addPosition(const Position &pos) {
+void NetworkMessage::addPosition(const Position& pos) {
 	add<uint16_t>(pos.x);
 	add<uint16_t>(pos.y);
 	addByte(pos.z);

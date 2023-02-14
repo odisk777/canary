@@ -120,7 +120,7 @@ void loadModules() {
 			SPDLOG_ERROR("File key.pem not found or have problem on loading... Setting standard rsa key\n");
 			g_RSA().setKey(p, q);
 		}
-	} catch (const std::system_error &e) {
+	} catch (const std::system_error& e) {
 		SPDLOG_ERROR("Loading RSA Key from key.pem failed with error: {}\n", e.what());
 		SPDLOG_ERROR("Switching to a default key...");
 		g_RSA().setKey(p, q);
@@ -285,7 +285,7 @@ void mainLoader(int, char*[], ServiceManager* services) {
 	loadModules();
 
 #ifdef _WIN32
-	const std::string &defaultPriority = g_configManager().getString(DEFAULT_PRIORITY);
+	const std::string& defaultPriority = g_configManager().getString(DEFAULT_PRIORITY);
 	if (strcasecmp(defaultPriority.c_str(), "high") == 0) {
 		SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
 	} else if (strcasecmp(defaultPriority.c_str(), "above-normal") == 0) {

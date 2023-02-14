@@ -20,15 +20,15 @@ public:
 	virtual ~Protocol();
 
 	// non-copyable
-	Protocol(const Protocol &) = delete;
-	Protocol &operator=(const Protocol &) = delete;
+	Protocol(const Protocol&) = delete;
+	Protocol& operator=(const Protocol&) = delete;
 
-	virtual void parsePacket(NetworkMessage &) { }
+	virtual void parsePacket(NetworkMessage&) { }
 
-	virtual void onSendMessage(const OutputMessage_ptr &msg);
-	bool onRecvMessage(NetworkMessage &msg);
-	bool sendRecvMessageCallback(NetworkMessage &msg);
-	virtual void onRecvFirstMessage(NetworkMessage &msg) = 0;
+	virtual void onSendMessage(const OutputMessage_ptr& msg);
+	bool onRecvMessage(NetworkMessage& msg);
+	bool sendRecvMessageCallback(NetworkMessage& msg);
+	virtual void onRecvFirstMessage(NetworkMessage& msg) = 0;
 	virtual void onConnect() { }
 
 	bool isConnectionExpired() const {
@@ -44,7 +44,7 @@ public:
 	// Use this function for autosend messages only
 	OutputMessage_ptr getOutputBuffer(int32_t size);
 
-	OutputMessage_ptr &getCurrentBuffer() {
+	OutputMessage_ptr& getCurrentBuffer() {
 		return outputBuffer;
 	}
 
@@ -73,7 +73,7 @@ protected:
 	}
 	void enableCompression();
 
-	static bool RSA_decrypt(NetworkMessage &msg);
+	static bool RSA_decrypt(NetworkMessage& msg);
 
 	void setRawMessages(bool value) {
 		rawMessages = value;
@@ -82,9 +82,9 @@ protected:
 	virtual void release() { }
 
 private:
-	void XTEA_encrypt(OutputMessage &msg) const;
-	bool XTEA_decrypt(NetworkMessage &msg) const;
-	bool compression(OutputMessage &msg) const;
+	void XTEA_encrypt(OutputMessage& msg) const;
+	bool XTEA_decrypt(NetworkMessage& msg) const;
+	bool compression(OutputMessage& msg) const;
 
 	OutputMessage_ptr outputBuffer;
 	std::unique_ptr<z_stream> defStream;

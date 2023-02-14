@@ -21,10 +21,10 @@ public:
 	~Database();
 
 	// Singleton - ensures we don't accidentally copy it.
-	Database(const Database &) = delete;
-	Database &operator=(const Database &) = delete;
+	Database(const Database&) = delete;
+	Database& operator=(const Database&) = delete;
 
-	static Database &getInstance() {
+	static Database& getInstance() {
 		// Guaranteed to be destroyed.
 		static Database instance;
 		// Instantiated on first use.
@@ -35,11 +35,11 @@ public:
 
 	bool connect(const char* host, const char* user, const char* password, const char* database, uint32_t port, const char* sock);
 
-	bool executeQuery(const std::string &query);
+	bool executeQuery(const std::string& query);
 
-	DBResult_ptr storeQuery(const std::string &query);
+	DBResult_ptr storeQuery(const std::string& query);
 
-	std::string escapeString(const std::string &s) const;
+	std::string escapeString(const std::string& s) const;
 
 	std::string escapeBlob(const char* s, uint32_t length) const;
 
@@ -74,11 +74,11 @@ public:
 	~DBResult();
 
 	// Non copyable
-	DBResult(const DBResult &) = delete;
-	DBResult &operator=(const DBResult &) = delete;
+	DBResult(const DBResult&) = delete;
+	DBResult& operator=(const DBResult&) = delete;
 
 	template <typename T>
-	T getNumber(const std::string &s) const {
+	T getNumber(const std::string& s) const {
 		auto it = listNames.find(s);
 		if (it == listNames.end()) {
 			SPDLOG_ERROR("[DBResult::getNumber] - Column '{}' doesn't exist in the result set", s);
@@ -128,11 +128,11 @@ public:
 					SPDLOG_ERROR("Column '{}' has an invalid unsigned T is invalid", s);
 				}
 			}
-		} catch (std::invalid_argument &e) {
+		} catch (std::invalid_argument& e) {
 			// Value of string is invalid
 			SPDLOG_ERROR("Column '{}' has an invalid value set, error code: {}", s, e.what());
 			data = T();
-		} catch (std::out_of_range &e) {
+		} catch (std::out_of_range& e) {
 			// Value of string is too large to fit the range allowed by type T
 			SPDLOG_ERROR("Column '{}' has a value out of range, error code: {}", s, e.what());
 			data = T();
@@ -141,10 +141,10 @@ public:
 		return data;
 	}
 
-	std::string getString(const std::string &s) const;
-	const char* getStream(const std::string &s, unsigned long &size) const;
-	uint8_t getU8FromString(const std::string &string, const std::string &function) const;
-	int8_t getInt8FromString(const std::string &string, const std::string &function) const;
+	std::string getString(const std::string& s) const;
+	const char* getStream(const std::string& s, unsigned long& size) const;
+	uint8_t getU8FromString(const std::string& string, const std::string& function) const;
+	int8_t getInt8FromString(const std::string& string, const std::string& function) const;
 
 	size_t countResults() const;
 	bool hasNext() const;
@@ -165,8 +165,8 @@ private:
 class DBInsert {
 public:
 	explicit DBInsert(std::string query);
-	bool addRow(const std::string &row);
-	bool addRow(std::ostringstream &row);
+	bool addRow(const std::string& row);
+	bool addRow(std::ostringstream& row);
 	bool execute();
 
 private:
@@ -183,15 +183,15 @@ public:
 		if (state == STATE_START) {
 			try {
 				Database::getInstance().rollback();
-			} catch (std::exception &exception) {
+			} catch (std::exception& exception) {
 				SPDLOG_ERROR("{} - Catch exception error: {}", __FUNCTION__, exception.what());
 			}
 		}
 	}
 
 	// non-copyable
-	DBTransaction(const DBTransaction &) = delete;
-	DBTransaction &operator=(const DBTransaction &) = delete;
+	DBTransaction(const DBTransaction&) = delete;
+	DBTransaction& operator=(const DBTransaction&) = delete;
 
 	bool begin() {
 		state = STATE_START;

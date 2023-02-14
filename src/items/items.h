@@ -92,11 +92,11 @@ public:
 	ItemType() = default;
 
 	// non-copyable
-	ItemType(const ItemType &other) = delete;
-	ItemType &operator=(const ItemType &other) = delete;
+	ItemType(const ItemType& other) = delete;
+	ItemType& operator=(const ItemType& other) = delete;
 
-	ItemType(ItemType &&other) = default;
-	ItemType &operator=(ItemType &&other) = default;
+	ItemType(ItemType&& other) = default;
+	ItemType& operator=(ItemType&& other) = default;
 
 	bool isGroundTile() const {
 		return group == ITEM_GROUP_GROUND;
@@ -166,7 +166,7 @@ public:
 		return slotPosition & SLOTP_HEAD;
 	}
 
-	Abilities &getAbilities() {
+	Abilities& getAbilities() {
 		if (!abilities) {
 			abilities.reset(new Abilities());
 		}
@@ -306,19 +306,19 @@ public:
 	Items();
 
 	// non-copyable
-	Items(const Items &) = delete;
-	Items &operator=(const Items &) = delete;
+	Items(const Items&) = delete;
+	Items& operator=(const Items&) = delete;
 
 	bool reload();
 	void clear();
 
 	void loadFromProtobuf();
 
-	const ItemType &operator[](size_t id) const {
+	const ItemType& operator[](size_t id) const {
 		return getItemType(id);
 	}
-	const ItemType &getItemType(size_t id) const;
-	ItemType &getItemType(size_t id);
+	const ItemType& getItemType(size_t id) const;
+	ItemType& getItemType(size_t id);
 
 	/**
 	 * @brief Check if the itemid "hasId" is stored on "items", if not, return false
@@ -329,15 +329,15 @@ public:
 	 */
 	bool hasItemType(size_t hasId) const;
 
-	uint16_t getItemIdByName(const std::string &name);
+	uint16_t getItemIdByName(const std::string& name);
 
-	ItemTypes_t getLootType(const std::string &strValue);
+	ItemTypes_t getLootType(const std::string& strValue);
 
 	bool loadFromXml();
-	void parseItemNode(const pugi::xml_node &itemNode, uint16_t id);
+	void parseItemNode(const pugi::xml_node& itemNode, uint16_t id);
 
 	void buildInventoryList();
-	const InventoryVector &getInventory() const {
+	const InventoryVector& getInventory() const {
 		return inventory;
 	}
 

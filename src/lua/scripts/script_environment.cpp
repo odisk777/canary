@@ -55,7 +55,7 @@ bool ScriptEnvironment::setCallbackId(int32_t newCallbackId, LuaScriptInterface*
 	return true;
 }
 
-void ScriptEnvironment::getEventInfo(int32_t &retScriptId, LuaScriptInterface*&retScriptInterface, int32_t &retCallbackId, bool &retTimerEvent) const {
+void ScriptEnvironment::getEventInfo(int32_t& retScriptId, LuaScriptInterface*& retScriptInterface, int32_t& retCallbackId, bool& retTimerEvent) const {
 	retScriptId = this->scriptId;
 	retScriptInterface = interface;
 	retCallbackId = this->callbackId;
@@ -77,7 +77,7 @@ uint32_t ScriptEnvironment::addThing(Thing* thing) {
 		return item->getAttribute<uint32_t>(ItemAttribute_t::UNIQUEID);
 	}
 
-	for (const auto &it : localMap) {
+	for (const auto& it : localMap) {
 		if (it.second == item) {
 			return it.first;
 		}

@@ -18,7 +18,7 @@ RSA::RSA() {
 
 RSA::~RSA() = default;
 
-void RSA::setKey(const char* pString, const char* qString, int base /* = 10*/) {
+void RSA::setKey(const char *pString, const char *qString, int base /* = 10*/) {
 	mpz_t p;
 	mpz_t q;
 	mpz_t e;
@@ -61,7 +61,7 @@ void RSA::setKey(const char* pString, const char* qString, int base /* = 10*/) {
 	mpz_clear(e);
 }
 
-void RSA::decrypt(char* msg) const {
+void RSA::decrypt(char *msg) const {
 	mpz_t c;
 	mpz_t m;
 	mpz_init2(c, 1024);
@@ -135,7 +135,7 @@ enum {
 	CRYPT_RSA_ASN1_BITSTRING = 3
 };
 
-uint16_t RSA::decodeLength(char*&pos) const {
+uint16_t RSA::decodeLength(char *&pos) const {
 	std::string buffer;
 	auto length = static_cast<uint16_t>(static_cast<uint8_t>(*pos++));
 	if (length & 0x80) {
@@ -162,7 +162,7 @@ uint16_t RSA::decodeLength(char*&pos) const {
 	return length;
 }
 
-void RSA::readHexString(char*&pos, uint16_t length, std::string &output) const {
+void RSA::readHexString(char *&pos, uint16_t length, std::string &output) const {
 	output.reserve(static_cast<size_t>(length) * 2);
 	for (uint16_t i = 0; i < length; ++i) {
 		auto hex = static_cast<uint8_t>(*pos++);
@@ -172,7 +172,7 @@ void RSA::readHexString(char*&pos, uint16_t length, std::string &output) const {
 }
 
 bool RSA::loadPEM(const std::string &filename) {
-	std::ifstream file { filename };
+	std::ifstream file{filename};
 	if (!file.is_open()) {
 		return false;
 	}
@@ -202,7 +202,7 @@ bool RSA::loadPEM(const std::string &filename) {
 		return false;
 	}
 
-	char* pos = &key[0];
+	char *pos = &key[0];
 	if (static_cast<uint8_t>(*pos++) != CRYPT_RSA_ASN1_SEQUENCE) {
 		SPDLOG_ERROR("[RSA::loadPEM] - Invalid unsupported RSA key");
 		return false;

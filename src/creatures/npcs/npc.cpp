@@ -20,15 +20,15 @@ int32_t Npc::despawnRadius;
 
 uint32_t Npc::npcAutoID = 0x80000000;
 
-Npc* Npc::createNpc(const std::string &name) {
-	NpcType* npcType = g_npcs().getNpcType(name);
+Npc *Npc::createNpc(const std::string &name) {
+	NpcType *npcType = g_npcs().getNpcType(name);
 	if (!npcType) {
 		return nullptr;
 	}
 	return new Npc(npcType);
 }
 
-Npc::Npc(NpcType* npcType) :
+Npc::Npc(NpcType *npcType) :
 	Creature(),
 	strDescription(npcType->nameDescription),
 	npcType(npcType) {
@@ -74,7 +74,7 @@ bool Npc::canSeeRange(const Position &pos, int32_t viewRangeX /* = 4*/, int32_t 
 	return Creature::canSee(getPosition(), pos, viewRangeX, viewRangeY);
 }
 
-void Npc::onCreatureAppear(Creature* creature, bool isLogin) {
+void Npc::onCreatureAppear(Creature *creature, bool isLogin) {
 	Creature::onCreatureAppear(creature, isLogin);
 
 	// onCreatureAppear(self, creature)
@@ -89,7 +89,7 @@ void Npc::onCreatureAppear(Creature* creature, bool isLogin) {
 	}
 }
 
-void Npc::onRemoveCreature(Creature* creature, bool isLogout) {
+void Npc::onRemoveCreature(Creature *creature, bool isLogout) {
 	Creature::onRemoveCreature(creature, isLogout);
 
 	// onCreatureDisappear(self, creature)
@@ -115,7 +115,7 @@ void Npc::onRemoveCreature(Creature* creature, bool isLogout) {
 	shopPlayerSet.clear();
 }
 
-void Npc::onCreatureMove(Creature* creature, const Tile* newTile, const Position &newPos, const Tile* oldTile, const Position &oldPos, bool teleport) {
+void Npc::onCreatureMove(Creature *creature, const Tile *newTile, const Position &newPos, const Tile *oldTile, const Position &oldPos, bool teleport) {
 	Creature::onCreatureMove(creature, newTile, newPos, oldTile, oldPos, teleport);
 
 	// onCreatureMove(self, creature, oldPosition, newPosition)
@@ -137,14 +137,14 @@ void Npc::onCreatureMove(Creature* creature, const Tile* newTile, const Position
 		return;
 	}
 
-	Player* player = creature->getPlayer();
+	Player *player = creature->getPlayer();
 	if (player && !canSee(newPos) && canSee(oldPos)) {
 		updatePlayerInteractions(player);
 		player->closeShopWindow(true);
 	}
 }
 
-void Npc::onCreatureSay(Creature* creature, SpeakClasses type, const std::string &text) {
+void Npc::onCreatureSay(Creature *creature, SpeakClasses type, const std::string &text) {
 	Creature::onCreatureSay(creature, type, text);
 
 	if (!creature->getPlayer()) {
@@ -193,7 +193,7 @@ void Npc::onThink(uint32_t interval) {
 	// Get a set of spectators that are within the visible range of the NPC
 	g_game().map.getSpectators(spectators, position, false, false);
 	// Check if there is at least one player in the set of spectators that does not have the "IgnoredByNpcs" flag
-	if (std::ranges::any_of(spectators, [](Creature* spectator) {
+	if (std::ranges::any_of(spectators, [](Creature *spectator) {
 			auto player = spectator->getPlayer();
 			// If there are no players or all players have the "IgnoredByNpcs" flag, then the NPC will not walk or yell.
 			return player && !player->hasFlag(PlayerFlags_t::IgnoredByNpcs);
@@ -204,7 +204,7 @@ void Npc::onThink(uint32_t interval) {
 	}
 }
 
-void Npc::onPlayerBuyItem(Player* player, uint16_t itemId, uint8_t subType, uint16_t amount, bool ignore, bool inBackpacks) {
+void Npc::onPlayerBuyItem(Player *player, uint16_t itemId, uint8_t subType, uint16_t amount, bool ignore, bool inBackpacks) {
 	if (player == nullptr) {
 		SPDLOG_ERROR("[Npc::onPlayerBuyItem] - Player is nullptr");
 		return;
@@ -219,7 +219,7 @@ void Npc::onPlayerBuyItem(Player* player, uint16_t itemId, uint8_t subType, uint
 	uint32_t shoppingBagPrice = 20;
 	uint32_t shoppingBagSlots = 20;
 	const ItemType &itemType = Item::items[itemId];
-	if (const Tile* tile = ignore ? player->getTile() : nullptr; tile) {
+	if (const Tile *tile = ignore ? player->getTile() : nullptr; tile) {
 		double slotsNedeed = 0;
 		if (itemType.stackable) {
 			slotsNedeed = inBackpacks ? std::ceil(std::ceil(static_cast<double>(amount) / 100) / shoppingBagSlots) : std::ceil(static_cast<double>(amount) / 100);
@@ -277,7 +277,7 @@ void Npc::onPlayerBuyItem(Player* player, uint16_t itemId, uint8_t subType, uint
 	}
 }
 
-void Npc::onPlayerSellItem(Player* player, uint16_t itemId, uint8_t subType, uint16_t amount, bool ignore) {
+void Npc::onPlayerSellItem(Player *player, uint16_t itemId, uint8_t subType, uint16_t amount, bool ignore) {
 	if (!player) {
 		return;
 	}
@@ -347,7 +347,7 @@ void Npc::onPlayerSellItem(Player* player, uint16_t itemId, uint8_t subType, uin
 	}
 }
 
-void Npc::onPlayerCheckItem(Player* player, uint16_t itemId, uint8_t subType) {
+void Npc::onPlayerCheckItem(Player *player, uint16_t itemId, uint8_t subType) {
 	if (!player) {
 		return;
 	}
@@ -367,8 +367,8 @@ void Npc::onPlayerCheckItem(Player* player, uint16_t itemId, uint8_t subType) {
 	}
 }
 
-void Npc::onPlayerCloseChannel(Creature* creature) {
-	Player* player = creature->getPlayer();
+void Npc::onPlayerCloseChannel(Creature *creature) {
+	Player *player = creature->getPlayer();
 	if (!player) {
 		return;
 	}
@@ -465,7 +465,7 @@ bool Npc::isInSpawnRange(const Position &pos) const {
 }
 
 void Npc::setPlayerInteraction(uint32_t playerId, uint16_t topicId /*= 0*/) {
-	Creature* creature = g_game().getCreatureByID(playerId);
+	Creature *creature = g_game().getCreatureByID(playerId);
 	if (!creature) {
 		return;
 	}
@@ -475,7 +475,7 @@ void Npc::setPlayerInteraction(uint32_t playerId, uint16_t topicId /*= 0*/) {
 	playerInteractions[playerId] = topicId;
 }
 
-void Npc::updatePlayerInteractions(Player* player) {
+void Npc::updatePlayerInteractions(Player *player) {
 	if (player && !canSee(player->getPosition())) {
 		removePlayerInteraction(player->getID());
 	}
@@ -501,7 +501,7 @@ bool Npc::canWalkTo(const Position &fromPos, Direction dir) const {
 		return false;
 	}
 
-	const Tile* toTile = g_game().map.getTile(toPos);
+	const Tile *toTile = g_game().map.getTile(toPos);
 	if (!toTile || toTile->queryAdd(0, *this, 1, 0) != RETURNVALUE_NOERROR) {
 		return false;
 	}
@@ -522,12 +522,11 @@ bool Npc::getNextStep(Direction &nextDirection, uint32_t &flags) {
 }
 
 bool Npc::getRandomStep(Direction &moveDirection) const {
-	static std::vector<Direction> directionvector {
+	static std::vector<Direction> directionvector{
 		Direction::DIRECTION_NORTH,
 		Direction::DIRECTION_WEST,
 		Direction::DIRECTION_EAST,
-		Direction::DIRECTION_SOUTH
-	};
+		Direction::DIRECTION_SOUTH};
 	std::ranges::shuffle(directionvector, getRandomGenerator());
 
 	for (const Position &creaturePos = getPosition();
@@ -540,11 +539,11 @@ bool Npc::getRandomStep(Direction &moveDirection) const {
 	return false;
 }
 
-void Npc::addShopPlayer(Player* player) {
+void Npc::addShopPlayer(Player *player) {
 	shopPlayerSet.insert(player);
 }
 
-void Npc::removeShopPlayer(Player* player) {
+void Npc::removeShopPlayer(Player *player) {
 	if (player) {
 		shopPlayerSet.erase(player);
 	}

@@ -20,8 +20,8 @@ void TalkActions::clear() {
 	talkActions.clear();
 }
 
-bool TalkActions::registerLuaEvent(TalkAction* event) {
-	TalkAction_ptr talkAction { event };
+bool TalkActions::registerLuaEvent(TalkAction *event) {
+	TalkAction_ptr talkAction{event};
 	std::vector<std::string> words = talkAction->getWordsMap();
 
 	for (size_t i = 0; i < words.size(); i++) {
@@ -35,7 +35,7 @@ bool TalkActions::registerLuaEvent(TalkAction* event) {
 	return true;
 }
 
-TalkActionResult_t TalkActions::playerSaySpell(Player* player, SpeakClasses type, const std::string &words) const {
+TalkActionResult_t TalkActions::playerSaySpell(Player *player, SpeakClasses type, const std::string &words) const {
 	size_t wordsLength = words.length();
 	for (auto it = talkActions.begin(); it != talkActions.end();) {
 		const std::string &talkactionWords = it->first;
@@ -76,7 +76,7 @@ TalkActionResult_t TalkActions::playerSaySpell(Player* player, SpeakClasses type
 	return TALKACTION_CONTINUE;
 }
 
-bool TalkAction::executeSay(Player* player, const std::string &words, const std::string &param, SpeakClasses type) const {
+bool TalkAction::executeSay(Player *player, const std::string &words, const std::string &param, SpeakClasses type) const {
 	// onSay(player, words, param, type)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[TalkAction::executeSay - Player {} words {}] "
@@ -85,10 +85,10 @@ bool TalkAction::executeSay(Player* player, const std::string &words, const std:
 		return false;
 	}
 
-	ScriptEnvironment* scriptEnvironment = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment *scriptEnvironment = getScriptInterface()->getScriptEnv();
 	scriptEnvironment->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State* L = getScriptInterface()->getLuaState();
+	lua_State *L = getScriptInterface()->getLuaState();
 
 	getScriptInterface()->pushFunction(getScriptId());
 

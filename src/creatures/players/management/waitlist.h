@@ -13,17 +13,17 @@
 struct WaitListInfo;
 
 class WaitingList {
-	public:
-		static WaitingList &getInstance();
+public:
+	static WaitingList &getInstance();
 
-		bool clientLogin(const Player* player);
-		std::size_t getClientSlot(const Player* player);
-		static std::size_t getTime(std::size_t slot);
+	bool clientLogin(const Player *player);
+	std::size_t getClientSlot(const Player *player);
+	static std::size_t getTime(std::size_t slot);
 
-	private:
-		WaitingList();
+private:
+	WaitingList();
 
-		std::unique_ptr<WaitListInfo> info;
+	std::unique_ptr<WaitListInfo> info;
 };
 
 #endif // SRC_CREATURES_PLAYERS_MANAGEMENT_WAITLIST_H_

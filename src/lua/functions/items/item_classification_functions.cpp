@@ -12,10 +12,10 @@
 #include "game/game.h"
 #include "lua/functions/items/item_classification_functions.hpp"
 
-int ItemClassificationFunctions::luaItemClassificationCreate(lua_State* L) {
+int ItemClassificationFunctions::luaItemClassificationCreate(lua_State *L) {
 	// ItemClassification(id)
 	if (isNumber(L, 2)) {
-		const ItemClassification* itemClassification = g_game().getItemsClassification(getNumber<uint8_t>(L, 2), false);
+		const ItemClassification *itemClassification = g_game().getItemsClassification(getNumber<uint8_t>(L, 2), false);
 		if (itemClassification) {
 			pushUserdata<const ItemClassification>(L, itemClassification);
 			setMetatable(L, -1, "ItemClassification");
@@ -27,9 +27,9 @@ int ItemClassificationFunctions::luaItemClassificationCreate(lua_State* L) {
 	return 1;
 }
 
-int ItemClassificationFunctions::luaItemClassificationAddTier(lua_State* L) {
+int ItemClassificationFunctions::luaItemClassificationAddTier(lua_State *L) {
 	// itemClassification:addTier(id, price)
-	ItemClassification* itemClassification = getUserdata<ItemClassification>(L, 1);
+	ItemClassification *itemClassification = getUserdata<ItemClassification>(L, 1);
 	if (itemClassification) {
 		itemClassification->addTier(getNumber<uint8_t>(L, 2), getNumber<uint64_t>(L, 3));
 		pushBoolean(L, true);

@@ -151,7 +151,7 @@ bool MoveEvents::registerEvent(MoveEvent &moveEvent, int32_t id, std::map<int32_
 	}
 }
 
-MoveEvent* MoveEvents::getEvent(Item &item, MoveEvent_t eventType, Slots_t slot) {
+MoveEvent *MoveEvents::getEvent(Item &item, MoveEvent_t eventType, Slots_t slot) {
 	uint32_t slotp;
 	switch (slot) {
 		case CONST_SLOT_HEAD:
@@ -213,7 +213,7 @@ MoveEvent* MoveEvents::getEvent(Item &item, MoveEvent_t eventType, Slots_t slot)
 	return nullptr;
 }
 
-MoveEvent* MoveEvents::getEvent(Item &item, MoveEvent_t eventType) {
+MoveEvent *MoveEvents::getEvent(Item &item, MoveEvent_t eventType) {
 	std::map<int32_t, MoveEventList>::iterator it;
 	if (item.hasAttribute(ItemAttribute_t::UNIQUEID)) {
 		it = uniqueIdMap.find(item.getAttribute<uint16_t>(ItemAttribute_t::UNIQUEID));
@@ -269,7 +269,7 @@ bool MoveEvents::registerEvent(MoveEvent &moveEvent, const Position &position, s
 	}
 }
 
-MoveEvent* MoveEvents::getEvent(Tile &tile, MoveEvent_t eventType) {
+MoveEvent *MoveEvents::getEvent(Tile &tile, MoveEvent_t eventType) {
 	if (auto it = positionsMap.find(tile.getPosition());
 		it != positionsMap.end()) {
 		std::list<MoveEvent> &moveEventList = it->second.moveEvent[eventType];
@@ -285,18 +285,18 @@ uint32_t MoveEvents::onCreatureMove(Creature &creature, Tile &tile, MoveEvent_t 
 
 	uint32_t ret = 1;
 
-	MoveEvent* moveEvent = getEvent(tile, eventType);
+	MoveEvent *moveEvent = getEvent(tile, eventType);
 	if (moveEvent) {
 		ret &= moveEvent->fireStepEvent(creature, nullptr, pos);
 	}
 
 	for (size_t i = tile.getFirstIndex(), j = tile.getLastIndex(); i < j; ++i) {
-		Thing* thing = tile.getThing(i);
+		Thing *thing = tile.getThing(i);
 		if (!thing) {
 			continue;
 		}
 
-		Item* tileItem = thing->getItem();
+		Item *tileItem = thing->getItem();
 		if (!tileItem) {
 			continue;
 		}
@@ -315,7 +315,7 @@ uint32_t MoveEvents::onCreatureMove(Creature &creature, Tile &tile, MoveEvent_t 
 }
 
 uint32_t MoveEvents::onPlayerEquip(Player &player, Item &item, Slots_t slot, bool isCheck) {
-	MoveEvent* moveEvent = getEvent(item, MOVE_EVENT_EQUIP, slot);
+	MoveEvent *moveEvent = getEvent(item, MOVE_EVENT_EQUIP, slot);
 	if (!moveEvent) {
 		return 1;
 	}
@@ -323,7 +323,7 @@ uint32_t MoveEvents::onPlayerEquip(Player &player, Item &item, Slots_t slot, boo
 }
 
 uint32_t MoveEvents::onPlayerDeEquip(Player &player, Item &item, Slots_t slot) {
-	MoveEvent* moveEvent = getEvent(item, MOVE_EVENT_DEEQUIP, slot);
+	MoveEvent *moveEvent = getEvent(item, MOVE_EVENT_DEEQUIP, slot);
 	if (!moveEvent) {
 		return 1;
 	}
@@ -341,7 +341,7 @@ uint32_t MoveEvents::onItemMove(Item &item, Tile &tile, bool isAdd) {
 	}
 
 	uint32_t ret = 1;
-	MoveEvent* moveEvent = getEvent(tile, eventType1);
+	MoveEvent *moveEvent = getEvent(tile, eventType1);
 	if (moveEvent) {
 		// No tile item
 		ret &= moveEvent->fireAddRemItem(item, tile.getPosition());
@@ -354,12 +354,12 @@ uint32_t MoveEvents::onItemMove(Item &item, Tile &tile, bool isAdd) {
 	}
 
 	for (size_t i = tile.getFirstIndex(), j = tile.getLastIndex(); i < j; ++i) {
-		Thing* thing = tile.getThing(i);
+		Thing *thing = tile.getThing(i);
 		if (!thing) {
 			continue;
 		}
 
-		Item* tileItem = thing->getItem();
+		Item *tileItem = thing->getItem();
 		if (!tileItem) {
 			continue;
 		}
@@ -382,7 +382,7 @@ uint32_t MoveEvents::onItemMove(Item &item, Tile &tile, bool isAdd) {
  MoveEvent class
 ================
 */
-MoveEvent::MoveEvent(LuaScriptInterface* interface) :
+MoveEvent::MoveEvent(LuaScriptInterface *interface) :
 	Script(interface) { }
 
 std::string MoveEvent::getScriptTypeName() const {
@@ -409,7 +409,7 @@ std::string MoveEvent::getScriptTypeName() const {
 	}
 }
 
-uint32_t MoveEvent::StepInField(Creature* creature, Item* item, const Position &) {
+uint32_t MoveEvent::StepInField(Creature *creature, Item *item, const Position &) {
 	if (creature == nullptr) {
 		SPDLOG_ERROR("[MoveEvent::StepInField] - Creature is nullptr");
 		return 0;
@@ -420,7 +420,7 @@ uint32_t MoveEvent::StepInField(Creature* creature, Item* item, const Position &
 		return 0;
 	}
 
-	MagicField* field = item->getMagicField();
+	MagicField *field = item->getMagicField();
 	if (field) {
 		field->onStepInField(*creature);
 		return 1;
@@ -429,28 +429,28 @@ uint32_t MoveEvent::StepInField(Creature* creature, Item* item, const Position &
 	return LUA_ERROR_ITEM_NOT_FOUND;
 }
 
-uint32_t MoveEvent::StepOutField(Creature*, Item*, const Position &) {
+uint32_t MoveEvent::StepOutField(Creature *, Item *, const Position &) {
 	return 1;
 }
 
-uint32_t MoveEvent::AddItemField(Item* item, Item*, const Position &) {
+uint32_t MoveEvent::AddItemField(Item *item, Item *, const Position &) {
 	if (item == nullptr) {
 		SPDLOG_ERROR("[MoveEvent::AddItemField] - Item is nullptr");
 		return 0;
 	}
 
-	if (MagicField* field = item->getMagicField()) {
-		Tile* tile = item->getTile();
+	if (MagicField *field = item->getMagicField()) {
+		Tile *tile = item->getTile();
 		if (tile == nullptr) {
 			SPDLOG_DEBUG("[MoveEvent::AddItemField] - Tile is nullptr");
 			return 0;
 		}
-		const CreatureVector* creatures = tile->getCreatures();
+		const CreatureVector *creatures = tile->getCreatures();
 		if (creatures == nullptr) {
 			SPDLOG_DEBUG("[MoveEvent::AddItemField] - Creatures is nullptr");
 			return 0;
 		}
-		for (Creature* creature : *creatures) {
+		for (Creature *creature : *creatures) {
 			if (field == nullptr) {
 				SPDLOG_DEBUG("[MoveEvent::AddItemField] - MagicField is nullptr");
 				return 0;
@@ -463,11 +463,11 @@ uint32_t MoveEvent::AddItemField(Item* item, Item*, const Position &) {
 	return LUA_ERROR_ITEM_NOT_FOUND;
 }
 
-uint32_t MoveEvent::RemoveItemField(Item*, Item*, const Position &) {
+uint32_t MoveEvent::RemoveItemField(Item *, Item *, const Position &) {
 	return 1;
 }
 
-uint32_t MoveEvent::EquipItem(MoveEvent* moveEvent, Player* player, Item* item, Slots_t slot, bool isCheck) {
+uint32_t MoveEvent::EquipItem(MoveEvent *moveEvent, Player *player, Item *item, Slots_t slot, bool isCheck) {
 	if (player == nullptr) {
 		SPDLOG_ERROR("[MoveEvent::EquipItem] - Player is nullptr");
 		return 0;
@@ -519,12 +519,12 @@ uint32_t MoveEvent::EquipItem(MoveEvent* moveEvent, Player* player, Item* item, 
 
 	if (it.abilities) {
 		if (it.abilities->invisible) {
-			Condition* condition = Condition::createCondition(static_cast<ConditionId_t>(slot), CONDITION_INVISIBLE, -1, 0);
+			Condition *condition = Condition::createCondition(static_cast<ConditionId_t>(slot), CONDITION_INVISIBLE, -1, 0);
 			player->addCondition(condition);
 		}
 
 		if (it.abilities->manaShield) {
-			Condition* condition = Condition::createCondition(static_cast<ConditionId_t>(slot), CONDITION_MANASHIELD, -1, 0);
+			Condition *condition = Condition::createCondition(static_cast<ConditionId_t>(slot), CONDITION_MANASHIELD, -1, 0);
 			player->addCondition(condition);
 		}
 
@@ -538,7 +538,7 @@ uint32_t MoveEvent::EquipItem(MoveEvent* moveEvent, Player* player, Item* item, 
 		}
 
 		if (it.abilities->regeneration) {
-			Condition* condition = Condition::createCondition(static_cast<ConditionId_t>(slot), CONDITION_REGENERATION, -1, 0);
+			Condition *condition = Condition::createCondition(static_cast<ConditionId_t>(slot), CONDITION_REGENERATION, -1, 0);
 
 			if (it.abilities->getHealthGain() != 0) {
 				condition->setParam(CONDITION_PARAM_HEALTHGAIN, it.abilities->getHealthGain());
@@ -582,7 +582,7 @@ uint32_t MoveEvent::EquipItem(MoveEvent* moveEvent, Player* player, Item* item, 
 	return 1;
 }
 
-uint32_t MoveEvent::DeEquipItem(MoveEvent*, Player* player, Item* item, Slots_t slot, bool) {
+uint32_t MoveEvent::DeEquipItem(MoveEvent *, Player *player, Item *item, Slots_t slot, bool) {
 	if (player == nullptr) {
 		SPDLOG_ERROR("[MoveEvent::EquipItem] - Player is nullptr");
 		return 0;
@@ -666,7 +666,7 @@ void MoveEvent::setEventType(MoveEvent_t type) {
 	eventType = type;
 }
 
-uint32_t MoveEvent::fireStepEvent(Creature &creature, Item* item, const Position &pos) const {
+uint32_t MoveEvent::fireStepEvent(Creature &creature, Item *item, const Position &pos) const {
 	if (isLoadedCallback()) {
 		return executeStep(creature, item, pos);
 	} else {
@@ -674,7 +674,7 @@ uint32_t MoveEvent::fireStepEvent(Creature &creature, Item* item, const Position
 	}
 }
 
-bool MoveEvent::executeStep(Creature &creature, Item* item, const Position &pos) const {
+bool MoveEvent::executeStep(Creature &creature, Item *item, const Position &pos) const {
 	// onStepIn(creature, item, pos, fromPosition)
 	// onStepOut(creature, item, pos, fromPosition)
 
@@ -705,10 +705,10 @@ bool MoveEvent::executeStep(Creature &creature, Item* item, const Position &pos)
 		return false;
 	}
 
-	ScriptEnvironment* env = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment *env = getScriptInterface()->getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State* L = getScriptInterface()->getLuaState();
+	lua_State *L = getScriptInterface()->getLuaState();
 
 	getScriptInterface()->pushFunction(getScriptId());
 	LuaScriptInterface::pushUserdata<Creature>(L, &creature);
@@ -743,10 +743,10 @@ bool MoveEvent::executeEquip(Player &player, Item &item, Slots_t onSlot, bool is
 		return false;
 	}
 
-	ScriptEnvironment* env = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment *env = getScriptInterface()->getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State* L = getScriptInterface()->getLuaState();
+	lua_State *L = getScriptInterface()->getLuaState();
 
 	getScriptInterface()->pushFunction(getScriptId());
 	LuaScriptInterface::pushUserdata<Player>(L, &player);
@@ -777,10 +777,10 @@ bool MoveEvent::executeAddRemItem(Item &item, Item &fromTile, const Position &po
 		return false;
 	}
 
-	ScriptEnvironment* env = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment *env = getScriptInterface()->getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State* L = getScriptInterface()->getLuaState();
+	lua_State *L = getScriptInterface()->getLuaState();
 
 	getScriptInterface()->pushFunction(getScriptId());
 	LuaScriptInterface::pushThing(L, &item);
@@ -809,10 +809,10 @@ bool MoveEvent::executeAddRemItem(Item &item, const Position &pos) const {
 		return false;
 	}
 
-	ScriptEnvironment* env = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment *env = getScriptInterface()->getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State* L = getScriptInterface()->getLuaState();
+	lua_State *L = getScriptInterface()->getLuaState();
 
 	getScriptInterface()->pushFunction(getScriptId());
 	LuaScriptInterface::pushThing(L, &item);

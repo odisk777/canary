@@ -12,10 +12,10 @@
 #include "game/game.h"
 #include "lua/functions/map/tile_functions.hpp"
 
-int TileFunctions::luaTileCreate(lua_State* L) {
+int TileFunctions::luaTileCreate(lua_State *L) {
 	// Tile(x, y, z)
 	// Tile(position)
-	Tile* tile;
+	Tile *tile;
 	if (isTable(L, 2)) {
 		tile = g_game().map.getTile(getPosition(L, 2));
 	} else {
@@ -34,9 +34,9 @@ int TileFunctions::luaTileCreate(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetPosition(lua_State* L) {
+int TileFunctions::luaTileGetPosition(lua_State *L) {
 	// tile:getPosition()
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (tile) {
 		pushPosition(L, tile->getPosition());
 	} else {
@@ -45,9 +45,9 @@ int TileFunctions::luaTileGetPosition(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetGround(lua_State* L) {
+int TileFunctions::luaTileGetGround(lua_State *L) {
 	// tile:getGround()
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (tile && tile->getGround()) {
 		pushUserdata<Item>(L, tile->getGround());
 		setItemMetatable(L, -1, tile->getGround());
@@ -57,25 +57,25 @@ int TileFunctions::luaTileGetGround(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetThing(lua_State* L) {
+int TileFunctions::luaTileGetThing(lua_State *L) {
 	// tile:getThing(index)
 	int32_t index = getNumber<int32_t>(L, 2);
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Thing* thing = tile->getThing(index);
+	Thing *thing = tile->getThing(index);
 	if (!thing) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	if (Creature* creature = thing->getCreature()) {
+	if (Creature *creature = thing->getCreature()) {
 		pushUserdata<Creature>(L, creature);
 		setCreatureMetatable(L, -1, creature);
-	} else if (Item* item = thing->getItem()) {
+	} else if (Item *item = thing->getItem()) {
 		pushUserdata<Item>(L, item);
 		setItemMetatable(L, -1, item);
 	} else {
@@ -84,9 +84,9 @@ int TileFunctions::luaTileGetThing(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetThingCount(lua_State* L) {
+int TileFunctions::luaTileGetThingCount(lua_State *L) {
 	// tile:getThingCount()
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (tile) {
 		lua_pushnumber(L, tile->getThingCount());
 	} else {
@@ -95,25 +95,25 @@ int TileFunctions::luaTileGetThingCount(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetTopVisibleThing(lua_State* L) {
+int TileFunctions::luaTileGetTopVisibleThing(lua_State *L) {
 	// tile:getTopVisibleThing(creature)
-	Creature* creature = getCreature(L, 2);
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Creature *creature = getCreature(L, 2);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Thing* thing = tile->getTopVisibleThing(creature);
+	Thing *thing = tile->getTopVisibleThing(creature);
 	if (!thing) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	if (Creature* visibleCreature = thing->getCreature()) {
+	if (Creature *visibleCreature = thing->getCreature()) {
 		pushUserdata<Creature>(L, visibleCreature);
 		setCreatureMetatable(L, -1, visibleCreature);
-	} else if (Item* visibleItem = thing->getItem()) {
+	} else if (Item *visibleItem = thing->getItem()) {
 		pushUserdata<Item>(L, visibleItem);
 		setItemMetatable(L, -1, visibleItem);
 	} else {
@@ -122,15 +122,15 @@ int TileFunctions::luaTileGetTopVisibleThing(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetTopTopItem(lua_State* L) {
+int TileFunctions::luaTileGetTopTopItem(lua_State *L) {
 	// tile:getTopTopItem()
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Item* item = tile->getTopTopItem();
+	Item *item = tile->getTopTopItem();
 	if (item) {
 		pushUserdata<Item>(L, item);
 		setItemMetatable(L, -1, item);
@@ -140,15 +140,15 @@ int TileFunctions::luaTileGetTopTopItem(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetTopDownItem(lua_State* L) {
+int TileFunctions::luaTileGetTopDownItem(lua_State *L) {
 	// tile:getTopDownItem()
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Item* item = tile->getTopDownItem();
+	Item *item = tile->getTopDownItem();
 	if (item) {
 		pushUserdata<Item>(L, item);
 		setItemMetatable(L, -1, item);
@@ -158,15 +158,15 @@ int TileFunctions::luaTileGetTopDownItem(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetFieldItem(lua_State* L) {
+int TileFunctions::luaTileGetFieldItem(lua_State *L) {
 	// tile:getFieldItem()
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Item* item = tile->getFieldItem();
+	Item *item = tile->getFieldItem();
 	if (item) {
 		pushUserdata<Item>(L, item);
 		setItemMetatable(L, -1, item);
@@ -176,9 +176,9 @@ int TileFunctions::luaTileGetFieldItem(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetItemById(lua_State* L) {
+int TileFunctions::luaTileGetItemById(lua_State *L) {
 	// tile:getItemById(itemId[, subType = -1])
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
@@ -196,7 +196,7 @@ int TileFunctions::luaTileGetItemById(lua_State* L) {
 	}
 	int32_t subType = getNumber<int32_t>(L, 3, -1);
 
-	Item* item = g_game().findItemOfType(tile, itemId, false, subType);
+	Item *item = g_game().findItemOfType(tile, itemId, false, subType);
 	if (item) {
 		pushUserdata<Item>(L, item);
 		setItemMetatable(L, -1, item);
@@ -206,9 +206,9 @@ int TileFunctions::luaTileGetItemById(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetItemByType(lua_State* L) {
+int TileFunctions::luaTileGetItemByType(lua_State *L) {
 	// tile:getItemByType(itemType)
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
@@ -246,7 +246,7 @@ int TileFunctions::luaTileGetItemByType(lua_State* L) {
 		return 1;
 	}
 
-	if (Item* item = tile->getGround()) {
+	if (Item *item = tile->getGround()) {
 		const ItemType &it = Item::items[item->getID()];
 		if (it.type == itemType) {
 			pushUserdata<Item>(L, item);
@@ -255,8 +255,8 @@ int TileFunctions::luaTileGetItemByType(lua_State* L) {
 		}
 	}
 
-	if (const TileItemVector* items = tile->getItemList()) {
-		for (Item* item : *items) {
+	if (const TileItemVector *items = tile->getItemList()) {
+		for (Item *item : *items) {
 			const ItemType &it = Item::items[item->getID()];
 			if (it.type == itemType) {
 				pushUserdata<Item>(L, item);
@@ -270,9 +270,9 @@ int TileFunctions::luaTileGetItemByType(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetItemByTopOrder(lua_State* L) {
+int TileFunctions::luaTileGetItemByTopOrder(lua_State *L) {
 	// tile:getItemByTopOrder(topOrder)
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
@@ -280,7 +280,7 @@ int TileFunctions::luaTileGetItemByTopOrder(lua_State* L) {
 
 	int32_t topOrder = getNumber<int32_t>(L, 2);
 
-	Item* item = tile->getItemByTopOrder(topOrder);
+	Item *item = tile->getItemByTopOrder(topOrder);
 	if (!item) {
 		lua_pushnil(L);
 		return 1;
@@ -291,9 +291,9 @@ int TileFunctions::luaTileGetItemByTopOrder(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetItemCountById(lua_State* L) {
+int TileFunctions::luaTileGetItemCountById(lua_State *L) {
 	// tile:getItemCountById(itemId[, subType = -1])
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
@@ -316,15 +316,15 @@ int TileFunctions::luaTileGetItemCountById(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetBottomCreature(lua_State* L) {
+int TileFunctions::luaTileGetBottomCreature(lua_State *L) {
 	// tile:getBottomCreature()
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	const Creature* creature = tile->getBottomCreature();
+	const Creature *creature = tile->getBottomCreature();
 	if (!creature) {
 		lua_pushnil(L);
 		return 1;
@@ -335,15 +335,15 @@ int TileFunctions::luaTileGetBottomCreature(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetTopCreature(lua_State* L) {
+int TileFunctions::luaTileGetTopCreature(lua_State *L) {
 	// tile:getTopCreature()
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Creature* creature = tile->getTopCreature();
+	Creature *creature = tile->getTopCreature();
 	if (!creature) {
 		lua_pushnil(L);
 		return 1;
@@ -354,21 +354,21 @@ int TileFunctions::luaTileGetTopCreature(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetBottomVisibleCreature(lua_State* L) {
+int TileFunctions::luaTileGetBottomVisibleCreature(lua_State *L) {
 	// tile:getBottomVisibleCreature(creature)
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Creature* creature = getCreature(L, 2);
+	Creature *creature = getCreature(L, 2);
 	if (!creature) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	const Creature* visibleCreature = tile->getBottomVisibleCreature(creature);
+	const Creature *visibleCreature = tile->getBottomVisibleCreature(creature);
 	if (visibleCreature) {
 		pushUserdata<const Creature>(L, visibleCreature);
 		setCreatureMetatable(L, -1, visibleCreature);
@@ -378,21 +378,21 @@ int TileFunctions::luaTileGetBottomVisibleCreature(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetTopVisibleCreature(lua_State* L) {
+int TileFunctions::luaTileGetTopVisibleCreature(lua_State *L) {
 	// tile:getTopVisibleCreature(creature)
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Creature* creature = getCreature(L, 2);
+	Creature *creature = getCreature(L, 2);
 	if (!creature) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Creature* visibleCreature = tile->getTopVisibleCreature(creature);
+	Creature *visibleCreature = tile->getTopVisibleCreature(creature);
 	if (visibleCreature) {
 		pushUserdata<Creature>(L, visibleCreature);
 		setCreatureMetatable(L, -1, visibleCreature);
@@ -402,15 +402,15 @@ int TileFunctions::luaTileGetTopVisibleCreature(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetItems(lua_State* L) {
+int TileFunctions::luaTileGetItems(lua_State *L) {
 	// tile:getItems()
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	TileItemVector* itemVector = tile->getItemList();
+	TileItemVector *itemVector = tile->getItemList();
 	if (!itemVector) {
 		lua_pushnil(L);
 		return 1;
@@ -419,7 +419,7 @@ int TileFunctions::luaTileGetItems(lua_State* L) {
 	lua_createtable(L, itemVector->size(), 0);
 
 	int index = 0;
-	for (Item* item : *itemVector) {
+	for (Item *item : *itemVector) {
 		pushUserdata<Item>(L, item);
 		setItemMetatable(L, -1, item);
 		lua_rawseti(L, -2, ++index);
@@ -427,9 +427,9 @@ int TileFunctions::luaTileGetItems(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetItemCount(lua_State* L) {
+int TileFunctions::luaTileGetItemCount(lua_State *L) {
 	// tile:getItemCount()
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
@@ -439,9 +439,9 @@ int TileFunctions::luaTileGetItemCount(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetDownItemCount(lua_State* L) {
+int TileFunctions::luaTileGetDownItemCount(lua_State *L) {
 	// tile:getDownItemCount()
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (tile) {
 		lua_pushnumber(L, tile->getDownItemCount());
 	} else {
@@ -450,9 +450,9 @@ int TileFunctions::luaTileGetDownItemCount(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetTopItemCount(lua_State* L) {
+int TileFunctions::luaTileGetTopItemCount(lua_State *L) {
 	// tile:getTopItemCount()
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
@@ -462,15 +462,15 @@ int TileFunctions::luaTileGetTopItemCount(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetCreatures(lua_State* L) {
+int TileFunctions::luaTileGetCreatures(lua_State *L) {
 	// tile:getCreatures()
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	CreatureVector* creatureVector = tile->getCreatures();
+	CreatureVector *creatureVector = tile->getCreatures();
 	if (!creatureVector) {
 		lua_pushnil(L);
 		return 1;
@@ -479,7 +479,7 @@ int TileFunctions::luaTileGetCreatures(lua_State* L) {
 	lua_createtable(L, creatureVector->size(), 0);
 
 	int index = 0;
-	for (Creature* creature : *creatureVector) {
+	for (Creature *creature : *creatureVector) {
 		pushUserdata<Creature>(L, creature);
 		setCreatureMetatable(L, -1, creature);
 		lua_rawseti(L, -2, ++index);
@@ -487,9 +487,9 @@ int TileFunctions::luaTileGetCreatures(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetCreatureCount(lua_State* L) {
+int TileFunctions::luaTileGetCreatureCount(lua_State *L) {
 	// tile:getCreatureCount()
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
@@ -499,15 +499,15 @@ int TileFunctions::luaTileGetCreatureCount(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileHasProperty(lua_State* L) {
+int TileFunctions::luaTileHasProperty(lua_State *L) {
 	// tile:hasProperty(property[, item])
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Item* item;
+	Item *item;
 	if (lua_gettop(L) >= 3) {
 		item = getUserdata<Item>(L, 3);
 	} else {
@@ -523,15 +523,15 @@ int TileFunctions::luaTileHasProperty(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetThingIndex(lua_State* L) {
+int TileFunctions::luaTileGetThingIndex(lua_State *L) {
 	// tile:getThingIndex(thing)
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Thing* thing = getThing(L, 2);
+	Thing *thing = getThing(L, 2);
 	if (thing) {
 		lua_pushnumber(L, tile->getThingIndex(thing));
 	} else {
@@ -540,9 +540,9 @@ int TileFunctions::luaTileGetThingIndex(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileHasFlag(lua_State* L) {
+int TileFunctions::luaTileHasFlag(lua_State *L) {
 	// tile:hasFlag(flag)
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (tile) {
 		TileFlags_t flag = getNumber<TileFlags_t>(L, 2);
 		pushBoolean(L, tile->hasFlag(flag));
@@ -552,15 +552,15 @@ int TileFunctions::luaTileHasFlag(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileQueryAdd(lua_State* L) {
+int TileFunctions::luaTileQueryAdd(lua_State *L) {
 	// tile:queryAdd(thing[, flags])
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Thing* thing = getThing(L, 2);
+	Thing *thing = getThing(L, 2);
 	if (thing) {
 		uint32_t flags = getNumber<uint32_t>(L, 3, 0);
 		lua_pushnumber(L, tile->queryAdd(0, *thing, 1, flags));
@@ -570,9 +570,9 @@ int TileFunctions::luaTileQueryAdd(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileAddItem(lua_State* L) {
+int TileFunctions::luaTileAddItem(lua_State *L) {
 	// tile:addItem(itemId[, count/subType = 1[, flags = 0]])
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
@@ -591,7 +591,7 @@ int TileFunctions::luaTileAddItem(lua_State* L) {
 
 	uint32_t subType = getNumber<uint32_t>(L, 3, 1);
 
-	Item* item = Item::CreateItem(itemId, std::min<uint32_t>(subType, 100));
+	Item *item = Item::CreateItem(itemId, std::min<uint32_t>(subType, 100));
 	if (!item) {
 		lua_pushnil(L);
 		return 1;
@@ -610,15 +610,15 @@ int TileFunctions::luaTileAddItem(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileAddItemEx(lua_State* L) {
+int TileFunctions::luaTileAddItemEx(lua_State *L) {
 	// tile:addItemEx(item[, flags = 0])
-	Item* item = getUserdata<Item>(L, 2);
+	Item *item = getUserdata<Item>(L, 2);
 	if (!item) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
@@ -639,15 +639,15 @@ int TileFunctions::luaTileAddItemEx(lua_State* L) {
 	return 1;
 }
 
-int TileFunctions::luaTileGetHouse(lua_State* L) {
+int TileFunctions::luaTileGetHouse(lua_State *L) {
 	// tile:getHouse()
-	Tile* tile = getUserdata<Tile>(L, 1);
+	Tile *tile = getUserdata<Tile>(L, 1);
 	if (!tile) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	if (HouseTile* houseTile = dynamic_cast<HouseTile*>(tile)) {
+	if (HouseTile *houseTile = dynamic_cast<HouseTile *>(tile)) {
 		pushUserdata<House>(L, houseTile->getHouse());
 		setMetatable(L, -1, "House");
 	} else {

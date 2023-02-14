@@ -12,9 +12,9 @@
 #include "creatures/npcs/npcs.h"
 #include "lua/functions/creatures/npc/shop_functions.hpp"
 
-int ShopFunctions::luaCreateShop(lua_State* L) {
+int ShopFunctions::luaCreateShop(lua_State *L) {
 	// Shop() will create a new shop item
-	Shop* shop = new Shop();
+	Shop *shop = new Shop();
 	if (shop) {
 		pushUserdata<Shop>(L, shop);
 		setMetatable(L, -1, "Shop");
@@ -24,9 +24,9 @@ int ShopFunctions::luaCreateShop(lua_State* L) {
 	return 1;
 }
 
-int ShopFunctions::luaDeleteShop(lua_State* L) {
+int ShopFunctions::luaDeleteShop(lua_State *L) {
 	// shop:delete() shop:__gc()
-	Shop** shopPtr = getRawUserdata<Shop>(L, 1);
+	Shop **shopPtr = getRawUserdata<Shop>(L, 1);
 	if (shopPtr && *shopPtr) {
 		delete *shopPtr;
 		*shopPtr = nullptr;
@@ -34,9 +34,9 @@ int ShopFunctions::luaDeleteShop(lua_State* L) {
 	return 0;
 }
 
-int ShopFunctions::luaShopSetId(lua_State* L) {
+int ShopFunctions::luaShopSetId(lua_State *L) {
 	// shop:setId(id)
-	Shop* shop = getUserdata<Shop>(L, 1);
+	Shop *shop = getUserdata<Shop>(L, 1);
 	if (shop) {
 		if (isNumber(L, 2)) {
 			shop->shopBlock.itemId = getNumber<uint16_t>(L, 2);
@@ -52,9 +52,9 @@ int ShopFunctions::luaShopSetId(lua_State* L) {
 	return 1;
 }
 
-int ShopFunctions::luaShopSetIdFromName(lua_State* L) {
+int ShopFunctions::luaShopSetIdFromName(lua_State *L) {
 	// shop:setIdFromName(name)
-	Shop* shop = getUserdata<Shop>(L, 1);
+	Shop *shop = getUserdata<Shop>(L, 1);
 	if (shop && isString(L, 2)) {
 		auto name = getString(L, 2);
 		auto ids = Item::items.nameToItems.equal_range(asLowerCaseString(name));
@@ -85,9 +85,9 @@ int ShopFunctions::luaShopSetIdFromName(lua_State* L) {
 	return 1;
 }
 
-int ShopFunctions::luaShopSetNameItem(lua_State* L) {
+int ShopFunctions::luaShopSetNameItem(lua_State *L) {
 	// shop:setNameItem(name)
-	Shop* shop = getUserdata<Shop>(L, 1);
+	Shop *shop = getUserdata<Shop>(L, 1);
 	if (shop) {
 		shop->shopBlock.itemName = getString(L, 2);
 		pushBoolean(L, true);
@@ -97,9 +97,9 @@ int ShopFunctions::luaShopSetNameItem(lua_State* L) {
 	return 1;
 }
 
-int ShopFunctions::luaShopSetCount(lua_State* L) {
+int ShopFunctions::luaShopSetCount(lua_State *L) {
 	// shop:setCount(count)
-	Shop* shop = getUserdata<Shop>(L, 1);
+	Shop *shop = getUserdata<Shop>(L, 1);
 	if (shop) {
 		shop->shopBlock.itemSubType = getNumber<uint32_t>(L, 2);
 		pushBoolean(L, true);
@@ -109,9 +109,9 @@ int ShopFunctions::luaShopSetCount(lua_State* L) {
 	return 1;
 }
 
-int ShopFunctions::luaShopSetBuyPrice(lua_State* L) {
+int ShopFunctions::luaShopSetBuyPrice(lua_State *L) {
 	// shop:setBuyPrice(price)
-	Shop* shop = getUserdata<Shop>(L, 1);
+	Shop *shop = getUserdata<Shop>(L, 1);
 	if (shop) {
 		shop->shopBlock.itemBuyPrice = getNumber<uint32_t>(L, 2);
 		pushBoolean(L, true);
@@ -121,9 +121,9 @@ int ShopFunctions::luaShopSetBuyPrice(lua_State* L) {
 	return 1;
 }
 
-int ShopFunctions::luaShopSetSellPrice(lua_State* L) {
+int ShopFunctions::luaShopSetSellPrice(lua_State *L) {
 	// shop:setSellPrice(chance)
-	Shop* shop = getUserdata<Shop>(L, 1);
+	Shop *shop = getUserdata<Shop>(L, 1);
 	if (shop) {
 		shop->shopBlock.itemSellPrice = getNumber<uint32_t>(L, 2);
 		pushBoolean(L, true);
@@ -133,9 +133,9 @@ int ShopFunctions::luaShopSetSellPrice(lua_State* L) {
 	return 1;
 }
 
-int ShopFunctions::luaShopSetStorageKey(lua_State* L) {
+int ShopFunctions::luaShopSetStorageKey(lua_State *L) {
 	// shop:setStorageKey(storage)
-	Shop* shop = getUserdata<Shop>(L, 1);
+	Shop *shop = getUserdata<Shop>(L, 1);
 	if (shop) {
 		shop->shopBlock.itemStorageKey = getNumber<uint32_t>(L, 2);
 		pushBoolean(L, true);
@@ -145,9 +145,9 @@ int ShopFunctions::luaShopSetStorageKey(lua_State* L) {
 	return 1;
 }
 
-int ShopFunctions::luaShopSetStorageValue(lua_State* L) {
+int ShopFunctions::luaShopSetStorageValue(lua_State *L) {
 	// shop:setStorageValue(value)
-	Shop* shop = getUserdata<Shop>(L, 1);
+	Shop *shop = getUserdata<Shop>(L, 1);
 	if (shop) {
 		shop->shopBlock.itemStorageValue = getNumber<uint32_t>(L, 2);
 		pushBoolean(L, true);
@@ -157,9 +157,9 @@ int ShopFunctions::luaShopSetStorageValue(lua_State* L) {
 	return 1;
 }
 
-int ShopFunctions::luaShopAddChildShop(lua_State* L) {
+int ShopFunctions::luaShopAddChildShop(lua_State *L) {
 	// shop:addChildShop(shop)
-	Shop* shop = getUserdata<Shop>(L, 1);
+	Shop *shop = getUserdata<Shop>(L, 1);
 	if (shop) {
 		shop->shopBlock.childShop.push_back(getUserdata<Shop>(L, 2)->shopBlock);
 	} else {

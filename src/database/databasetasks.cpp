@@ -16,7 +16,7 @@ DatabaseTasks::DatabaseTasks() {
 	db_ = &Database::getInstance();
 }
 
-bool DatabaseTasks::SetDatabaseInterface(Database* database) {
+bool DatabaseTasks::SetDatabaseInterface(Database *database) {
 	if (database == nullptr) {
 		return false;
 	}
@@ -95,7 +95,7 @@ void DatabaseTasks::runTask(const DatabaseTask &task) {
 }
 
 void DatabaseTasks::flush() {
-	std::unique_lock<std::mutex> guard { taskLock };
+	std::unique_lock<std::mutex> guard{taskLock};
 	if (!tasks.empty()) {
 		flushTasks = true;
 		flushSignal.wait(guard, [this] {

@@ -17,14 +17,14 @@ Inbox::Inbox(uint16_t type) :
 	maxInboxItems = std::numeric_limits<uint16_t>::max();
 }
 
-ReturnValue Inbox::queryAdd(int32_t, const Thing &thing, uint32_t, uint32_t flags, Creature*) const {
+ReturnValue Inbox::queryAdd(int32_t, const Thing &thing, uint32_t, uint32_t flags, Creature *) const {
 	int32_t addCount = 0;
 
 	if (!hasBitSet(FLAG_NOLIMIT, flags)) {
 		return RETURNVALUE_CONTAINERNOTENOUGHROOM;
 	}
 
-	const Item* item = thing.getItem();
+	const Item *item = thing.getItem();
 	if (!item) {
 		return RETURNVALUE_NOTPOSSIBLE;
 	}
@@ -38,7 +38,7 @@ ReturnValue Inbox::queryAdd(int32_t, const Thing &thing, uint32_t, uint32_t flag
 	}
 
 	if (item->getTopParent() != this) { // MY
-		if (const Container* container = item->getContainer()) {
+		if (const Container *container = item->getContainer()) {
 			addCount = container->getItemHoldingCount() + 1;
 		} else {
 			addCount = 1;
@@ -52,21 +52,21 @@ ReturnValue Inbox::queryAdd(int32_t, const Thing &thing, uint32_t, uint32_t flag
 	return RETURNVALUE_NOERROR;
 }
 
-void Inbox::postAddNotification(Thing* thing, const Cylinder* oldParent, int32_t index, CylinderLink_t) {
-	Cylinder* localParent = getParent();
+void Inbox::postAddNotification(Thing *thing, const Cylinder *oldParent, int32_t index, CylinderLink_t) {
+	Cylinder *localParent = getParent();
 	if (localParent != nullptr) {
 		localParent->postAddNotification(thing, oldParent, index, LINK_PARENT);
 	}
 }
 
-void Inbox::postRemoveNotification(Thing* thing, const Cylinder* newParent, int32_t index, CylinderLink_t) {
-	Cylinder* localParent = getParent();
+void Inbox::postRemoveNotification(Thing *thing, const Cylinder *newParent, int32_t index, CylinderLink_t) {
+	Cylinder *localParent = getParent();
 	if (localParent != nullptr) {
 		localParent->postRemoveNotification(thing, newParent, index, LINK_PARENT);
 	}
 }
 
-Cylinder* Inbox::getParent() const {
+Cylinder *Inbox::getParent() const {
 	if (parent) {
 		return parent->getParent();
 	}

@@ -30,8 +30,8 @@ void GlobalEvents::clear() {
 	timerMap.clear();
 }
 
-bool GlobalEvents::registerLuaEvent(GlobalEvent* event) {
-	GlobalEvent_ptr globalEvent { event };
+bool GlobalEvents::registerLuaEvent(GlobalEvent *event) {
+	GlobalEvent_ptr globalEvent{event};
 	if (globalEvent->getEventType() == GLOBALEVENT_TIMER) {
 		auto result = timerMap.emplace(globalEvent->getName(), std::move(*globalEvent));
 		if (result.second) {
@@ -170,7 +170,7 @@ GlobalEventMap GlobalEvents::getEventMap(GlobalEvent_t type) {
 	}
 }
 
-GlobalEvent::GlobalEvent(LuaScriptInterface* interface) :
+GlobalEvent::GlobalEvent(LuaScriptInterface *interface) :
 	Script(interface) { }
 
 std::string GlobalEvent::getScriptTypeName() const {
@@ -202,10 +202,10 @@ bool GlobalEvent::executePeriodChange(LightState_t lightState, LightInfo lightIn
 		return false;
 	}
 
-	ScriptEnvironment* env = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment *env = getScriptInterface()->getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State* L = getScriptInterface()->getLuaState();
+	lua_State *L = getScriptInterface()->getLuaState();
 	getScriptInterface()->pushFunction(getScriptId());
 
 	lua_pushnumber(L, lightState);
@@ -222,10 +222,10 @@ bool GlobalEvent::executeRecord(uint32_t current, uint32_t old) {
 		return false;
 	}
 
-	ScriptEnvironment* env = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment *env = getScriptInterface()->getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State* L = getScriptInterface()->getLuaState();
+	lua_State *L = getScriptInterface()->getLuaState();
 	getScriptInterface()->pushFunction(getScriptId());
 
 	lua_pushnumber(L, current);
@@ -241,9 +241,9 @@ bool GlobalEvent::executeEvent() const {
 		return false;
 	}
 
-	ScriptEnvironment* env = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment *env = getScriptInterface()->getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
-	lua_State* L = getScriptInterface()->getLuaState();
+	lua_State *L = getScriptInterface()->getLuaState();
 	getScriptInterface()->pushFunction(getScriptId());
 
 	int32_t params = 0;

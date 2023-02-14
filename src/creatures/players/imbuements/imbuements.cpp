@@ -12,7 +12,7 @@
 #include "lua/creature/events.h"
 #include "utils/pugicast.h"
 
-Imbuement* Imbuements::getImbuement(uint16_t id) {
+Imbuement *Imbuements::getImbuement(uint16_t id) {
 	if (id == 0) {
 		return nullptr;
 	}
@@ -316,7 +316,7 @@ bool Imbuements::reload() {
 	return loadFromXml(true);
 }
 
-BaseImbuement* Imbuements::getBaseByID(uint16_t id) {
+BaseImbuement *Imbuements::getBaseByID(uint16_t id) {
 	auto baseImbuements = std::find_if(basesImbuement.begin(), basesImbuement.end(), [id](const BaseImbuement &groupImbuement) {
 		return groupImbuement.id == id;
 	});
@@ -324,7 +324,7 @@ BaseImbuement* Imbuements::getBaseByID(uint16_t id) {
 	return baseImbuements != basesImbuement.end() ? &*baseImbuements : nullptr;
 }
 
-CategoryImbuement* Imbuements::getCategoryByID(uint16_t id) {
+CategoryImbuement *Imbuements::getCategoryByID(uint16_t id) {
 	auto categoryImbuements = std::find_if(categoriesImbuement.begin(), categoriesImbuement.end(), [id](const CategoryImbuement &categoryImbuement) {
 		return categoryImbuement.id == id;
 	});
@@ -332,11 +332,11 @@ CategoryImbuement* Imbuements::getCategoryByID(uint16_t id) {
 	return categoryImbuements != categoriesImbuement.end() ? &*categoryImbuements : nullptr;
 }
 
-std::vector<Imbuement*> Imbuements::getImbuements(const Player* player, Item* item) {
-	std::vector<Imbuement*> imbuements;
+std::vector<Imbuement *> Imbuements::getImbuements(const Player *player, Item *item) {
+	std::vector<Imbuement *> imbuements;
 
 	for (auto &[key, value] : imbuementMap) {
-		Imbuement* imbuement = &value;
+		Imbuement *imbuement = &value;
 		if (!imbuement) {
 			continue;
 		}
@@ -350,7 +350,7 @@ std::vector<Imbuement*> Imbuements::getImbuements(const Player* player, Item* it
 		}
 
 		// Send only the imbuements registered on item (in items.xml) to the imbuement window
-		const CategoryImbuement* categoryImbuement = getCategoryByID(imbuement->getCategory());
+		const CategoryImbuement *categoryImbuement = getCategoryByID(imbuement->getCategory());
 		if (!item->hasImbuementType(static_cast<ImbuementTypes_t>(categoryImbuement->id), imbuement->getBaseID())) {
 			continue;
 		}

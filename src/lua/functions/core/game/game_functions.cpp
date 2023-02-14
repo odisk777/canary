@@ -24,7 +24,7 @@
 #include "lua/scripts/scripts.h"
 
 // Game
-int GameFunctions::luaGameCreateMonsterType(lua_State* L) {
+int GameFunctions::luaGameCreateMonsterType(lua_State *L) {
 	// Game.createMonsterType(name)
 	if (isString(L, 1)) {
 		std::string name = getString(L, 1);
@@ -46,11 +46,11 @@ int GameFunctions::luaGameCreateMonsterType(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameCreateNpcType(lua_State* L) {
+int GameFunctions::luaGameCreateNpcType(lua_State *L) {
 	return NpcTypeFunctions::luaNpcTypeCreate(L);
 }
 
-int GameFunctions::luaGameGetSpectators(lua_State* L) {
+int GameFunctions::luaGameGetSpectators(lua_State *L) {
 	// Game.getSpectators(position[, multifloor = false[, onlyPlayer = false[, minRangeX = 0[, maxRangeX = 0[, minRangeY = 0[, maxRangeY = 0]]]]]])
 	const Position &position = getPosition(L, 1);
 	bool multifloor = getBoolean(L, 2, false);
@@ -66,7 +66,7 @@ int GameFunctions::luaGameGetSpectators(lua_State* L) {
 	lua_createtable(L, spectators.size(), 0);
 
 	int index = 0;
-	for (Creature* creature : spectators) {
+	for (Creature *creature : spectators) {
 		pushUserdata<Creature>(L, creature);
 		setCreatureMetatable(L, -1, creature);
 		lua_rawseti(L, -2, ++index);
@@ -74,13 +74,13 @@ int GameFunctions::luaGameGetSpectators(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameGetBoostedCreature(lua_State* L) {
+int GameFunctions::luaGameGetBoostedCreature(lua_State *L) {
 	// Game.getBoostedCreature()
 	pushString(L, g_game().getBoostedMonsterName());
 	return 1;
 }
 
-int GameFunctions::luaGameGetBestiaryList(lua_State* L) {
+int GameFunctions::luaGameGetBestiaryList(lua_State *L) {
 	// Game.getBestiaryList([bool[string or BestiaryType_t]])
 	lua_newtable(L);
 	int index = 0;
@@ -122,7 +122,7 @@ int GameFunctions::luaGameGetBestiaryList(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameGetPlayers(lua_State* L) {
+int GameFunctions::luaGameGetPlayers(lua_State *L) {
 	// Game.getPlayers()
 	lua_createtable(L, g_game().getPlayersOnline(), 0);
 
@@ -135,14 +135,14 @@ int GameFunctions::luaGameGetPlayers(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameLoadMap(lua_State* L) {
+int GameFunctions::luaGameLoadMap(lua_State *L) {
 	// Game.loadMap(path)
 	const std::string &path = getString(L, 1);
 	g_dispatcher().addTask(createTask([path]() { g_game().loadMap(path); }));
 	return 0;
 }
 
-int GameFunctions::luaGameloadMapChunk(lua_State* L) {
+int GameFunctions::luaGameloadMapChunk(lua_State *L) {
 	// Game.loadMapChunk(path, position, remove)
 	const std::string &path = getString(L, 1);
 	const Position &position = getPosition(L, 2);
@@ -151,25 +151,25 @@ int GameFunctions::luaGameloadMapChunk(lua_State* L) {
 	return 0;
 }
 
-int GameFunctions::luaGameGetMonsterCount(lua_State* L) {
+int GameFunctions::luaGameGetMonsterCount(lua_State *L) {
 	// Game.getMonsterCount()
 	lua_pushnumber(L, g_game().getMonstersOnline());
 	return 1;
 }
 
-int GameFunctions::luaGameGetPlayerCount(lua_State* L) {
+int GameFunctions::luaGameGetPlayerCount(lua_State *L) {
 	// Game.getPlayerCount()
 	lua_pushnumber(L, g_game().getPlayersOnline());
 	return 1;
 }
 
-int GameFunctions::luaGameGetNpcCount(lua_State* L) {
+int GameFunctions::luaGameGetNpcCount(lua_State *L) {
 	// Game.getNpcCount()
 	lua_pushnumber(L, g_game().getNpcsOnline());
 	return 1;
 }
 
-int GameFunctions::luaGameGetMonsterTypes(lua_State* L) {
+int GameFunctions::luaGameGetMonsterTypes(lua_State *L) {
 	// Game.getMonsterTypes()
 	auto &type = g_monsters().monsters;
 	lua_createtable(L, type.size(), 0);
@@ -182,7 +182,7 @@ int GameFunctions::luaGameGetMonsterTypes(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameGetTowns(lua_State* L) {
+int GameFunctions::luaGameGetTowns(lua_State *L) {
 	// Game.getTowns()
 	const auto &towns = g_game().map.towns.getTowns();
 	lua_createtable(L, towns.size(), 0);
@@ -196,7 +196,7 @@ int GameFunctions::luaGameGetTowns(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameGetHouses(lua_State* L) {
+int GameFunctions::luaGameGetHouses(lua_State *L) {
 	// Game.getHouses()
 	const auto &houses = g_game().map.houses.getHouses();
 	lua_createtable(L, houses.size(), 0);
@@ -210,13 +210,13 @@ int GameFunctions::luaGameGetHouses(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameGetGameState(lua_State* L) {
+int GameFunctions::luaGameGetGameState(lua_State *L) {
 	// Game.getGameState()
 	lua_pushnumber(L, g_game().getGameState());
 	return 1;
 }
 
-int GameFunctions::luaGameSetGameState(lua_State* L) {
+int GameFunctions::luaGameSetGameState(lua_State *L) {
 	// Game.setGameState(state)
 	GameState_t state = getNumber<GameState_t>(L, 1);
 	g_game().setGameState(state);
@@ -224,13 +224,13 @@ int GameFunctions::luaGameSetGameState(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameGetWorldType(lua_State* L) {
+int GameFunctions::luaGameGetWorldType(lua_State *L) {
 	// Game.getWorldType()
 	lua_pushnumber(L, g_game().getWorldType());
 	return 1;
 }
 
-int GameFunctions::luaGameSetWorldType(lua_State* L) {
+int GameFunctions::luaGameSetWorldType(lua_State *L) {
 	// Game.setWorldType(type)
 	WorldType_t type = getNumber<WorldType_t>(L, 1);
 	g_game().setWorldType(type);
@@ -238,14 +238,14 @@ int GameFunctions::luaGameSetWorldType(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameGetReturnMessage(lua_State* L) {
+int GameFunctions::luaGameGetReturnMessage(lua_State *L) {
 	// Game.getReturnMessage(value)
 	ReturnValue value = getNumber<ReturnValue>(L, 1);
 	pushString(L, getReturnMessage(value));
 	return 1;
 }
 
-int GameFunctions::luaGameCreateItem(lua_State* L) {
+int GameFunctions::luaGameCreateItem(lua_State *L) {
 	// Game.createItem(itemId or name[, count[, position]])
 	uint16_t itemId;
 	if (isNumber(L, 1)) {
@@ -293,7 +293,7 @@ int GameFunctions::luaGameCreateItem(lua_State* L) {
 			subType -= stackCount;
 		}
 
-		Item* item = Item::CreateItem(itemId, stackCount);
+		Item *item = Item::CreateItem(itemId, stackCount);
 		if (!item) {
 			if (!hasTable) {
 				lua_pushnil(L);
@@ -302,7 +302,7 @@ int GameFunctions::luaGameCreateItem(lua_State* L) {
 		}
 
 		if (position.x != 0) {
-			Tile* tile = g_game().map.getTile(position);
+			Tile *tile = g_game().map.getTile(position);
 			if (!tile) {
 				delete item;
 				if (!hasTable) {
@@ -339,7 +339,7 @@ int GameFunctions::luaGameCreateItem(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameCreateContainer(lua_State* L) {
+int GameFunctions::luaGameCreateContainer(lua_State *L) {
 	// Game.createContainer(itemId, size[, position])
 	uint16_t size = getNumber<uint16_t>(L, 2);
 	uint16_t id;
@@ -353,7 +353,7 @@ int GameFunctions::luaGameCreateContainer(lua_State* L) {
 		}
 	}
 
-	Container* container = Item::CreateItemAsContainer(id, size);
+	Container *container = Item::CreateItemAsContainer(id, size);
 	if (!container) {
 		lua_pushnil(L);
 		return 1;
@@ -361,7 +361,7 @@ int GameFunctions::luaGameCreateContainer(lua_State* L) {
 
 	if (lua_gettop(L) >= 3) {
 		const Position &position = getPosition(L, 3);
-		Tile* tile = g_game().map.getTile(position);
+		Tile *tile = g_game().map.getTile(position);
 		if (!tile) {
 			delete container;
 			lua_pushnil(L);
@@ -379,9 +379,9 @@ int GameFunctions::luaGameCreateContainer(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameCreateMonster(lua_State* L) {
+int GameFunctions::luaGameCreateMonster(lua_State *L) {
 	// Game.createMonster(monsterName, position[, extended = false[, force = false[, master = nil]]])
-	Monster* monster = Monster::createMonster(getString(L, 1));
+	Monster *monster = Monster::createMonster(getString(L, 1));
 	if (!monster) {
 		lua_pushnil(L);
 		return 1;
@@ -389,7 +389,7 @@ int GameFunctions::luaGameCreateMonster(lua_State* L) {
 
 	bool isSummon = false;
 	if (lua_gettop(L) >= 5) {
-		Creature* master = getCreature(L, 5);
+		Creature *master = getCreature(L, 5);
 		if (master) {
 			monster->setMaster(master, true);
 			isSummon = true;
@@ -413,9 +413,9 @@ int GameFunctions::luaGameCreateMonster(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameGenerateNpc(lua_State* L) {
+int GameFunctions::luaGameGenerateNpc(lua_State *L) {
 	// Game.generateNpc(npcName)
-	Npc* npc = Npc::createNpc(getString(L, 1));
+	Npc *npc = Npc::createNpc(getString(L, 1));
 	if (!npc) {
 		lua_pushnil(L);
 		return 1;
@@ -426,9 +426,9 @@ int GameFunctions::luaGameGenerateNpc(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameCreateNpc(lua_State* L) {
+int GameFunctions::luaGameCreateNpc(lua_State *L) {
 	// Game.createNpc(npcName, position[, extended = false[, force = false]])
-	Npc* npc = Npc::createNpc(getString(L, 1));
+	Npc *npc = Npc::createNpc(getString(L, 1));
 	if (!npc) {
 		lua_pushnil(L);
 		return 1;
@@ -447,7 +447,7 @@ int GameFunctions::luaGameCreateNpc(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameCreateTile(lua_State* L) {
+int GameFunctions::luaGameCreateTile(lua_State *L) {
 	// Game.createTile(x, y, z[, isDynamic = false])
 	// Game.createTile(position[, isDynamic = false])
 	Position position;
@@ -462,7 +462,7 @@ int GameFunctions::luaGameCreateTile(lua_State* L) {
 		isDynamic = getBoolean(L, 4, false);
 	}
 
-	Tile* tile = g_game().map.getTile(position);
+	Tile *tile = g_game().map.getTile(position);
 	if (!tile) {
 		if (isDynamic) {
 			tile = new DynamicTile(position.x, position.y, position.z);
@@ -478,9 +478,9 @@ int GameFunctions::luaGameCreateTile(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameGetBestiaryCharm(lua_State* L) {
+int GameFunctions::luaGameGetBestiaryCharm(lua_State *L) {
 	// Game.getBestiaryCharm()
-	std::vector<Charm*> c_list = g_game().getCharmList();
+	std::vector<Charm *> c_list = g_game().getCharmList();
 	lua_createtable(L, c_list.size(), 0);
 
 	int index = 0;
@@ -492,9 +492,9 @@ int GameFunctions::luaGameGetBestiaryCharm(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameCreateBestiaryCharm(lua_State* L) {
+int GameFunctions::luaGameCreateBestiaryCharm(lua_State *L) {
 	// Game.createBestiaryCharm(id)
-	if (Charm* charm = g_iobestiary().getBestiaryCharm(static_cast<charmRune_t>(getNumber<int8_t>(L, 1, 0)), true)) {
+	if (Charm *charm = g_iobestiary().getBestiaryCharm(static_cast<charmRune_t>(getNumber<int8_t>(L, 1, 0)), true)) {
 		pushUserdata<Charm>(L, charm);
 		setMetatable(L, -1, "Charm");
 	} else {
@@ -503,9 +503,9 @@ int GameFunctions::luaGameCreateBestiaryCharm(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameCreateItemClassification(lua_State* L) {
+int GameFunctions::luaGameCreateItemClassification(lua_State *L) {
 	// Game.createItemClassification(id)
-	const ItemClassification* itemClassification = g_game().getItemsClassification(getNumber<uint8_t>(L, 1), true);
+	const ItemClassification *itemClassification = g_game().getItemsClassification(getNumber<uint8_t>(L, 1), true);
 	if (itemClassification) {
 		pushUserdata<const ItemClassification>(L, itemClassification);
 		setMetatable(L, -1, "ItemClassification");
@@ -515,11 +515,11 @@ int GameFunctions::luaGameCreateItemClassification(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameStartRaid(lua_State* L) {
+int GameFunctions::luaGameStartRaid(lua_State *L) {
 	// Game.startRaid(raidName)
 	const std::string &raidName = getString(L, 1);
 
-	Raid* raid = g_game().raids.getRaidByName(raidName);
+	Raid *raid = g_game().raids.getRaidByName(raidName);
 	if (!raid || !raid->isLoaded()) {
 		lua_pushnumber(L, RETURNVALUE_NOSUCHRAIDEXISTS);
 		return 1;
@@ -536,7 +536,7 @@ int GameFunctions::luaGameStartRaid(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameGetClientVersion(lua_State* L) {
+int GameFunctions::luaGameGetClientVersion(lua_State *L) {
 	// Game.getClientVersion()
 	lua_createtable(L, 0, 3);
 	setField(L, "min", CLIENT_VERSION);
@@ -546,7 +546,7 @@ int GameFunctions::luaGameGetClientVersion(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameReload(lua_State* L) {
+int GameFunctions::luaGameReload(lua_State *L) {
 	// Game.reload(reloadType)
 	Reload_t reloadType = getNumber<Reload_t>(L, 1);
 	if (g_gameReload.getReloadNumber(reloadType) == g_gameReload.getReloadNumber(Reload_t::RELOAD_TYPE_NONE)) {
@@ -566,24 +566,24 @@ int GameFunctions::luaGameReload(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameHasEffect(lua_State* L) {
+int GameFunctions::luaGameHasEffect(lua_State *L) {
 	// Game.hasEffect(effectId)
 	uint8_t effectId = getNumber<uint8_t>(L, 1);
 	pushBoolean(L, g_game().hasEffect(effectId));
 	return 1;
 }
 
-int GameFunctions::luaGameHasDistanceEffect(lua_State* L) {
+int GameFunctions::luaGameHasDistanceEffect(lua_State *L) {
 	// Game.hasDistanceEffect(effectId)
 	uint8_t effectId = getNumber<uint8_t>(L, 1);
 	pushBoolean(L, g_game().hasDistanceEffect(effectId));
 	return 1;
 }
 
-int GameFunctions::luaGameGetOfflinePlayer(lua_State* L) {
+int GameFunctions::luaGameGetOfflinePlayer(lua_State *L) {
 	uint32_t playerId = getNumber<uint32_t>(L, 1);
 
-	Player* offlinePlayer = new Player(nullptr);
+	Player *offlinePlayer = new Player(nullptr);
 	if (!IOLoginData::loadPlayerById(offlinePlayer, playerId)) {
 		delete offlinePlayer;
 		lua_pushnil(L);
@@ -595,9 +595,9 @@ int GameFunctions::luaGameGetOfflinePlayer(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameAddInfluencedMonster(lua_State* L) {
+int GameFunctions::luaGameAddInfluencedMonster(lua_State *L) {
 	// Game.addInfluencedMonster(monster)
-	Monster* monster = getUserdata<Monster>(L, 1);
+	Monster *monster = getUserdata<Monster>(L, 1);
 	if (!monster) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_MONSTER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -608,7 +608,7 @@ int GameFunctions::luaGameAddInfluencedMonster(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameRemoveInfluencedMonster(lua_State* L) {
+int GameFunctions::luaGameRemoveInfluencedMonster(lua_State *L) {
 	// Game.removeInfluencedMonster(monsterId)
 	uint32_t monsterId = getNumber<uint32_t>(L, 1);
 	auto create = getBoolean(L, 2, false);
@@ -616,7 +616,7 @@ int GameFunctions::luaGameRemoveInfluencedMonster(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameGetInfluencedMonsters(lua_State* L) {
+int GameFunctions::luaGameGetInfluencedMonsters(lua_State *L) {
 	// Game.getInfluencedMonsters()
 	const auto monsters = g_game().getInfluencedMonsters();
 	lua_createtable(L, static_cast<int>(monsters.size()), 0);
@@ -630,7 +630,7 @@ int GameFunctions::luaGameGetInfluencedMonsters(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameMakeFiendishMonster(lua_State* L) {
+int GameFunctions::luaGameMakeFiendishMonster(lua_State *L) {
 	// Game.makeFiendishMonster(monsterId[default= 0])
 	uint32_t monsterId = getNumber<uint32_t>(L, 1, 0);
 	auto createForgeableMonsters = getBoolean(L, 2, false);
@@ -638,7 +638,7 @@ int GameFunctions::luaGameMakeFiendishMonster(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameRemoveFiendishMonster(lua_State* L) {
+int GameFunctions::luaGameRemoveFiendishMonster(lua_State *L) {
 	// Game.removeFiendishMonster(monsterId)
 	uint32_t monsterId = getNumber<uint32_t>(L, 1);
 	auto create = getBoolean(L, 2, false);
@@ -646,7 +646,7 @@ int GameFunctions::luaGameRemoveFiendishMonster(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameGetFiendishMonsters(lua_State* L) {
+int GameFunctions::luaGameGetFiendishMonsters(lua_State *L) {
 	// Game.getFiendishMonsters()
 	const auto monsters = g_game().getFiendishMonsters();
 
@@ -661,7 +661,7 @@ int GameFunctions::luaGameGetFiendishMonsters(lua_State* L) {
 	return 1;
 }
 
-int GameFunctions::luaGameGetBoostedBoss(lua_State* L) {
+int GameFunctions::luaGameGetBoostedBoss(lua_State *L) {
 	// Game.getBoostedBoss()
 	pushString(L, g_ioBosstiary().getBoostedBossName());
 	return 1;

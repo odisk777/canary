@@ -14,7 +14,7 @@
 
 ScriptEnvironment::DBResultMap ScriptEnvironment::tempResults;
 uint32_t ScriptEnvironment::lastResultId = 0;
-std::multimap<ScriptEnvironment*, Item*> ScriptEnvironment::tempItems;
+std::multimap<ScriptEnvironment *, Item *> ScriptEnvironment::tempItems;
 
 ScriptEnvironment LuaFunctionsLoader::scriptEnv[16];
 int32_t LuaFunctionsLoader::scriptEnvIndex = -1;
@@ -59,7 +59,7 @@ int32_t LuaScriptInterface::loadFile(const std::string &file, const std::string 
 		return -1;
 	}
 
-	ScriptEnvironment* env = getScriptEnv();
+	ScriptEnvironment *env = getScriptEnv();
 	env->setScriptId(EVENT_ID_LOADING, this);
 	// env->setNpc(npc);
 

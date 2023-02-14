@@ -12,26 +12,26 @@
 
 // Classification class for forging system and market.
 class ItemClassification {
-	public:
-		ItemClassification() = default;
-		explicit ItemClassification(uint8_t id) :
-			id(id) { }
-		virtual ~ItemClassification() = default;
+public:
+	ItemClassification() = default;
+	explicit ItemClassification(uint8_t id) :
+		id(id) { }
+	virtual ~ItemClassification() = default;
 
-		void addTier(uint8_t tierId, uint64_t tierPrice) {
-			for (auto [tier, price] : tiers) {
-				if (tier == tierId) {
-					price = tierPrice;
-					return;
-				}
+	void addTier(uint8_t tierId, uint64_t tierPrice) {
+		for (auto [tier, price] : tiers) {
+			if (tier == tierId) {
+				price = tierPrice;
+				return;
 			}
-
-			tiers.push_back(std::pair<uint8_t, uint64_t>({ tierId, tierPrice }));
 		}
 
-		uint8_t id;
-		// uint8_t = tier, uint64_t = price
-		std::vector<std::pair<uint8_t, uint64_t>> tiers;
+		tiers.push_back(std::pair<uint8_t, uint64_t>({tierId, tierPrice}));
+	}
+
+	uint8_t id;
+	// uint8_t = tier, uint64_t = price
+	std::vector<std::pair<uint8_t, uint64_t>> tiers;
 };
 
 #endif // SRC_ITEMS_ITEMS_CLASSIFICATION_HPP_

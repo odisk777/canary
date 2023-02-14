@@ -14,16 +14,16 @@
 #include "lua/functions/creatures/combat/combat_functions.hpp"
 #include "lua/scripts/lua_environment.hpp"
 
-int CombatFunctions::luaCombatCreate(lua_State* L) {
+int CombatFunctions::luaCombatCreate(lua_State *L) {
 	// Combat()
 	pushUserdata<Combat>(L, g_luaEnvironment.createCombatObject(getScriptEnv()->getScriptInterface()).get());
 	setMetatable(L, -1, "Combat");
 	return 1;
 }
 
-int CombatFunctions::luaCombatSetParameter(lua_State* L) {
+int CombatFunctions::luaCombatSetParameter(lua_State *L) {
 	// combat:setParameter(key, value)
-	Combat* combat = getUserdata<Combat>(L, 1);
+	Combat *combat = getUserdata<Combat>(L, 1);
 	if (!combat) {
 		lua_pushnil(L);
 		return 1;
@@ -41,9 +41,9 @@ int CombatFunctions::luaCombatSetParameter(lua_State* L) {
 	return 1;
 }
 
-int CombatFunctions::luaCombatSetFormula(lua_State* L) {
+int CombatFunctions::luaCombatSetFormula(lua_State *L) {
 	// combat:setFormula(type, mina, minb, maxa, maxb)
-	Combat* combat = getUserdata<Combat>(L, 1);
+	Combat *combat = getUserdata<Combat>(L, 1);
 	if (!combat) {
 		lua_pushnil(L);
 		return 1;
@@ -59,7 +59,7 @@ int CombatFunctions::luaCombatSetFormula(lua_State* L) {
 	return 1;
 }
 
-int CombatFunctions::luaCombatSetArea(lua_State* L) {
+int CombatFunctions::luaCombatSetArea(lua_State *L) {
 	// combat:setArea(area)
 	if (getScriptEnv()->getScriptId() != EVENT_ID_LOADING) {
 		reportErrorFunc("This function can only be used while loading the script.");
@@ -67,14 +67,14 @@ int CombatFunctions::luaCombatSetArea(lua_State* L) {
 		return 1;
 	}
 
-	const AreaCombat* area = g_luaEnvironment.getAreaObject(getNumber<uint32_t>(L, 2));
+	const AreaCombat *area = g_luaEnvironment.getAreaObject(getNumber<uint32_t>(L, 2));
 	if (!area) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_AREA_NOT_FOUND));
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Combat* combat = getUserdata<Combat>(L, 1);
+	Combat *combat = getUserdata<Combat>(L, 1);
 	if (combat) {
 		combat->setArea(new AreaCombat(*area));
 		pushBoolean(L, true);
@@ -84,10 +84,10 @@ int CombatFunctions::luaCombatSetArea(lua_State* L) {
 	return 1;
 }
 
-int CombatFunctions::luaCombatSetCondition(lua_State* L) {
+int CombatFunctions::luaCombatSetCondition(lua_State *L) {
 	// combat:addCondition(condition)
-	Condition* condition = getUserdata<Condition>(L, 2);
-	Combat* combat = getUserdata<Combat>(L, 1);
+	Condition *condition = getUserdata<Condition>(L, 2);
+	Combat *combat = getUserdata<Combat>(L, 1);
 	if (combat && condition) {
 		combat->addCondition(condition->clone());
 		pushBoolean(L, true);
@@ -97,9 +97,9 @@ int CombatFunctions::luaCombatSetCondition(lua_State* L) {
 	return 1;
 }
 
-int CombatFunctions::luaCombatSetCallback(lua_State* L) {
+int CombatFunctions::luaCombatSetCallback(lua_State *L) {
 	// combat:setCallback(key, function)
-	Combat* combat = getUserdata<Combat>(L, 1);
+	Combat *combat = getUserdata<Combat>(L, 1);
 	if (!combat) {
 		lua_pushnil(L);
 		return 1;
@@ -111,7 +111,7 @@ int CombatFunctions::luaCombatSetCallback(lua_State* L) {
 		return 1;
 	}
 
-	CallBack* callback = combat->getCallback(key);
+	CallBack *callback = combat->getCallback(key);
 	if (!callback) {
 		lua_pushnil(L);
 		return 1;
@@ -122,9 +122,9 @@ int CombatFunctions::luaCombatSetCallback(lua_State* L) {
 	return 1;
 }
 
-int CombatFunctions::luaCombatSetOrigin(lua_State* L) {
+int CombatFunctions::luaCombatSetOrigin(lua_State *L) {
 	// combat:setOrigin(origin)
-	Combat* combat = getUserdata<Combat>(L, 1);
+	Combat *combat = getUserdata<Combat>(L, 1);
 	if (combat) {
 		combat->setOrigin(getNumber<CombatOrigin>(L, 2));
 		pushBoolean(L, true);
@@ -134,9 +134,9 @@ int CombatFunctions::luaCombatSetOrigin(lua_State* L) {
 	return 1;
 }
 
-int CombatFunctions::luaCombatExecute(lua_State* L) {
+int CombatFunctions::luaCombatExecute(lua_State *L) {
 	// combat:execute(creature, variant)
-	Combat* combat = getUserdata<Combat>(L, 1);
+	Combat *combat = getUserdata<Combat>(L, 1);
 	if (!combat) {
 		pushBoolean(L, false);
 		return 1;
@@ -150,12 +150,12 @@ int CombatFunctions::luaCombatExecute(lua_State* L) {
 		}
 	}
 
-	Creature* creature = getCreature(L, 2);
+	Creature *creature = getCreature(L, 2);
 
 	const LuaVariant &variant = getVariant(L, 3);
 	switch (variant.type) {
 		case VARIANT_NUMBER: {
-			Creature* target = g_game().getCreatureByID(variant.number);
+			Creature *target = g_game().getCreatureByID(variant.number);
 			if (!target) {
 				pushBoolean(L, false);
 				return 1;
@@ -185,7 +185,7 @@ int CombatFunctions::luaCombatExecute(lua_State* L) {
 		}
 
 		case VARIANT_STRING: {
-			Player* target = g_game().getPlayerByName(variant.text);
+			Player *target = g_game().getPlayerByName(variant.text);
 			if (!target) {
 				pushBoolean(L, false);
 				return 1;

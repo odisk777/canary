@@ -12,11 +12,11 @@
 #include "creatures/players/grouping/guild.h"
 #include "game/game.h"
 
-void Guild::addMember(Player* player) {
+void Guild::addMember(Player *player) {
 	membersOnline.push_back(player);
 }
 
-void Guild::removeMember(Player* player) {
+void Guild::removeMember(Player *player) {
 	membersOnline.remove(player);
 	if (membersOnline.empty()) {
 		g_game().removeGuild(id);

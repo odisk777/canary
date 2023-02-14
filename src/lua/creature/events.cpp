@@ -146,7 +146,7 @@ bool Events::loadFromXml() {
 }
 
 // Monster
-void Events::eventMonsterOnSpawn(Monster* monster, const Position &position) {
+void Events::eventMonsterOnSpawn(Monster *monster, const Position &position) {
 	// Monster:onSpawn(position) or Monster.onSpawn(self, position)
 	if (info.monsterOnSpawn == -1) {
 		return;
@@ -160,10 +160,10 @@ void Events::eventMonsterOnSpawn(Monster* monster, const Position &position) {
 		return;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.monsterOnSpawn, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.monsterOnSpawn);
 
 	LuaScriptInterface::pushUserdata<Monster>(L, monster);
@@ -180,7 +180,7 @@ void Events::eventMonsterOnSpawn(Monster* monster, const Position &position) {
 }
 
 // Npc
-void Events::eventNpcOnSpawn(Npc* npc, const Position &position) {
+void Events::eventNpcOnSpawn(Npc *npc, const Position &position) {
 	// Npc:onSpawn(position) or Npc.onSpawn(self, position)
 	if (info.npcOnSpawn == -1) {
 		return;
@@ -194,10 +194,10 @@ void Events::eventNpcOnSpawn(Npc* npc, const Position &position) {
 		return;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.npcOnSpawn, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.npcOnSpawn);
 
 	LuaScriptInterface::pushUserdata<Npc>(L, npc);
@@ -214,7 +214,7 @@ void Events::eventNpcOnSpawn(Npc* npc, const Position &position) {
 }
 
 // Creature
-bool Events::eventCreatureOnChangeOutfit(Creature* creature, const Outfit_t &outfit) {
+bool Events::eventCreatureOnChangeOutfit(Creature *creature, const Outfit_t &outfit) {
 	// Creature:onChangeOutfit(outfit) or Creature.onChangeOutfit(self, outfit)
 	if (info.creatureOnChangeOutfit == -1) {
 		return true;
@@ -227,10 +227,10 @@ bool Events::eventCreatureOnChangeOutfit(Creature* creature, const Outfit_t &out
 		return false;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.creatureOnChangeOutfit, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.creatureOnChangeOutfit);
 
 	LuaScriptInterface::pushUserdata<Creature>(L, creature);
@@ -241,7 +241,7 @@ bool Events::eventCreatureOnChangeOutfit(Creature* creature, const Outfit_t &out
 	return scriptInterface.callFunction(2);
 }
 
-ReturnValue Events::eventCreatureOnAreaCombat(Creature* creature, Tile* tile, bool aggressive) {
+ReturnValue Events::eventCreatureOnAreaCombat(Creature *creature, Tile *tile, bool aggressive) {
 	// Creature:onAreaCombat(tile, aggressive) or Creature.onAreaCombat(self, tile, aggressive)
 	if (info.creatureOnAreaCombat == -1) {
 		return RETURNVALUE_NOERROR;
@@ -255,10 +255,10 @@ ReturnValue Events::eventCreatureOnAreaCombat(Creature* creature, Tile* tile, bo
 		return RETURNVALUE_NOTPOSSIBLE;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.creatureOnAreaCombat, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.creatureOnAreaCombat);
 
 	if (creature) {
@@ -286,7 +286,7 @@ ReturnValue Events::eventCreatureOnAreaCombat(Creature* creature, Tile* tile, bo
 	return returnValue;
 }
 
-ReturnValue Events::eventCreatureOnTargetCombat(Creature* creature, Creature* target) {
+ReturnValue Events::eventCreatureOnTargetCombat(Creature *creature, Creature *target) {
 	// Creature:onTargetCombat(target) or Creature.onTargetCombat(self, target)
 	if (info.creatureOnTargetCombat == -1) {
 		return RETURNVALUE_NOERROR;
@@ -300,10 +300,10 @@ ReturnValue Events::eventCreatureOnTargetCombat(Creature* creature, Creature* ta
 		return RETURNVALUE_NOTPOSSIBLE;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.creatureOnTargetCombat, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.creatureOnTargetCombat);
 
 	if (creature) {
@@ -329,7 +329,7 @@ ReturnValue Events::eventCreatureOnTargetCombat(Creature* creature, Creature* ta
 	return returnValue;
 }
 
-void Events::eventCreatureOnHear(Creature* creature, Creature* speaker, const std::string &words, SpeakClasses type) {
+void Events::eventCreatureOnHear(Creature *creature, Creature *speaker, const std::string &words, SpeakClasses type) {
 	// Creature:onHear(speaker, words, type)
 	if (info.creatureOnHear == -1) {
 		return;
@@ -343,10 +343,10 @@ void Events::eventCreatureOnHear(Creature* creature, Creature* speaker, const st
 		return;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.creatureOnHear, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.creatureOnHear);
 
 	LuaScriptInterface::pushUserdata<Creature>(L, creature);
@@ -361,7 +361,7 @@ void Events::eventCreatureOnHear(Creature* creature, Creature* speaker, const st
 	scriptInterface.callVoidFunction(4);
 }
 
-void Events::eventCreatureOnDrainHealth(Creature* creature, Creature* attacker, CombatType_t &typePrimary, int32_t &damagePrimary, CombatType_t &typeSecondary, int32_t &damageSecondary, TextColor_t &colorPrimary, TextColor_t &colorSecondary) {
+void Events::eventCreatureOnDrainHealth(Creature *creature, Creature *attacker, CombatType_t &typePrimary, int32_t &damagePrimary, CombatType_t &typeSecondary, int32_t &damageSecondary, TextColor_t &colorPrimary, TextColor_t &colorSecondary) {
 	if (info.creatureOnDrainHealth == -1) {
 		return;
 	}
@@ -374,10 +374,10 @@ void Events::eventCreatureOnDrainHealth(Creature* creature, Creature* attacker, 
 		return;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.creatureOnDrainHealth, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.creatureOnDrainHealth);
 
 	if (creature) {
@@ -417,7 +417,7 @@ void Events::eventCreatureOnDrainHealth(Creature* creature, Creature* attacker, 
 }
 
 // Party
-bool Events::eventPartyOnJoin(Party* party, Player* player) {
+bool Events::eventPartyOnJoin(Party *party, Player *player) {
 	// Party:onJoin(player) or Party.onJoin(self, player)
 	if (info.partyOnJoin == -1) {
 		return true;
@@ -431,10 +431,10 @@ bool Events::eventPartyOnJoin(Party* party, Player* player) {
 		return false;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.partyOnJoin, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.partyOnJoin);
 
 	LuaScriptInterface::pushUserdata<Party>(L, party);
@@ -446,7 +446,7 @@ bool Events::eventPartyOnJoin(Party* party, Player* player) {
 	return scriptInterface.callFunction(2);
 }
 
-bool Events::eventPartyOnLeave(Party* party, Player* player) {
+bool Events::eventPartyOnLeave(Party *party, Player *player) {
 	// Party:onLeave(player) or Party.onLeave(self, player)
 	if (info.partyOnLeave == -1) {
 		return true;
@@ -460,10 +460,10 @@ bool Events::eventPartyOnLeave(Party* party, Player* player) {
 		return false;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.partyOnLeave, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.partyOnLeave);
 
 	LuaScriptInterface::pushUserdata<Party>(L, party);
@@ -475,7 +475,7 @@ bool Events::eventPartyOnLeave(Party* party, Player* player) {
 	return scriptInterface.callFunction(2);
 }
 
-bool Events::eventPartyOnDisband(Party* party) {
+bool Events::eventPartyOnDisband(Party *party) {
 	// Party:onDisband() or Party.onDisband(self)
 	if (info.partyOnDisband == -1) {
 		return true;
@@ -488,10 +488,10 @@ bool Events::eventPartyOnDisband(Party* party) {
 		return false;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.partyOnDisband, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.partyOnDisband);
 
 	LuaScriptInterface::pushUserdata<Party>(L, party);
@@ -500,7 +500,7 @@ bool Events::eventPartyOnDisband(Party* party) {
 	return scriptInterface.callFunction(1);
 }
 
-void Events::eventPartyOnShareExperience(Party* party, uint64_t &exp) {
+void Events::eventPartyOnShareExperience(Party *party, uint64_t &exp) {
 	// Party:onShareExperience(exp) or Party.onShareExperience(self, exp)
 	if (info.partyOnShareExperience == -1) {
 		return;
@@ -511,10 +511,10 @@ void Events::eventPartyOnShareExperience(Party* party, uint64_t &exp) {
 		return;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.partyOnShareExperience, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.partyOnShareExperience);
 
 	LuaScriptInterface::pushUserdata<Party>(L, party);
@@ -533,7 +533,7 @@ void Events::eventPartyOnShareExperience(Party* party, uint64_t &exp) {
 }
 
 // Player
-bool Events::eventPlayerOnBrowseField(Player* player, const Position &position) {
+bool Events::eventPlayerOnBrowseField(Player *player, const Position &position) {
 	// Player:onBrowseField(position) or Player.onBrowseField(self, position)
 	if (info.playerOnBrowseField == -1) {
 		return true;
@@ -547,10 +547,10 @@ bool Events::eventPlayerOnBrowseField(Player* player, const Position &position) 
 		return false;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnBrowseField, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnBrowseField);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -561,7 +561,7 @@ bool Events::eventPlayerOnBrowseField(Player* player, const Position &position) 
 	return scriptInterface.callFunction(2);
 }
 
-void Events::eventPlayerOnLook(Player* player, const Position &position, Thing* thing, uint8_t stackpos, int32_t lookDistance) {
+void Events::eventPlayerOnLook(Player *player, const Position &position, Thing *thing, uint8_t stackpos, int32_t lookDistance) {
 	// Player:onLook(thing, position, distance) or Player.onLook(self, thing, position, distance)
 	if (info.playerOnLook == -1) {
 		return;
@@ -575,19 +575,19 @@ void Events::eventPlayerOnLook(Player* player, const Position &position, Thing* 
 		return;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnLook, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnLook);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
 	LuaScriptInterface::setMetatable(L, -1, "Player");
 
-	if (Creature* creature = thing->getCreature()) {
+	if (Creature *creature = thing->getCreature()) {
 		LuaScriptInterface::pushUserdata<Creature>(L, creature);
 		LuaScriptInterface::setCreatureMetatable(L, -1, creature);
-	} else if (Item* item = thing->getItem()) {
+	} else if (Item *item = thing->getItem()) {
 		LuaScriptInterface::pushUserdata<Item>(L, item);
 		LuaScriptInterface::setItemMetatable(L, -1, item);
 	} else {
@@ -600,7 +600,7 @@ void Events::eventPlayerOnLook(Player* player, const Position &position, Thing* 
 	scriptInterface.callVoidFunction(4);
 }
 
-void Events::eventPlayerOnLookInBattleList(Player* player, Creature* creature, int32_t lookDistance) {
+void Events::eventPlayerOnLookInBattleList(Player *player, Creature *creature, int32_t lookDistance) {
 	// Player:onLookInBattleList(creature, position, distance) or Player.onLookInBattleList(self, creature, position, distance)
 	if (info.playerOnLookInBattleList == -1) {
 		return;
@@ -614,10 +614,10 @@ void Events::eventPlayerOnLookInBattleList(Player* player, Creature* creature, i
 		return;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnLookInBattleList, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnLookInBattleList);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -631,7 +631,7 @@ void Events::eventPlayerOnLookInBattleList(Player* player, Creature* creature, i
 	scriptInterface.callVoidFunction(3);
 }
 
-void Events::eventPlayerOnLookInTrade(Player* player, Player* partner, Item* item, int32_t lookDistance) {
+void Events::eventPlayerOnLookInTrade(Player *player, Player *partner, Item *item, int32_t lookDistance) {
 	// Player:onLookInTrade(partner, item, distance) or Player.onLookInTrade(self, partner, item, distance)
 	if (info.playerOnLookInTrade == -1) {
 		return;
@@ -645,10 +645,10 @@ void Events::eventPlayerOnLookInTrade(Player* player, Player* partner, Item* ite
 		return;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnLookInTrade, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnLookInTrade);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -665,7 +665,7 @@ void Events::eventPlayerOnLookInTrade(Player* player, Player* partner, Item* ite
 	scriptInterface.callVoidFunction(4);
 }
 
-bool Events::eventPlayerOnLookInShop(Player* player, const ItemType* itemType, uint8_t count) {
+bool Events::eventPlayerOnLookInShop(Player *player, const ItemType *itemType, uint8_t count) {
 	// Player:onLookInShop(itemType, count) or Player.onLookInShop(self, itemType, count)
 	if (info.playerOnLookInShop == -1) {
 		return true;
@@ -679,10 +679,10 @@ bool Events::eventPlayerOnLookInShop(Player* player, const ItemType* itemType, u
 		return false;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnLookInShop, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnLookInShop);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -696,7 +696,7 @@ bool Events::eventPlayerOnLookInShop(Player* player, const ItemType* itemType, u
 	return scriptInterface.callFunction(3);
 }
 
-bool Events::eventPlayerOnRemoveCount(Player* player, Item* item) {
+bool Events::eventPlayerOnRemoveCount(Player *player, Item *item) {
 	// Player:onMove()
 	if (info.playerOnRemoveCount == -1) {
 		return true;
@@ -710,10 +710,10 @@ bool Events::eventPlayerOnRemoveCount(Player* player, Item* item) {
 		return false;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnRemoveCount, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnRemoveCount);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -725,7 +725,7 @@ bool Events::eventPlayerOnRemoveCount(Player* player, Item* item) {
 	return scriptInterface.callFunction(2);
 }
 
-bool Events::eventPlayerOnMoveItem(Player* player, Item* item, uint16_t count, const Position &fromPosition, const Position &toPosition, Cylinder* fromCylinder, Cylinder* toCylinder) {
+bool Events::eventPlayerOnMoveItem(Player *player, Item *item, uint16_t count, const Position &fromPosition, const Position &toPosition, Cylinder *fromCylinder, Cylinder *toCylinder) {
 	// Player:onMoveItem(item, count, fromPosition, toPosition) or Player.onMoveItem(self, item, count, fromPosition, toPosition, fromCylinder, toCylinder)
 	if (info.playerOnMoveItem == -1) {
 		return true;
@@ -739,10 +739,10 @@ bool Events::eventPlayerOnMoveItem(Player* player, Item* item, uint16_t count, c
 		return false;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnMoveItem, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnMoveItem);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -761,7 +761,7 @@ bool Events::eventPlayerOnMoveItem(Player* player, Item* item, uint16_t count, c
 	return scriptInterface.callFunction(7);
 }
 
-void Events::eventPlayerOnItemMoved(Player* player, Item* item, uint16_t count, const Position &fromPosition, const Position &toPosition, Cylinder* fromCylinder, Cylinder* toCylinder) {
+void Events::eventPlayerOnItemMoved(Player *player, Item *item, uint16_t count, const Position &fromPosition, const Position &toPosition, Cylinder *fromCylinder, Cylinder *toCylinder) {
 	// Player:onItemMoved(item, count, fromPosition, toPosition) or Player.onItemMoved(self, item, count, fromPosition, toPosition, fromCylinder, toCylinder)
 	if (info.playerOnItemMoved == -1) {
 		return;
@@ -775,10 +775,10 @@ void Events::eventPlayerOnItemMoved(Player* player, Item* item, uint16_t count, 
 		return;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnItemMoved, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnItemMoved);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -797,7 +797,7 @@ void Events::eventPlayerOnItemMoved(Player* player, Item* item, uint16_t count, 
 	scriptInterface.callVoidFunction(7);
 }
 
-void Events::eventPlayerOnChangeZone(Player* player, ZoneType_t zone) {
+void Events::eventPlayerOnChangeZone(Player *player, ZoneType_t zone) {
 	// Player:onChangeZone(zone)
 	if (info.playerOnChangeZone == -1) {
 		return;
@@ -811,10 +811,10 @@ void Events::eventPlayerOnChangeZone(Player* player, ZoneType_t zone) {
 		return;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnChangeZone, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnChangeZone);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -824,7 +824,7 @@ void Events::eventPlayerOnChangeZone(Player* player, ZoneType_t zone) {
 	scriptInterface.callVoidFunction(2);
 }
 
-bool Events::eventPlayerOnMoveCreature(Player* player, Creature* creature, const Position &fromPosition, const Position &toPosition) {
+bool Events::eventPlayerOnMoveCreature(Player *player, Creature *creature, const Position &fromPosition, const Position &toPosition) {
 	// Player:onMoveCreature(creature, fromPosition, toPosition) or Player.onMoveCreature(self, creature, fromPosition, toPosition)
 	if (info.playerOnMoveCreature == -1) {
 		return true;
@@ -838,10 +838,10 @@ bool Events::eventPlayerOnMoveCreature(Player* player, Creature* creature, const
 		return false;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnMoveCreature, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnMoveCreature);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -856,7 +856,7 @@ bool Events::eventPlayerOnMoveCreature(Player* player, Creature* creature, const
 	return scriptInterface.callFunction(4);
 }
 
-void Events::eventPlayerOnReportRuleViolation(Player* player, const std::string &targetName, uint8_t reportType, uint8_t reportReason, const std::string &comment, const std::string &translation) {
+void Events::eventPlayerOnReportRuleViolation(Player *player, const std::string &targetName, uint8_t reportType, uint8_t reportReason, const std::string &comment, const std::string &translation) {
 	// Player:onReportRuleViolation(targetName, reportType, reportReason, comment, translation)
 	if (info.playerOnReportRuleViolation == -1) {
 		return;
@@ -870,10 +870,10 @@ void Events::eventPlayerOnReportRuleViolation(Player* player, const std::string 
 		return;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnReportRuleViolation, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnReportRuleViolation);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -890,7 +890,7 @@ void Events::eventPlayerOnReportRuleViolation(Player* player, const std::string 
 	scriptInterface.callVoidFunction(6);
 }
 
-bool Events::eventPlayerOnReportBug(Player* player, const std::string &message, const Position &position, uint8_t category) {
+bool Events::eventPlayerOnReportBug(Player *player, const std::string &message, const Position &position, uint8_t category) {
 	// Player:onReportBug(message, position, category)
 	if (info.playerOnReportBug == -1) {
 		return true;
@@ -904,10 +904,10 @@ bool Events::eventPlayerOnReportBug(Player* player, const std::string &message, 
 		return false;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnReportBug, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnReportBug);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -920,7 +920,7 @@ bool Events::eventPlayerOnReportBug(Player* player, const std::string &message, 
 	return scriptInterface.callFunction(4);
 }
 
-bool Events::eventPlayerOnTurn(Player* player, Direction direction) {
+bool Events::eventPlayerOnTurn(Player *player, Direction direction) {
 	// Player:onTurn(direction) or Player.onTurn(self, direction)
 	if (info.playerOnTurn == -1) {
 		return true;
@@ -934,10 +934,10 @@ bool Events::eventPlayerOnTurn(Player* player, Direction direction) {
 		return false;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnTurn, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnTurn);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -948,7 +948,7 @@ bool Events::eventPlayerOnTurn(Player* player, Direction direction) {
 	return scriptInterface.callFunction(2);
 }
 
-bool Events::eventPlayerOnTradeRequest(Player* player, Player* target, Item* item) {
+bool Events::eventPlayerOnTradeRequest(Player *player, Player *target, Item *item) {
 	// Player:onTradeRequest(target, item)
 	if (info.playerOnTradeRequest == -1) {
 		return true;
@@ -962,10 +962,10 @@ bool Events::eventPlayerOnTradeRequest(Player* player, Player* target, Item* ite
 		return false;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnTradeRequest, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnTradeRequest);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -980,7 +980,7 @@ bool Events::eventPlayerOnTradeRequest(Player* player, Player* target, Item* ite
 	return scriptInterface.callFunction(3);
 }
 
-bool Events::eventPlayerOnTradeAccept(Player* player, Player* target, Item* item, Item* targetItem) {
+bool Events::eventPlayerOnTradeAccept(Player *player, Player *target, Item *item, Item *targetItem) {
 	// Player:onTradeAccept(target, item, targetItem)
 	if (info.playerOnTradeAccept == -1) {
 		return true;
@@ -994,10 +994,10 @@ bool Events::eventPlayerOnTradeAccept(Player* player, Player* target, Item* item
 		return false;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnTradeAccept, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnTradeAccept);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -1015,7 +1015,7 @@ bool Events::eventPlayerOnTradeAccept(Player* player, Player* target, Item* item
 	return scriptInterface.callFunction(4);
 }
 
-void Events::eventPlayerOnGainExperience(Player* player, Creature* target, uint64_t &exp, uint64_t rawExp) {
+void Events::eventPlayerOnGainExperience(Player *player, Creature *target, uint64_t &exp, uint64_t rawExp) {
 	// Player:onGainExperience(target, exp, rawExp)
 	// rawExp gives the original exp which is not multiplied
 	if (info.playerOnGainExperience == -1) {
@@ -1030,10 +1030,10 @@ void Events::eventPlayerOnGainExperience(Player* player, Creature* target, uint6
 		return;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnGainExperience, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnGainExperience);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -1059,7 +1059,7 @@ void Events::eventPlayerOnGainExperience(Player* player, Creature* target, uint6
 	scriptInterface.resetScriptEnv();
 }
 
-void Events::eventPlayerOnLoseExperience(Player* player, uint64_t &exp) {
+void Events::eventPlayerOnLoseExperience(Player *player, uint64_t &exp) {
 	// Player:onLoseExperience(exp)
 	if (info.playerOnLoseExperience == -1) {
 		return;
@@ -1073,10 +1073,10 @@ void Events::eventPlayerOnLoseExperience(Player* player, uint64_t &exp) {
 		return;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnLoseExperience, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnLoseExperience);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -1094,7 +1094,7 @@ void Events::eventPlayerOnLoseExperience(Player* player, uint64_t &exp) {
 	scriptInterface.resetScriptEnv();
 }
 
-void Events::eventPlayerOnGainSkillTries(Player* player, skills_t skill, uint64_t &tries) {
+void Events::eventPlayerOnGainSkillTries(Player *player, skills_t skill, uint64_t &tries) {
 	// Player:onGainSkillTries(skill, tries)
 	if (info.playerOnGainSkillTries == -1) {
 		return;
@@ -1108,10 +1108,10 @@ void Events::eventPlayerOnGainSkillTries(Player* player, skills_t skill, uint64_
 		return;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnGainSkillTries, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnGainSkillTries);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -1130,7 +1130,7 @@ void Events::eventPlayerOnGainSkillTries(Player* player, skills_t skill, uint64_
 	scriptInterface.resetScriptEnv();
 }
 
-void Events::eventPlayerOnCombat(Player* player, Creature* target, Item* item, CombatDamage &damage) {
+void Events::eventPlayerOnCombat(Player *player, Creature *target, Item *item, CombatDamage &damage) {
 	// Player:onCombat(target, item, primaryDamage, primaryType, secondaryDamage, secondaryType)
 	if (info.playerOnCombat == -1) {
 		return;
@@ -1144,10 +1144,10 @@ void Events::eventPlayerOnCombat(Player* player, Creature* target, Item* item, C
 		return;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnCombat, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnCombat);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -1197,7 +1197,7 @@ void Events::eventPlayerOnCombat(Player* player, Creature* target, Item* item, C
 	scriptInterface.resetScriptEnv();
 }
 
-void Events::eventPlayerOnRequestQuestLog(Player* player) {
+void Events::eventPlayerOnRequestQuestLog(Player *player) {
 	// Player:onRequestQuestLog()
 	if (info.playerOnRequestQuestLog == -1) {
 		return;
@@ -1211,10 +1211,10 @@ void Events::eventPlayerOnRequestQuestLog(Player* player) {
 		return;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnRequestQuestLog, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnRequestQuestLog);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -1223,7 +1223,7 @@ void Events::eventPlayerOnRequestQuestLog(Player* player) {
 	scriptInterface.callVoidFunction(1);
 }
 
-void Events::eventPlayerOnRequestQuestLine(Player* player, uint16_t questId) {
+void Events::eventPlayerOnRequestQuestLine(Player *player, uint16_t questId) {
 	// Player::onRequestQuestLine()
 	if (info.playerOnRequestQuestLine == -1) {
 		return;
@@ -1237,10 +1237,10 @@ void Events::eventPlayerOnRequestQuestLine(Player* player, uint16_t questId) {
 		return;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnRequestQuestLine, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnRequestQuestLine);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -1251,7 +1251,7 @@ void Events::eventPlayerOnRequestQuestLine(Player* player, uint16_t questId) {
 	scriptInterface.callVoidFunction(2);
 }
 
-void Events::eventOnStorageUpdate(Player* player, const uint32_t key, const int32_t value, int32_t oldValue, uint64_t currentTime) {
+void Events::eventOnStorageUpdate(Player *player, const uint32_t key, const int32_t value, int32_t oldValue, uint64_t currentTime) {
 	// Player::onStorageUpdate(key, value, oldValue, currentTime)
 	if (info.playerOnStorageUpdate == -1) {
 		return;
@@ -1265,10 +1265,10 @@ void Events::eventOnStorageUpdate(Player* player, const uint32_t key, const int3
 		return;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.playerOnStorageUpdate, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.playerOnStorageUpdate);
 
 	LuaScriptInterface::pushUserdata<Player>(L, player);
@@ -1283,7 +1283,7 @@ void Events::eventOnStorageUpdate(Player* player, const uint32_t key, const int3
 }
 
 // Monster
-void Events::eventMonsterOnDropLoot(Monster* monster, Container* corpse) {
+void Events::eventMonsterOnDropLoot(Monster *monster, Container *corpse) {
 	// Monster:onDropLoot(corpse)
 	if (info.monsterOnDropLoot == -1) {
 		return;
@@ -1297,10 +1297,10 @@ void Events::eventMonsterOnDropLoot(Monster* monster, Container* corpse) {
 		return;
 	}
 
-	ScriptEnvironment* env = scriptInterface.getScriptEnv();
+	ScriptEnvironment *env = scriptInterface.getScriptEnv();
 	env->setScriptId(info.monsterOnDropLoot, &scriptInterface);
 
-	lua_State* L = scriptInterface.getLuaState();
+	lua_State *L = scriptInterface.getLuaState();
 	scriptInterface.pushFunction(info.monsterOnDropLoot);
 
 	LuaScriptInterface::pushUserdata<Monster>(L, monster);

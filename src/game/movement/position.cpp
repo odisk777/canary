@@ -13,12 +13,11 @@
 #include "utils/tools.h"
 
 Direction Position::getRandomDirection() {
-	static std::vector<Direction> dirList {
+	static std::vector<Direction> dirList{
 		DIRECTION_NORTH,
 		DIRECTION_WEST,
 		DIRECTION_EAST,
-		DIRECTION_SOUTH
-	};
+		DIRECTION_SOUTH};
 	std::shuffle(dirList.begin(), dirList.end(), getRandomGenerator());
 
 	return dirList.front();

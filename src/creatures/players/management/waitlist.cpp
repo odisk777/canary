@@ -14,55 +14,55 @@
 
 namespace {
 
-	struct Wait {
-			constexpr Wait(std::size_t initTimeout, uint32_t initPlayerGUID) :
-				timeout(initTimeout), playerGUID(initPlayerGUID) { }
+struct Wait {
+	constexpr Wait(std::size_t initTimeout, uint32_t initPlayerGUID) :
+		timeout(initTimeout), playerGUID(initPlayerGUID) { }
 
-			std::size_t timeout;
-			uint32_t playerGUID;
-	};
+	std::size_t timeout;
+	uint32_t playerGUID;
+};
 
-	using WaitList = std::list<Wait>;
+using WaitList = std::list<Wait>;
 
-	void cleanupList(WaitList &list) {
-		int64_t time = OTSYS_TIME();
+void cleanupList(WaitList &list) {
+	int64_t time = OTSYS_TIME();
 
-		auto it = list.begin(), end = list.end();
-		while (it != end) {
-			if ((it->timeout - time) <= 0) {
-				it = list.erase(it);
-			} else {
-				++it;
-			}
+	auto it = list.begin(), end = list.end();
+	while (it != end) {
+		if ((it->timeout - time) <= 0) {
+			it = list.erase(it);
+		} else {
+			++it;
 		}
 	}
+}
 
-	std::size_t getTimeout(std::size_t slot) {
-		// timeout is set to 15 seconds longer than expected retry attempt
-		return WaitingList::getTime(slot) + 15;
-	}
+std::size_t getTimeout(std::size_t slot) {
+	// timeout is set to 15 seconds longer than expected retry attempt
+	return WaitingList::getTime(slot) + 15;
+}
 
 } // namespace
 
 struct WaitListInfo {
-		WaitList priorityWaitList;
-		WaitList waitList;
+	WaitList priorityWaitList;
+	WaitList waitList;
 
-		std::pair<WaitList::iterator, WaitList::size_type> findClient(const Player* player) {
-			std::size_t slot = 1;
-			for (auto it = priorityWaitList.begin(), end = priorityWaitList.end(); it != end; ++it, ++slot) {
-				if (it->playerGUID == player->getGUID()) {
-					return { it, slot };
-				}
+	std::pair<WaitList::iterator, WaitList::size_type> findClient(const Player *player) {
+		std::size_t slot = 1;
+		for (auto it = priorityWaitList.begin(), end = priorityWaitList.end(); it != end; ++it, ++slot) {
+			if (it->playerGUID == player->getGUID()) {
+				return {it, slot};
 			}
-
-			for (auto it = waitList.begin(), end = waitList.end(); it != end; ++it, ++slot) {
-				if (it->playerGUID == player->getGUID()) {
-					return { it, slot };
-				}
-			}
-			return { waitList.end(), slot };
 		}
+
+		for (auto it = waitList.begin(), end = waitList.end(); it != end; ++it, ++slot) {
+			if (it->playerGUID == player->getGUID()) {
+				return {it, slot};
+			}
+		}
+		return {waitList.end(), slot};
+	}
 };
 
 WaitingList &WaitingList::getInstance() {
@@ -84,7 +84,7 @@ std::size_t WaitingList::getTime(std::size_t slot) {
 	}
 }
 
-bool WaitingList::clientLogin(const Player* player) {
+bool WaitingList::clientLogin(const Player *player) {
 	if (player->hasFlag(PlayerFlags_t::CanAlwaysLogin) || player->getAccountType() >= account::ACCOUNT_TYPE_GAMEMASTER) {
 		return true;
 	}
@@ -122,7 +122,7 @@ bool WaitingList::clientLogin(const Player* player) {
 	return false;
 }
 
-std::size_t WaitingList::getClientSlot(const Player* player) {
+std::size_t WaitingList::getClientSlot(const Player *player) {
 	WaitList::iterator it;
 	WaitList::size_type slot;
 	std::tie(it, slot) = info->findClient(player);

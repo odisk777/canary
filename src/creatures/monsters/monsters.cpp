@@ -22,7 +22,7 @@ spellBlock_t::~spellBlock_t() {
 	}
 }
 
-void MonsterType::loadLoot(MonsterType* monsterType, LootBlock lootBlock) {
+void MonsterType::loadLoot(MonsterType *monsterType, LootBlock lootBlock) {
 	if (lootBlock.childLoot.empty()) {
 		bool isContainer = Item::items[lootBlock.id].isContainer();
 		if (isContainer) {
@@ -48,8 +48,8 @@ bool MonsterType::canSpawn(const Position &pos) {
 	return canSpawn;
 }
 
-ConditionDamage* Monsters::getDamageCondition(ConditionType_t conditionType, int32_t maxDamage, int32_t minDamage, int32_t startDamage, uint32_t tickInterval) {
-	ConditionDamage* condition = static_cast<ConditionDamage*>(Condition::createCondition(CONDITIONID_COMBAT, conditionType, 0, 0));
+ConditionDamage *Monsters::getDamageCondition(ConditionType_t conditionType, int32_t maxDamage, int32_t minDamage, int32_t startDamage, uint32_t tickInterval) {
+	ConditionDamage *condition = static_cast<ConditionDamage *>(Condition::createCondition(CONDITIONID_COMBAT, conditionType, 0, 0));
 	condition->setParam(CONDITION_PARAM_TICKINTERVAL, tickInterval);
 	condition->setParam(CONDITION_PARAM_MINVALUE, minDamage);
 	condition->setParam(CONDITION_PARAM_MAXVALUE, maxDamage);
@@ -58,7 +58,7 @@ ConditionDamage* Monsters::getDamageCondition(ConditionType_t conditionType, int
 	return condition;
 }
 
-bool Monsters::deserializeSpell(MonsterSpell* spell, spellBlock_t &sb, const std::string &description) {
+bool Monsters::deserializeSpell(MonsterSpell *spell, spellBlock_t &sb, const std::string &description) {
 	if (!spell->scriptName.empty()) {
 		spell->isScripted = true;
 	} else if (!spell->name.empty()) {
@@ -78,7 +78,7 @@ bool Monsters::deserializeSpell(MonsterSpell* spell, spellBlock_t &sb, const std
 		return true;
 	}
 
-	CombatSpell* combatSpell = nullptr;
+	CombatSpell *combatSpell = nullptr;
 
 	auto combatPtr = std::make_unique<Combat>();
 
@@ -87,7 +87,7 @@ bool Monsters::deserializeSpell(MonsterSpell* spell, spellBlock_t &sb, const std
 	if (spell->length > 0) {
 		spell->spread = std::max<int32_t>(0, spell->spread);
 
-		AreaCombat* area = new AreaCombat();
+		AreaCombat *area = new AreaCombat();
 		area->setupArea(spell->length, spell->spread);
 		combatPtr->setArea(area);
 
@@ -95,7 +95,7 @@ bool Monsters::deserializeSpell(MonsterSpell* spell, spellBlock_t &sb, const std
 	}
 
 	if (spell->radius > 0) {
-		AreaCombat* area = new AreaCombat();
+		AreaCombat *area = new AreaCombat();
 		area->setupArea(spell->radius);
 		combatPtr->setArea(area);
 	}
@@ -147,7 +147,7 @@ bool Monsters::deserializeSpell(MonsterSpell* spell, spellBlock_t &sb, const std
 			conditionType = CONDITION_PARALYZE;
 		}
 
-		ConditionSpeed* condition = static_cast<ConditionSpeed*>(Condition::createCondition(CONDITIONID_COMBAT, conditionType, duration, 0));
+		ConditionSpeed *condition = static_cast<ConditionSpeed *>(Condition::createCondition(CONDITIONID_COMBAT, conditionType, duration, 0));
 		condition->setFormulaVars(speedChange / 1000.0, 0, speedChange / 1000.0, 0);
 		combatPtr->addCondition(condition);
 	} else if (spellName == "outfit") {
@@ -157,7 +157,7 @@ bool Monsters::deserializeSpell(MonsterSpell* spell, spellBlock_t &sb, const std
 			duration = spell->duration;
 		}
 
-		ConditionOutfit* condition = static_cast<ConditionOutfit*>(Condition::createCondition(CONDITIONID_COMBAT, CONDITION_OUTFIT, duration, 0));
+		ConditionOutfit *condition = static_cast<ConditionOutfit *>(Condition::createCondition(CONDITIONID_COMBAT, CONDITION_OUTFIT, duration, 0));
 
 		if (spell->outfitMonster != "") {
 			condition->setLazyMonsterOutfit(spell->outfitMonster);
@@ -181,7 +181,7 @@ bool Monsters::deserializeSpell(MonsterSpell* spell, spellBlock_t &sb, const std
 			duration = spell->duration;
 		}
 
-		Condition* condition = Condition::createCondition(CONDITIONID_COMBAT, CONDITION_INVISIBLE, duration, 0);
+		Condition *condition = Condition::createCondition(CONDITIONID_COMBAT, CONDITION_INVISIBLE, duration, 0);
 		combatPtr->setParam(COMBAT_PARAM_AGGRESSIVE, 0);
 		combatPtr->addCondition(condition);
 	} else if (spellName == "drunk") {
@@ -191,7 +191,7 @@ bool Monsters::deserializeSpell(MonsterSpell* spell, spellBlock_t &sb, const std
 			duration = spell->duration;
 		}
 
-		Condition* condition = Condition::createCondition(CONDITIONID_COMBAT, CONDITION_DRUNK, duration, 0);
+		Condition *condition = Condition::createCondition(CONDITIONID_COMBAT, CONDITION_DRUNK, duration, 0);
 		combatPtr->addCondition(condition);
 	} else if (spellName == "firefield") {
 		combatPtr->setParam(COMBAT_PARAM_CREATEITEM, ITEM_FIREFIELD_PVP_FULL);
@@ -242,7 +242,7 @@ bool Monsters::deserializeSpell(MonsterSpell* spell, spellBlock_t &sb, const std
 			maxDamage = minDamage;
 		}
 
-		Condition* condition = getDamageCondition(spell->conditionType, maxDamage, minDamage, startDamage, tickInterval);
+		Condition *condition = getDamageCondition(spell->conditionType, maxDamage, minDamage, startDamage, tickInterval);
 		combatPtr->addCondition(condition);
 	}
 
@@ -257,7 +257,7 @@ bool Monsters::deserializeSpell(MonsterSpell* spell, spellBlock_t &sb, const std
 	return true;
 }
 
-bool MonsterType::loadCallback(LuaScriptInterface* scriptInterface) {
+bool MonsterType::loadCallback(LuaScriptInterface *scriptInterface) {
 	int32_t id = scriptInterface->getEvent();
 	if (id == -1) {
 		SPDLOG_WARN("[MonsterType::loadCallback] - Event not found");
@@ -279,7 +279,7 @@ bool MonsterType::loadCallback(LuaScriptInterface* scriptInterface) {
 	return true;
 }
 
-MonsterType* Monsters::getMonsterType(const std::string &name) {
+MonsterType *Monsters::getMonsterType(const std::string &name) {
 	std::string lowerCaseName = asLowerCaseString(name);
 	if (auto it = monsters.find(lowerCaseName);
 		it != monsters.end()
@@ -291,17 +291,17 @@ MonsterType* Monsters::getMonsterType(const std::string &name) {
 	return nullptr;
 }
 
-MonsterType* Monsters::getMonsterTypeByRaceId(uint16_t thisrace) {
+MonsterType *Monsters::getMonsterTypeByRaceId(uint16_t thisrace) {
 	std::map<uint16_t, std::string> raceid_list = g_game().getBestiaryList();
 	auto it = raceid_list.find(thisrace);
 	if (it == raceid_list.end()) {
 		return nullptr;
 	}
-	MonsterType* mtype = g_monsters().getMonsterType(it->second);
+	MonsterType *mtype = g_monsters().getMonsterType(it->second);
 	return (mtype ? mtype : nullptr);
 }
 
-void Monsters::addMonsterType(const std::string &name, MonsterType* mType) {
+void Monsters::addMonsterType(const std::string &name, MonsterType *mType) {
 	std::string lowerName = asLowerCaseString(name);
 	monsters[lowerName] = mType;
 }

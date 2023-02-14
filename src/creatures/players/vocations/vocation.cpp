@@ -154,7 +154,7 @@ bool Vocations::loadFromXml() {
 	return true;
 }
 
-Vocation* Vocations::getVocation(uint16_t id) {
+Vocation *Vocations::getVocation(uint16_t id) {
 	auto it = vocationsMap.find(id);
 	if (it == vocationsMap.end()) {
 		SPDLOG_WARN("[Vocations::getVocation] - "
@@ -183,7 +183,7 @@ uint16_t Vocations::getPromotedVocation(uint16_t vocationId) const {
 	return VOCATION_NONE;
 }
 
-uint32_t Vocation::skillBase[SKILL_LAST + 1] = { 50, 50, 50, 50, 30, 100, 20 };
+uint32_t Vocation::skillBase[SKILL_LAST + 1] = {50, 50, 50, 50, 30, 100, 20};
 
 uint64_t Vocation::getReqSkillTries(uint8_t skill, uint16_t level) {
 	if (skill > SKILL_LAST || level <= 10) {

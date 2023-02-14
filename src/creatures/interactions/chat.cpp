@@ -79,7 +79,7 @@ bool ChatChannel::addUser(Player &player) {
 
 	// TODO: Move to script when guild channels can be scripted
 	if (id == CHANNEL_GUILD) {
-		Guild* guild = player.getGuild();
+		Guild *guild = player.getGuild();
 		if (guild && !guild->getMotd().empty()) {
 			g_scheduler().addEvent(createSchedulerTask(150, std::bind(&Game::sendGuildMotd, &g_game(), player.getID())));
 		}
@@ -140,7 +140,7 @@ bool ChatChannel::executeCanJoinEvent(const Player &player) {
 	}
 
 	// canJoin(player)
-	LuaScriptInterface* scriptInterface = g_chat().getScriptInterface();
+	LuaScriptInterface *scriptInterface = g_chat().getScriptInterface();
 	if (!scriptInterface->reserveScriptEnv()) {
 		SPDLOG_ERROR("[CanJoinChannelEvent::execute - Player {}, on channel {}] "
 					 "Call stack overflow. Too many lua script calls being nested.",
@@ -148,10 +148,10 @@ bool ChatChannel::executeCanJoinEvent(const Player &player) {
 		return false;
 	}
 
-	ScriptEnvironment* env = scriptInterface->getScriptEnv();
+	ScriptEnvironment *env = scriptInterface->getScriptEnv();
 	env->setScriptId(canJoinEvent, scriptInterface);
 
-	lua_State* L = scriptInterface->getLuaState();
+	lua_State *L = scriptInterface->getLuaState();
 
 	scriptInterface->pushFunction(canJoinEvent);
 	LuaScriptInterface::pushUserdata(L, &player);
@@ -166,7 +166,7 @@ bool ChatChannel::executeOnJoinEvent(const Player &player) {
 	}
 
 	// onJoin(player)
-	LuaScriptInterface* scriptInterface = g_chat().getScriptInterface();
+	LuaScriptInterface *scriptInterface = g_chat().getScriptInterface();
 	if (!scriptInterface->reserveScriptEnv()) {
 		SPDLOG_ERROR("[OnJoinChannelEvent::execute - Player {}, on channel {}] "
 					 "Call stack overflow. Too many lua script calls being nested",
@@ -174,10 +174,10 @@ bool ChatChannel::executeOnJoinEvent(const Player &player) {
 		return false;
 	}
 
-	ScriptEnvironment* env = scriptInterface->getScriptEnv();
+	ScriptEnvironment *env = scriptInterface->getScriptEnv();
 	env->setScriptId(onJoinEvent, scriptInterface);
 
-	lua_State* L = scriptInterface->getLuaState();
+	lua_State *L = scriptInterface->getLuaState();
 
 	scriptInterface->pushFunction(onJoinEvent);
 	LuaScriptInterface::pushUserdata(L, &player);
@@ -192,7 +192,7 @@ bool ChatChannel::executeOnLeaveEvent(const Player &player) {
 	}
 
 	// onLeave(player)
-	LuaScriptInterface* scriptInterface = g_chat().getScriptInterface();
+	LuaScriptInterface *scriptInterface = g_chat().getScriptInterface();
 	if (!scriptInterface->reserveScriptEnv()) {
 		SPDLOG_ERROR("[OnLeaveChannelEvent::execute - Player {}, on channel {}] "
 					 "Call stack overflow. Too many lua script calls being nested.",
@@ -200,10 +200,10 @@ bool ChatChannel::executeOnLeaveEvent(const Player &player) {
 		return false;
 	}
 
-	ScriptEnvironment* env = scriptInterface->getScriptEnv();
+	ScriptEnvironment *env = scriptInterface->getScriptEnv();
 	env->setScriptId(onLeaveEvent, scriptInterface);
 
-	lua_State* L = scriptInterface->getLuaState();
+	lua_State *L = scriptInterface->getLuaState();
 
 	scriptInterface->pushFunction(onLeaveEvent);
 	LuaScriptInterface::pushUserdata(L, &player);
@@ -218,7 +218,7 @@ bool ChatChannel::executeOnSpeakEvent(const Player &player, SpeakClasses &type, 
 	}
 
 	// onSpeak(player, type, message)
-	LuaScriptInterface* scriptInterface = g_chat().getScriptInterface();
+	LuaScriptInterface *scriptInterface = g_chat().getScriptInterface();
 	if (!scriptInterface->reserveScriptEnv()) {
 		SPDLOG_ERROR("[OnSpeakChannelEvent::execute - Player {}, type {}] "
 					 "Call stack overflow. Too many lua script calls being nested.",
@@ -226,10 +226,10 @@ bool ChatChannel::executeOnSpeakEvent(const Player &player, SpeakClasses &type, 
 		return false;
 	}
 
-	ScriptEnvironment* env = scriptInterface->getScriptEnv();
+	ScriptEnvironment *env = scriptInterface->getScriptEnv();
 	env->setScriptId(onSpeakEvent, scriptInterface);
 
-	lua_State* L = scriptInterface->getLuaState();
+	lua_State *L = scriptInterface->getLuaState();
 
 	scriptInterface->pushFunction(onSpeakEvent);
 	LuaScriptInterface::pushUserdata(L, &player);
@@ -325,14 +325,14 @@ bool Chat::load() {
 	return true;
 }
 
-ChatChannel* Chat::createChannel(const Player &player, uint16_t channelId) {
+ChatChannel *Chat::createChannel(const Player &player, uint16_t channelId) {
 	if (getChannel(player, channelId) != nullptr) {
 		return nullptr;
 	}
 
 	switch (channelId) {
 		case CHANNEL_GUILD: {
-			Guild* guild = player.getGuild();
+			Guild *guild = player.getGuild();
 			if (guild != nullptr) {
 				auto ret = guildChannels.emplace(std::make_pair(guild->getId(), ChatChannel(channelId, guild->getName())));
 				return &ret.first->second;
@@ -341,7 +341,7 @@ ChatChannel* Chat::createChannel(const Player &player, uint16_t channelId) {
 		}
 
 		case CHANNEL_PARTY: {
-			Party* party = player.getParty();
+			Party *party = player.getParty();
 			if (party != nullptr) {
 				auto ret = partyChannels.emplace(std::make_pair(party, ChatChannel(channelId, "Party")));
 				return &ret.first->second;
@@ -376,7 +376,7 @@ ChatChannel* Chat::createChannel(const Player &player, uint16_t channelId) {
 bool Chat::deleteChannel(const Player &player, uint16_t channelId) {
 	switch (channelId) {
 		case CHANNEL_GUILD: {
-			Guild* guild = player.getGuild();
+			Guild *guild = player.getGuild();
 			if (guild == nullptr) {
 				return false;
 			}
@@ -391,7 +391,7 @@ bool Chat::deleteChannel(const Player &player, uint16_t channelId) {
 		}
 
 		case CHANNEL_PARTY: {
-			Party* party = player.getParty();
+			Party *party = player.getParty();
 			if (party == nullptr) {
 				return false;
 			}
@@ -420,8 +420,8 @@ bool Chat::deleteChannel(const Player &player, uint16_t channelId) {
 	return true;
 }
 
-ChatChannel* Chat::addUserToChannel(Player &player, uint16_t channelId) {
-	ChatChannel* channel = getChannel(player, channelId);
+ChatChannel *Chat::addUserToChannel(Player &player, uint16_t channelId) {
+	ChatChannel *channel = getChannel(player, channelId);
 	if ((channel != nullptr) && channel->addUser(player)) {
 		return channel;
 	}
@@ -429,7 +429,7 @@ ChatChannel* Chat::addUserToChannel(Player &player, uint16_t channelId) {
 }
 
 bool Chat::removeUserFromChannel(const Player &player, uint16_t channelId) {
-	ChatChannel* channel = getChannel(player, channelId);
+	ChatChannel *channel = getChannel(player, channelId);
 	if ((channel == nullptr) || !channel->removeUser(player)) {
 		return false;
 	}
@@ -455,7 +455,7 @@ void Chat::removeUserFromAllChannels(const Player &player) {
 
 	auto it = privateChannels.begin();
 	while (it != privateChannels.end()) {
-		PrivateChatChannel* channel = &it->second;
+		PrivateChatChannel *channel = &it->second;
 		channel->removeInvite(player.getGUID());
 		channel->removeUser(player);
 		if (channel->getOwner() == player.getGUID()) {
@@ -468,7 +468,7 @@ void Chat::removeUserFromAllChannels(const Player &player) {
 }
 
 bool Chat::talkToChannel(const Player &player, SpeakClasses type, const std::string &text, uint16_t channelId) {
-	ChatChannel* channel = getChannel(player, channelId);
+	ChatChannel *channel = getChannel(player, channelId);
 	if (channel == nullptr) {
 		return false;
 	}
@@ -494,7 +494,7 @@ bool Chat::talkToChannel(const Player &player, SpeakClasses type, const std::str
 ChannelList Chat::getChannelList(const Player &player) {
 	ChannelList list;
 	if (player.getGuild()) {
-		ChatChannel* channel = getChannel(player, CHANNEL_GUILD);
+		ChatChannel *channel = getChannel(player, CHANNEL_GUILD);
 		if (channel) {
 			list.push_back(channel);
 		} else {
@@ -506,7 +506,7 @@ ChannelList Chat::getChannelList(const Player &player) {
 	}
 
 	if (player.getParty()) {
-		ChatChannel* channel = getChannel(player, CHANNEL_PARTY);
+		ChatChannel *channel = getChannel(player, CHANNEL_PARTY);
 		if (channel) {
 			list.push_back(channel);
 		} else {
@@ -518,7 +518,7 @@ ChannelList Chat::getChannelList(const Player &player) {
 	}
 
 	for (const auto &it : normalChannels) {
-		ChatChannel* channel = getChannel(player, it.first);
+		ChatChannel *channel = getChannel(player, it.first);
 		if (channel) {
 			list.push_back(channel);
 		}
@@ -526,7 +526,7 @@ ChannelList Chat::getChannelList(const Player &player) {
 
 	bool hasPrivate = false;
 	for (auto &it : privateChannels) {
-		if (PrivateChatChannel* channel = &it.second) {
+		if (PrivateChatChannel *channel = &it.second) {
 			uint32_t guid = player.getGUID();
 			if (channel->isInvited(guid)) {
 				list.push_back(channel);
@@ -544,10 +544,10 @@ ChannelList Chat::getChannelList(const Player &player) {
 	return list;
 }
 
-ChatChannel* Chat::getChannel(const Player &player, uint16_t channelId) {
+ChatChannel *Chat::getChannel(const Player &player, uint16_t channelId) {
 	switch (channelId) {
 		case CHANNEL_GUILD: {
-			Guild* guild = player.getGuild();
+			Guild *guild = player.getGuild();
 			if (guild != nullptr) {
 				auto it = guildChannels.find(guild->getId());
 				if (it != guildChannels.end()) {
@@ -558,7 +558,7 @@ ChatChannel* Chat::getChannel(const Player &player, uint16_t channelId) {
 		}
 
 		case CHANNEL_PARTY: {
-			Party* party = player.getParty();
+			Party *party = player.getParty();
 			if (party != nullptr) {
 				auto it = partyChannels.find(party);
 				if (it != partyChannels.end()) {
@@ -588,7 +588,7 @@ ChatChannel* Chat::getChannel(const Player &player, uint16_t channelId) {
 	return nullptr;
 }
 
-ChatChannel* Chat::getGuildChannelById(uint32_t guildId) {
+ChatChannel *Chat::getGuildChannelById(uint32_t guildId) {
 	auto it = guildChannels.find(guildId);
 	if (it == guildChannels.end()) {
 		return nullptr;
@@ -596,7 +596,7 @@ ChatChannel* Chat::getGuildChannelById(uint32_t guildId) {
 	return &it->second;
 }
 
-ChatChannel* Chat::getChannelById(uint16_t channelId) {
+ChatChannel *Chat::getChannelById(uint16_t channelId) {
 	auto it = normalChannels.find(channelId);
 	if (it == normalChannels.end()) {
 		return nullptr;
@@ -604,7 +604,7 @@ ChatChannel* Chat::getChannelById(uint16_t channelId) {
 	return &it->second;
 }
 
-PrivateChatChannel* Chat::getPrivateChannel(const Player &player) {
+PrivateChatChannel *Chat::getPrivateChannel(const Player &player) {
 	for (auto &it : privateChannels) {
 		if (it.second.getOwner() == player.getGUID()) {
 			return &it.second;

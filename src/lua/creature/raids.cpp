@@ -21,7 +21,7 @@ Raids::Raids() {
 }
 
 Raids::~Raids() {
-	for (Raid* raid : raidList) {
+	for (Raid *raid : raidList) {
 		delete raid;
 	}
 }
@@ -87,7 +87,7 @@ bool Raids::loadFromXml() {
 			repeat = false;
 		}
 
-		Raid* newRaid = new Raid(name, interval, margin, repeat);
+		Raid *newRaid = new Raid(name, interval, margin, repeat);
 		if (newRaid->loadFromXml(g_configManager().getString(DATA_DIRECTORY) + "/raids/" + file)) {
 			raidList.push_back(newRaid);
 		} else {
@@ -120,7 +120,7 @@ void Raids::checkRaids() {
 		uint64_t now = OTSYS_TIME();
 
 		for (auto it = raidList.begin(), end = raidList.end(); it != end; ++it) {
-			Raid* raid = *it;
+			Raid *raid = *it;
 			if (now >= (getLastRaidEnd() + raid->getMargin())) {
 				if (((MAX_RAND_RANGE * CHECK_RAIDS_INTERVAL) / raid->getInterval()) >= static_cast<uint32_t>(uniform_random(0, MAX_RAND_RANGE))) {
 					setRunning(raid);
@@ -142,7 +142,7 @@ void Raids::clear() {
 	g_scheduler().stopEvent(checkRaidsEvent);
 	checkRaidsEvent = 0;
 
-	for (Raid* raid : raidList) {
+	for (Raid *raid : raidList) {
 		raid->stopEvents();
 		delete raid;
 	}
@@ -161,8 +161,8 @@ bool Raids::reload() {
 	return loadFromXml();
 }
 
-Raid* Raids::getRaidByName(const std::string &name) {
-	for (Raid* raid : raidList) {
+Raid *Raids::getRaidByName(const std::string &name) {
+	for (Raid *raid : raidList) {
 		if (strcasecmp(raid->getName().c_str(), name.c_str()) == 0) {
 			return raid;
 		}
@@ -171,7 +171,7 @@ Raid* Raids::getRaidByName(const std::string &name) {
 }
 
 Raid::~Raid() {
-	for (RaidEvent* raidEvent : raidEvents) {
+	for (RaidEvent *raidEvent : raidEvents) {
 		delete raidEvent;
 	}
 }
@@ -189,7 +189,7 @@ bool Raid::loadFromXml(const std::string &filename) {
 	}
 
 	for (auto eventNode : doc.child("raid").children()) {
-		RaidEvent* event;
+		RaidEvent *event;
 		if (strcasecmp(eventNode.name(), "announce") == 0) {
 			event = new AnnounceEvent();
 		} else if (strcasecmp(eventNode.name(), "singlespawn") == 0) {
@@ -213,7 +213,7 @@ bool Raid::loadFromXml(const std::string &filename) {
 	}
 
 	// sort by delay time
-	std::sort(raidEvents.begin(), raidEvents.end(), [](const RaidEvent* lhs, const RaidEvent* rhs) {
+	std::sort(raidEvents.begin(), raidEvents.end(), [](const RaidEvent *lhs, const RaidEvent *rhs) {
 		return lhs->getDelay() < rhs->getDelay();
 	});
 
@@ -222,17 +222,17 @@ bool Raid::loadFromXml(const std::string &filename) {
 }
 
 void Raid::startRaid() {
-	RaidEvent* raidEvent = getNextRaidEvent();
+	RaidEvent *raidEvent = getNextRaidEvent();
 	if (raidEvent) {
 		state = RAIDSTATE_EXECUTING;
 		nextEventEvent = g_scheduler().addEvent(createSchedulerTask(raidEvent->getDelay(), std::bind(&Raid::executeRaidEvent, this, raidEvent)));
 	}
 }
 
-void Raid::executeRaidEvent(RaidEvent* raidEvent) {
+void Raid::executeRaidEvent(RaidEvent *raidEvent) {
 	if (raidEvent->executeEvent()) {
 		nextEvent++;
-		RaidEvent* newRaidEvent = getNextRaidEvent();
+		RaidEvent *newRaidEvent = getNextRaidEvent();
 
 		if (newRaidEvent) {
 			uint32_t ticks = static_cast<uint32_t>(std::max<int32_t>(RAID_MINTICKS, newRaidEvent->getDelay() - raidEvent->getDelay()));
@@ -259,7 +259,7 @@ void Raid::stopEvents() {
 	}
 }
 
-RaidEvent* Raid::getNextRaidEvent() {
+RaidEvent *Raid::getNextRaidEvent() {
 	if (nextEvent < raidEvents.size()) {
 		return raidEvents[nextEvent];
 	} else {
@@ -375,7 +375,7 @@ bool SingleSpawnEvent::configureRaidEvent(const pugi::xml_node &eventNode) {
 }
 
 bool SingleSpawnEvent::executeEvent() {
-	Monster* monster = Monster::createMonster(monsterName);
+	Monster *monster = Monster::createMonster(monsterName);
 	if (!monster) {
 		SPDLOG_ERROR("{} - Cant create monster {}", __FUNCTION__, monsterName);
 		return false;
@@ -493,7 +493,7 @@ bool AreaSpawnEvent::configureRaidEvent(const pugi::xml_node &eventNode) {
 	}
 
 	for (auto monsterNode : eventNode.children()) {
-		const char* name;
+		const char *name;
 
 		if ((attr = monsterNode.attribute("name"))) {
 			name = attr.value();
@@ -539,7 +539,7 @@ bool AreaSpawnEvent::executeEvent() {
 	for (const MonsterSpawn &spawn : spawnMonsterList) {
 		uint32_t amount = uniform_random(spawn.minAmount, spawn.maxAmount);
 		for (uint32_t i = 0; i < amount; ++i) {
-			Monster* monster = Monster::createMonster(spawn.name);
+			Monster *monster = Monster::createMonster(spawn.name);
 			if (!monster) {
 				SPDLOG_ERROR("{} - Can't create monster {}", __FUNCTION__, spawn.name);
 				return false;
@@ -547,7 +547,7 @@ bool AreaSpawnEvent::executeEvent() {
 
 			bool success = false;
 			for (int32_t tries = 0; tries < MAXIMUM_TRIES_PER_MONSTER; tries++) {
-				const Tile* tile = g_game().map.getTile(static_cast<uint16_t>(uniform_random(fromPos.x, toPos.x)), static_cast<uint16_t>(uniform_random(fromPos.y, toPos.y)), static_cast<uint8_t>(uniform_random(fromPos.z, toPos.z)));
+				const Tile *tile = g_game().map.getTile(static_cast<uint16_t>(uniform_random(fromPos.x, toPos.x)), static_cast<uint16_t>(uniform_random(fromPos.y, toPos.y)), static_cast<uint8_t>(uniform_random(fromPos.z, toPos.z)));
 				if (tile && !tile->isMoveableBlocking() && !tile->hasFlag(TILESTATE_PROTECTIONZONE) && tile->getTopCreature() == nullptr && g_game().placeCreature(monster, tile->getPosition(), false, true)) {
 					success = true;
 					monster->setForgeMonster(false);
@@ -601,7 +601,7 @@ bool ScriptEvent::executeEvent() {
 		return false;
 	}
 
-	ScriptEnvironment* env = scriptInterface->getScriptEnv();
+	ScriptEnvironment *env = scriptInterface->getScriptEnv();
 	env->setScriptId(scriptId, scriptInterface);
 
 	scriptInterface->pushFunction(scriptId);

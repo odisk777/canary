@@ -14,18 +14,18 @@
 #include "lua/functions/core/libs/db_functions.hpp"
 #include "lua/scripts/lua_environment.hpp"
 
-int DBFunctions::luaDatabaseExecute(lua_State* L) {
+int DBFunctions::luaDatabaseExecute(lua_State *L) {
 	pushBoolean(L, Database::getInstance().executeQuery(getString(L, -1)));
 	return 1;
 }
 
-int DBFunctions::luaDatabaseAsyncExecute(lua_State* L) {
+int DBFunctions::luaDatabaseAsyncExecute(lua_State *L) {
 	std::function<void(DBResult_ptr, bool)> callback;
 	if (lua_gettop(L) > 1) {
 		int32_t ref = luaL_ref(L, LUA_REGISTRYINDEX);
 		auto scriptId = getScriptEnv()->getScriptId();
 		callback = [ref, scriptId](DBResult_ptr, bool success) {
-			lua_State* luaState = g_luaEnvironment.getLuaState();
+			lua_State *luaState = g_luaEnvironment.getLuaState();
 			if (!luaState) {
 				return;
 			}
@@ -48,7 +48,7 @@ int DBFunctions::luaDatabaseAsyncExecute(lua_State* L) {
 	return 0;
 }
 
-int DBFunctions::luaDatabaseStoreQuery(lua_State* L) {
+int DBFunctions::luaDatabaseStoreQuery(lua_State *L) {
 	if (DBResult_ptr res = Database::getInstance().storeQuery(getString(L, -1))) {
 		lua_pushnumber(L, ScriptEnvironment::addResult(res));
 	} else {
@@ -57,13 +57,13 @@ int DBFunctions::luaDatabaseStoreQuery(lua_State* L) {
 	return 1;
 }
 
-int DBFunctions::luaDatabaseAsyncStoreQuery(lua_State* L) {
+int DBFunctions::luaDatabaseAsyncStoreQuery(lua_State *L) {
 	std::function<void(DBResult_ptr, bool)> callback;
 	if (lua_gettop(L) > 1) {
 		int32_t ref = luaL_ref(L, LUA_REGISTRYINDEX);
 		auto scriptId = getScriptEnv()->getScriptId();
 		callback = [ref, scriptId](DBResult_ptr result, bool) {
-			lua_State* luaState = g_luaEnvironment.getLuaState();
+			lua_State *luaState = g_luaEnvironment.getLuaState();
 			if (!luaState) {
 				return;
 			}
@@ -90,23 +90,23 @@ int DBFunctions::luaDatabaseAsyncStoreQuery(lua_State* L) {
 	return 0;
 }
 
-int DBFunctions::luaDatabaseEscapeString(lua_State* L) {
+int DBFunctions::luaDatabaseEscapeString(lua_State *L) {
 	pushString(L, Database::getInstance().escapeString(getString(L, -1)));
 	return 1;
 }
 
-int DBFunctions::luaDatabaseEscapeBlob(lua_State* L) {
+int DBFunctions::luaDatabaseEscapeBlob(lua_State *L) {
 	uint32_t length = getNumber<uint32_t>(L, 2);
 	pushString(L, Database::getInstance().escapeBlob(getString(L, 1).c_str(), length));
 	return 1;
 }
 
-int DBFunctions::luaDatabaseLastInsertId(lua_State* L) {
+int DBFunctions::luaDatabaseLastInsertId(lua_State *L) {
 	lua_pushnumber(L, Database::getInstance().getLastInsertId());
 	return 1;
 }
 
-int DBFunctions::luaDatabaseTableExists(lua_State* L) {
+int DBFunctions::luaDatabaseTableExists(lua_State *L) {
 	pushBoolean(L, DatabaseManager::tableExists(getString(L, -1)));
 	return 1;
 }

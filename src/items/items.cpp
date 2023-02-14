@@ -25,31 +25,31 @@ void Items::clear() {
 using LootTypeNames = phmap::flat_hash_map<std::string, ItemTypes_t>;
 
 LootTypeNames lootTypeNames = {
-	{ "armor", ITEM_TYPE_ARMOR },
-	{ "amulet", ITEM_TYPE_AMULET },
-	{ "boots", ITEM_TYPE_BOOTS },
-	{ "container", ITEM_TYPE_CONTAINER },
-	{ "decoration", ITEM_TYPE_DECORATION },
-	{ "food", ITEM_TYPE_FOOD },
-	{ "helmet", ITEM_TYPE_HELMET },
-	{ "legs", ITEM_TYPE_LEGS },
-	{ "other", ITEM_TYPE_OTHER },
-	{ "potion", ITEM_TYPE_POTION },
-	{ "ring", ITEM_TYPE_RING },
-	{ "rune", ITEM_TYPE_RUNE },
-	{ "shield", ITEM_TYPE_SHIELD },
-	{ "tools", ITEM_TYPE_TOOLS },
-	{ "valuable", ITEM_TYPE_VALUABLE },
-	{ "ammo", ITEM_TYPE_AMMO },
-	{ "axe", ITEM_TYPE_AXE },
-	{ "club", ITEM_TYPE_CLUB },
-	{ "distance", ITEM_TYPE_DISTANCE },
-	{ "sword", ITEM_TYPE_SWORD },
-	{ "wand", ITEM_TYPE_WAND },
-	{ "creatureproduct", ITEM_TYPE_CREATUREPRODUCT },
-	{ "retrieve", ITEM_TYPE_RETRIEVE },
-	{ "gold", ITEM_TYPE_GOLD },
-	{ "unassigned", ITEM_TYPE_UNASSIGNED },
+	{"armor", ITEM_TYPE_ARMOR},
+	{"amulet", ITEM_TYPE_AMULET},
+	{"boots", ITEM_TYPE_BOOTS},
+	{"container", ITEM_TYPE_CONTAINER},
+	{"decoration", ITEM_TYPE_DECORATION},
+	{"food", ITEM_TYPE_FOOD},
+	{"helmet", ITEM_TYPE_HELMET},
+	{"legs", ITEM_TYPE_LEGS},
+	{"other", ITEM_TYPE_OTHER},
+	{"potion", ITEM_TYPE_POTION},
+	{"ring", ITEM_TYPE_RING},
+	{"rune", ITEM_TYPE_RUNE},
+	{"shield", ITEM_TYPE_SHIELD},
+	{"tools", ITEM_TYPE_TOOLS},
+	{"valuable", ITEM_TYPE_VALUABLE},
+	{"ammo", ITEM_TYPE_AMMO},
+	{"axe", ITEM_TYPE_AXE},
+	{"club", ITEM_TYPE_CLUB},
+	{"distance", ITEM_TYPE_DISTANCE},
+	{"sword", ITEM_TYPE_SWORD},
+	{"wand", ITEM_TYPE_WAND},
+	{"creatureproduct", ITEM_TYPE_CREATUREPRODUCT},
+	{"retrieve", ITEM_TYPE_RETRIEVE},
+	{"gold", ITEM_TYPE_GOLD},
+	{"unassigned", ITEM_TYPE_UNASSIGNED},
 };
 
 ItemTypes_t Items::getLootType(const std::string &strValue) {
@@ -151,8 +151,7 @@ void Items::loadFromProtobuf() {
 		iType.expireStop = object.flags().expirestop();
 
 		if (!iType.name.empty()) {
-			nameToItems.insert({ asLowerCaseString(iType.name),
-								 iType.id });
+			nameToItems.insert({asLowerCaseString(iType.name), iType.id});
 		}
 	}
 
@@ -237,8 +236,7 @@ void Items::parseItemNode(const pugi::xml_node &itemNode, uint16_t id) {
 		}
 
 		itemType.name = xmlName;
-		nameToItems.insert({ asLowerCaseString(itemType.name),
-							 id });
+		nameToItems.insert({asLowerCaseString(itemType.name), id});
 	}
 
 	itemType.loaded = true;

@@ -44,7 +44,7 @@ const int64_t &ItemAttribute::getAttributeValue(ItemAttribute_t type) const {
 	return attribute->getInteger();
 }
 
-const Attributes* ItemAttribute::getAttribute(ItemAttribute_t type) const {
+const Attributes *ItemAttribute::getAttribute(ItemAttribute_t type) const {
 	if (hasAttribute(type)) {
 		for (const Attributes &attribute : attributeVector) {
 			if (attribute.getAttributeType() == type) {
@@ -122,7 +122,7 @@ const std::map<std::string, CustomAttribute, std::less<>> &ItemAttribute::getCus
 * CustomAttribute object methods
 =============================
 */
-const CustomAttribute* ItemAttribute::getCustomAttribute(const std::string &attributeName) const {
+const CustomAttribute *ItemAttribute::getCustomAttribute(const std::string &attributeName) const {
 	if (customAttributeMap.contains(asLowerCaseString(attributeName))) {
 		return &customAttributeMap.at(asLowerCaseString(attributeName));
 	}

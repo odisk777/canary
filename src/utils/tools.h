@@ -73,7 +73,7 @@ CombatType_t getCombatType(const std::string &combatname);
 
 std::string getSkillName(uint8_t skillid);
 
-uint32_t adlerChecksum(const uint8_t* data, size_t len);
+uint32_t adlerChecksum(const uint8_t *data, size_t len);
 
 std::string ucfirst(std::string str);
 std::string ucwords(std::string str);
@@ -86,7 +86,7 @@ CombatType_t indexToCombatType(size_t v);
 
 ItemAttribute_t stringToItemAttribute(const std::string &str);
 
-const char* getReturnMessage(ReturnValue value);
+const char *getReturnMessage(ReturnValue value);
 
 void capitalizeWords(std::string &source);
 void consoleHandlerExit();

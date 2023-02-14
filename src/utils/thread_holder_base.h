@@ -18,7 +18,7 @@ public:
 	ThreadHolder() { }
 	void start() {
 		setState(THREAD_STATE_RUNNING);
-		thread = std::thread(&Derived::threadMain, static_cast<Derived *>(this));
+		thread = std::thread(&Derived::threadMain, static_cast<Derived*>(this));
 	}
 
 	void stop() {
@@ -41,7 +41,7 @@ protected:
 	}
 
 private:
-	std::atomic<ThreadState> threadState{THREAD_STATE_TERMINATED};
+	std::atomic<ThreadState> threadState{ THREAD_STATE_TERMINATED };
 	std::thread thread;
 };
 

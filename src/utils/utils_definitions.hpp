@@ -667,16 +667,16 @@ enum ItemID_t : uint16_t {
 
 // A map which contains items that, when on creating, should be transformed to the default type.
 const phmap::flat_hash_map<ItemID_t, ItemID_t> ItemTransformationMap = {
-	{ITEM_SWORD_RING_ACTIVATED, ITEM_SWORD_RING},
-	{ITEM_CLUB_RING_ACTIVATED, ITEM_CLUB_RING},
-	{ITEM_DWARVEN_RING_ACTIVATED, ITEM_DWARVEN_RING},
-	{ITEM_RING_HEALING_ACTIVATED, ITEM_RING_HEALING},
-	{ITEM_STEALTH_RING_ACTIVATED, ITEM_STEALTH_RING},
-	{ITEM_TIME_RING_ACTIVATED, ITEM_TIME_RING},
-	{ITEM_PAIR_SOFT_BOOTS_ACTIVATED, ITEM_PAIR_SOFT_BOOTS},
-	{ITEM_DEATH_RING_ACTIVATED, ITEM_DEATH_RING},
-	{ITEM_PRISMATIC_RING_ACTIVATED, ITEM_PRISMATIC_RING},
-	{ITEM_OLD_DIAMOND_ARROW, ITEM_DIAMOND_ARROW},
+	{ ITEM_SWORD_RING_ACTIVATED, ITEM_SWORD_RING },
+	{ ITEM_CLUB_RING_ACTIVATED, ITEM_CLUB_RING },
+	{ ITEM_DWARVEN_RING_ACTIVATED, ITEM_DWARVEN_RING },
+	{ ITEM_RING_HEALING_ACTIVATED, ITEM_RING_HEALING },
+	{ ITEM_STEALTH_RING_ACTIVATED, ITEM_STEALTH_RING },
+	{ ITEM_TIME_RING_ACTIVATED, ITEM_TIME_RING },
+	{ ITEM_PAIR_SOFT_BOOTS_ACTIVATED, ITEM_PAIR_SOFT_BOOTS },
+	{ ITEM_DEATH_RING_ACTIVATED, ITEM_DEATH_RING },
+	{ ITEM_PRISMATIC_RING_ACTIVATED, ITEM_PRISMATIC_RING },
+	{ ITEM_OLD_DIAMOND_ARROW, ITEM_DIAMOND_ARROW },
 };
 
 enum class PlayerFlags_t : uint8_t {
@@ -737,14 +737,14 @@ enum Blessings_t : uint8_t {
 };
 
 const phmap::flat_hash_map<Blessings_t, std::string> BlessingNames = {
-	{TWIST_OF_FATE, "Twist of Fate"},
-	{WISDOM_OF_SOLITUDE, "The Wisdom of Solitude"},
-	{SPARK_OF_THE_PHOENIX, "The Spark of the Phoenix"},
-	{FIRE_OF_THE_SUNS, "The Fire of the Suns"},
-	{SPIRITUAL_SHIELDING, "The Spiritual Shielding"},
-	{EMBRACE_OF_TIBIA, "The Embrace of Tibia"},
-	{BLOOD_OF_THE_MOUNTAIN, "Blood of the Mountain"},
-	{HEARTH_OF_THE_MOUNTAIN, "Heart of the Mountain"},
+	{ TWIST_OF_FATE, "Twist of Fate" },
+	{ WISDOM_OF_SOLITUDE, "The Wisdom of Solitude" },
+	{ SPARK_OF_THE_PHOENIX, "The Spark of the Phoenix" },
+	{ FIRE_OF_THE_SUNS, "The Fire of the Suns" },
+	{ SPIRITUAL_SHIELDING, "The Spiritual Shielding" },
+	{ EMBRACE_OF_TIBIA, "The Embrace of Tibia" },
+	{ BLOOD_OF_THE_MOUNTAIN, "Blood of the Mountain" },
+	{ HEARTH_OF_THE_MOUNTAIN, "Heart of the Mountain" },
 };
 
 #endif // SRC_UTILS_UTILS_DEFINITIONS_HPP_

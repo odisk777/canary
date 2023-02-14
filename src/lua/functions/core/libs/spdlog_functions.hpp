@@ -14,7 +14,7 @@
 
 class SpdlogFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerTable(L, "Spdlog");
 		registerMethod(L, "Spdlog", "info", SpdlogFunctions::luaSpdlogInfo);
 		registerMethod(L, "Spdlog", "warn", SpdlogFunctions::luaSpdlogWarn);
@@ -23,10 +23,10 @@ public:
 	}
 
 private:
-	static int luaSpdlogDebug(lua_State *L);
-	static int luaSpdlogError(lua_State *L);
-	static int luaSpdlogInfo(lua_State *L);
-	static int luaSpdlogWarn(lua_State *L);
+	static int luaSpdlogDebug(lua_State* L);
+	static int luaSpdlogError(lua_State* L);
+	static int luaSpdlogInfo(lua_State* L);
+	static int luaSpdlogWarn(lua_State* L);
 };
 
 #endif // SRC_LUA_FUNCTIONS_CORE_LIBS_SPDLOG_FUNCTIONS_HPP_

@@ -14,7 +14,7 @@
 
 class CharmFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerClass(L, "Charm", "", CharmFunctions::luaCharmCreate);
 		registerMetaMethod(L, "Charm", "__eq", CharmFunctions::luaUserdataCompare);
 
@@ -31,17 +31,17 @@ public:
 	}
 
 private:
-	static int luaCharmCreate(lua_State *L);
-	static int luaCharmName(lua_State *L);
-	static int luaCharmDescription(lua_State *L);
-	static int luaCharmType(lua_State *L);
-	static int luaCharmPoints(lua_State *L);
-	static int luaCharmDamageType(lua_State *L);
-	static int luaCharmPercentage(lua_State *L);
-	static int luaCharmChance(lua_State *L);
-	static int luaCharmMessageCancel(lua_State *L);
-	static int luaCharmMessageServerLog(lua_State *L);
-	static int luaCharmEffect(lua_State *L);
+	static int luaCharmCreate(lua_State* L);
+	static int luaCharmName(lua_State* L);
+	static int luaCharmDescription(lua_State* L);
+	static int luaCharmType(lua_State* L);
+	static int luaCharmPoints(lua_State* L);
+	static int luaCharmDamageType(lua_State* L);
+	static int luaCharmPercentage(lua_State* L);
+	static int luaCharmChance(lua_State* L);
+	static int luaCharmMessageCancel(lua_State* L);
+	static int luaCharmMessageServerLog(lua_State* L);
+	static int luaCharmEffect(lua_State* L);
 };
 
 #endif // SRC_LUA_FUNCTIONS_CREATURES_MONSTER_CHARM_FUNCTIONS_HPP_

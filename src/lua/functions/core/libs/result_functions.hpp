@@ -14,7 +14,7 @@
 
 class ResultFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerTable(L, "Result");
 		registerMethod(L, "Result", "getNumber", ResultFunctions::luaResultGetNumber);
 		registerMethod(L, "Result", "getString", ResultFunctions::luaResultGetString);
@@ -24,11 +24,11 @@ public:
 	}
 
 private:
-	static int luaResultFree(lua_State *L);
-	static int luaResultGetNumber(lua_State *L);
-	static int luaResultGetStream(lua_State *L);
-	static int luaResultGetString(lua_State *L);
-	static int luaResultNext(lua_State *L);
+	static int luaResultFree(lua_State* L);
+	static int luaResultGetNumber(lua_State* L);
+	static int luaResultGetStream(lua_State* L);
+	static int luaResultGetString(lua_State* L);
+	static int luaResultNext(lua_State* L);
 };
 
 #endif // SRC_LUA_FUNCTIONS_CORE_LIBS_RESULT_FUNCTIONS_HPP_

@@ -14,7 +14,7 @@
 
 class PartyFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerClass(L, "Party", "", PartyFunctions::luaPartyCreate);
 		registerMetaMethod(L, "Party", "__eq", PartyFunctions::luaUserdataCompare);
 		registerMethod(L, "Party", "disband", PartyFunctions::luaPartyDisband);
@@ -35,22 +35,22 @@ public:
 	}
 
 private:
-	static int luaPartyCreate(lua_State *L);
-	static int luaPartyDisband(lua_State *L);
-	static int luaPartyGetLeader(lua_State *L);
-	static int luaPartySetLeader(lua_State *L);
-	static int luaPartyGetMembers(lua_State *L);
-	static int luaPartyGetMemberCount(lua_State *L);
-	static int luaPartyGetInvitees(lua_State *L);
-	static int luaPartyGetInviteeCount(lua_State *L);
-	static int luaPartyAddInvite(lua_State *L);
-	static int luaPartyRemoveInvite(lua_State *L);
-	static int luaPartyAddMember(lua_State *L);
-	static int luaPartyRemoveMember(lua_State *L);
-	static int luaPartyIsSharedExperienceActive(lua_State *L);
-	static int luaPartyIsSharedExperienceEnabled(lua_State *L);
-	static int luaPartyShareExperience(lua_State *L);
-	static int luaPartySetSharedExperience(lua_State *L);
+	static int luaPartyCreate(lua_State* L);
+	static int luaPartyDisband(lua_State* L);
+	static int luaPartyGetLeader(lua_State* L);
+	static int luaPartySetLeader(lua_State* L);
+	static int luaPartyGetMembers(lua_State* L);
+	static int luaPartyGetMemberCount(lua_State* L);
+	static int luaPartyGetInvitees(lua_State* L);
+	static int luaPartyGetInviteeCount(lua_State* L);
+	static int luaPartyAddInvite(lua_State* L);
+	static int luaPartyRemoveInvite(lua_State* L);
+	static int luaPartyAddMember(lua_State* L);
+	static int luaPartyRemoveMember(lua_State* L);
+	static int luaPartyIsSharedExperienceActive(lua_State* L);
+	static int luaPartyIsSharedExperienceEnabled(lua_State* L);
+	static int luaPartyShareExperience(lua_State* L);
+	static int luaPartySetSharedExperience(lua_State* L);
 };
 
 #endif // SRC_LUA_FUNCTIONS_CREATURES_PLAYER_PARTY_FUNCTIONS_HPP_

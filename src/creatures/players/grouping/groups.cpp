@@ -99,7 +99,7 @@ bool Groups::load() {
 	return true;
 }
 
-Group *Groups::getGroup(uint16_t id) {
+Group* Groups::getGroup(uint16_t id) {
 	for (Group &group : groups_vector) {
 		if (group.id == id) {
 			return &group;

@@ -41,7 +41,7 @@ public:
 
 	GlobalEventMap getEventMap(GlobalEvent_t type);
 
-	bool registerLuaEvent(GlobalEvent *event);
+	bool registerLuaEvent(GlobalEvent* event);
 	void clear();
 
 private:
@@ -53,7 +53,7 @@ constexpr auto g_globalEvents = &GlobalEvents::getInstance;
 
 class GlobalEvent final : public Script {
 public:
-	explicit GlobalEvent(LuaScriptInterface *interface);
+	explicit GlobalEvent(LuaScriptInterface* interface);
 
 	bool executePeriodChange(LightState_t lightState, LightInfo lightInfo) const;
 	bool executeRecord(uint32_t current, uint32_t old);

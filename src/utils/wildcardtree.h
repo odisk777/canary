@@ -22,9 +22,9 @@ public:
 	WildcardTreeNode(const WildcardTreeNode &) = delete;
 	WildcardTreeNode &operator=(const WildcardTreeNode &) = delete;
 
-	WildcardTreeNode *getChild(char ch);
-	const WildcardTreeNode *getChild(char ch) const;
-	WildcardTreeNode *addChild(char ch, bool breakpoint);
+	WildcardTreeNode* getChild(char ch);
+	const WildcardTreeNode* getChild(char ch) const;
+	WildcardTreeNode* addChild(char ch, bool breakpoint);
 
 	void insert(const std::string &str);
 	void remove(const std::string &str);

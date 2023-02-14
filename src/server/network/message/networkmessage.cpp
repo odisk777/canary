@@ -28,7 +28,7 @@ std::string NetworkMessage::getString(uint16_t stringLen /* = 0*/) {
 		return std::string();
 	}
 
-	char *v = reinterpret_cast<char *>(buffer) + info.position; // does not break strict aliasing
+	char* v = reinterpret_cast<char*>(buffer) + info.position; // does not break strict aliasing
 	info.position += stringLen;
 	return std::string(v, stringLen);
 }
@@ -66,7 +66,7 @@ void NetworkMessage::addDouble(double value, uint8_t precision /* = 2*/) {
 	add<uint32_t>((value * std::pow(static_cast<float>(10), precision)) + std::numeric_limits<int32_t>::max());
 }
 
-void NetworkMessage::addBytes(const char *bytes, size_t size) {
+void NetworkMessage::addBytes(const char* bytes, size_t size) {
 	if (bytes == nullptr) {
 		SPDLOG_ERROR("[NetworkMessage::addBytes] - Bytes is nullptr");
 		return;

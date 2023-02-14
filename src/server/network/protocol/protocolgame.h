@@ -52,7 +52,7 @@ public:
 	enum { PROTOCOL_IDENTIFIER = 0 };
 	enum { USE_CHECKSUM = true };
 
-	static const char *protocol_name() {
+	static const char* protocol_name() {
 		return "gameworld protocol";
 	}
 
@@ -61,7 +61,7 @@ public:
 	void login(const std::string &name, uint32_t accnumber, OperatingSystem_t operatingSystem);
 	void logout(bool displayEffect, bool forced);
 
-	void AddItem(NetworkMessage &msg, const Item *item);
+	void AddItem(NetworkMessage &msg, const Item* item);
 	void AddItem(NetworkMessage &msg, uint16_t id, uint8_t count, uint8_t tier);
 
 	uint16_t getVersion() const {
@@ -71,9 +71,9 @@ public:
 private:
 	// Helpers so we don't need to bind every time
 	template <typename Callable, typename... Args>
-	void addGameTask(Callable function, Args &&...args);
+	void addGameTask(Callable function, Args &&... args);
 	template <typename Callable, typename... Args>
-	void addGameTaskTimed(uint32_t delay, Callable function, Args &&...args);
+	void addGameTaskTimed(uint32_t delay, Callable function, Args &&... args);
 
 	ProtocolGame_ptr getThis() {
 		return std::static_pointer_cast<ProtocolGame>(shared_from_this());
@@ -87,7 +87,7 @@ private:
 	void checkCreatureAsKnown(uint32_t id, bool &known, uint32_t &removedKnown);
 
 	bool canSee(int32_t x, int32_t y, int32_t z) const;
-	bool canSee(const Creature *) const;
+	bool canSee(const Creature*) const;
 	bool canSee(const Position &pos) const;
 
 	// we have all the parse methods
@@ -123,7 +123,7 @@ private:
 
 	void sendSessionEndInformation(SessionEndInformations information);
 
-	void sendItemInspection(uint16_t itemId, uint8_t itemCount, const Item *item, bool cyclopedia);
+	void sendItemInspection(uint16_t itemId, uint8_t itemCount, const Item* item, bool cyclopedia);
 	void parseInspectionObject(NetworkMessage &msg);
 
 	void parseCyclopediaCharacterInfo(NetworkMessage &msg);
@@ -146,7 +146,7 @@ private:
 	void parseBestiarysendCreatures(NetworkMessage &msg);
 	void BestiarysendCharms();
 	void sendBestiaryEntryChanged(uint16_t raceid);
-	void refreshBestiaryTracker(std::list<MonsterType *> trackerList);
+	void refreshBestiaryTracker(std::list<MonsterType*> trackerList);
 	void sendTeamFinderList();
 	void sendLeaderTeamFinder(bool reset);
 	void createLeaderTeamFinder(NetworkMessage &msg);
@@ -229,15 +229,15 @@ private:
 	void sendClosePrivate(uint16_t channelId);
 	void sendCreatePrivateChannel(uint16_t channelId, const std::string &channelName);
 	void sendChannelsDialog();
-	void sendChannel(uint16_t channelId, const std::string &channelName, const UsersMap *channelUsers, const InvitedMap *invitedUsers);
+	void sendChannel(uint16_t channelId, const std::string &channelName, const UsersMap* channelUsers, const InvitedMap* invitedUsers);
 	void sendOpenPrivateChannel(const std::string &receiver);
 	void sendExperienceTracker(int64_t rawExp, int64_t finalExp);
-	void sendToChannel(const Creature *creature, SpeakClasses type, const std::string &text, uint16_t channelId);
-	void sendPrivateMessage(const Player *speaker, SpeakClasses type, const std::string &text);
+	void sendToChannel(const Creature* creature, SpeakClasses type, const std::string &text, uint16_t channelId);
+	void sendPrivateMessage(const Player* speaker, SpeakClasses type, const std::string &text);
 	void sendIcons(uint32_t icons);
 	void sendFYIBox(const std::string &message);
 
-	void openImbuementWindow(Item *item);
+	void openImbuementWindow(Item* item);
 	void sendImbuementResult(const std::string message);
 	void closeImbuementWindow();
 
@@ -265,7 +265,7 @@ private:
 	void parseSendBosstiary();
 	void parseSendBosstiarySlots();
 	void parseBosstiarySlot(NetworkMessage &msg);
-	void sendBossPodiumWindow(const Item *podium, const Position &position, uint16_t itemId, uint8_t stackPos);
+	void sendBossPodiumWindow(const Item* podium, const Position &position, uint16_t itemId, uint8_t stackPos);
 	void parseSetBossPodium(NetworkMessage &msg) const;
 	void sendBosstiaryCooldownTimer();
 	void sendBosstiaryEntryChanged(uint32_t bossid);
@@ -273,28 +273,28 @@ private:
 	void sendDistanceShoot(const Position &from, const Position &to, uint8_t type);
 	void sendMagicEffect(const Position &pos, uint8_t type);
 	void sendRestingStatus(uint8_t protection);
-	void sendCreatureHealth(const Creature *creature);
-	void sendPartyCreatureUpdate(const Creature *target);
-	void sendPartyCreatureShield(const Creature *target);
-	void sendPartyCreatureSkull(const Creature *target);
-	void sendPartyCreatureHealth(const Creature *target, uint8_t healthPercent);
-	void sendPartyPlayerMana(const Player *target, uint8_t manaPercent);
-	void sendPartyCreatureShowStatus(const Creature *target, bool showStatus);
-	void sendPartyPlayerVocation(const Player *target);
-	void sendPlayerVocation(const Player *target);
+	void sendCreatureHealth(const Creature* creature);
+	void sendPartyCreatureUpdate(const Creature* target);
+	void sendPartyCreatureShield(const Creature* target);
+	void sendPartyCreatureSkull(const Creature* target);
+	void sendPartyCreatureHealth(const Creature* target, uint8_t healthPercent);
+	void sendPartyPlayerMana(const Player* target, uint8_t manaPercent);
+	void sendPartyCreatureShowStatus(const Creature* target, bool showStatus);
+	void sendPartyPlayerVocation(const Player* target);
+	void sendPlayerVocation(const Player* target);
 	void sendSkills();
 	void sendPing();
 	void sendPingBack();
-	void sendCreatureTurn(const Creature *creature, uint32_t stackpos);
-	void sendCreatureSay(const Creature *creature, SpeakClasses type, const std::string &text, const Position *pos = nullptr);
+	void sendCreatureTurn(const Creature* creature, uint32_t stackpos);
+	void sendCreatureSay(const Creature* creature, SpeakClasses type, const std::string &text, const Position* pos = nullptr);
 
 	// Unjust Panel
 	void sendUnjustifiedPoints(const uint8_t &dayProgress, const uint8_t &dayLeft, const uint8_t &weekProgress, const uint8_t &weekLeft, const uint8_t &monthProgress, const uint8_t &monthLeft, const uint8_t &skullDuration);
 
 	void sendCancelWalk();
-	void sendChangeSpeed(const Creature *creature, uint16_t speed);
+	void sendChangeSpeed(const Creature* creature, uint16_t speed);
 	void sendCancelTarget();
-	void sendCreatureOutfit(const Creature *creature, const Outfit_t &outfit);
+	void sendCreatureOutfit(const Creature* creature, const Outfit_t &outfit);
 	void sendStats();
 	void sendBasicData();
 	void sendTextMessage(const TextMessage &message);
@@ -319,13 +319,13 @@ private:
 	void sendCyclopediaCharacterBadges();
 	void sendCyclopediaCharacterTitles();
 
-	void sendCreatureWalkthrough(const Creature *creature, bool walkthrough);
-	void sendCreatureShield(const Creature *creature);
-	void sendCreatureEmblem(const Creature *creature);
-	void sendCreatureSkull(const Creature *creature);
-	void sendCreatureType(const Creature *creature, uint8_t creatureType);
+	void sendCreatureWalkthrough(const Creature* creature, bool walkthrough);
+	void sendCreatureShield(const Creature* creature);
+	void sendCreatureEmblem(const Creature* creature);
+	void sendCreatureSkull(const Creature* creature);
+	void sendCreatureType(const Creature* creature, uint8_t creatureType);
 
-	void sendShop(Npc *npc);
+	void sendShop(Npc* npc);
 	void sendCloseShop();
 	void sendClientCheck();
 	void sendGameNews();
@@ -341,14 +341,14 @@ private:
 	void sendMarketCancelOffer(const MarketOfferEx &offer);
 	void sendMarketBrowseOwnHistory(const HistoryMarketOfferList &buyOffers, const HistoryMarketOfferList &sellOffers);
 	void sendMarketDetail(uint16_t itemId, uint8_t tier);
-	void sendTradeItemRequest(const std::string &traderName, const Item *item, bool ack);
+	void sendTradeItemRequest(const std::string &traderName, const Item* item, bool ack);
 	void sendCloseTrade();
-	void updatePartyTrackerAnalyzer(const Party *party);
+	void updatePartyTrackerAnalyzer(const Party* party);
 
-	void sendTextWindow(uint32_t windowTextId, Item *item, uint16_t maxlen, bool canWrite);
+	void sendTextWindow(uint32_t windowTextId, Item* item, uint16_t maxlen, bool canWrite);
 	void sendHouseWindow(uint32_t windowTextId, const std::string &text);
 	void sendOutfitWindow();
-	void sendPodiumWindow(const Item *podium, const Position &position, uint16_t itemId, uint8_t stackpos);
+	void sendPodiumWindow(const Item* podium, const Position &position, uint16_t itemId, uint8_t stackpos);
 
 	void sendUpdatedVIPStatus(uint32_t guid, VipStatus_t newStatus);
 	void sendVIP(uint32_t guid, const std::string &name, const std::string &description, uint32_t icon, bool notify, VipStatus_t status);
@@ -358,13 +358,13 @@ private:
 
 	void sendFightModes();
 
-	void sendCreatureLight(const Creature *creature);
-	void sendCreatureIcon(const Creature *creature);
-	void sendUpdateCreature(const Creature *creature);
+	void sendCreatureLight(const Creature* creature);
+	void sendCreatureIcon(const Creature* creature);
+	void sendUpdateCreature(const Creature* creature);
 	void sendWorldLight(const LightInfo &lightInfo);
 	void sendTibiaTime(int32_t time);
 
-	void sendCreatureSquare(const Creature *creature, SquareColor_t color);
+	void sendCreatureSquare(const Creature* creature, SquareColor_t color);
 
 	void sendSpellCooldown(uint8_t spellId, uint32_t time);
 	void sendSpellGroupCooldown(SpellGroup_t groupId, uint32_t time);
@@ -372,43 +372,43 @@ private:
 
 	void sendCoinBalance();
 
-	void sendPreyTimeLeft(const PreySlot *slot);
-	void sendPreyData(const PreySlot *slot);
+	void sendPreyTimeLeft(const PreySlot* slot);
+	void sendPreyData(const PreySlot* slot);
 	void sendPreyPrices();
 
 	// tiles
 	void sendMapDescription(const Position &pos);
 
-	void sendAddTileItem(const Position &pos, uint32_t stackpos, const Item *item);
-	void sendUpdateTileItem(const Position &pos, uint32_t stackpos, const Item *item);
+	void sendAddTileItem(const Position &pos, uint32_t stackpos, const Item* item);
+	void sendUpdateTileItem(const Position &pos, uint32_t stackpos, const Item* item);
 	void sendRemoveTileThing(const Position &pos, uint32_t stackpos);
-	void sendUpdateTile(const Tile *tile, const Position &pos);
+	void sendUpdateTile(const Tile* tile, const Position &pos);
 
-	void sendAddCreature(const Creature *creature, const Position &pos, int32_t stackpos, bool isLogin);
-	void sendMoveCreature(const Creature *creature, const Position &newPos, int32_t newStackPos, const Position &oldPos, int32_t oldStackPos, bool teleport);
+	void sendAddCreature(const Creature* creature, const Position &pos, int32_t stackpos, bool isLogin);
+	void sendMoveCreature(const Creature* creature, const Position &newPos, int32_t newStackPos, const Position &oldPos, int32_t oldStackPos, bool teleport);
 
 	// containers
-	void sendAddContainerItem(uint8_t cid, uint16_t slot, const Item *item);
-	void sendUpdateContainerItem(uint8_t cid, uint16_t slot, const Item *item);
-	void sendRemoveContainerItem(uint8_t cid, uint16_t slot, const Item *lastItem);
+	void sendAddContainerItem(uint8_t cid, uint16_t slot, const Item* item);
+	void sendUpdateContainerItem(uint8_t cid, uint16_t slot, const Item* item);
+	void sendRemoveContainerItem(uint8_t cid, uint16_t slot, const Item* lastItem);
 
-	void sendContainer(uint8_t cid, const Container *container, bool hasParent, uint16_t firstIndex);
+	void sendContainer(uint8_t cid, const Container* container, bool hasParent, uint16_t firstIndex);
 	void sendCloseContainer(uint8_t cid);
 
 	// quickloot
 	void sendLootContainers();
-	void sendLootStats(Item *item, uint8_t count);
+	void sendLootStats(Item* item, uint8_t count);
 
 	// inventory
-	void sendInventoryItem(Slots_t slot, const Item *item);
+	void sendInventoryItem(Slots_t slot, const Item* item);
 	void sendInventoryIds();
 
 	// messages
 	void sendModalWindow(const ModalWindow &modalWindow);
 
 	// analyzers
-	void sendKillTrackerUpdate(Container *corpse, const std::string &name, const Outfit_t creatureOutfit);
-	void sendUpdateSupplyTracker(const Item *item);
+	void sendKillTrackerUpdate(Container* corpse, const std::string &name, const Outfit_t creatureOutfit);
+	void sendUpdateSupplyTracker(const Item* item);
 	void sendUpdateImpactTracker(CombatType_t type, int32_t amount);
 	void sendUpdateInputAnalyzer(CombatType_t type, int32_t amount, std::string target);
 
@@ -417,7 +417,7 @@ private:
 
 	// Help functions
 	// translate a tile to clientreadable format
-	void GetTileDescription(const Tile *tile, NetworkMessage &msg);
+	void GetTileDescription(const Tile* tile, NetworkMessage &msg);
 
 	// translate a floor to clientreadable format
 	void GetFloorDescription(NetworkMessage &msg, int32_t x, int32_t y, int32_t z, int32_t width, int32_t height, int32_t offset, int32_t &skip);
@@ -425,7 +425,7 @@ private:
 	// translate a map area to clientreadable format
 	void GetMapDescription(int32_t x, int32_t y, int32_t z, int32_t width, int32_t height, NetworkMessage &msg);
 
-	void AddCreature(NetworkMessage &msg, const Creature *creature, bool known, uint32_t remove);
+	void AddCreature(NetworkMessage &msg, const Creature* creature, bool known, uint32_t remove);
 	void AddPlayerStats(NetworkMessage &msg);
 	void AddOutfit(NetworkMessage &msg, const Outfit_t &outfit, bool addMount = true);
 	void AddPlayerSkills(NetworkMessage &msg);
@@ -433,15 +433,15 @@ private:
 	void sendPremiumTrigger();
 	void sendMessageDialog(const std::string &message);
 	void AddWorldLight(NetworkMessage &msg, LightInfo lightInfo);
-	void AddCreatureLight(NetworkMessage &msg, const Creature *creature);
+	void AddCreatureLight(NetworkMessage &msg, const Creature* creature);
 
 	// tiles
 	static void RemoveTileThing(NetworkMessage &msg, const Position &pos, uint32_t stackpos);
 
-	void sendTaskHuntingData(const TaskHuntingSlot *slot);
+	void sendTaskHuntingData(const TaskHuntingSlot* slot);
 
-	void MoveUpCreature(NetworkMessage &msg, const Creature *creature, const Position &newPos, const Position &oldPos);
-	void MoveDownCreature(NetworkMessage &msg, const Creature *creature, const Position &newPos, const Position &oldPos);
+	void MoveUpCreature(NetworkMessage &msg, const Creature* creature, const Position &newPos, const Position &oldPos);
+	void MoveDownCreature(NetworkMessage &msg, const Creature* creature, const Position &newPos, const Position &oldPos);
 
 	// shop
 	void AddHiddenShopItem(NetworkMessage &msg);
@@ -451,14 +451,14 @@ private:
 	void parseExtendedOpcode(NetworkMessage &msg);
 
 	// reloadCreature
-	void reloadCreature(const Creature *creature);
+	void reloadCreature(const Creature* creature);
 
-	void getForgeInfoMap(const Item *item, std::map<uint16_t, std::map<uint8_t, uint16_t>> &itemsMap) const;
+	void getForgeInfoMap(const Item* item, std::map<uint16_t, std::map<uint8_t, uint16_t>> &itemsMap) const;
 
 	friend class Player;
 
 	phmap::flat_hash_set<uint32_t> knownCreatureSet;
-	Player *player = nullptr;
+	Player* player = nullptr;
 
 	uint32_t eventConnect = 0;
 	uint32_t challengeTimestamp = 0;

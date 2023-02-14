@@ -37,7 +37,7 @@ public:
 	float getFloat(floatingConfig_t what) const;
 
 	const std::string &setConfigFileLua(const std::string &what) {
-		configFileLua = {what};
+		configFileLua = { what };
 		return configFileLua;
 	};
 	const std::string &getConfigFileLua() const {
@@ -45,7 +45,7 @@ public:
 	};
 
 private:
-	std::string configFileLua = {"config.lua"};
+	std::string configFileLua = { "config.lua" };
 
 	std::string string[LAST_STRING_CONFIG] = {};
 	int32_t integer[LAST_INTEGER_CONFIG] = {};

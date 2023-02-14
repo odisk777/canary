@@ -14,7 +14,7 @@
 
 class DBFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerTable(L, "db");
 		registerMethod(L, "db", "query", DBFunctions::luaDatabaseExecute);
 		registerMethod(L, "db", "asyncQuery", DBFunctions::luaDatabaseAsyncExecute);
@@ -27,14 +27,14 @@ public:
 	}
 
 private:
-	static int luaDatabaseAsyncExecute(lua_State *L);
-	static int luaDatabaseAsyncStoreQuery(lua_State *L);
-	static int luaDatabaseEscapeBlob(lua_State *L);
-	static int luaDatabaseEscapeString(lua_State *L);
-	static int luaDatabaseExecute(lua_State *L);
-	static int luaDatabaseLastInsertId(lua_State *L);
-	static int luaDatabaseStoreQuery(lua_State *L);
-	static int luaDatabaseTableExists(lua_State *L);
+	static int luaDatabaseAsyncExecute(lua_State* L);
+	static int luaDatabaseAsyncStoreQuery(lua_State* L);
+	static int luaDatabaseEscapeBlob(lua_State* L);
+	static int luaDatabaseEscapeString(lua_State* L);
+	static int luaDatabaseExecute(lua_State* L);
+	static int luaDatabaseLastInsertId(lua_State* L);
+	static int luaDatabaseStoreQuery(lua_State* L);
+	static int luaDatabaseTableExists(lua_State* L);
 };
 
 #endif // SRC_LUA_FUNCTIONS_CORE_LIBS_DB_FUNCTIONS_HPP_

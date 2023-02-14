@@ -17,7 +17,7 @@
 
 class CoreFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		CoreGameFunctions::init(L);
 		CoreLibsFunctions::init(L);
 		CoreNetworkFunctions::init(L);

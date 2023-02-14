@@ -80,7 +80,7 @@ void startupErrorMessage() {
 	g_loaderSignal.notify_all();
 }
 
-void mainLoader(int argc, char *argv[], ServiceManager *servicer);
+void mainLoader(int argc, char* argv[], ServiceManager* servicer);
 
 void badAllocationHandler() {
 	// Use functions that only use stack allocation
@@ -112,8 +112,8 @@ void loadModules() {
 
 	SPDLOG_INFO("Server protocol: {}.{}", CLIENT_VERSION_UPPER, CLIENT_VERSION_LOWER);
 
-	const char *p("14299623962416399520070177382898895550795403345466153217470516082934737582776038882967213386204600674145392845853859217990626450972452084065728686565928113");
-	const char *q("7630979195970404721891201847792002125535401292779123937207447574596692788513647179235335529307251350570728407373705564708871762033017096809910315212884101");
+	const char* p("14299623962416399520070177382898895550795403345466153217470516082934737582776038882967213386204600674145392845853859217990626450972452084065728686565928113");
+	const char* q("7630979195970404721891201847792002125535401292779123937207447574596692788513647179235335529307251350570728407373705564708871762033017096809910315212884101");
 	try {
 		if (!g_RSA().loadPEM("key.pem")) {
 			// file doesn't exist - switch to base10-hardcoded keys
@@ -184,7 +184,7 @@ void loadModules() {
 }
 
 #ifndef UNIT_TESTING
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
 	#ifdef DEBUG_LOG
 	SPDLOG_DEBUG("[CANARY] SPDLOG LOG DEBUG ENABLED");
 	spdlog::set_pattern("[%Y-%d-%m %H:%M:%S.%e] [file %@] [func %!] [thread %t] [%^%l%$] %v ");
@@ -225,7 +225,7 @@ int main(int argc, char *argv[]) {
 }
 #endif
 
-void mainLoader(int, char *[], ServiceManager *services) {
+void mainLoader(int, char*[], ServiceManager* services) {
 	// dispatcher thread
 	g_game().setGameState(GAME_STATE_STARTUP);
 

@@ -17,7 +17,7 @@
 
 class CombatFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerClass(L, "Combat", "", CombatFunctions::luaCombatCreate);
 		registerMetaMethod(L, "Combat", "__eq", CombatFunctions::luaUserdataCompare);
 
@@ -37,17 +37,17 @@ public:
 	}
 
 private:
-	static int luaCombatCreate(lua_State *L);
+	static int luaCombatCreate(lua_State* L);
 
-	static int luaCombatSetParameter(lua_State *L);
-	static int luaCombatSetFormula(lua_State *L);
+	static int luaCombatSetParameter(lua_State* L);
+	static int luaCombatSetFormula(lua_State* L);
 
-	static int luaCombatSetArea(lua_State *L);
-	static int luaCombatSetCondition(lua_State *L);
-	static int luaCombatSetCallback(lua_State *L);
-	static int luaCombatSetOrigin(lua_State *L);
+	static int luaCombatSetArea(lua_State* L);
+	static int luaCombatSetCondition(lua_State* L);
+	static int luaCombatSetCallback(lua_State* L);
+	static int luaCombatSetOrigin(lua_State* L);
 
-	static int luaCombatExecute(lua_State *L);
+	static int luaCombatExecute(lua_State* L);
 };
 
 #endif // SRC_LUA_FUNCTIONS_CREATURES_COMBAT_COMBAT_FUNCTIONS_HPP_

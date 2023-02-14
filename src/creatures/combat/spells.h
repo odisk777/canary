@@ -40,18 +40,18 @@ public:
 		return instance;
 	}
 
-	Spell *getSpellByName(const std::string &name);
-	RuneSpell *getRuneSpell(uint32_t id);
-	RuneSpell *getRuneSpellByName(const std::string &name);
+	Spell* getSpellByName(const std::string &name);
+	RuneSpell* getRuneSpell(uint32_t id);
+	RuneSpell* getRuneSpellByName(const std::string &name);
 
-	InstantSpell *getInstantSpell(const std::string &words);
-	InstantSpell *getInstantSpellByName(const std::string &name);
+	InstantSpell* getInstantSpell(const std::string &words);
+	InstantSpell* getInstantSpellByName(const std::string &name);
 
-	InstantSpell *getInstantSpellById(uint32_t spellId);
+	InstantSpell* getInstantSpellById(uint32_t spellId);
 
-	TalkActionResult_t playerSaySpell(Player *player, std::string &words);
+	TalkActionResult_t playerSaySpell(Player* player, std::string &words);
 
-	static Position getCasterPosition(Creature *creature, Direction dir);
+	static Position getCasterPosition(Creature* creature, Direction dir);
 
 	std::list<uint16_t> getSpellsByVocation(uint16_t vocationId);
 
@@ -66,8 +66,8 @@ public:
 	}
 
 	void clear();
-	bool registerInstantLuaEvent(InstantSpell *event);
-	bool registerRuneLuaEvent(RuneSpell *event);
+	bool registerInstantLuaEvent(InstantSpell* event);
+	bool registerRuneLuaEvent(RuneSpell* event);
 
 private:
 	std::map<uint16_t, RuneSpell> runes;
@@ -78,34 +78,34 @@ private:
 
 constexpr auto g_spells = &Spells::getInstance;
 
-using RuneSpellFunction = std::function<bool(const RuneSpell *spell, Player *player, const Position &posTo)>;
+using RuneSpellFunction = std::function<bool(const RuneSpell* spell, Player* player, const Position &posTo)>;
 
 class BaseSpell {
 public:
 	constexpr BaseSpell() = default;
 	virtual ~BaseSpell() = default;
 
-	virtual bool castSpell(Creature *creature) = 0;
-	virtual bool castSpell(Creature *creature, Creature *target) = 0;
+	virtual bool castSpell(Creature* creature) = 0;
+	virtual bool castSpell(Creature* creature, Creature* target) = 0;
 };
 
 class CombatSpell final : public Script, public BaseSpell {
 public:
 	// Constructor
-	CombatSpell(Combat *newCombat, bool newNeedTarget, bool newNeedDirection);
+	CombatSpell(Combat* newCombat, bool newNeedTarget, bool newNeedDirection);
 
 	// The copy constructor and the assignment operator have been deleted to prevent accidental copying.
 	CombatSpell(const CombatSpell &) = delete;
 	CombatSpell &operator=(const CombatSpell &) = delete;
 
-	bool castSpell(Creature *creature) override;
-	bool castSpell(Creature *creature, Creature *target) override;
+	bool castSpell(Creature* creature) override;
+	bool castSpell(Creature* creature, Creature* target) override;
 
 	// Scripting spell
-	bool executeCastSpell(Creature *creature, const LuaVariant &var) const;
+	bool executeCastSpell(Creature* creature, const LuaVariant &var) const;
 
 	bool loadScriptCombat();
-	Combat *getCombat() {
+	Combat* getCombat() {
 		return combat;
 	}
 
@@ -114,7 +114,7 @@ private:
 		return "onCastSpell";
 	}
 
-	Combat *combat;
+	Combat* combat;
 
 	bool needDirection;
 	bool needTarget;
@@ -137,11 +137,11 @@ public:
 		spellId = id;
 	}
 
-	void postCastSpell(Player *player, bool finishedCast = true, bool payCost = true) const;
-	static void postCastSpell(Player *player, uint32_t manaCost, uint32_t soulCost);
+	void postCastSpell(Player* player, bool finishedCast = true, bool payCost = true) const;
+	static void postCastSpell(Player* player, uint32_t manaCost, uint32_t soulCost);
 	virtual bool isInstant() const = 0;
 
-	uint32_t getManaCost(const Player *player) const;
+	uint32_t getManaCost(const Player* player) const;
 	uint32_t getSoulCost() const {
 		return soul;
 	}
@@ -289,10 +289,10 @@ public:
 	SpellType_t spellType = SPELL_UNDEFINED;
 
 protected:
-	void applyCooldownConditions(Player *player) const;
-	bool playerSpellCheck(Player *player) const;
-	bool playerInstantSpellCheck(Player *player, const Position &toPos);
-	bool playerRuneSpellCheck(Player *player, const Position &toPos);
+	void applyCooldownConditions(Player* player) const;
+	bool playerSpellCheck(Player* player) const;
+	bool playerInstantSpellCheck(Player* player, const Position &toPos);
+	bool playerRuneSpellCheck(Player* player, const Position &toPos);
 
 	VocSpellMap vocSpellMap;
 
@@ -334,13 +334,13 @@ class InstantSpell final : public TalkAction, public Spell {
 public:
 	using TalkAction::TalkAction;
 
-	virtual bool playerCastInstant(Player *player, std::string &param);
+	virtual bool playerCastInstant(Player* player, std::string &param);
 
-	bool castSpell(Creature *creature) override;
-	bool castSpell(Creature *creature, Creature *target) override;
+	bool castSpell(Creature* creature) override;
+	bool castSpell(Creature* creature, Creature* target) override;
 
 	// Scripting spell
-	bool executeCastSpell(Creature *creature, const LuaVariant &var) const;
+	bool executeCastSpell(Creature* creature, const LuaVariant &var) const;
 
 	bool isInstant() const override {
 		return true;
@@ -375,8 +375,8 @@ public:
 	void setBlockWalls(bool w) {
 		checkLineOfSight = w;
 	}
-	bool canCast(const Player *player) const;
-	bool canThrowSpell(const Creature *creature, const Creature *target) const;
+	bool canCast(const Player* player) const;
+	bool canThrowSpell(const Creature* creature, const Creature* target) const;
 
 private:
 	std::string getScriptTypeName() const override {
@@ -394,21 +394,21 @@ class RuneSpell final : public Action, public Spell {
 public:
 	using Action::Action;
 
-	ReturnValue canExecuteAction(const Player *player, const Position &toPos) override;
+	ReturnValue canExecuteAction(const Player* player, const Position &toPos) override;
 	bool hasOwnErrorHandler() override {
 		return true;
 	}
-	Thing *getTarget(Player *, Creature *targetCreature, const Position &, uint8_t) const override {
+	Thing* getTarget(Player*, Creature* targetCreature, const Position &, uint8_t) const override {
 		return targetCreature;
 	}
 
-	bool executeUse(Player *player, Item *item, const Position &fromPosition, Thing *target, const Position &toPosition, bool isHotkey) override;
+	bool executeUse(Player* player, Item* item, const Position &fromPosition, Thing* target, const Position &toPosition, bool isHotkey) override;
 
-	bool castSpell(Creature *creature) override;
-	bool castSpell(Creature *creature, Creature *target) override;
+	bool castSpell(Creature* creature) override;
+	bool castSpell(Creature* creature, Creature* target) override;
 
 	// Scripting spell
-	bool executeCastSpell(Creature *creature, const LuaVariant &var, bool isHotkey) const;
+	bool executeCastSpell(Creature* creature, const LuaVariant &var, bool isHotkey) const;
 
 	bool isInstant() const override {
 		return false;
@@ -434,7 +434,7 @@ private:
 		return "onCastSpell";
 	}
 
-	bool internalCastSpell(Creature *creature, const LuaVariant &var, bool isHotkey);
+	bool internalCastSpell(Creature* creature, const LuaVariant &var, bool isHotkey);
 
 	uint16_t runeId = 0;
 	uint32_t charges = 0;

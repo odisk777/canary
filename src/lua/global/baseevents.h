@@ -28,7 +28,7 @@ public:
 	 *
 	 * @param interface Lua Script Interface
 	 */
-	explicit Event(LuaScriptInterface *interface);
+	explicit Event(LuaScriptInterface* interface);
 	virtual ~Event() = default;
 
 	virtual bool configureEvent(const pugi::xml_node &node) = 0;
@@ -95,7 +95,7 @@ protected:
 	virtual std::string getScriptEventName() const = 0;
 
 	int32_t scriptId = 0;
-	LuaScriptInterface *scriptInterface = nullptr;
+	LuaScriptInterface* scriptInterface = nullptr;
 };
 
 /**
@@ -172,11 +172,11 @@ public:
 	 * @return true
 	 * @return false
 	 */
-	bool loadCallBack(LuaScriptInterface *interface, const std::string &name);
+	bool loadCallBack(LuaScriptInterface* interface, const std::string &name);
 
 protected:
 	int32_t scriptId = 0;
-	LuaScriptInterface *scriptInterface = nullptr;
+	LuaScriptInterface* scriptInterface = nullptr;
 
 private:
 	bool loaded = false;

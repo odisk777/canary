@@ -21,7 +21,7 @@ public:
 	enum { SERVER_SENDS_FIRST = false };
 	enum { PROTOCOL_IDENTIFIER = 0x01 };
 	enum { USE_CHECKSUM = true };
-	static const char *protocol_name() {
+	static const char* protocol_name() {
 		return "login protocol";
 	}
 

@@ -14,7 +14,7 @@
 
 class MountFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerClass(L, "Mount", "", MountFunctions::luaCreateMount);
 		registerMetaMethod(L, "Mount", "__eq", MountFunctions::luaUserdataCompare);
 
@@ -25,11 +25,11 @@ public:
 	}
 
 private:
-	static int luaCreateMount(lua_State *L);
-	static int luaMountGetName(lua_State *L);
-	static int luaMountGetId(lua_State *L);
-	static int luaMountGetClientId(lua_State *L);
-	static int luaMountGetSpeed(lua_State *L);
+	static int luaCreateMount(lua_State* L);
+	static int luaMountGetName(lua_State* L);
+	static int luaMountGetId(lua_State* L);
+	static int luaMountGetClientId(lua_State* L);
+	static int luaMountGetSpeed(lua_State* L);
 };
 
 #endif // SRC_LUA_FUNCTIONS_CREATURES_PLAYER_MOUNT_FUNCTIONS_HPP_

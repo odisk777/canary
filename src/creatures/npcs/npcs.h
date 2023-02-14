@@ -25,7 +25,7 @@ public:
 
 class NpcType {
 	struct NpcInfo {
-		LuaScriptInterface *scriptInterface;
+		LuaScriptInterface* scriptInterface;
 
 		Outfit_t outfit = {};
 		RespawnType respawnType = {};
@@ -82,9 +82,9 @@ public:
 	std::string nameDescription;
 	NpcInfo info;
 
-	void loadShop(NpcType *npcType, ShopBlock shopBlock);
+	void loadShop(NpcType* npcType, ShopBlock shopBlock);
 
-	bool loadCallback(LuaScriptInterface *scriptInterface);
+	bool loadCallback(LuaScriptInterface* scriptInterface);
 	bool canSpawn(const Position &pos);
 };
 
@@ -102,7 +102,7 @@ public:
 		return instance;
 	}
 
-	NpcType *getNpcType(const std::string &name, bool create = false);
+	NpcType* getNpcType(const std::string &name, bool create = false);
 
 	// Reset npcs informations on reload
 	bool load(bool loadLibs = true, bool loadNpcs = true, bool reloading = false) const;
@@ -110,7 +110,7 @@ public:
 
 private:
 	std::unique_ptr<LuaScriptInterface> scriptInterface;
-	std::map<std::string, NpcType *> npcs;
+	std::map<std::string, NpcType*> npcs;
 };
 
 constexpr auto g_npcs = &Npcs::getInstance;

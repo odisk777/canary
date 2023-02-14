@@ -121,10 +121,10 @@ void Protocol::XTEA_encrypt(OutputMessage &msg) const {
 		msg.addPaddingBytes(8 - paddingBytes);
 	}
 
-	uint8_t *buffer = msg.getOutputBuffer();
+	uint8_t* buffer = msg.getOutputBuffer();
 	auto messageLength = static_cast<int32_t>(msg.getLength());
 	int32_t readPos = 0;
-	const std::array<uint32_t, 4> newKey = {key[0], key[1], key[2], key[3]};
+	const std::array<uint32_t, 4> newKey = { key[0], key[1], key[2], key[3] };
 	// TODO: refactor this for not use c-style
 	uint32_t precachedControlSum[32][2];
 	uint32_t sum = 0;
@@ -153,10 +153,10 @@ bool Protocol::XTEA_decrypt(NetworkMessage &msg) const {
 
 	const uint32_t delta = 0x61C88647;
 
-	uint8_t *buffer = msg.getBuffer() + msg.getBufferPosition();
+	uint8_t* buffer = msg.getBuffer() + msg.getBufferPosition();
 	auto messageLength = static_cast<int32_t>(msgLength);
 	int32_t readPos = 0;
-	const std::array<uint32_t, 4> newKey = {key[0], key[1], key[2], key[3]};
+	const std::array<uint32_t, 4> newKey = { key[0], key[1], key[2], key[3] };
 	// TODO: refactor this for not use c-style
 	uint32_t precachedControlSum[32][2];
 	uint32_t sum = 0xC6EF3720;
@@ -190,7 +190,7 @@ bool Protocol::RSA_decrypt(NetworkMessage &msg) {
 		return false;
 	}
 
-	auto charData = static_cast<char *>(static_cast<void *>(msg.getBuffer()));
+	auto charData = static_cast<char*>(static_cast<void*>(msg.getBuffer()));
 	// Does not break strict aliasing
 	g_RSA().decrypt(charData + msg.getBufferPosition());
 	return (msg.getByte() == 0);
@@ -232,7 +232,7 @@ bool Protocol::compression(OutputMessage &msg) const {
 	static thread_local std::array<char, NETWORKMESSAGE_MAXSIZE> defBuffer;
 	defStream->next_in = msg.getOutputBuffer();
 	defStream->avail_in = outputMessageSize;
-	defStream->next_out = (Bytef *)defBuffer.data();
+	defStream->next_out = (Bytef*)defBuffer.data();
 	defStream->avail_out = NETWORKMESSAGE_MAXSIZE;
 
 	if (int32_t ret = deflate(defStream.get(), Z_FINISH);
@@ -246,7 +246,7 @@ bool Protocol::compression(OutputMessage &msg) const {
 	}
 
 	msg.reset();
-	auto charData = static_cast<char *>(static_cast<void *>(defBuffer.data()));
+	auto charData = static_cast<char*>(static_cast<void*>(defBuffer.data()));
 	msg.addBytes(charData, static_cast<size_t>(totalSize));
 	return true;
 }

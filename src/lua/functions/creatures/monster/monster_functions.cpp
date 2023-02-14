@@ -15,9 +15,9 @@
 #include "creatures/monsters/monsters.h"
 #include "lua/functions/creatures/monster/monster_functions.hpp"
 
-int MonsterFunctions::luaMonsterCreate(lua_State *L) {
+int MonsterFunctions::luaMonsterCreate(lua_State* L) {
 	// Monster(id or userdata)
-	Monster *monster;
+	Monster* monster;
 	if (isNumber(L, 2)) {
 		monster = g_game().getMonsterByID(getNumber<uint32_t>(L, 2));
 	} else if (isUserdata(L, 2)) {
@@ -39,15 +39,15 @@ int MonsterFunctions::luaMonsterCreate(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterIsMonster(lua_State *L) {
+int MonsterFunctions::luaMonsterIsMonster(lua_State* L) {
 	// monster:isMonster()
 	pushBoolean(L, getUserdata<const Monster>(L, 1) != nullptr);
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterGetType(lua_State *L) {
+int MonsterFunctions::luaMonsterGetType(lua_State* L) {
 	// monster:getType()
-	const Monster *monster = getUserdata<const Monster>(L, 1);
+	const Monster* monster = getUserdata<const Monster>(L, 1);
 	if (monster) {
 		pushUserdata<MonsterType>(L, monster->mType);
 		setMetatable(L, -1, "MonsterType");
@@ -57,11 +57,11 @@ int MonsterFunctions::luaMonsterGetType(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterSetType(lua_State *L) {
+int MonsterFunctions::luaMonsterSetType(lua_State* L) {
 	// monster:setType(name or raceid)
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (monster) {
-		MonsterType *monsterType = nullptr;
+		MonsterType* monsterType = nullptr;
 		if (isNumber(L, 2)) {
 			monsterType = g_monsters().getMonsterTypeByRaceId(getNumber<uint16_t>(L, 2));
 		} else {
@@ -95,8 +95,8 @@ int MonsterFunctions::luaMonsterSetType(lua_State *L) {
 		// Reload creature on spectators
 		SpectatorHashSet spectators;
 		g_game().map.getSpectators(spectators, monster->getPosition(), true);
-		for (Creature *spectator : spectators) {
-			if (Player *tmpPlayer = spectator->getPlayer()) {
+		for (Creature* spectator : spectators) {
+			if (Player* tmpPlayer = spectator->getPlayer()) {
 				tmpPlayer->sendCreatureReload(monster);
 			}
 		}
@@ -107,9 +107,9 @@ int MonsterFunctions::luaMonsterSetType(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterGetSpawnPosition(lua_State *L) {
+int MonsterFunctions::luaMonsterGetSpawnPosition(lua_State* L) {
 	// monster:getSpawnPosition()
-	const Monster *monster = getUserdata<const Monster>(L, 1);
+	const Monster* monster = getUserdata<const Monster>(L, 1);
 	if (monster) {
 		pushPosition(L, monster->getMasterPos());
 	} else {
@@ -118,9 +118,9 @@ int MonsterFunctions::luaMonsterGetSpawnPosition(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterIsInSpawnRange(lua_State *L) {
+int MonsterFunctions::luaMonsterIsInSpawnRange(lua_State* L) {
 	// monster:isInSpawnRange([position])
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (monster) {
 		pushBoolean(L, monster->isInSpawnRange(lua_gettop(L) >= 2 ? getPosition(L, 2) : monster->getPosition()));
 	} else {
@@ -129,9 +129,9 @@ int MonsterFunctions::luaMonsterIsInSpawnRange(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterIsIdle(lua_State *L) {
+int MonsterFunctions::luaMonsterIsIdle(lua_State* L) {
 	// monster:isIdle()
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (monster) {
 		pushBoolean(L, monster->getIdleStatus());
 	} else {
@@ -140,9 +140,9 @@ int MonsterFunctions::luaMonsterIsIdle(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterSetIdle(lua_State *L) {
+int MonsterFunctions::luaMonsterSetIdle(lua_State* L) {
 	// monster:setIdle(idle)
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (!monster) {
 		lua_pushnil(L);
 		return 1;
@@ -153,11 +153,11 @@ int MonsterFunctions::luaMonsterSetIdle(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterIsTarget(lua_State *L) {
+int MonsterFunctions::luaMonsterIsTarget(lua_State* L) {
 	// monster:isTarget(creature)
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (monster) {
-		const Creature *creature = getCreature(L, 2);
+		const Creature* creature = getCreature(L, 2);
 		pushBoolean(L, monster->isTarget(creature));
 	} else {
 		lua_pushnil(L);
@@ -165,11 +165,11 @@ int MonsterFunctions::luaMonsterIsTarget(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterIsOpponent(lua_State *L) {
+int MonsterFunctions::luaMonsterIsOpponent(lua_State* L) {
 	// monster:isOpponent(creature)
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (monster) {
-		const Creature *creature = getCreature(L, 2);
+		const Creature* creature = getCreature(L, 2);
 		pushBoolean(L, monster->isOpponent(creature));
 	} else {
 		lua_pushnil(L);
@@ -177,11 +177,11 @@ int MonsterFunctions::luaMonsterIsOpponent(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterIsFriend(lua_State *L) {
+int MonsterFunctions::luaMonsterIsFriend(lua_State* L) {
 	// monster:isFriend(creature)
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (monster) {
-		const Creature *creature = getCreature(L, 2);
+		const Creature* creature = getCreature(L, 2);
 		pushBoolean(L, monster->isFriend(creature));
 	} else {
 		lua_pushnil(L);
@@ -189,11 +189,11 @@ int MonsterFunctions::luaMonsterIsFriend(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterAddFriend(lua_State *L) {
+int MonsterFunctions::luaMonsterAddFriend(lua_State* L) {
 	// monster:addFriend(creature)
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (monster) {
-		Creature *creature = getCreature(L, 2);
+		Creature* creature = getCreature(L, 2);
 		monster->addFriend(creature);
 		pushBoolean(L, true);
 	} else {
@@ -202,11 +202,11 @@ int MonsterFunctions::luaMonsterAddFriend(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterRemoveFriend(lua_State *L) {
+int MonsterFunctions::luaMonsterRemoveFriend(lua_State* L) {
 	// monster:removeFriend(creature)
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (monster) {
-		Creature *creature = getCreature(L, 2);
+		Creature* creature = getCreature(L, 2);
 		monster->removeFriend(creature);
 		pushBoolean(L, true);
 	} else {
@@ -215,9 +215,9 @@ int MonsterFunctions::luaMonsterRemoveFriend(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterGetFriendList(lua_State *L) {
+int MonsterFunctions::luaMonsterGetFriendList(lua_State* L) {
 	// monster:getFriendList()
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (!monster) {
 		lua_pushnil(L);
 		return 1;
@@ -227,7 +227,7 @@ int MonsterFunctions::luaMonsterGetFriendList(lua_State *L) {
 	lua_createtable(L, friendList.size(), 0);
 
 	int index = 0;
-	for (Creature *creature : friendList) {
+	for (Creature* creature : friendList) {
 		pushUserdata<Creature>(L, creature);
 		setCreatureMetatable(L, -1, creature);
 		lua_rawseti(L, -2, ++index);
@@ -235,9 +235,9 @@ int MonsterFunctions::luaMonsterGetFriendList(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterGetFriendCount(lua_State *L) {
+int MonsterFunctions::luaMonsterGetFriendCount(lua_State* L) {
 	// monster:getFriendCount()
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (monster) {
 		lua_pushnumber(L, monster->getFriendList().size());
 	} else {
@@ -246,24 +246,24 @@ int MonsterFunctions::luaMonsterGetFriendCount(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterAddTarget(lua_State *L) {
+int MonsterFunctions::luaMonsterAddTarget(lua_State* L) {
 	// monster:addTarget(creature[, pushFront = false])
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (!monster) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Creature *creature = getCreature(L, 2);
+	Creature* creature = getCreature(L, 2);
 	bool pushFront = getBoolean(L, 3, false);
 	monster->addTarget(creature, pushFront);
 	pushBoolean(L, true);
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterRemoveTarget(lua_State *L) {
+int MonsterFunctions::luaMonsterRemoveTarget(lua_State* L) {
 	// monster:removeTarget(creature)
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (!monster) {
 		lua_pushnil(L);
 		return 1;
@@ -274,9 +274,9 @@ int MonsterFunctions::luaMonsterRemoveTarget(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterGetTargetList(lua_State *L) {
+int MonsterFunctions::luaMonsterGetTargetList(lua_State* L) {
 	// monster:getTargetList()
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (!monster) {
 		lua_pushnil(L);
 		return 1;
@@ -286,7 +286,7 @@ int MonsterFunctions::luaMonsterGetTargetList(lua_State *L) {
 	lua_createtable(L, targetList.size(), 0);
 
 	int index = 0;
-	for (Creature *creature : targetList) {
+	for (Creature* creature : targetList) {
 		pushUserdata<Creature>(L, creature);
 		setCreatureMetatable(L, -1, creature);
 		lua_rawseti(L, -2, ++index);
@@ -294,9 +294,9 @@ int MonsterFunctions::luaMonsterGetTargetList(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterGetTargetCount(lua_State *L) {
+int MonsterFunctions::luaMonsterGetTargetCount(lua_State* L) {
 	// monster:getTargetCount()
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (monster) {
 		lua_pushnumber(L, monster->getTargetList().size());
 	} else {
@@ -305,9 +305,9 @@ int MonsterFunctions::luaMonsterGetTargetCount(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterChangeTargetDistance(lua_State *L) {
+int MonsterFunctions::luaMonsterChangeTargetDistance(lua_State* L) {
 	// monster:changeTargetDistance(distance)
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (monster) {
 		int32_t distance = getNumber<int32_t>(L, 2, 1);
 		pushBoolean(L, monster->changeTargetDistance(distance));
@@ -317,11 +317,11 @@ int MonsterFunctions::luaMonsterChangeTargetDistance(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterSelectTarget(lua_State *L) {
+int MonsterFunctions::luaMonsterSelectTarget(lua_State* L) {
 	// monster:selectTarget(creature)
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (monster) {
-		Creature *creature = getCreature(L, 2);
+		Creature* creature = getCreature(L, 2);
 		pushBoolean(L, monster->selectTarget(creature));
 	} else {
 		lua_pushnil(L);
@@ -329,9 +329,9 @@ int MonsterFunctions::luaMonsterSelectTarget(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterSearchTarget(lua_State *L) {
+int MonsterFunctions::luaMonsterSearchTarget(lua_State* L) {
 	// monster:searchTarget([searchType = TARGETSEARCH_DEFAULT])
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (monster) {
 		TargetSearchType_t searchType = getNumber<TargetSearchType_t>(L, 2, TARGETSEARCH_DEFAULT);
 		pushBoolean(L, monster->searchTarget(searchType));
@@ -341,9 +341,9 @@ int MonsterFunctions::luaMonsterSearchTarget(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterSetSpawnPosition(lua_State *L) {
+int MonsterFunctions::luaMonsterSetSpawnPosition(lua_State* L) {
 	// monster:setSpawnPosition()
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (!monster) {
 		lua_pushnil(L);
 		return 1;
@@ -361,9 +361,9 @@ int MonsterFunctions::luaMonsterSetSpawnPosition(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterGetRespawnType(lua_State *L) {
+int MonsterFunctions::luaMonsterGetRespawnType(lua_State* L) {
 	// monster:getRespawnType()
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 
 	if (!monster) {
 		lua_pushnil(L);
@@ -377,9 +377,9 @@ int MonsterFunctions::luaMonsterGetRespawnType(lua_State *L) {
 	return 2;
 }
 
-int MonsterFunctions::luaMonsterGetTimeToChangeFiendish(lua_State *L) {
+int MonsterFunctions::luaMonsterGetTimeToChangeFiendish(lua_State* L) {
 	// monster:getTimeToChangeFiendish()
-	const Monster *monster = getUserdata<Monster>(L, 1);
+	const Monster* monster = getUserdata<Monster>(L, 1);
 	if (!monster) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_MONSTER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -390,10 +390,10 @@ int MonsterFunctions::luaMonsterGetTimeToChangeFiendish(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterSetTimeToChangeFiendish(lua_State *L) {
+int MonsterFunctions::luaMonsterSetTimeToChangeFiendish(lua_State* L) {
 	// monster:setTimeToChangeFiendish(endTime)
 	time_t endTime = getNumber<uint32_t>(L, 2, 1);
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (!monster) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_MONSTER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -404,9 +404,9 @@ int MonsterFunctions::luaMonsterSetTimeToChangeFiendish(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterGetMonsterForgeClassification(lua_State *L) {
+int MonsterFunctions::luaMonsterGetMonsterForgeClassification(lua_State* L) {
 	// monster:getMonsterForgeClassification()
-	const Monster *monster = getUserdata<Monster>(L, 1);
+	const Monster* monster = getUserdata<Monster>(L, 1);
 	if (!monster) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_MONSTER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -418,10 +418,10 @@ int MonsterFunctions::luaMonsterGetMonsterForgeClassification(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterSetMonsterForgeClassification(lua_State *L) {
+int MonsterFunctions::luaMonsterSetMonsterForgeClassification(lua_State* L) {
 	// monster:setMonsterForgeClassification(classication)
 	ForgeClassifications_t classification = getNumber<ForgeClassifications_t>(L, 2);
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (!monster) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_MONSTER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -432,9 +432,9 @@ int MonsterFunctions::luaMonsterSetMonsterForgeClassification(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterGetForgeStack(lua_State *L) {
+int MonsterFunctions::luaMonsterGetForgeStack(lua_State* L) {
 	// monster:getForgeStack()
-	const Monster *monster = getUserdata<Monster>(L, 1);
+	const Monster* monster = getUserdata<Monster>(L, 1);
 	if (!monster) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_MONSTER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -445,10 +445,10 @@ int MonsterFunctions::luaMonsterGetForgeStack(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterSetForgeStack(lua_State *L) {
+int MonsterFunctions::luaMonsterSetForgeStack(lua_State* L) {
 	// monster:setForgeStack(stack)
 	uint16_t stack = getNumber<uint16_t>(L, 2, 0);
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (!monster) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_MONSTER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -462,9 +462,9 @@ int MonsterFunctions::luaMonsterSetForgeStack(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterConfigureForgeSystem(lua_State *L) {
+int MonsterFunctions::luaMonsterConfigureForgeSystem(lua_State* L) {
 	// monster:configureForgeSystem()
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (!monster) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_MONSTER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -475,9 +475,9 @@ int MonsterFunctions::luaMonsterConfigureForgeSystem(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterClearFiendishStatus(lua_State *L) {
+int MonsterFunctions::luaMonsterClearFiendishStatus(lua_State* L) {
 	// monster:clearFiendishStatus()
-	Monster *monster = getUserdata<Monster>(L, 1);
+	Monster* monster = getUserdata<Monster>(L, 1);
 	if (!monster) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_MONSTER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -488,9 +488,9 @@ int MonsterFunctions::luaMonsterClearFiendishStatus(lua_State *L) {
 	return 1;
 }
 
-int MonsterFunctions::luaMonsterIsForgeable(lua_State *L) {
+int MonsterFunctions::luaMonsterIsForgeable(lua_State* L) {
 	// monster:isForgeable()
-	const Monster *monster = getUserdata<Monster>(L, 1);
+	const Monster* monster = getUserdata<Monster>(L, 1);
 	if (!monster) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_MONSTER_NOT_FOUND));
 		pushBoolean(L, false);

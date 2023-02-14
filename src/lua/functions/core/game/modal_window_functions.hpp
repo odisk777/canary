@@ -14,7 +14,7 @@
 
 class ModalWindowFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerClass(L, "ModalWindow", "", ModalWindowFunctions::luaModalWindowCreate);
 		registerMetaMethod(L, "ModalWindow", "__eq", ModalWindowFunctions::luaUserdataCompare);
 		registerMetaMethod(L, "ModalWindow", "__gc", ModalWindowFunctions::luaModalWindowDelete);
@@ -46,32 +46,32 @@ public:
 	}
 
 private:
-	static int luaModalWindowCreate(lua_State *L);
-	static int luaModalWindowDelete(lua_State *L);
+	static int luaModalWindowCreate(lua_State* L);
+	static int luaModalWindowDelete(lua_State* L);
 
-	static int luaModalWindowGetId(lua_State *L);
-	static int luaModalWindowGetTitle(lua_State *L);
-	static int luaModalWindowGetMessage(lua_State *L);
+	static int luaModalWindowGetId(lua_State* L);
+	static int luaModalWindowGetTitle(lua_State* L);
+	static int luaModalWindowGetMessage(lua_State* L);
 
-	static int luaModalWindowSetTitle(lua_State *L);
-	static int luaModalWindowSetMessage(lua_State *L);
+	static int luaModalWindowSetTitle(lua_State* L);
+	static int luaModalWindowSetMessage(lua_State* L);
 
-	static int luaModalWindowGetButtonCount(lua_State *L);
-	static int luaModalWindowGetChoiceCount(lua_State *L);
+	static int luaModalWindowGetButtonCount(lua_State* L);
+	static int luaModalWindowGetChoiceCount(lua_State* L);
 
-	static int luaModalWindowAddButton(lua_State *L);
-	static int luaModalWindowAddChoice(lua_State *L);
+	static int luaModalWindowAddButton(lua_State* L);
+	static int luaModalWindowAddChoice(lua_State* L);
 
-	static int luaModalWindowGetDefaultEnterButton(lua_State *L);
-	static int luaModalWindowSetDefaultEnterButton(lua_State *L);
+	static int luaModalWindowGetDefaultEnterButton(lua_State* L);
+	static int luaModalWindowSetDefaultEnterButton(lua_State* L);
 
-	static int luaModalWindowGetDefaultEscapeButton(lua_State *L);
-	static int luaModalWindowSetDefaultEscapeButton(lua_State *L);
+	static int luaModalWindowGetDefaultEscapeButton(lua_State* L);
+	static int luaModalWindowSetDefaultEscapeButton(lua_State* L);
 
-	static int luaModalWindowHasPriority(lua_State *L);
-	static int luaModalWindowSetPriority(lua_State *L);
+	static int luaModalWindowHasPriority(lua_State* L);
+	static int luaModalWindowSetPriority(lua_State* L);
 
-	static int luaModalWindowSendToPlayer(lua_State *L);
+	static int luaModalWindowSendToPlayer(lua_State* L);
 };
 
 #endif // SRC_LUA_FUNCTIONS_CORE_GAME_MODAL_WINDOW_FUNCTIONS_HPP_

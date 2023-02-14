@@ -16,8 +16,8 @@
 class Party;
 class Player;
 
-using UsersMap = std::map<uint32_t, Player *>;
-using InvitedMap = std::map<uint32_t, const Player *>;
+using UsersMap = std::map<uint32_t, Player*>;
+using InvitedMap = std::map<uint32_t, const Player*>;
 
 class ChatChannel {
 public:
@@ -44,7 +44,7 @@ public:
 	const UsersMap &getUsers() const {
 		return users;
 	}
-	virtual const InvitedMap *getInvitedUsers() const {
+	virtual const InvitedMap* getInvitedUsers() const {
 		return nullptr;
 	}
 
@@ -98,7 +98,7 @@ public:
 
 	void closeChannel() const;
 
-	const InvitedMap *getInvitedUsers() const override {
+	const InvitedMap* getInvitedUsers() const override {
 		return &invites;
 	}
 
@@ -107,7 +107,7 @@ private:
 	uint32_t owner = 0;
 };
 
-using ChannelList = std::list<ChatChannel *>;
+using ChannelList = std::list<ChatChannel*>;
 
 class Chat {
 public:
@@ -126,10 +126,10 @@ public:
 
 	bool load();
 
-	ChatChannel *createChannel(const Player &player, uint16_t channelId);
+	ChatChannel* createChannel(const Player &player, uint16_t channelId);
 	bool deleteChannel(const Player &player, uint16_t channelId);
 
-	ChatChannel *addUserToChannel(Player &player, uint16_t channelId);
+	ChatChannel* addUserToChannel(Player &player, uint16_t channelId);
 	bool removeUserFromChannel(const Player &player, uint16_t channelId);
 	void removeUserFromAllChannels(const Player &player);
 
@@ -137,19 +137,19 @@ public:
 
 	ChannelList getChannelList(const Player &player);
 
-	ChatChannel *getChannel(const Player &player, uint16_t channelId);
-	ChatChannel *getChannelById(uint16_t channelId);
-	ChatChannel *getGuildChannelById(uint32_t guildId);
-	PrivateChatChannel *getPrivateChannel(const Player &player);
+	ChatChannel* getChannel(const Player &player, uint16_t channelId);
+	ChatChannel* getChannelById(uint16_t channelId);
+	ChatChannel* getGuildChannelById(uint32_t guildId);
+	PrivateChatChannel* getPrivateChannel(const Player &player);
 
-	LuaScriptInterface *getScriptInterface() {
+	LuaScriptInterface* getScriptInterface() {
 		return &scriptInterface;
 	}
 
 private:
 	std::map<uint16_t, ChatChannel> normalChannels;
 	std::map<uint16_t, PrivateChatChannel> privateChannels;
-	std::map<Party *, ChatChannel> partyChannels;
+	std::map<Party*, ChatChannel> partyChannels;
 	std::map<uint32_t, ChatChannel> guildChannels;
 
 	LuaScriptInterface scriptInterface;

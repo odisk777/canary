@@ -131,7 +131,7 @@ void IOMarket::processExpiredOffers(DBResult_ptr result, bool) {
 				continue;
 			}
 
-			Player *player = g_game().getPlayerByGUID(playerId);
+			Player* player = g_game().getPlayerByGUID(playerId);
 			if (!player) {
 				player = new Player(nullptr);
 				if (!IOLoginData::loadPlayerById(player, playerId)) {
@@ -144,7 +144,7 @@ void IOMarket::processExpiredOffers(DBResult_ptr result, bool) {
 				uint16_t tmpAmount = amount;
 				while (tmpAmount > 0) {
 					uint16_t stackCount = std::min<uint16_t>(100, tmpAmount);
-					Item *item = Item::CreateItem(itemType.id, stackCount);
+					Item* item = Item::CreateItem(itemType.id, stackCount);
 					if (g_game().internalAddItem(player->getInbox(), item, INDEX_WHEREEVER, FLAG_NOLIMIT) != RETURNVALUE_NOERROR) {
 						SPDLOG_ERROR("[{}] Ocurred an error to add item with id {} to player {}", __FUNCTION__, itemType.id, player->getName());
 						delete item;
@@ -166,7 +166,7 @@ void IOMarket::processExpiredOffers(DBResult_ptr result, bool) {
 				}
 
 				for (uint16_t i = 0; i < amount; ++i) {
-					Item *item = Item::CreateItem(itemType.id, subType);
+					Item* item = Item::CreateItem(itemType.id, subType);
 					if (g_game().internalAddItem(player->getInbox(), item, INDEX_WHEREEVER, FLAG_NOLIMIT) != RETURNVALUE_NOERROR) {
 						delete item;
 						break;
@@ -185,7 +185,7 @@ void IOMarket::processExpiredOffers(DBResult_ptr result, bool) {
 		} else {
 			uint64_t totalPrice = result->getNumber<uint64_t>("price") * amount;
 
-			Player *player = g_game().getPlayerByGUID(playerId);
+			Player* player = g_game().getPlayerByGUID(playerId);
 			if (player) {
 				player->setBankBalance(player->getBankBalance() + totalPrice);
 			} else {
@@ -316,7 +316,7 @@ void IOMarket::updateStatistics() {
 	}
 
 	do {
-		MarketStatistics *statistics = nullptr;
+		MarketStatistics* statistics = nullptr;
 		const auto tier = getTierFromDatabaseTable(result->getString("tier"));
 		auto itemId = result->getNumber<uint16_t>("itemtype");
 		if (result->getNumber<uint16_t>("sale") == MARKETACTION_BUY) {

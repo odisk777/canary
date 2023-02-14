@@ -14,7 +14,7 @@
 
 class VariantFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerClass(L, "Variant", "", VariantFunctions::luaVariantCreate);
 
 		registerMethod(L, "Variant", "getNumber", VariantFunctions::luaVariantGetNumber);
@@ -23,11 +23,11 @@ public:
 	}
 
 private:
-	static int luaVariantCreate(lua_State *L);
+	static int luaVariantCreate(lua_State* L);
 
-	static int luaVariantGetNumber(lua_State *L);
-	static int luaVariantGetString(lua_State *L);
-	static int luaVariantGetPosition(lua_State *L);
+	static int luaVariantGetNumber(lua_State* L);
+	static int luaVariantGetString(lua_State* L);
+	static int luaVariantGetPosition(lua_State* L);
 };
 
 #endif // SRC_LUA_FUNCTIONS_CREATURES_COMBAT_VARIANT_FUNCTIONS_HPP_

@@ -17,14 +17,14 @@ class DepotLocker final : public Container {
 public:
 	explicit DepotLocker(uint16_t type);
 
-	DepotLocker *getDepotLocker() override {
+	DepotLocker* getDepotLocker() override {
 		return this;
 	}
-	const DepotLocker *getDepotLocker() const override {
+	const DepotLocker* getDepotLocker() const override {
 		return this;
 	}
 
-	void removeInbox(Inbox *inbox);
+	void removeInbox(Inbox* inbox);
 
 	// serialization
 	Attr_ReadValue readAttr(AttrTypes_t attr, PropStream &propStream) override;
@@ -37,10 +37,10 @@ public:
 	}
 
 	// cylinder implementations
-	ReturnValue queryAdd(int32_t index, const Thing &thing, uint32_t count, uint32_t flags, Creature *actor = nullptr) const override;
+	ReturnValue queryAdd(int32_t index, const Thing &thing, uint32_t count, uint32_t flags, Creature* actor = nullptr) const override;
 
-	void postAddNotification(Thing *thing, const Cylinder *oldParent, int32_t index, CylinderLink_t link = LINK_OWNER) override;
-	void postRemoveNotification(Thing *thing, const Cylinder *newParent, int32_t index, CylinderLink_t link = LINK_OWNER) override;
+	void postAddNotification(Thing* thing, const Cylinder* oldParent, int32_t index, CylinderLink_t link = LINK_OWNER) override;
+	void postRemoveNotification(Thing* thing, const Cylinder* newParent, int32_t index, CylinderLink_t link = LINK_OWNER) override;
 
 	bool canRemove() const override {
 		return false;

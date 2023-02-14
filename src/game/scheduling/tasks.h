@@ -49,8 +49,8 @@ private:
 	std::function<void(void)> func;
 };
 
-Task *createTask(std::function<void(void)> f);
-Task *createTask(uint32_t expiration, std::function<void(void)> f);
+Task* createTask(std::function<void(void)> f);
+Task* createTask(uint32_t expiration, std::function<void(void)> f);
 
 class Dispatcher : public ThreadHolder<Dispatcher> {
 public:
@@ -66,7 +66,7 @@ public:
 		return instance;
 	}
 
-	void addTask(Task *task, bool push_front = false);
+	void addTask(Task* task, bool push_front = false);
 
 	void shutdown();
 
@@ -80,7 +80,7 @@ private:
 	std::mutex taskLock;
 	std::condition_variable taskSignal;
 
-	std::list<Task *> taskList;
+	std::list<Task*> taskList;
 	uint64_t dispatcherCycle = 0;
 };
 

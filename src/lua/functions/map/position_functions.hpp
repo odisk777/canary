@@ -14,7 +14,7 @@
 
 class PositionFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerClass(L, "Position", "", PositionFunctions::luaPositionCreate);
 		registerMetaMethod(L, "Position", "__add", PositionFunctions::luaPositionAdd);
 		registerMetaMethod(L, "Position", "__sub", PositionFunctions::luaPositionSub);
@@ -29,17 +29,17 @@ public:
 	}
 
 private:
-	static int luaPositionCreate(lua_State *L);
-	static int luaPositionAdd(lua_State *L);
-	static int luaPositionSub(lua_State *L);
-	static int luaPositionCompare(lua_State *L);
+	static int luaPositionCreate(lua_State* L);
+	static int luaPositionAdd(lua_State* L);
+	static int luaPositionSub(lua_State* L);
+	static int luaPositionCompare(lua_State* L);
 
-	static int luaPositionGetDistance(lua_State *L);
-	static int luaPositionGetPathTo(lua_State *L);
-	static int luaPositionIsSightClear(lua_State *L);
+	static int luaPositionGetDistance(lua_State* L);
+	static int luaPositionGetPathTo(lua_State* L);
+	static int luaPositionIsSightClear(lua_State* L);
 
-	static int luaPositionSendMagicEffect(lua_State *L);
-	static int luaPositionSendDistanceEffect(lua_State *L);
+	static int luaPositionSendMagicEffect(lua_State* L);
+	static int luaPositionSendDistanceEffect(lua_State* L);
 };
 
 #endif

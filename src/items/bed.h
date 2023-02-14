@@ -19,10 +19,10 @@ class BedItem final : public Item {
 public:
 	explicit BedItem(uint16_t id);
 
-	BedItem *getBed() override {
+	BedItem* getBed() override {
 		return this;
 	}
-	const BedItem *getBed() const override {
+	const BedItem* getBed() const override {
 		return this;
 	}
 
@@ -37,25 +37,25 @@ public:
 		return sleeperGUID;
 	}
 
-	void setHouse(House *h) {
+	void setHouse(House* h) {
 		house = h;
 	}
 
-	bool canUse(Player *player);
+	bool canUse(Player* player);
 
-	bool trySleep(Player *player);
-	bool sleep(Player *player);
-	void wakeUp(Player *player);
+	bool trySleep(Player* player);
+	bool sleep(Player* player);
+	void wakeUp(Player* player);
 
-	BedItem *getNextBedItem() const;
+	BedItem* getNextBedItem() const;
 
 private:
-	void updateAppearance(const Player *player);
-	void regeneratePlayer(Player *player) const;
-	void internalSetSleeper(const Player *player);
+	void updateAppearance(const Player* player);
+	void regeneratePlayer(Player* player) const;
+	void internalSetSleeper(const Player* player);
 	void internalRemoveSleeper();
 
-	House *house = nullptr;
+	House* house = nullptr;
 	uint64_t sleepStart;
 	uint32_t sleeperGUID;
 };

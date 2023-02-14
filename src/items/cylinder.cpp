@@ -11,9 +11,9 @@
 
 #include "items/cylinder.h"
 
-VirtualCylinder *VirtualCylinder::virtualCylinder = new VirtualCylinder;
+VirtualCylinder* VirtualCylinder::virtualCylinder = new VirtualCylinder;
 
-int32_t Cylinder::getThingIndex(const Thing *) const {
+int32_t Cylinder::getThingIndex(const Thing*) const {
 	return -1;
 }
 
@@ -33,15 +33,15 @@ std::map<uint32_t, uint32_t> &Cylinder::getAllItemTypeCount(std::map<uint32_t, u
 	return countMap;
 }
 
-Thing *Cylinder::getThing(size_t) const {
+Thing* Cylinder::getThing(size_t) const {
 	return nullptr;
 }
 
-void Cylinder::internalAddThing(Thing *) {
+void Cylinder::internalAddThing(Thing*) {
 	//
 }
 
-void Cylinder::internalAddThing(uint32_t, Thing *) {
+void Cylinder::internalAddThing(uint32_t, Thing*) {
 	//
 }
 

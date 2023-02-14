@@ -26,7 +26,7 @@ void Actions::clear() {
 	actionPositionMap.clear();
 }
 
-bool Actions::registerLuaItemEvent(Action *action) {
+bool Actions::registerLuaItemEvent(Action* action) {
 	auto itemIdVector = action->getItemIdsVector();
 	if (itemIdVector.empty()) {
 		return false;
@@ -59,7 +59,7 @@ bool Actions::registerLuaItemEvent(Action *action) {
 	return !itemIdVector.empty();
 }
 
-bool Actions::registerLuaUniqueEvent(Action *action) {
+bool Actions::registerLuaUniqueEvent(Action* action) {
 	auto uniqueIdVector = action->getUniqueIdsVector();
 	if (uniqueIdVector.empty()) {
 		return false;
@@ -90,7 +90,7 @@ bool Actions::registerLuaUniqueEvent(Action *action) {
 	return !uniqueIdVector.empty();
 }
 
-bool Actions::registerLuaActionEvent(Action *action) {
+bool Actions::registerLuaActionEvent(Action* action) {
 	auto actionIdVector = action->getActionIdsVector();
 	if (actionIdVector.empty()) {
 		return false;
@@ -121,7 +121,7 @@ bool Actions::registerLuaActionEvent(Action *action) {
 	return !actionIdVector.empty();
 }
 
-bool Actions::registerLuaPositionEvent(Action *action) {
+bool Actions::registerLuaPositionEvent(Action* action) {
 	auto positionVector = action->getPositionsVector();
 	if (positionVector.empty()) {
 		return false;
@@ -150,8 +150,8 @@ bool Actions::registerLuaPositionEvent(Action *action) {
 	return !positionVector.empty();
 }
 
-bool Actions::registerLuaEvent(Action *action) {
-	Action_ptr actionPtr{action};
+bool Actions::registerLuaEvent(Action* action) {
+	Action_ptr actionPtr{ action };
 
 	// Call all register lua events
 	if (registerLuaItemEvent(action) || registerLuaUniqueEvent(action) || registerLuaActionEvent(action) || registerLuaPositionEvent(action)) {
@@ -168,7 +168,7 @@ bool Actions::registerLuaEvent(Action *action) {
 	return false;
 }
 
-ReturnValue Actions::canUse(const Player *player, const Position &pos) {
+ReturnValue Actions::canUse(const Player* player, const Position &pos) {
 	if (pos.x != 0xFFFF) {
 		const Position &playerPos = player->getPosition();
 		if (playerPos.z != pos.z) {
@@ -182,15 +182,15 @@ ReturnValue Actions::canUse(const Player *player, const Position &pos) {
 	return RETURNVALUE_NOERROR;
 }
 
-ReturnValue Actions::canUse(const Player *player, const Position &pos, const Item *item) {
-	Action *action = getAction(item);
+ReturnValue Actions::canUse(const Player* player, const Position &pos, const Item* item) {
+	Action* action = getAction(item);
 	if (action != nullptr) {
 		return action->canExecuteAction(player, pos);
 	}
 	return RETURNVALUE_NOERROR;
 }
 
-ReturnValue Actions::canUseFar(const Creature *creature, const Position &toPos, bool checkLineOfSight, bool checkFloor) {
+ReturnValue Actions::canUseFar(const Creature* creature, const Position &toPos, bool checkLineOfSight, bool checkFloor) {
 	if (toPos.x == 0xFFFF) {
 		return RETURNVALUE_NOERROR;
 	}
@@ -211,7 +211,7 @@ ReturnValue Actions::canUseFar(const Creature *creature, const Position &toPos, 
 	return RETURNVALUE_NOERROR;
 }
 
-Action *Actions::getAction(const Item *item) {
+Action* Actions::getAction(const Item* item) {
 	if (item->hasAttribute(ItemAttribute_t::UNIQUEID)) {
 		auto it = uniqueItemMap.find(item->getAttribute<uint16_t>(ItemAttribute_t::UNIQUEID));
 		if (it != uniqueItemMap.end()) {
@@ -233,9 +233,9 @@ Action *Actions::getAction(const Item *item) {
 
 	if (auto iteratePositions = actionPositionMap.find(item->getPosition());
 		iteratePositions != actionPositionMap.end()) {
-		if (const Tile *tile = item->getTile();
+		if (const Tile* tile = item->getTile();
 			tile) {
-			if (const Player *player = item->getHoldingPlayer();
+			if (const Player* player = item->getHoldingPlayer();
 				player && item->getTopParent() == player) {
 				SPDLOG_DEBUG("[Actions::getAction] - The position only is valid for use item in the map, player name {}", player->getName());
 				return nullptr;
@@ -249,14 +249,14 @@ Action *Actions::getAction(const Item *item) {
 	return g_spells().getRuneSpell(item->getID());
 }
 
-ReturnValue Actions::internalUseItem(Player *player, const Position &pos, uint8_t index, Item *item, bool isHotkey) {
-	if (Door *door = item->getDoor()) {
+ReturnValue Actions::internalUseItem(Player* player, const Position &pos, uint8_t index, Item* item, bool isHotkey) {
+	if (Door* door = item->getDoor()) {
 		if (!door->canUse(player)) {
 			return RETURNVALUE_CANNOTUSETHISOBJECT;
 		}
 	}
 
-	Action *action = getAction(item);
+	Action* action = getAction(item);
 	if (action != nullptr) {
 		if (action->isLoadedCallback()) {
 			if (action->executeUse(player, item, pos, nullptr, pos, isHotkey)) {
@@ -270,7 +270,7 @@ ReturnValue Actions::internalUseItem(Player *player, const Position &pos, uint8_
 		}
 	}
 
-	if (BedItem *bed = item->getBed()) {
+	if (BedItem* bed = item->getBed()) {
 		if (!bed->canUse(player)) {
 			return RETURNVALUE_CANNOTUSETHISOBJECT;
 		}
@@ -283,12 +283,12 @@ ReturnValue Actions::internalUseItem(Player *player, const Position &pos, uint8_
 		return RETURNVALUE_NOERROR;
 	}
 
-	if (Container *container = item->getContainer()) {
-		Container *openContainer;
+	if (Container* container = item->getContainer()) {
+		Container* openContainer;
 
 		// depot container
-		if (DepotLocker *depot = container->getDepotLocker()) {
-			DepotLocker *myDepotLocker = player->getDepotLocker(depot->getDepotId());
+		if (DepotLocker* depot = container->getDepotLocker()) {
+			DepotLocker* myDepotLocker = player->getDepotLocker(depot->getDepotId());
 			myDepotLocker->setParent(depot->getParent()->getTile());
 			openContainer = myDepotLocker;
 			player->setLastDepotId(depot->getDepotId());
@@ -298,7 +298,7 @@ ReturnValue Actions::internalUseItem(Player *player, const Position &pos, uint8_
 
 		// reward chest
 		if (container->getRewardChest() != nullptr) {
-			RewardChest *myRewardChest = player->getRewardChest();
+			RewardChest* myRewardChest = player->getRewardChest();
 			if (myRewardChest->size() == 0) {
 				return RETURNVALUE_REWARDCHESTISEMPTY;
 			}
@@ -364,7 +364,7 @@ ReturnValue Actions::internalUseItem(Player *player, const Position &pos, uint8_
 	return RETURNVALUE_CANNOTUSETHISOBJECT;
 }
 
-bool Actions::useItem(Player *player, const Position &pos, uint8_t index, Item *item, bool isHotkey) {
+bool Actions::useItem(Player* player, const Position &pos, uint8_t index, Item* item, bool isHotkey) {
 	const ItemType &it = Item::items[item->getID()];
 	if (it.isRune() || it.type == ITEM_TYPE_POTION) {
 		if (player->walkExhausted()) {
@@ -395,7 +395,7 @@ bool Actions::useItem(Player *player, const Position &pos, uint8_t index, Item *
 	return true;
 }
 
-bool Actions::useItemEx(Player *player, const Position &fromPos, const Position &toPos, uint8_t toStackPos, Item *item, bool isHotkey, Creature *creature /* = nullptr*/) {
+bool Actions::useItemEx(Player* player, const Position &fromPos, const Position &toPos, uint8_t toStackPos, Item* item, bool isHotkey, Creature* creature /* = nullptr*/) {
 	const ItemType &it = Item::items[item->getID()];
 	if (it.isRune() || it.type == ITEM_TYPE_POTION) {
 		if (player->walkExhausted()) {
@@ -407,7 +407,7 @@ bool Actions::useItemEx(Player *player, const Position &fromPos, const Position 
 		player->setNextAction(OTSYS_TIME() + g_configManager().getNumber(EX_ACTIONS_DELAY_INTERVAL));
 	}
 
-	Action *action = getAction(item);
+	Action* action = getAction(item);
 	if (action == nullptr) {
 		player->sendCancelMessage(RETURNVALUE_CANNOTUSETHISOBJECT);
 		return false;
@@ -444,7 +444,7 @@ bool Actions::useItemEx(Player *player, const Position &fromPos, const Position 
 	return true;
 }
 
-void Actions::showUseHotkeyMessage(Player *player, const Item *item, uint32_t count) {
+void Actions::showUseHotkeyMessage(Player* player, const Item* item, uint32_t count) {
 	std::ostringstream ss;
 
 	const ItemType &it = Item::items[item->getID()];
@@ -465,10 +465,10 @@ void Actions::showUseHotkeyMessage(Player *player, const Item *item, uint32_t co
 */
 
 // Action constructor
-Action::Action(LuaScriptInterface *interface) :
+Action::Action(LuaScriptInterface* interface) :
 	Script(interface) { }
 
-ReturnValue Action::canExecuteAction(const Player *player, const Position &toPos) {
+ReturnValue Action::canExecuteAction(const Player* player, const Position &toPos) {
 	if (!allowFarUse) {
 		return g_actions().canUse(player, toPos);
 	}
@@ -476,14 +476,14 @@ ReturnValue Action::canExecuteAction(const Player *player, const Position &toPos
 	return g_actions().canUseFar(player, toPos, checkLineOfSight, checkFloor);
 }
 
-Thing *Action::getTarget(Player *player, Creature *targetCreature, const Position &toPosition, uint8_t toStackPos) const {
+Thing* Action::getTarget(Player* player, Creature* targetCreature, const Position &toPosition, uint8_t toStackPos) const {
 	if (targetCreature != nullptr) {
 		return targetCreature;
 	}
 	return g_game().internalGetThing(player, toPosition, toStackPos, 0, STACKPOS_USETARGET);
 }
 
-bool Action::executeUse(Player *player, Item *item, const Position &fromPosition, Thing *target, const Position &toPosition, bool isHotkey) {
+bool Action::executeUse(Player* player, Item* item, const Position &fromPosition, Thing* target, const Position &toPosition, bool isHotkey) {
 	// onUse(player, item, fromPosition, target, toPosition, isHotkey)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[Action::executeUse - Player {}, on item {}] "
@@ -492,10 +492,10 @@ bool Action::executeUse(Player *player, Item *item, const Position &fromPosition
 		return false;
 	}
 
-	ScriptEnvironment *scriptEnvironment = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment* scriptEnvironment = getScriptInterface()->getScriptEnv();
 	scriptEnvironment->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State *L = getScriptInterface()->getLuaState();
+	lua_State* L = getScriptInterface()->getLuaState();
 
 	getScriptInterface()->pushFunction(getScriptId());
 

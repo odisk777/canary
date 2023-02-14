@@ -54,30 +54,30 @@ public:
 		return instance;
 	}
 
-	Charm *getBestiaryCharm(charmRune_t activeCharm, bool force = false);
-	void addBestiaryKill(Player *player, MonsterType *mtype, uint32_t amount = 1);
-	bool parseCharmCombat(Charm *charm, Player *player, Creature *target, int32_t realDamage);
-	void addCharmPoints(Player *player, uint16_t amount, bool negative = false);
-	void sendBuyCharmRune(Player *player, charmRune_t runeID, uint8_t action, uint16_t raceid);
-	void setCharmRuneCreature(Player *player, Charm *charm, uint16_t raceid);
-	void resetCharmRuneCreature(Player *player, Charm *charm);
+	Charm* getBestiaryCharm(charmRune_t activeCharm, bool force = false);
+	void addBestiaryKill(Player* player, MonsterType* mtype, uint32_t amount = 1);
+	bool parseCharmCombat(Charm* charm, Player* player, Creature* target, int32_t realDamage);
+	void addCharmPoints(Player* player, uint16_t amount, bool negative = false);
+	void sendBuyCharmRune(Player* player, charmRune_t runeID, uint8_t action, uint16_t raceid);
+	void setCharmRuneCreature(Player* player, Charm* charm, uint16_t raceid);
+	void resetCharmRuneCreature(Player* player, Charm* charm);
 
 	int8_t calculateDifficult(uint32_t chance) const;
-	uint8_t getKillStatus(MonsterType *mtype, uint32_t killAmount) const;
+	uint8_t getKillStatus(MonsterType* mtype, uint32_t killAmount) const;
 
-	uint16_t getBestiaryRaceUnlocked(Player *player, BestiaryType_t race) const;
+	uint16_t getBestiaryRaceUnlocked(Player* player, BestiaryType_t race) const;
 
-	int32_t bitToggle(int32_t input, Charm *charm, bool on) const;
+	int32_t bitToggle(int32_t input, Charm* charm, bool on) const;
 
-	bool hasCharmUnlockedRuneBit(Charm *charm, int32_t input) const;
+	bool hasCharmUnlockedRuneBit(Charm* charm, int32_t input) const;
 
-	std::list<charmRune_t> getCharmUsedRuneBitAll(Player *player);
-	std::list<uint16_t> getBestiaryFinished(Player *player) const;
+	std::list<charmRune_t> getCharmUsedRuneBitAll(Player* player);
+	std::list<uint16_t> getBestiaryFinished(Player* player) const;
 
-	charmRune_t getCharmFromTarget(Player *player, MonsterType *mtype);
+	charmRune_t getCharmFromTarget(Player* player, MonsterType* mtype);
 
-	std::map<uint16_t, uint32_t> getBestiaryKillCountByMonsterIDs(Player *player, std::map<uint16_t, std::string> mtype_list) const;
-	std::map<uint8_t, int16_t> getMonsterElements(MonsterType *mtype) const;
+	std::map<uint16_t, uint32_t> getBestiaryKillCountByMonsterIDs(Player* player, std::map<uint16_t, std::string> mtype_list) const;
+	std::map<uint8_t, int16_t> getMonsterElements(MonsterType* mtype) const;
 	std::map<uint16_t, std::string> findRaceByName(const std::string &race, bool Onlystring = true, BestiaryType_t raceNumber = BESTY_RACE_NONE) const;
 };
 

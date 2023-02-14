@@ -37,12 +37,12 @@
 	|--- OTBM_ITEM_DEF (not implemented)
 */
 
-Tile *IOMap::createTile(Item *&ground, Item *item, uint16_t x, uint16_t y, uint8_t z) {
+Tile* IOMap::createTile(Item*&ground, Item* item, uint16_t x, uint16_t y, uint8_t z) {
 	if (!ground) {
 		return new StaticTile(x, y, z);
 	}
 
-	Tile *tile;
+	Tile* tile;
 	if ((item && item->isBlocking()) || ground->isBlocking()) {
 		tile = new StaticTile(x, y, z);
 	} else {
@@ -55,9 +55,9 @@ Tile *IOMap::createTile(Item *&ground, Item *item, uint16_t x, uint16_t y, uint8
 	return tile;
 }
 
-bool IOMap::loadMap(Map *map, const std::string &fileName, const Position &pos, bool unload) {
+bool IOMap::loadMap(Map* map, const std::string &fileName, const Position &pos, bool unload) {
 	int64_t start = OTSYS_TIME();
-	OTB::Loader loader{fileName, OTB::Identifier{{'O', 'T', 'B', 'M'}}};
+	OTB::Loader loader{ fileName, OTB::Identifier{ { 'O', 'T', 'B', 'M' } } };
 	auto &root = loader.parseTree();
 
 	PropStream propStream;
@@ -227,13 +227,13 @@ bool IOMap::parseTileArea(OTB::Loader &loader, const OTB::Node &tileAreaNode, Ma
 		uint8_t z = static_cast<uint8_t>(base_z + pos.z);
 
 		if (unload) {
-			Tile *tile = map.getTile(Position(x, y, z));
+			Tile* tile = map.getTile(Position(x, y, z));
 
-			if (const TileItemVector *items = tile->getItemList();
+			if (const TileItemVector* items = tile->getItemList();
 				items) {
 				TileItemVector item_list = *items;
 				if (!item_list.size() == 0) {
-					for (Item *item : item_list) {
+					for (Item* item : item_list) {
 						if (item) {
 							g_game().internalRemoveItem(item);
 						}
@@ -241,7 +241,7 @@ bool IOMap::parseTileArea(OTB::Loader &loader, const OTB::Node &tileAreaNode, Ma
 				}
 			}
 
-			if (Item *ground = tile->getGround();
+			if (Item* ground = tile->getGround();
 				ground) {
 				g_game().internalRemoveItem(ground);
 			}
@@ -249,9 +249,9 @@ bool IOMap::parseTileArea(OTB::Loader &loader, const OTB::Node &tileAreaNode, Ma
 		}
 
 		bool isHouseTile = false;
-		House *house = nullptr;
-		Tile *tile = nullptr;
-		Item *ground_item = nullptr;
+		House* house = nullptr;
+		Tile* tile = nullptr;
+		Item* ground_item = nullptr;
 		uint32_t tileflags = TILESTATE_NONE;
 
 		if (tileNode.type == OTBM_HOUSETILE) {
@@ -273,7 +273,7 @@ bool IOMap::parseTileArea(OTB::Loader &loader, const OTB::Node &tileAreaNode, Ma
 				}
 
 				tile = new HouseTile(x, y, z, house);
-				house->addTile(static_cast<HouseTile *>(tile));
+				house->addTile(static_cast<HouseTile*>(tile));
 				isHouseTile = true;
 			}
 		}
@@ -308,7 +308,7 @@ bool IOMap::parseTileArea(OTB::Loader &loader, const OTB::Node &tileAreaNode, Ma
 				}
 
 				case OTBM_ATTR_ITEM: {
-					Item *item = Item::CreateItem(propStream);
+					Item* item = Item::CreateItem(propStream);
 					if (!item) {
 						std::ostringstream ss;
 						ss << "[x:" << x << ", y:" << y << ", z:" << z << "] Failed to create item.";
@@ -318,7 +318,7 @@ bool IOMap::parseTileArea(OTB::Loader &loader, const OTB::Node &tileAreaNode, Ma
 						;
 					}
 
-					if (Teleport *teleport = item->getTeleport()) {
+					if (Teleport* teleport = item->getTeleport()) {
 						const Position &destPos = teleport->getDestPos();
 						uint64_t teleportPosition = (static_cast<uint64_t>(x) << 24) | (y << 8) | z;
 						uint64_t destinationPosition = (static_cast<uint64_t>(destPos.x) << 24) | (destPos.y << 8) | destPos.z;
@@ -393,7 +393,7 @@ bool IOMap::parseTileArea(OTB::Loader &loader, const OTB::Node &tileAreaNode, Ma
 				return false;
 			}
 
-			Item *item = Item::CreateItem(stream);
+			Item* item = Item::CreateItem(stream);
 			if (!item) {
 				std::ostringstream ss;
 				ss << "[x:" << x << ", y:" << y << ", z:" << z << "] Failed to create item.";
@@ -468,7 +468,7 @@ bool IOMap::parseTowns(OTB::Loader &loader, const OTB::Node &townsNode, Map &map
 			return false;
 		}
 
-		Town *town = map.towns.getTown(townId);
+		Town* town = map.towns.getTown(townId);
 		if (!town) {
 			town = new Town(townId);
 			map.towns.addTown(townId, town);

@@ -14,7 +14,7 @@
 
 class ConditionFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerClass(L, "Condition", "", ConditionFunctions::luaConditionCreate);
 		registerMetaMethod(L, "Condition", "__eq", ConditionFunctions::luaUserdataCompare);
 		registerMetaMethod(L, "Condition", "__gc", ConditionFunctions::luaConditionDelete);
@@ -39,25 +39,25 @@ public:
 	}
 
 private:
-	static int luaConditionCreate(lua_State *L);
-	static int luaConditionDelete(lua_State *L);
+	static int luaConditionCreate(lua_State* L);
+	static int luaConditionDelete(lua_State* L);
 
-	static int luaConditionGetId(lua_State *L);
-	static int luaConditionGetSubId(lua_State *L);
-	static int luaConditionGetType(lua_State *L);
-	static int luaConditionGetIcons(lua_State *L);
-	static int luaConditionGetEndTime(lua_State *L);
+	static int luaConditionGetId(lua_State* L);
+	static int luaConditionGetSubId(lua_State* L);
+	static int luaConditionGetType(lua_State* L);
+	static int luaConditionGetIcons(lua_State* L);
+	static int luaConditionGetEndTime(lua_State* L);
 
-	static int luaConditionClone(lua_State *L);
+	static int luaConditionClone(lua_State* L);
 
-	static int luaConditionGetTicks(lua_State *L);
-	static int luaConditionSetTicks(lua_State *L);
+	static int luaConditionGetTicks(lua_State* L);
+	static int luaConditionSetTicks(lua_State* L);
 
-	static int luaConditionSetParameter(lua_State *L);
-	static int luaConditionSetFormula(lua_State *L);
-	static int luaConditionSetOutfit(lua_State *L);
+	static int luaConditionSetParameter(lua_State* L);
+	static int luaConditionSetFormula(lua_State* L);
+	static int luaConditionSetOutfit(lua_State* L);
 
-	static int luaConditionAddDamage(lua_State *L);
+	static int luaConditionAddDamage(lua_State* L);
 };
 
 #endif // SRC_LUA_FUNCTIONS_CREATURES_COMBAT_CONDITION_FUNCTIONS_HPP_

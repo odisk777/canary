@@ -220,15 +220,15 @@ public:
 		return instance;
 	}
 
-	void CheckPlayerPreys(Player *player, uint8_t amount) const;
-	void ParsePreyAction(Player *player, PreySlot_t slotId, PreyAction_t action, PreyOption_t option, int8_t index, uint16_t raceId) const;
+	void CheckPlayerPreys(Player* player, uint8_t amount) const;
+	void ParsePreyAction(Player* player, PreySlot_t slotId, PreyAction_t action, PreyOption_t option, int8_t index, uint16_t raceId) const;
 
-	void ParseTaskHuntingAction(Player *player, PreySlot_t slotId, PreyTaskAction_t action, bool upgrade, uint16_t raceId) const;
+	void ParseTaskHuntingAction(Player* player, PreySlot_t slotId, PreyTaskAction_t action, bool upgrade, uint16_t raceId) const;
 
 	void InitializeTaskHuntOptions();
-	TaskHuntingOption *GetTaskRewardOption(const TaskHuntingSlot *slot) const;
+	TaskHuntingOption* GetTaskRewardOption(const TaskHuntingSlot* slot) const;
 
-	std::vector<TaskHuntingOption *> GetTaskOptions() const {
+	std::vector<TaskHuntingOption*> GetTaskOptions() const {
 		return taskOption;
 	}
 
@@ -237,7 +237,7 @@ public:
 	}
 
 	NetworkMessage baseDataMessage;
-	std::vector<TaskHuntingOption *> taskOption;
+	std::vector<TaskHuntingOption*> taskOption;
 };
 
 constexpr auto g_ioprey = &IOPrey::getInstance;

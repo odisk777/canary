@@ -13,7 +13,7 @@
 
 namespace OTB {
 
-constexpr Identifier wildcard = {{'\0', '\0', '\0', '\0'}};
+constexpr Identifier wildcard = { { '\0', '\0', '\0', '\0' } };
 
 Loader::Loader(const std::string &fileName, const Identifier &acceptedIdentifier) :
 	fileContents(fileName) {
@@ -29,7 +29,7 @@ Loader::Loader(const std::string &fileName, const Identifier &acceptedIdentifier
 	}
 }
 
-using NodeStack = std::stack<Node *, std::vector<Node *>>;
+using NodeStack = std::stack<Node*, std::vector<Node*>>;
 static Node &getCurrentNode(const NodeStack &nodeStack) {
 	if (nodeStack.empty()) {
 		throw InvalidOTBFormat{};

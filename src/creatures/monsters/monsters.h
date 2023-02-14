@@ -43,7 +43,7 @@ struct spellBlock_t {
 		other.spell = nullptr;
 	}
 
-	BaseSpell *spell = nullptr;
+	BaseSpell* spell = nullptr;
 	uint32_t chance = 100;
 	uint32_t speed = 2000;
 	uint32_t range = 0;
@@ -55,7 +55,7 @@ struct spellBlock_t {
 
 class MonsterType {
 	struct MonsterInfo {
-		LuaScriptInterface *scriptInterface;
+		LuaScriptInterface* scriptInterface;
 
 		std::map<CombatType_t, int32_t> elementMap;
 		std::map<CombatType_t, int32_t> reflectMap;
@@ -158,7 +158,7 @@ public:
 	MonsterType(const MonsterType &) = delete;
 	MonsterType &operator=(const MonsterType &) = delete;
 
-	bool loadCallback(LuaScriptInterface *scriptInterface);
+	bool loadCallback(LuaScriptInterface* scriptInterface);
 
 	std::string name;
 	std::string typeName;
@@ -174,7 +174,7 @@ public:
 		info.baseSpeed = initBaseSpeed;
 	}
 
-	void loadLoot(MonsterType *monsterType, LootBlock lootblock);
+	void loadLoot(MonsterType* monsterType, LootBlock lootblock);
 
 	bool canSpawn(const Position &pos);
 };
@@ -238,18 +238,18 @@ public:
 		return instance;
 	}
 
-	MonsterType *getMonsterType(const std::string &name);
-	MonsterType *getMonsterTypeByRaceId(uint16_t thisrace);
-	void addMonsterType(const std::string &name, MonsterType *mType);
-	bool deserializeSpell(MonsterSpell *spell, spellBlock_t &sb, const std::string &description = "");
+	MonsterType* getMonsterType(const std::string &name);
+	MonsterType* getMonsterTypeByRaceId(uint16_t thisrace);
+	void addMonsterType(const std::string &name, MonsterType* mType);
+	bool deserializeSpell(MonsterSpell* spell, spellBlock_t &sb, const std::string &description = "");
 
 	std::unique_ptr<LuaScriptInterface> scriptInterface;
-	std::map<std::string, MonsterType *> monsters;
+	std::map<std::string, MonsterType*> monsters;
 
 private:
-	ConditionDamage *getDamageCondition(ConditionType_t conditionType, int32_t maxDamage, int32_t minDamage, int32_t startDamage, uint32_t tickInterval);
+	ConditionDamage* getDamageCondition(ConditionType_t conditionType, int32_t maxDamage, int32_t minDamage, int32_t startDamage, uint32_t tickInterval);
 
-	MonsterType *loadMonster(const std::string &file, const std::string &monsterName, bool reloading = false);
+	MonsterType* loadMonster(const std::string &file, const std::string &monsterName, bool reloading = false);
 };
 
 constexpr auto g_monsters = &Monsters::getInstance;

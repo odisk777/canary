@@ -28,7 +28,7 @@ void Scheduler::threadMain() {
 		// the mutex is locked again now...
 		if (ret == std::cv_status::timeout && !eventList.empty()) {
 			// ok we had a timeout, so there has to be an event we have to execute...
-			SchedulerTask *task = eventList.top();
+			SchedulerTask* task = eventList.top();
 			eventList.pop();
 
 			// check if the event was stopped
@@ -49,7 +49,7 @@ void Scheduler::threadMain() {
 	}
 }
 
-uint32_t Scheduler::addEvent(SchedulerTask *task) {
+uint32_t Scheduler::addEvent(SchedulerTask* task) {
 	bool do_signal;
 	eventLock.lock();
 
@@ -120,6 +120,6 @@ void Scheduler::shutdown() {
 	eventSignal.notify_one();
 }
 
-SchedulerTask *createSchedulerTask(uint32_t delay, std::function<void(void)> f) {
+SchedulerTask* createSchedulerTask(uint32_t delay, std::function<void(void)> f) {
 	return new SchedulerTask(delay, std::move(f));
 }

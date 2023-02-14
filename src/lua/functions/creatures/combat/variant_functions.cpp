@@ -12,11 +12,11 @@
 #include "items/cylinder.h"
 #include "lua/functions/creatures/combat/variant_functions.hpp"
 
-int VariantFunctions::luaVariantCreate(lua_State *L) {
+int VariantFunctions::luaVariantCreate(lua_State* L) {
 	// Variant(number or string or position or thing)
 	LuaVariant variant;
 	if (isUserdata(L, 2)) {
-		if (Thing *thing = getThing(L, 2)) {
+		if (Thing* thing = getThing(L, 2)) {
 			variant.type = VARIANT_TARGETPOSITION;
 			variant.pos = thing->getPosition();
 		}
@@ -34,7 +34,7 @@ int VariantFunctions::luaVariantCreate(lua_State *L) {
 	return 1;
 }
 
-int VariantFunctions::luaVariantGetNumber(lua_State *L) {
+int VariantFunctions::luaVariantGetNumber(lua_State* L) {
 	// Variant:getNumber()
 	const LuaVariant &variant = getVariant(L, 1);
 	if (variant.type == VARIANT_NUMBER) {
@@ -45,7 +45,7 @@ int VariantFunctions::luaVariantGetNumber(lua_State *L) {
 	return 1;
 }
 
-int VariantFunctions::luaVariantGetString(lua_State *L) {
+int VariantFunctions::luaVariantGetString(lua_State* L) {
 	// Variant:getString()
 	const LuaVariant &variant = getVariant(L, 1);
 	if (variant.type == VARIANT_STRING) {
@@ -56,7 +56,7 @@ int VariantFunctions::luaVariantGetString(lua_State *L) {
 	return 1;
 }
 
-int VariantFunctions::luaVariantGetPosition(lua_State *L) {
+int VariantFunctions::luaVariantGetPosition(lua_State* L) {
 	// Variant:getPosition()
 	const LuaVariant &variant = getVariant(L, 1);
 	if (variant.type == VARIANT_POSITION || variant.type == VARIANT_TARGETPOSITION) {

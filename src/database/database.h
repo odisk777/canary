@@ -33,7 +33,7 @@ public:
 
 	bool connect();
 
-	bool connect(const char *host, const char *user, const char *password, const char *database, uint32_t port, const char *sock);
+	bool connect(const char* host, const char* user, const char* password, const char* database, uint32_t port, const char* sock);
 
 	bool executeQuery(const std::string &query);
 
@@ -41,13 +41,13 @@ public:
 
 	std::string escapeString(const std::string &s) const;
 
-	std::string escapeBlob(const char *s, uint32_t length) const;
+	std::string escapeBlob(const char* s, uint32_t length) const;
 
 	uint64_t getLastInsertId() const {
 		return static_cast<uint64_t>(mysql_insert_id(handle));
 	}
 
-	static const char *getClientVersion() {
+	static const char* getClientVersion() {
 		return mysql_get_client_info();
 	}
 
@@ -61,7 +61,7 @@ private:
 	bool commit();
 
 private:
-	MYSQL *handle = nullptr;
+	MYSQL* handle = nullptr;
 	std::recursive_mutex databaseLock;
 	uint64_t maxPacketSize = 1048576;
 
@@ -70,7 +70,7 @@ private:
 
 class DBResult {
 public:
-	explicit DBResult(MYSQL_RES *res);
+	explicit DBResult(MYSQL_RES* res);
 	~DBResult();
 
 	// Non copyable
@@ -142,7 +142,7 @@ public:
 	}
 
 	std::string getString(const std::string &s) const;
-	const char *getStream(const std::string &s, unsigned long &size) const;
+	const char* getStream(const std::string &s, unsigned long &size) const;
 	uint8_t getU8FromString(const std::string &string, const std::string &function) const;
 	int8_t getInt8FromString(const std::string &string, const std::string &function) const;
 
@@ -151,7 +151,7 @@ public:
 	bool next();
 
 private:
-	MYSQL_RES *handle;
+	MYSQL_RES* handle;
 	MYSQL_ROW row;
 
 	std::map<std::string, size_t> listNames;

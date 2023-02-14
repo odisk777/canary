@@ -60,7 +60,7 @@ public:
 	 *
 	 * @param interface Lua Script Interface
 	 */
-	explicit Script(LuaScriptInterface *interface) :
+	explicit Script(LuaScriptInterface* interface) :
 		scriptInterface(interface) { }
 	virtual ~Script() = default;
 
@@ -100,11 +100,11 @@ public:
 	virtual std::string getScriptTypeName() const = 0;
 
 	// Method to access the scriptInterface in derived classes
-	virtual LuaScriptInterface *getScriptInterface() const {
+	virtual LuaScriptInterface* getScriptInterface() const {
 		return scriptInterface;
 	}
 
-	virtual void setScriptInterface(LuaScriptInterface *newInterface) {
+	virtual void setScriptInterface(LuaScriptInterface* newInterface) {
 		scriptInterface = newInterface;
 	}
 
@@ -121,7 +121,7 @@ private:
 	bool loadedCallback = false;
 
 	int32_t scriptId = 0;
-	LuaScriptInterface *scriptInterface = nullptr;
+	LuaScriptInterface* scriptInterface = nullptr;
 };
 
 #endif // SRC_LUA_SCRIPTS_SCRIPTS_H_

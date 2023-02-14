@@ -19,7 +19,7 @@ public:
 	enum { SERVER_SENDS_FIRST = false };
 	enum { PROTOCOL_IDENTIFIER = 0xFF };
 	enum { USE_CHECKSUM = false };
-	static const char *protocol_name() {
+	static const char* protocol_name() {
 		return "status protocol";
 	}
 

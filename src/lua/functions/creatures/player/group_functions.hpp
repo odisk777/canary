@@ -14,7 +14,7 @@
 
 class GroupFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerClass(L, "Group", "", GroupFunctions::luaGroupCreate);
 		registerMetaMethod(L, "Group", "__eq", GroupFunctions::luaUserdataCompare);
 
@@ -28,15 +28,15 @@ public:
 	}
 
 private:
-	static int luaGroupCreate(lua_State *L);
+	static int luaGroupCreate(lua_State* L);
 
-	static int luaGroupGetId(lua_State *L);
-	static int luaGroupGetName(lua_State *L);
-	static int luaGroupGetFlags(lua_State *L);
-	static int luaGroupGetAccess(lua_State *L);
-	static int luaGroupGetMaxDepotItems(lua_State *L);
-	static int luaGroupGetMaxVipEntries(lua_State *L);
-	static int luaGroupHasFlag(lua_State *L);
+	static int luaGroupGetId(lua_State* L);
+	static int luaGroupGetName(lua_State* L);
+	static int luaGroupGetFlags(lua_State* L);
+	static int luaGroupGetAccess(lua_State* L);
+	static int luaGroupGetMaxDepotItems(lua_State* L);
+	static int luaGroupGetMaxVipEntries(lua_State* L);
+	static int luaGroupHasFlag(lua_State* L);
 };
 
 #endif // SRC_LUA_FUNCTIONS_CREATURES_PLAYER_GROUP_FUNCTIONS_HPP_

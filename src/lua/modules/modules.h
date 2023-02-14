@@ -20,7 +20,7 @@ using Module_ptr = std::unique_ptr<Module>;
 
 class Module final : public Event {
 public:
-	explicit Module(LuaScriptInterface *interface);
+	explicit Module(LuaScriptInterface* interface);
 
 	bool configureEvent(const pugi::xml_node &node) final;
 
@@ -32,10 +32,10 @@ public:
 	}
 
 	void clearEvent();
-	void copyEvent(Module *creatureEvent);
+	void copyEvent(Module* creatureEvent);
 
 	// scripting
-	void executeOnRecvbyte(Player *player, NetworkMessage &msg);
+	void executeOnRecvbyte(Player* player, NetworkMessage &msg);
 	//
 
 	uint8_t getRecvbyte() {
@@ -71,7 +71,7 @@ public:
 	}
 
 	void executeOnRecvbyte(uint32_t playerId, NetworkMessage &msg, uint8_t byte) const;
-	Module *getEventByRecvbyte(uint8_t recvbyte, bool force);
+	Module* getEventByRecvbyte(uint8_t recvbyte, bool force);
 
 protected:
 	LuaScriptInterface &getScriptInterface() override;

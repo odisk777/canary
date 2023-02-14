@@ -18,7 +18,7 @@ class MonsterType;
 
 struct spawnBlock_t {
 	Position pos;
-	MonsterType *monsterType;
+	MonsterType* monsterType;
 	int64_t lastSpawn;
 	uint32_t interval;
 	Direction direction;
@@ -35,7 +35,7 @@ public:
 	SpawnMonster &operator=(const SpawnMonster &) = delete;
 
 	bool addMonster(const std::string &name, const Position &pos, Direction dir, uint32_t interval);
-	void removeMonster(Monster *monster);
+	void removeMonster(Monster* monster);
 
 	uint32_t getInterval() const {
 		return interval;
@@ -50,7 +50,7 @@ public:
 
 private:
 	// map of the spawned creatures
-	using SpawnedMap = std::multimap<uint32_t, Monster *>;
+	using SpawnedMap = std::multimap<uint32_t, Monster*>;
 	using spawned_pair = SpawnedMap::value_type;
 	SpawnedMap spawnedMonsterMap;
 
@@ -64,7 +64,7 @@ private:
 	uint32_t checkSpawnMonsterEvent = 0;
 
 	static bool findPlayer(const Position &pos);
-	bool spawnMonster(uint32_t spawnMonsterId, MonsterType *monsterType, const Position &pos, Direction dir, bool startup = false);
+	bool spawnMonster(uint32_t spawnMonsterId, MonsterType* monsterType, const Position &pos, Direction dir, bool startup = false);
 	void checkSpawnMonster();
 	void scheduleSpawn(uint32_t spawnMonsterId, spawnBlock_t &sb, uint16_t interval);
 };

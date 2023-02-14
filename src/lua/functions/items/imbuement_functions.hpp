@@ -14,7 +14,7 @@
 
 class ImbuementFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerClass(L, "Imbuement", "", ImbuementFunctions::luaCreateImbuement);
 		registerMetaMethod(L, "Imbuement", "__eq", ImbuementFunctions::luaUserdataCompare);
 
@@ -29,15 +29,15 @@ public:
 	}
 
 private:
-	static int luaCreateImbuement(lua_State *L);
-	static int luaImbuementGetName(lua_State *L);
-	static int luaImbuementGetId(lua_State *L);
-	static int luaImbuementGetItems(lua_State *L);
-	static int luaImbuementGetBase(lua_State *L);
-	static int luaImbuementGetCategory(lua_State *L);
-	static int luaImbuementIsPremium(lua_State *L);
-	static int luaImbuementGetElementDamage(lua_State *L);
-	static int luaImbuementGetCombatType(lua_State *L);
+	static int luaCreateImbuement(lua_State* L);
+	static int luaImbuementGetName(lua_State* L);
+	static int luaImbuementGetId(lua_State* L);
+	static int luaImbuementGetItems(lua_State* L);
+	static int luaImbuementGetBase(lua_State* L);
+	static int luaImbuementGetCategory(lua_State* L);
+	static int luaImbuementIsPremium(lua_State* L);
+	static int luaImbuementGetElementDamage(lua_State* L);
+	static int luaImbuementGetCombatType(lua_State* L);
 };
 
 #endif // SRC_LUA_FUNCTIONS_ITEMS_IMBUEMENT_FUNCTIONS_HPP_

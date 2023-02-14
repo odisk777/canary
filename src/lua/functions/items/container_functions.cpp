@@ -13,11 +13,11 @@
 #include "items/item.h"
 #include "lua/functions/items/container_functions.hpp"
 
-int ContainerFunctions::luaContainerCreate(lua_State *L) {
+int ContainerFunctions::luaContainerCreate(lua_State* L) {
 	// Container(uid)
 	uint32_t id = getNumber<uint32_t>(L, 2);
 
-	Container *container = getScriptEnv()->getContainerByUID(id);
+	Container* container = getScriptEnv()->getContainerByUID(id);
 	if (container) {
 		pushUserdata(L, container);
 		setMetatable(L, -1, "Container");
@@ -27,9 +27,9 @@ int ContainerFunctions::luaContainerCreate(lua_State *L) {
 	return 1;
 }
 
-int ContainerFunctions::luaContainerGetSize(lua_State *L) {
+int ContainerFunctions::luaContainerGetSize(lua_State* L) {
 	// container:getSize()
-	Container *container = getUserdata<Container>(L, 1);
+	Container* container = getUserdata<Container>(L, 1);
 	if (container) {
 		lua_pushnumber(L, container->size());
 	} else {
@@ -38,9 +38,9 @@ int ContainerFunctions::luaContainerGetSize(lua_State *L) {
 	return 1;
 }
 
-int ContainerFunctions::luaContainerGetCapacity(lua_State *L) {
+int ContainerFunctions::luaContainerGetCapacity(lua_State* L) {
 	// container:getCapacity()
-	Container *container = getUserdata<Container>(L, 1);
+	Container* container = getUserdata<Container>(L, 1);
 	if (container) {
 		lua_pushnumber(L, container->capacity());
 	} else {
@@ -49,9 +49,9 @@ int ContainerFunctions::luaContainerGetCapacity(lua_State *L) {
 	return 1;
 }
 
-int ContainerFunctions::luaContainerGetEmptySlots(lua_State *L) {
+int ContainerFunctions::luaContainerGetEmptySlots(lua_State* L) {
 	// container:getEmptySlots([recursive = false])
-	Container *container = getUserdata<Container>(L, 1);
+	Container* container = getUserdata<Container>(L, 1);
 	if (!container) {
 		lua_pushnil(L);
 		return 1;
@@ -61,7 +61,7 @@ int ContainerFunctions::luaContainerGetEmptySlots(lua_State *L) {
 	bool recursive = getBoolean(L, 2, false);
 	if (recursive) {
 		for (ContainerIterator it = container->iterator(); it.hasNext(); it.advance()) {
-			if (Container *tmpContainer = (*it)->getContainer()) {
+			if (Container* tmpContainer = (*it)->getContainer()) {
 				slots += tmpContainer->capacity() - tmpContainer->size();
 			}
 		}
@@ -70,9 +70,9 @@ int ContainerFunctions::luaContainerGetEmptySlots(lua_State *L) {
 	return 1;
 }
 
-int ContainerFunctions::luaContainerGetItemHoldingCount(lua_State *L) {
+int ContainerFunctions::luaContainerGetItemHoldingCount(lua_State* L) {
 	// container:getItemHoldingCount()
-	Container *container = getUserdata<Container>(L, 1);
+	Container* container = getUserdata<Container>(L, 1);
 	if (container) {
 		lua_pushnumber(L, container->getItemHoldingCount());
 	} else {
@@ -81,16 +81,16 @@ int ContainerFunctions::luaContainerGetItemHoldingCount(lua_State *L) {
 	return 1;
 }
 
-int ContainerFunctions::luaContainerGetItem(lua_State *L) {
+int ContainerFunctions::luaContainerGetItem(lua_State* L) {
 	// container:getItem(index)
-	Container *container = getUserdata<Container>(L, 1);
+	Container* container = getUserdata<Container>(L, 1);
 	if (!container) {
 		lua_pushnil(L);
 		return 1;
 	}
 
 	uint32_t index = getNumber<uint32_t>(L, 2);
-	Item *item = container->getItemByIndex(index);
+	Item* item = container->getItemByIndex(index);
 	if (item) {
 		pushUserdata<Item>(L, item);
 		setItemMetatable(L, -1, item);
@@ -100,10 +100,10 @@ int ContainerFunctions::luaContainerGetItem(lua_State *L) {
 	return 1;
 }
 
-int ContainerFunctions::luaContainerHasItem(lua_State *L) {
+int ContainerFunctions::luaContainerHasItem(lua_State* L) {
 	// container:hasItem(item)
-	Item *item = getUserdata<Item>(L, 2);
-	Container *container = getUserdata<Container>(L, 1);
+	Item* item = getUserdata<Item>(L, 2);
+	Container* container = getUserdata<Container>(L, 1);
 	if (container) {
 		pushBoolean(L, container->isHoldingItem(item));
 	} else {
@@ -112,9 +112,9 @@ int ContainerFunctions::luaContainerHasItem(lua_State *L) {
 	return 1;
 }
 
-int ContainerFunctions::luaContainerAddItem(lua_State *L) {
+int ContainerFunctions::luaContainerAddItem(lua_State* L) {
 	// container:addItem(itemId[, count/subType = 1[, index = INDEX_WHEREEVER[, flags = 0]]])
-	Container *container = getUserdata<Container>(L, 1);
+	Container* container = getUserdata<Container>(L, 1);
 	if (!container) {
 		lua_pushnil(L);
 		return 1;
@@ -137,7 +137,7 @@ int ContainerFunctions::luaContainerAddItem(lua_State *L) {
 		count = std::min<uint16_t>(count, 100);
 	}
 
-	Item *item = Item::CreateItem(itemId, count);
+	Item* item = Item::CreateItem(itemId, count);
 	if (!item) {
 		lua_pushnil(L);
 		return 1;
@@ -157,15 +157,15 @@ int ContainerFunctions::luaContainerAddItem(lua_State *L) {
 	return 1;
 }
 
-int ContainerFunctions::luaContainerAddItemEx(lua_State *L) {
+int ContainerFunctions::luaContainerAddItemEx(lua_State* L) {
 	// container:addItemEx(item[, index = INDEX_WHEREEVER[, flags = 0]])
-	Item *item = getUserdata<Item>(L, 2);
+	Item* item = getUserdata<Item>(L, 2);
 	if (!item) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Container *container = getUserdata<Container>(L, 1);
+	Container* container = getUserdata<Container>(L, 1);
 	if (!container) {
 		lua_pushnil(L);
 		return 1;
@@ -187,9 +187,9 @@ int ContainerFunctions::luaContainerAddItemEx(lua_State *L) {
 	return 1;
 }
 
-int ContainerFunctions::luaContainerGetCorpseOwner(lua_State *L) {
+int ContainerFunctions::luaContainerGetCorpseOwner(lua_State* L) {
 	// container:getCorpseOwner()
-	Container *container = getUserdata<Container>(L, 1);
+	Container* container = getUserdata<Container>(L, 1);
 	if (container) {
 		lua_pushnumber(L, container->getCorpseOwner());
 	} else {
@@ -198,9 +198,9 @@ int ContainerFunctions::luaContainerGetCorpseOwner(lua_State *L) {
 	return 1;
 }
 
-int ContainerFunctions::luaContainerGetItemCountById(lua_State *L) {
+int ContainerFunctions::luaContainerGetItemCountById(lua_State* L) {
 	// container:getItemCountById(itemId[, subType = -1])
-	Container *container = getUserdata<Container>(L, 1);
+	Container* container = getUserdata<Container>(L, 1);
 	if (!container) {
 		lua_pushnil(L);
 		return 1;
@@ -222,9 +222,9 @@ int ContainerFunctions::luaContainerGetItemCountById(lua_State *L) {
 	return 1;
 }
 
-int ContainerFunctions::luaContainerGetContentDescription(lua_State *L) {
+int ContainerFunctions::luaContainerGetContentDescription(lua_State* L) {
 	// container:getContentDescription()
-	Container *container = getUserdata<Container>(L, 1);
+	Container* container = getUserdata<Container>(L, 1);
 	if (container) {
 		pushString(L, container->getContentDescription());
 	} else {
@@ -233,21 +233,21 @@ int ContainerFunctions::luaContainerGetContentDescription(lua_State *L) {
 	return 1;
 }
 
-int ContainerFunctions::luaContainerGetItems(lua_State *L) {
+int ContainerFunctions::luaContainerGetItems(lua_State* L) {
 	// container:getItems([recursive = false])
-	const Container *container = getUserdata<Container>(L, 1);
+	const Container* container = getUserdata<Container>(L, 1);
 	if (!container) {
 		lua_pushnil(L);
 		return 1;
 	}
 
 	bool recursive = getBoolean(L, 2, false);
-	std::vector<Item *> items = container->getItems(recursive);
+	std::vector<Item*> items = container->getItems(recursive);
 
 	lua_createtable(L, static_cast<int>(items.size()), 0);
 
 	int index = 0;
-	for (Item *item : items) {
+	for (Item* item : items) {
 		index++;
 		pushUserdata(L, item);
 		setItemMetatable(L, -1, item);
@@ -256,16 +256,16 @@ int ContainerFunctions::luaContainerGetItems(lua_State *L) {
 	return 1;
 }
 
-int ContainerFunctions::luaContainerRegisterReward(lua_State *L) {
+int ContainerFunctions::luaContainerRegisterReward(lua_State* L) {
 	// container:registerReward()
-	Container *container = getUserdata<Container>(L, 1);
+	Container* container = getUserdata<Container>(L, 1);
 	if (!container) {
 		lua_pushnil(L);
 		return 1;
 	}
 
 	auto timestamp = time(nullptr);
-	Item *rewardContainer = Item::CreateItem(ITEM_REWARD_CONTAINER);
+	Item* rewardContainer = Item::CreateItem(ITEM_REWARD_CONTAINER);
 	rewardContainer->setAttribute(ItemAttribute_t::DATE, timestamp);
 	container->setAttribute(ItemAttribute_t::DATE, timestamp);
 	container->internalAddThing(rewardContainer);

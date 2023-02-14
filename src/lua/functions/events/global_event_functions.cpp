@@ -15,8 +15,8 @@
 #include "lua/scripts/scripts.h"
 #include "utils/tools.h"
 
-int GlobalEventFunctions::luaCreateGlobalEvent(lua_State *L) {
-	GlobalEvent *global = new GlobalEvent(getScriptEnv()->getScriptInterface());
+int GlobalEventFunctions::luaCreateGlobalEvent(lua_State* L) {
+	GlobalEvent* global = new GlobalEvent(getScriptEnv()->getScriptInterface());
 	if (global) {
 		global->setName(getString(L, 2));
 		global->setEventType(GLOBALEVENT_NONE);
@@ -28,9 +28,9 @@ int GlobalEventFunctions::luaCreateGlobalEvent(lua_State *L) {
 	return 1;
 }
 
-int GlobalEventFunctions::luaGlobalEventType(lua_State *L) {
+int GlobalEventFunctions::luaGlobalEventType(lua_State* L) {
 	// globalevent:type(callback)
-	GlobalEvent *global = getUserdata<GlobalEvent>(L, 1);
+	GlobalEvent* global = getUserdata<GlobalEvent>(L, 1);
 	if (global) {
 		std::string typeName = getString(L, 2);
 		std::string tmpStr = asLowerCaseString(typeName);
@@ -56,9 +56,9 @@ int GlobalEventFunctions::luaGlobalEventType(lua_State *L) {
 	return 1;
 }
 
-int GlobalEventFunctions::luaGlobalEventRegister(lua_State *L) {
+int GlobalEventFunctions::luaGlobalEventRegister(lua_State* L) {
 	// globalevent:register()
-	GlobalEvent *globalevent = getUserdata<GlobalEvent>(L, 1);
+	GlobalEvent* globalevent = getUserdata<GlobalEvent>(L, 1);
 	if (globalevent) {
 		if (!globalevent->isLoadedCallback()) {
 			pushBoolean(L, false);
@@ -71,9 +71,9 @@ int GlobalEventFunctions::luaGlobalEventRegister(lua_State *L) {
 	return 1;
 }
 
-int GlobalEventFunctions::luaGlobalEventOnCallback(lua_State *L) {
+int GlobalEventFunctions::luaGlobalEventOnCallback(lua_State* L) {
 	// globalevent:onThink / record / etc. (callback)
-	GlobalEvent *globalevent = getUserdata<GlobalEvent>(L, 1);
+	GlobalEvent* globalevent = getUserdata<GlobalEvent>(L, 1);
 	if (globalevent) {
 		if (!globalevent->loadCallback()) {
 			pushBoolean(L, false);
@@ -86,9 +86,9 @@ int GlobalEventFunctions::luaGlobalEventOnCallback(lua_State *L) {
 	return 1;
 }
 
-int GlobalEventFunctions::luaGlobalEventTime(lua_State *L) {
+int GlobalEventFunctions::luaGlobalEventTime(lua_State* L) {
 	// globalevent:time(time)
-	GlobalEvent *globalevent = getUserdata<GlobalEvent>(L, 1);
+	GlobalEvent* globalevent = getUserdata<GlobalEvent>(L, 1);
 	if (globalevent) {
 		std::string timer = getString(L, 2);
 		std::vector<int32_t> params = vectorAtoi(explodeString(timer, ":"));
@@ -129,7 +129,7 @@ int GlobalEventFunctions::luaGlobalEventTime(lua_State *L) {
 		}
 
 		time_t current_time = time(nullptr);
-		tm *timeinfo = localtime(&current_time);
+		tm* timeinfo = localtime(&current_time);
 		timeinfo->tm_hour = hour;
 		timeinfo->tm_min = min;
 		timeinfo->tm_sec = sec;
@@ -149,9 +149,9 @@ int GlobalEventFunctions::luaGlobalEventTime(lua_State *L) {
 	return 1;
 }
 
-int GlobalEventFunctions::luaGlobalEventInterval(lua_State *L) {
+int GlobalEventFunctions::luaGlobalEventInterval(lua_State* L) {
 	// globalevent:interval(interval)
-	GlobalEvent *globalevent = getUserdata<GlobalEvent>(L, 1);
+	GlobalEvent* globalevent = getUserdata<GlobalEvent>(L, 1);
 	if (globalevent) {
 		globalevent->setInterval(getNumber<uint32_t>(L, 2));
 		globalevent->setNextExecution(OTSYS_TIME() + getNumber<uint32_t>(L, 2));

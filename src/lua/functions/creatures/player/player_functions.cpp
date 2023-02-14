@@ -19,9 +19,9 @@
 #include "items/item.h"
 #include "lua/functions/creatures/player/player_functions.hpp"
 
-int PlayerFunctions::luaPlayerSendInventory(lua_State *L) {
+int PlayerFunctions::luaPlayerSendInventory(lua_State* L) {
 	// player:sendInventory()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -33,15 +33,15 @@ int PlayerFunctions::luaPlayerSendInventory(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSendLootStats(lua_State *L) {
+int PlayerFunctions::luaPlayerSendLootStats(lua_State* L) {
 	// player:sendLootStats(item, count)
-	const Player *player = getUserdata<Player>(L, 1);
+	const Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Item *item = getUserdata<Item>(L, 2);
+	Item* item = getUserdata<Item>(L, 2);
 	if (!item) {
 		lua_pushnil(L);
 		return 1;
@@ -59,15 +59,15 @@ int PlayerFunctions::luaPlayerSendLootStats(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerUpdateSupplyTracker(lua_State *L) {
+int PlayerFunctions::luaPlayerUpdateSupplyTracker(lua_State* L) {
 	// player:updateSupplyTracker(item)
-	const Player *player = getUserdata<Player>(L, 1);
+	const Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Item *item = getUserdata<Item>(L, 2);
+	Item* item = getUserdata<Item>(L, 2);
 	if (!item) {
 		lua_pushnil(L);
 		return 1;
@@ -79,21 +79,21 @@ int PlayerFunctions::luaPlayerUpdateSupplyTracker(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerUpdateKillTracker(lua_State *L) {
+int PlayerFunctions::luaPlayerUpdateKillTracker(lua_State* L) {
 	// player:updateKillTracker(creature, corpse)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Creature *monster = getUserdata<Creature>(L, 2);
+	Creature* monster = getUserdata<Creature>(L, 2);
 	if (!monster) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Container *corpse = getUserdata<Container>(L, 3);
+	Container* corpse = getUserdata<Container>(L, 3);
 	if (!corpse) {
 		lua_pushnil(L);
 		return 1;
@@ -106,9 +106,9 @@ int PlayerFunctions::luaPlayerUpdateKillTracker(lua_State *L) {
 }
 
 // Player
-int PlayerFunctions::luaPlayerCreate(lua_State *L) {
+int PlayerFunctions::luaPlayerCreate(lua_State* L) {
 	// Player(id or guid or name or userdata)
-	Player *player;
+	Player* player;
 	if (isNumber(L, 2)) {
 		uint32_t id = getNumber<uint32_t>(L, 2);
 		if (id >= Player::getFirstID() && id <= Player::getLastID()) {
@@ -142,9 +142,9 @@ int PlayerFunctions::luaPlayerCreate(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerResetCharmsMonsters(lua_State *L) {
+int PlayerFunctions::luaPlayerResetCharmsMonsters(lua_State* L) {
 	// player:resetCharmsBestiary()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->setCharmPoints(0);
 		player->setCharmExpansion(false);
@@ -160,12 +160,12 @@ int PlayerFunctions::luaPlayerResetCharmsMonsters(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerUnlockAllCharmRunes(lua_State *L) {
+int PlayerFunctions::luaPlayerUnlockAllCharmRunes(lua_State* L) {
 	// player:unlockAllCharmRunes()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		for (int8_t i = CHARM_WOUND; i <= CHARM_LAST; i++) {
-			Charm *charm = g_iobestiary().getBestiaryCharm(static_cast<charmRune_t>(i));
+			Charm* charm = g_iobestiary().getBestiaryCharm(static_cast<charmRune_t>(i));
 			if (charm) {
 				int32_t value = g_iobestiary().bitToggle(player->getUnlockedRunesBit(), charm, true);
 				player->setUnlockedRunesBit(value);
@@ -178,9 +178,9 @@ int PlayerFunctions::luaPlayerUnlockAllCharmRunes(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayeraddCharmPoints(lua_State *L) {
+int PlayerFunctions::luaPlayeraddCharmPoints(lua_State* L) {
 	// player:addCharmPoints()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		int16_t charms = getNumber<int16_t>(L, 2);
 		if (charms >= 0) {
@@ -196,15 +196,15 @@ int PlayerFunctions::luaPlayeraddCharmPoints(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerIsPlayer(lua_State *L) {
+int PlayerFunctions::luaPlayerIsPlayer(lua_State* L) {
 	// player:isPlayer()
 	pushBoolean(L, getUserdata<const Player>(L, 1) != nullptr);
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetGuid(lua_State *L) {
+int PlayerFunctions::luaPlayerGetGuid(lua_State* L) {
 	// player:getGuid()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getGUID());
 	} else {
@@ -213,9 +213,9 @@ int PlayerFunctions::luaPlayerGetGuid(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetIp(lua_State *L) {
+int PlayerFunctions::luaPlayerGetIp(lua_State* L) {
 	// player:getIp()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getIP());
 	} else {
@@ -224,9 +224,9 @@ int PlayerFunctions::luaPlayerGetIp(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetAccountId(lua_State *L) {
+int PlayerFunctions::luaPlayerGetAccountId(lua_State* L) {
 	// player:getAccountId()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getAccount());
 	} else {
@@ -235,9 +235,9 @@ int PlayerFunctions::luaPlayerGetAccountId(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetLastLoginSaved(lua_State *L) {
+int PlayerFunctions::luaPlayerGetLastLoginSaved(lua_State* L) {
 	// player:getLastLoginSaved()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getLastLoginSaved());
 	} else {
@@ -246,9 +246,9 @@ int PlayerFunctions::luaPlayerGetLastLoginSaved(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetLastLogout(lua_State *L) {
+int PlayerFunctions::luaPlayerGetLastLogout(lua_State* L) {
 	// player:getLastLogout()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getLastLogout());
 	} else {
@@ -257,9 +257,9 @@ int PlayerFunctions::luaPlayerGetLastLogout(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetAccountType(lua_State *L) {
+int PlayerFunctions::luaPlayerGetAccountType(lua_State* L) {
 	// player:getAccountType()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getAccountType());
 	} else {
@@ -268,9 +268,9 @@ int PlayerFunctions::luaPlayerGetAccountType(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetAccountType(lua_State *L) {
+int PlayerFunctions::luaPlayerSetAccountType(lua_State* L) {
 	// player:setAccountType(accountType)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->accountType = getNumber<account::AccountType>(L, 2);
 		IOLoginData::setAccountType(player->getAccount(), player->accountType);
@@ -281,11 +281,11 @@ int PlayerFunctions::luaPlayerSetAccountType(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayeraddBestiaryKill(lua_State *L) {
+int PlayerFunctions::luaPlayeraddBestiaryKill(lua_State* L) {
 	// player:addBestiaryKill(name[, amount = 1])
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
-		MonsterType *mtype = g_monsters().getMonsterType(getString(L, 2));
+		MonsterType* mtype = g_monsters().getMonsterType(getString(L, 2));
 		if (mtype) {
 			g_iobestiary().addBestiaryKill(player, mtype, getNumber<uint32_t>(L, 3, 1));
 			pushBoolean(L, true);
@@ -298,9 +298,9 @@ int PlayerFunctions::luaPlayeraddBestiaryKill(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerIsMonsterBestiaryUnlocked(lua_State *L) {
+int PlayerFunctions::luaPlayerIsMonsterBestiaryUnlocked(lua_State* L) {
 	// player:isMonsterBestiaryUnlocked(raceId)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player == nullptr) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -326,14 +326,14 @@ int PlayerFunctions::luaPlayerIsMonsterBestiaryUnlocked(lua_State *L) {
 	return 0;
 }
 
-int PlayerFunctions::luaPlayergetCharmMonsterType(lua_State *L) {
+int PlayerFunctions::luaPlayergetCharmMonsterType(lua_State* L) {
 	// player:getCharmMonsterType(charmRune_t)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		charmRune_t charmid = getNumber<charmRune_t>(L, 2);
 		uint16_t raceid = player->parseRacebyCharm(charmid, false, 0);
 		if (raceid > 0) {
-			MonsterType *mtype = g_monsters().getMonsterTypeByRaceId(raceid);
+			MonsterType* mtype = g_monsters().getMonsterTypeByRaceId(raceid);
 			if (mtype) {
 				pushUserdata<MonsterType>(L, mtype);
 				setMetatable(L, -1, "MonsterType");
@@ -349,9 +349,9 @@ int PlayerFunctions::luaPlayergetCharmMonsterType(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerRemovePreyStamina(lua_State *L) {
+int PlayerFunctions::luaPlayerRemovePreyStamina(lua_State* L) {
 	// player:removePreyStamina(amount)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		g_ioprey().CheckPlayerPreys(player, getNumber<uint8_t>(L, 2, 1));
 		pushBoolean(L, true);
@@ -361,9 +361,9 @@ int PlayerFunctions::luaPlayerRemovePreyStamina(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddPreyCards(lua_State *L) {
+int PlayerFunctions::luaPlayerAddPreyCards(lua_State* L) {
 	// player:addPreyCards(amount)
-	if (Player *player = getUserdata<Player>(L, 1)) {
+	if (Player* player = getUserdata<Player>(L, 1)) {
 		player->addPreyCards(getNumber<uint64_t>(L, 2, 0));
 		pushBoolean(L, true);
 	} else {
@@ -372,9 +372,9 @@ int PlayerFunctions::luaPlayerAddPreyCards(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetPreyCards(lua_State *L) {
+int PlayerFunctions::luaPlayerGetPreyCards(lua_State* L) {
 	// player:getPreyCards()
-	if (const Player *player = getUserdata<Player>(L, 1)) {
+	if (const Player* player = getUserdata<Player>(L, 1)) {
 		lua_pushnumber(L, static_cast<lua_Number>(player->getPreyCards()));
 	} else {
 		lua_pushnil(L);
@@ -382,10 +382,10 @@ int PlayerFunctions::luaPlayerGetPreyCards(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetPreyExperiencePercentage(lua_State *L) {
+int PlayerFunctions::luaPlayerGetPreyExperiencePercentage(lua_State* L) {
 	// player:getPreyExperiencePercentage(raceId)
-	if (const Player *player = getUserdata<Player>(L, 1)) {
-		if (const PreySlot *slot = player->getPreyWithMonster(getNumber<uint16_t>(L, 2, 0));
+	if (const Player* player = getUserdata<Player>(L, 1)) {
+		if (const PreySlot* slot = player->getPreyWithMonster(getNumber<uint16_t>(L, 2, 0));
 			slot && slot->isOccupied() && slot->bonus == PreyBonus_Experience && slot->bonusTimeLeft > 0) {
 			lua_pushnumber(L, static_cast<lua_Number>(100 + slot->bonusPercentage));
 		} else {
@@ -397,9 +397,9 @@ int PlayerFunctions::luaPlayerGetPreyExperiencePercentage(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerRemoveTaskHuntingPoints(lua_State *L) {
+int PlayerFunctions::luaPlayerRemoveTaskHuntingPoints(lua_State* L) {
 	// player:removeTaskHuntingPoints(amount)
-	if (Player *player = getUserdata<Player>(L, 1)) {
+	if (Player* player = getUserdata<Player>(L, 1)) {
 		pushBoolean(L, player->useTaskHuntingPoints(getNumber<uint64_t>(L, 2, 0)));
 	} else {
 		lua_pushnil(L);
@@ -407,9 +407,9 @@ int PlayerFunctions::luaPlayerRemoveTaskHuntingPoints(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetTaskHuntingPoints(lua_State *L) {
+int PlayerFunctions::luaPlayerGetTaskHuntingPoints(lua_State* L) {
 	// player:getTaskHuntingPoints()
-	const Player *player = getUserdata<Player>(L, 1);
+	const Player* player = getUserdata<Player>(L, 1);
 	if (player == nullptr) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -420,9 +420,9 @@ int PlayerFunctions::luaPlayerGetTaskHuntingPoints(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddTaskHuntingPoints(lua_State *L) {
+int PlayerFunctions::luaPlayerAddTaskHuntingPoints(lua_State* L) {
 	// player:addTaskHuntingPoints(amount)
-	if (Player *player = getUserdata<Player>(L, 1)) {
+	if (Player* player = getUserdata<Player>(L, 1)) {
 		auto points = getNumber<uint64_t>(L, 2);
 		player->addTaskHuntingPoints(getNumber<uint64_t>(L, 2));
 		lua_pushnumber(L, static_cast<lua_Number>(points));
@@ -432,10 +432,10 @@ int PlayerFunctions::luaPlayerAddTaskHuntingPoints(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetPreyLootPercentage(lua_State *L) {
+int PlayerFunctions::luaPlayerGetPreyLootPercentage(lua_State* L) {
 	// player:getPreyLootPercentage(raceid)
-	if (const Player *player = getUserdata<Player>(L, 1)) {
-		if (const PreySlot *slot = player->getPreyWithMonster(getNumber<uint16_t>(L, 2, 0));
+	if (const Player* player = getUserdata<Player>(L, 1)) {
+		if (const PreySlot* slot = player->getPreyWithMonster(getNumber<uint16_t>(L, 2, 0));
 			slot && slot->isOccupied() && slot->bonus == PreyBonus_Loot) {
 			lua_pushnumber(L, slot->bonusPercentage);
 		} else {
@@ -447,10 +447,10 @@ int PlayerFunctions::luaPlayerGetPreyLootPercentage(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerPreyThirdSlot(lua_State *L) {
+int PlayerFunctions::luaPlayerPreyThirdSlot(lua_State* L) {
 	// get: player:preyThirdSlot() set: player:preyThirdSlot(bool)
-	if (Player *player = getUserdata<Player>(L, 1);
-		PreySlot *slot = player->getPreySlotById(PreySlot_Three)) {
+	if (Player* player = getUserdata<Player>(L, 1);
+		PreySlot* slot = player->getPreySlotById(PreySlot_Three)) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, slot->state != PreyDataState_Locked);
 		} else {
@@ -471,10 +471,10 @@ int PlayerFunctions::luaPlayerPreyThirdSlot(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerTaskThirdSlot(lua_State *L) {
+int PlayerFunctions::luaPlayerTaskThirdSlot(lua_State* L) {
 	// get: player:taskHuntingThirdSlot() set: player:taskHuntingThirdSlot(bool)
-	if (Player *player = getUserdata<Player>(L, 1);
-		TaskHuntingSlot *slot = player->getTaskHuntingSlotById(PreySlot_Three)) {
+	if (Player* player = getUserdata<Player>(L, 1);
+		TaskHuntingSlot* slot = player->getTaskHuntingSlotById(PreySlot_Three)) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, slot->state != PreyTaskDataState_Locked);
 		} else {
@@ -496,9 +496,9 @@ int PlayerFunctions::luaPlayerTaskThirdSlot(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayercharmExpansion(lua_State *L) {
+int PlayerFunctions::luaPlayercharmExpansion(lua_State* L) {
 	// get: player:charmExpansion() set: player:charmExpansion(bool)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, player->hasCharmExpansion());
@@ -512,9 +512,9 @@ int PlayerFunctions::luaPlayercharmExpansion(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetCapacity(lua_State *L) {
+int PlayerFunctions::luaPlayerGetCapacity(lua_State* L) {
 	// player:getCapacity()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getCapacity());
 	} else {
@@ -523,9 +523,9 @@ int PlayerFunctions::luaPlayerGetCapacity(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetCapacity(lua_State *L) {
+int PlayerFunctions::luaPlayerSetCapacity(lua_State* L) {
 	// player:setCapacity(capacity)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->capacity = getNumber<uint32_t>(L, 2);
 		player->sendStats();
@@ -536,9 +536,9 @@ int PlayerFunctions::luaPlayerSetCapacity(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetTraining(lua_State *L) {
+int PlayerFunctions::luaPlayerSetTraining(lua_State* L) {
 	// player:setTraining(value)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		bool value = getBoolean(L, 2, false);
 		player->setTraining(value);
@@ -549,9 +549,9 @@ int PlayerFunctions::luaPlayerSetTraining(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetIsTraining(lua_State *L) {
+int PlayerFunctions::luaPlayerGetIsTraining(lua_State* L) {
 	// player:isTraining()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		lua_pushnil(L);
@@ -562,9 +562,9 @@ int PlayerFunctions::luaPlayerGetIsTraining(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetFreeCapacity(lua_State *L) {
+int PlayerFunctions::luaPlayerGetFreeCapacity(lua_State* L) {
 	// player:getFreeCapacity()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getFreeCapacity());
 	} else {
@@ -573,9 +573,9 @@ int PlayerFunctions::luaPlayerGetFreeCapacity(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetKills(lua_State *L) {
+int PlayerFunctions::luaPlayerGetKills(lua_State* L) {
 	// player:getKills()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -597,9 +597,9 @@ int PlayerFunctions::luaPlayerGetKills(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetKills(lua_State *L) {
+int PlayerFunctions::luaPlayerSetKills(lua_State* L) {
 	// player:setKills(kills)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -625,9 +625,9 @@ int PlayerFunctions::luaPlayerSetKills(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetReward(lua_State *L) {
+int PlayerFunctions::luaPlayerGetReward(lua_State* L) {
 	// player:getReward(rewardId[, autoCreate = false])
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -644,9 +644,9 @@ int PlayerFunctions::luaPlayerGetReward(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerRemoveReward(lua_State *L) {
+int PlayerFunctions::luaPlayerRemoveReward(lua_State* L) {
 	// player:removeReward(rewardId)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -658,9 +658,9 @@ int PlayerFunctions::luaPlayerRemoveReward(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetRewardList(lua_State *L) {
+int PlayerFunctions::luaPlayerGetRewardList(lua_State* L) {
 	// player:getRewardList()
-	const Player *player = getUserdata<Player>(L, 1);
+	const Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -678,9 +678,9 @@ int PlayerFunctions::luaPlayerGetRewardList(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetDailyReward(lua_State *L) {
+int PlayerFunctions::luaPlayerSetDailyReward(lua_State* L) {
 	// player:setDailyReward(value)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->setDailyReward(getNumber<uint8_t>(L, 2));
 		pushBoolean(L, true);
@@ -690,16 +690,16 @@ int PlayerFunctions::luaPlayerSetDailyReward(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetDepotLocker(lua_State *L) {
+int PlayerFunctions::luaPlayerGetDepotLocker(lua_State* L) {
 	// player:getDepotLocker(depotId)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
 	uint32_t depotId = getNumber<uint32_t>(L, 2);
-	DepotLocker *depotLocker = player->getDepotLocker(depotId);
+	DepotLocker* depotLocker = player->getDepotLocker(depotId);
 	if (depotLocker) {
 		depotLocker->setParent(player);
 		pushUserdata<Item>(L, depotLocker);
@@ -710,9 +710,9 @@ int PlayerFunctions::luaPlayerGetDepotLocker(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetStashCounter(lua_State *L) {
+int PlayerFunctions::luaPlayerGetStashCounter(lua_State* L) {
 	// player:getStashCount()
-	const Player *player = getUserdata<Player>(L, 1);
+	const Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		uint16_t sizeStash = getStashSize(player->getStashItems());
 		lua_pushnumber(L, sizeStash);
@@ -722,9 +722,9 @@ int PlayerFunctions::luaPlayerGetStashCounter(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetDepotChest(lua_State *L) {
+int PlayerFunctions::luaPlayerGetDepotChest(lua_State* L) {
 	// player:getDepotChest(depotId[, autoCreate = false])
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -732,7 +732,7 @@ int PlayerFunctions::luaPlayerGetDepotChest(lua_State *L) {
 
 	uint32_t depotId = getNumber<uint32_t>(L, 2);
 	bool autoCreate = getBoolean(L, 3, false);
-	DepotChest *depotChest = player->getDepotChest(depotId, autoCreate);
+	DepotChest* depotChest = player->getDepotChest(depotId, autoCreate);
 	if (depotChest) {
 		player->setLastDepotId(depotId);
 		pushUserdata<Item>(L, depotChest);
@@ -743,15 +743,15 @@ int PlayerFunctions::luaPlayerGetDepotChest(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetInbox(lua_State *L) {
+int PlayerFunctions::luaPlayerGetInbox(lua_State* L) {
 	// player:getInbox()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Inbox *inbox = player->getInbox();
+	Inbox* inbox = player->getInbox();
 	if (inbox) {
 		pushUserdata<Item>(L, inbox);
 		setItemMetatable(L, -1, inbox);
@@ -761,9 +761,9 @@ int PlayerFunctions::luaPlayerGetInbox(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetSkullTime(lua_State *L) {
+int PlayerFunctions::luaPlayerGetSkullTime(lua_State* L) {
 	// player:getSkullTime()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getSkullTicks());
 	} else {
@@ -772,9 +772,9 @@ int PlayerFunctions::luaPlayerGetSkullTime(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetSkullTime(lua_State *L) {
+int PlayerFunctions::luaPlayerSetSkullTime(lua_State* L) {
 	// player:setSkullTime(skullTime)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->setSkullTicks(getNumber<int64_t>(L, 2));
 		pushBoolean(L, true);
@@ -784,9 +784,9 @@ int PlayerFunctions::luaPlayerSetSkullTime(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetDeathPenalty(lua_State *L) {
+int PlayerFunctions::luaPlayerGetDeathPenalty(lua_State* L) {
 	// player:getDeathPenalty()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, static_cast<uint32_t>(player->getLostPercent() * 100));
 	} else {
@@ -795,9 +795,9 @@ int PlayerFunctions::luaPlayerGetDeathPenalty(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetExperience(lua_State *L) {
+int PlayerFunctions::luaPlayerGetExperience(lua_State* L) {
 	// player:getExperience()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getExperience());
 	} else {
@@ -806,9 +806,9 @@ int PlayerFunctions::luaPlayerGetExperience(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddExperience(lua_State *L) {
+int PlayerFunctions::luaPlayerAddExperience(lua_State* L) {
 	// player:addExperience(experience[, sendText = false])
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		int64_t experience = getNumber<int64_t>(L, 2);
 		bool sendText = getBoolean(L, 3, false);
@@ -820,9 +820,9 @@ int PlayerFunctions::luaPlayerAddExperience(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerRemoveExperience(lua_State *L) {
+int PlayerFunctions::luaPlayerRemoveExperience(lua_State* L) {
 	// player:removeExperience(experience[, sendText = false])
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		int64_t experience = getNumber<int64_t>(L, 2);
 		bool sendText = getBoolean(L, 3, false);
@@ -834,9 +834,9 @@ int PlayerFunctions::luaPlayerRemoveExperience(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetLevel(lua_State *L) {
+int PlayerFunctions::luaPlayerGetLevel(lua_State* L) {
 	// player:getLevel()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getLevel());
 	} else {
@@ -845,9 +845,9 @@ int PlayerFunctions::luaPlayerGetLevel(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetMagicLevel(lua_State *L) {
+int PlayerFunctions::luaPlayerGetMagicLevel(lua_State* L) {
 	// player:getMagicLevel()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getMagicLevel());
 	} else {
@@ -856,9 +856,9 @@ int PlayerFunctions::luaPlayerGetMagicLevel(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetBaseMagicLevel(lua_State *L) {
+int PlayerFunctions::luaPlayerGetBaseMagicLevel(lua_State* L) {
 	// player:getBaseMagicLevel()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getBaseMagicLevel());
 	} else {
@@ -867,9 +867,9 @@ int PlayerFunctions::luaPlayerGetBaseMagicLevel(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetMana(lua_State *L) {
+int PlayerFunctions::luaPlayerGetMana(lua_State* L) {
 	// player:getMana()
-	const Player *player = getUserdata<const Player>(L, 1);
+	const Player* player = getUserdata<const Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getMana());
 	} else {
@@ -878,9 +878,9 @@ int PlayerFunctions::luaPlayerGetMana(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddMana(lua_State *L) {
+int PlayerFunctions::luaPlayerAddMana(lua_State* L) {
 	// player:addMana(manaChange[, animationOnLoss = false])
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -900,9 +900,9 @@ int PlayerFunctions::luaPlayerAddMana(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetMaxMana(lua_State *L) {
+int PlayerFunctions::luaPlayerGetMaxMana(lua_State* L) {
 	// player:getMaxMana()
-	const Player *player = getUserdata<const Player>(L, 1);
+	const Player* player = getUserdata<const Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getMaxMana());
 	} else {
@@ -911,9 +911,9 @@ int PlayerFunctions::luaPlayerGetMaxMana(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetMaxMana(lua_State *L) {
+int PlayerFunctions::luaPlayerSetMaxMana(lua_State* L) {
 	// player:setMaxMana(maxMana)
-	Player *player = getPlayer(L, 1);
+	Player* player = getPlayer(L, 1);
 	if (player) {
 		player->manaMax = getNumber<int32_t>(L, 2);
 		player->mana = std::min<int32_t>(player->mana, player->manaMax);
@@ -926,9 +926,9 @@ int PlayerFunctions::luaPlayerSetMaxMana(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetManaSpent(lua_State *L) {
+int PlayerFunctions::luaPlayerGetManaSpent(lua_State* L) {
 	// player:getManaSpent()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getSpentMana());
 	} else {
@@ -937,9 +937,9 @@ int PlayerFunctions::luaPlayerGetManaSpent(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddManaSpent(lua_State *L) {
+int PlayerFunctions::luaPlayerAddManaSpent(lua_State* L) {
 	// player:addManaSpent(amount)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->addManaSpent(getNumber<uint64_t>(L, 2));
 		pushBoolean(L, true);
@@ -949,9 +949,9 @@ int PlayerFunctions::luaPlayerAddManaSpent(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetBaseMaxHealth(lua_State *L) {
+int PlayerFunctions::luaPlayerGetBaseMaxHealth(lua_State* L) {
 	// player:getBaseMaxHealth()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->healthMax);
 	} else {
@@ -960,9 +960,9 @@ int PlayerFunctions::luaPlayerGetBaseMaxHealth(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetBaseMaxMana(lua_State *L) {
+int PlayerFunctions::luaPlayerGetBaseMaxMana(lua_State* L) {
 	// player:getBaseMaxMana()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->manaMax);
 	} else {
@@ -971,10 +971,10 @@ int PlayerFunctions::luaPlayerGetBaseMaxMana(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetSkillLevel(lua_State *L) {
+int PlayerFunctions::luaPlayerGetSkillLevel(lua_State* L) {
 	// player:getSkillLevel(skillType)
 	skills_t skillType = getNumber<skills_t>(L, 2);
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player && skillType <= SKILL_LAST) {
 		lua_pushnumber(L, player->skills[skillType].level);
 	} else {
@@ -983,10 +983,10 @@ int PlayerFunctions::luaPlayerGetSkillLevel(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetEffectiveSkillLevel(lua_State *L) {
+int PlayerFunctions::luaPlayerGetEffectiveSkillLevel(lua_State* L) {
 	// player:getEffectiveSkillLevel(skillType)
 	skills_t skillType = getNumber<skills_t>(L, 2);
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player && skillType <= SKILL_LAST) {
 		lua_pushnumber(L, player->getSkillLevel(skillType));
 	} else {
@@ -995,10 +995,10 @@ int PlayerFunctions::luaPlayerGetEffectiveSkillLevel(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetSkillPercent(lua_State *L) {
+int PlayerFunctions::luaPlayerGetSkillPercent(lua_State* L) {
 	// player:getSkillPercent(skillType)
 	skills_t skillType = getNumber<skills_t>(L, 2);
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player && skillType <= SKILL_LAST) {
 		lua_pushnumber(L, player->skills[skillType].percent);
 	} else {
@@ -1007,10 +1007,10 @@ int PlayerFunctions::luaPlayerGetSkillPercent(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetSkillTries(lua_State *L) {
+int PlayerFunctions::luaPlayerGetSkillTries(lua_State* L) {
 	// player:getSkillTries(skillType)
 	skills_t skillType = getNumber<skills_t>(L, 2);
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player && skillType <= SKILL_LAST) {
 		lua_pushnumber(L, player->skills[skillType].tries);
 	} else {
@@ -1019,9 +1019,9 @@ int PlayerFunctions::luaPlayerGetSkillTries(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddSkillTries(lua_State *L) {
+int PlayerFunctions::luaPlayerAddSkillTries(lua_State* L) {
 	// player:addSkillTries(skillType, tries)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		skills_t skillType = getNumber<skills_t>(L, 2);
 		uint64_t tries = getNumber<uint64_t>(L, 3);
@@ -1033,9 +1033,9 @@ int PlayerFunctions::luaPlayerAddSkillTries(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetMagicLevel(lua_State *L) {
+int PlayerFunctions::luaPlayerSetMagicLevel(lua_State* L) {
 	// player:setMagicLevel(level[, manaSpent])
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		uint16_t level = getNumber<uint16_t>(L, 2);
 		player->magLevel = level;
@@ -1057,9 +1057,9 @@ int PlayerFunctions::luaPlayerSetMagicLevel(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetSkillLevel(lua_State *L) {
+int PlayerFunctions::luaPlayerSetSkillLevel(lua_State* L) {
 	// player:setSkillLevel(skillType, level[, tries])
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		skills_t skillType = getNumber<skills_t>(L, 2);
 		uint16_t level = getNumber<uint16_t>(L, 3);
@@ -1082,9 +1082,9 @@ int PlayerFunctions::luaPlayerSetSkillLevel(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddOfflineTrainingTime(lua_State *L) {
+int PlayerFunctions::luaPlayerAddOfflineTrainingTime(lua_State* L) {
 	// player:addOfflineTrainingTime(time)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		int32_t time = getNumber<int32_t>(L, 2);
 		player->addOfflineTrainingTime(time);
@@ -1096,9 +1096,9 @@ int PlayerFunctions::luaPlayerAddOfflineTrainingTime(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetOfflineTrainingTime(lua_State *L) {
+int PlayerFunctions::luaPlayerGetOfflineTrainingTime(lua_State* L) {
 	// player:getOfflineTrainingTime()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getOfflineTrainingTime());
 	} else {
@@ -1107,9 +1107,9 @@ int PlayerFunctions::luaPlayerGetOfflineTrainingTime(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerRemoveOfflineTrainingTime(lua_State *L) {
+int PlayerFunctions::luaPlayerRemoveOfflineTrainingTime(lua_State* L) {
 	// player:removeOfflineTrainingTime(time)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		int32_t time = getNumber<int32_t>(L, 2);
 		player->removeOfflineTrainingTime(time);
@@ -1121,9 +1121,9 @@ int PlayerFunctions::luaPlayerRemoveOfflineTrainingTime(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddOfflineTrainingTries(lua_State *L) {
+int PlayerFunctions::luaPlayerAddOfflineTrainingTries(lua_State* L) {
 	// player:addOfflineTrainingTries(skillType, tries)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		skills_t skillType = getNumber<skills_t>(L, 2);
 		uint64_t tries = getNumber<uint64_t>(L, 3);
@@ -1134,9 +1134,9 @@ int PlayerFunctions::luaPlayerAddOfflineTrainingTries(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetOfflineTrainingSkill(lua_State *L) {
+int PlayerFunctions::luaPlayerGetOfflineTrainingSkill(lua_State* L) {
 	// player:getOfflineTrainingSkill()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getOfflineTrainingSkill());
 	} else {
@@ -1145,9 +1145,9 @@ int PlayerFunctions::luaPlayerGetOfflineTrainingSkill(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetOfflineTrainingSkill(lua_State *L) {
+int PlayerFunctions::luaPlayerSetOfflineTrainingSkill(lua_State* L) {
 	// player:setOfflineTrainingSkill(skillId)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		int8_t skillId = getNumber<int8_t>(L, 2);
 		player->setOfflineTrainingSkill(skillId);
@@ -1158,9 +1158,9 @@ int PlayerFunctions::luaPlayerSetOfflineTrainingSkill(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerOpenStash(lua_State *L) {
+int PlayerFunctions::luaPlayerOpenStash(lua_State* L) {
 	// player:openStash(isNpc)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	bool isNpc = getBoolean(L, 2, false);
 	if (player) {
 		player->sendOpenStash(isNpc);
@@ -1172,9 +1172,9 @@ int PlayerFunctions::luaPlayerOpenStash(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetItemCount(lua_State *L) {
+int PlayerFunctions::luaPlayerGetItemCount(lua_State* L) {
 	// player:getItemCount(itemId[, subType = -1])
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -1196,9 +1196,9 @@ int PlayerFunctions::luaPlayerGetItemCount(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetStashItemCount(lua_State *L) {
+int PlayerFunctions::luaPlayerGetStashItemCount(lua_State* L) {
 	// player:getStashItemCount(itemId)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -1225,9 +1225,9 @@ int PlayerFunctions::luaPlayerGetStashItemCount(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetItemById(lua_State *L) {
+int PlayerFunctions::luaPlayerGetItemById(lua_State* L) {
 	// player:getItemById(itemId, deepSearch[, subType = -1])
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -1246,7 +1246,7 @@ int PlayerFunctions::luaPlayerGetItemById(lua_State *L) {
 	bool deepSearch = getBoolean(L, 3);
 	int32_t subType = getNumber<int32_t>(L, 4, -1);
 
-	Item *item = g_game().findItemOfType(player, itemId, deepSearch, subType);
+	Item* item = g_game().findItemOfType(player, itemId, deepSearch, subType);
 	if (item) {
 		pushUserdata<Item>(L, item);
 		setItemMetatable(L, -1, item);
@@ -1256,9 +1256,9 @@ int PlayerFunctions::luaPlayerGetItemById(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetVocation(lua_State *L) {
+int PlayerFunctions::luaPlayerGetVocation(lua_State* L) {
 	// player:getVocation()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		pushUserdata<Vocation>(L, player->getVocation());
 		setMetatable(L, -1, "Vocation");
@@ -1268,15 +1268,15 @@ int PlayerFunctions::luaPlayerGetVocation(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetVocation(lua_State *L) {
+int PlayerFunctions::luaPlayerSetVocation(lua_State* L) {
 	// player:setVocation(id or name or userdata)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Vocation *vocation;
+	Vocation* vocation;
 	if (isNumber(L, 2)) {
 		vocation = g_vocations().getVocation(getNumber<uint16_t>(L, 2));
 	} else if (isString(L, 2)) {
@@ -1297,9 +1297,9 @@ int PlayerFunctions::luaPlayerSetVocation(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetSex(lua_State *L) {
+int PlayerFunctions::luaPlayerGetSex(lua_State* L) {
 	// player:getSex()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getSex());
 	} else {
@@ -1308,9 +1308,9 @@ int PlayerFunctions::luaPlayerGetSex(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetSex(lua_State *L) {
+int PlayerFunctions::luaPlayerSetSex(lua_State* L) {
 	// player:setSex(newSex)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		PlayerSex_t newSex = getNumber<PlayerSex_t>(L, 2);
 		player->setSex(newSex);
@@ -1321,9 +1321,9 @@ int PlayerFunctions::luaPlayerSetSex(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetTown(lua_State *L) {
+int PlayerFunctions::luaPlayerGetTown(lua_State* L) {
 	// player:getTown()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		pushUserdata<Town>(L, player->getTown());
 		setMetatable(L, -1, "Town");
@@ -1333,15 +1333,15 @@ int PlayerFunctions::luaPlayerGetTown(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetTown(lua_State *L) {
+int PlayerFunctions::luaPlayerSetTown(lua_State* L) {
 	// player:setTown(town)
-	Town *town = getUserdata<Town>(L, 2);
+	Town* town = getUserdata<Town>(L, 2);
 	if (!town) {
 		pushBoolean(L, false);
 		return 1;
 	}
 
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->setTown(town);
 		pushBoolean(L, true);
@@ -1351,15 +1351,15 @@ int PlayerFunctions::luaPlayerSetTown(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetGuild(lua_State *L) {
+int PlayerFunctions::luaPlayerGetGuild(lua_State* L) {
 	// player:getGuild()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Guild *guild = player->getGuild();
+	Guild* guild = player->getGuild();
 	if (!guild) {
 		lua_pushnil(L);
 		return 1;
@@ -1370,9 +1370,9 @@ int PlayerFunctions::luaPlayerGetGuild(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetGuild(lua_State *L) {
+int PlayerFunctions::luaPlayerSetGuild(lua_State* L) {
 	// player:setGuild(guild)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -1383,9 +1383,9 @@ int PlayerFunctions::luaPlayerSetGuild(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetGuildLevel(lua_State *L) {
+int PlayerFunctions::luaPlayerGetGuildLevel(lua_State* L) {
 	// player:getGuildLevel()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player && player->getGuild()) {
 		lua_pushnumber(L, player->getGuildRank()->level);
 	} else {
@@ -1394,10 +1394,10 @@ int PlayerFunctions::luaPlayerGetGuildLevel(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetGuildLevel(lua_State *L) {
+int PlayerFunctions::luaPlayerSetGuildLevel(lua_State* L) {
 	// player:setGuildLevel(level)
 	uint8_t level = getNumber<uint8_t>(L, 2);
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player || !player->getGuild()) {
 		lua_pushnil(L);
 		return 1;
@@ -1414,9 +1414,9 @@ int PlayerFunctions::luaPlayerSetGuildLevel(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetGuildNick(lua_State *L) {
+int PlayerFunctions::luaPlayerGetGuildNick(lua_State* L) {
 	// player:getGuildNick()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		pushString(L, player->getGuildNick());
 	} else {
@@ -1425,10 +1425,10 @@ int PlayerFunctions::luaPlayerGetGuildNick(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetGuildNick(lua_State *L) {
+int PlayerFunctions::luaPlayerSetGuildNick(lua_State* L) {
 	// player:setGuildNick(nick)
 	const std::string &nick = getString(L, 2);
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->setGuildNick(nick);
 		pushBoolean(L, true);
@@ -1438,9 +1438,9 @@ int PlayerFunctions::luaPlayerSetGuildNick(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetGroup(lua_State *L) {
+int PlayerFunctions::luaPlayerGetGroup(lua_State* L) {
 	// player:getGroup()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		pushUserdata<Group>(L, player->getGroup());
 		setMetatable(L, -1, "Group");
@@ -1450,15 +1450,15 @@ int PlayerFunctions::luaPlayerGetGroup(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetGroup(lua_State *L) {
+int PlayerFunctions::luaPlayerSetGroup(lua_State* L) {
 	// player:setGroup(group)
-	Group *group = getUserdata<Group>(L, 2);
+	Group* group = getUserdata<Group>(L, 2);
 	if (!group) {
 		pushBoolean(L, false);
 		return 1;
 	}
 
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->setGroup(group);
 		pushBoolean(L, true);
@@ -1468,12 +1468,12 @@ int PlayerFunctions::luaPlayerSetGroup(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetSpecialContainersAvailable(lua_State *L) {
+int PlayerFunctions::luaPlayerSetSpecialContainersAvailable(lua_State* L) {
 	// player:setSpecialContainersAvailable(stashMenu, marketMenu, depotSearchMenu)
 	bool supplyStashMenu = getBoolean(L, 2, false);
 	bool marketMenu = getBoolean(L, 3, false);
 	bool depotSearchMenu = getBoolean(L, 4, false);
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->setSpecialMenuAvailable(supplyStashMenu, marketMenu, depotSearchMenu);
 		pushBoolean(L, true);
@@ -1483,9 +1483,9 @@ int PlayerFunctions::luaPlayerSetSpecialContainersAvailable(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetStamina(lua_State *L) {
+int PlayerFunctions::luaPlayerGetStamina(lua_State* L) {
 	// player:getStamina()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getStaminaMinutes());
 	} else {
@@ -1494,10 +1494,10 @@ int PlayerFunctions::luaPlayerGetStamina(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetStamina(lua_State *L) {
+int PlayerFunctions::luaPlayerSetStamina(lua_State* L) {
 	// player:setStamina(stamina)
 	uint16_t stamina = getNumber<uint16_t>(L, 2);
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->staminaMinutes = std::min<uint16_t>(2520, stamina);
 		player->sendStats();
@@ -1507,9 +1507,9 @@ int PlayerFunctions::luaPlayerSetStamina(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetSoul(lua_State *L) {
+int PlayerFunctions::luaPlayerGetSoul(lua_State* L) {
 	// player:getSoul()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getSoul());
 	} else {
@@ -1518,10 +1518,10 @@ int PlayerFunctions::luaPlayerGetSoul(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddSoul(lua_State *L) {
+int PlayerFunctions::luaPlayerAddSoul(lua_State* L) {
 	// player:addSoul(soulChange)
 	int32_t soulChange = getNumber<int32_t>(L, 2);
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->changeSoul(soulChange);
 		pushBoolean(L, true);
@@ -1531,9 +1531,9 @@ int PlayerFunctions::luaPlayerAddSoul(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetMaxSoul(lua_State *L) {
+int PlayerFunctions::luaPlayerGetMaxSoul(lua_State* L) {
 	// player:getMaxSoul()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player && player->vocation) {
 		lua_pushnumber(L, player->vocation->getSoulMax());
 	} else {
@@ -1542,9 +1542,9 @@ int PlayerFunctions::luaPlayerGetMaxSoul(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetBankBalance(lua_State *L) {
+int PlayerFunctions::luaPlayerGetBankBalance(lua_State* L) {
 	// player:getBankBalance()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getBankBalance());
 	} else {
@@ -1553,9 +1553,9 @@ int PlayerFunctions::luaPlayerGetBankBalance(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetBankBalance(lua_State *L) {
+int PlayerFunctions::luaPlayerSetBankBalance(lua_State* L) {
 	// player:setBankBalance(bankBalance)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -1566,9 +1566,9 @@ int PlayerFunctions::luaPlayerSetBankBalance(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetStorageValue(lua_State *L) {
+int PlayerFunctions::luaPlayerGetStorageValue(lua_State* L) {
 	// player:getStorageValue(key)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -1579,11 +1579,11 @@ int PlayerFunctions::luaPlayerGetStorageValue(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetStorageValue(lua_State *L) {
+int PlayerFunctions::luaPlayerSetStorageValue(lua_State* L) {
 	// player:setStorageValue(key, value)
 	int32_t value = getNumber<int32_t>(L, 3);
 	uint32_t key = getNumber<uint32_t>(L, 2);
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (IS_IN_KEYRANGE(key, RESERVED_RANGE)) {
 		std::ostringstream ss;
 		ss << "Accessing reserved range: " << key;
@@ -1601,9 +1601,9 @@ int PlayerFunctions::luaPlayerSetStorageValue(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddItem(lua_State *L) {
+int PlayerFunctions::luaPlayerAddItem(lua_State* L) {
 	// player:addItem(itemId, count = 1, canDropOnMap = true, subType = 1, slot = CONST_SLOT_WHEREEVER, tier = 0)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		pushBoolean(L, false);
 		return 1;
@@ -1657,7 +1657,7 @@ int PlayerFunctions::luaPlayerAddItem(lua_State *L) {
 			subType -= stackCount;
 		}
 
-		Item *item = Item::CreateItem(itemId, stackCount);
+		Item* item = Item::CreateItem(itemId, stackCount);
 		if (!item) {
 			if (!hasTable) {
 				lua_pushnil(L);
@@ -1691,17 +1691,17 @@ int PlayerFunctions::luaPlayerAddItem(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddItemEx(lua_State *L) {
+int PlayerFunctions::luaPlayerAddItemEx(lua_State* L) {
 	// player:addItemEx(item[, canDropOnMap = false[, index = INDEX_WHEREEVER[, flags = 0]]])
 	// player:addItemEx(item[, canDropOnMap = true[, slot = CONST_SLOT_WHEREEVER]])
-	Item *item = getUserdata<Item>(L, 2);
+	Item* item = getUserdata<Item>(L, 2);
 	if (!item) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_ITEM_NOT_FOUND));
 		pushBoolean(L, false);
 		return 1;
 	}
 
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -1731,9 +1731,9 @@ int PlayerFunctions::luaPlayerAddItemEx(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerRemoveStashItem(lua_State *L) {
+int PlayerFunctions::luaPlayerRemoveStashItem(lua_State* L) {
 	// player:removeStashItem(itemId, count)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -1761,9 +1761,9 @@ int PlayerFunctions::luaPlayerRemoveStashItem(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerRemoveItem(lua_State *L) {
+int PlayerFunctions::luaPlayerRemoveItem(lua_State* L) {
 	// player:removeItem(itemId, count[, subType = -1[, ignoreEquipped = false]])
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -1787,15 +1787,15 @@ int PlayerFunctions::luaPlayerRemoveItem(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSendContainer(lua_State *L) {
+int PlayerFunctions::luaPlayerSendContainer(lua_State* L) {
 	// player:sendContainer(container)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Container *container = getUserdata<Container>(L, 2);
+	Container* container = getUserdata<Container>(L, 2);
 	if (!container) {
 		lua_pushnil(L);
 		return 1;
@@ -1806,9 +1806,9 @@ int PlayerFunctions::luaPlayerSendContainer(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetMoney(lua_State *L) {
+int PlayerFunctions::luaPlayerGetMoney(lua_State* L) {
 	// player:getMoney()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getMoney());
 	} else {
@@ -1817,10 +1817,10 @@ int PlayerFunctions::luaPlayerGetMoney(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddMoney(lua_State *L) {
+int PlayerFunctions::luaPlayerAddMoney(lua_State* L) {
 	// player:addMoney(money)
 	uint64_t money = getNumber<uint64_t>(L, 2);
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		g_game().addMoney(player, money);
 		pushBoolean(L, true);
@@ -1830,9 +1830,9 @@ int PlayerFunctions::luaPlayerAddMoney(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerRemoveMoney(lua_State *L) {
+int PlayerFunctions::luaPlayerRemoveMoney(lua_State* L) {
 	// player:removeMoney(money[, flags = 0[, useBank = true]])
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		uint64_t money = getNumber<uint64_t>(L, 2);
 		int32_t flags = getNumber<int32_t>(L, 3, 0);
@@ -1844,9 +1844,9 @@ int PlayerFunctions::luaPlayerRemoveMoney(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerShowTextDialog(lua_State *L) {
+int PlayerFunctions::luaPlayerShowTextDialog(lua_State* L) {
 	// player:showTextDialog(id or name or userdata[, text[, canWrite[, length]]])
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -1861,7 +1861,7 @@ int PlayerFunctions::luaPlayerShowTextDialog(lua_State *L) {
 		text = getString(L, 3);
 	}
 
-	Item *item;
+	Item* item;
 	if (isNumber(L, 2)) {
 		item = Item::CreateItem(getNumber<uint16_t>(L, 2));
 	} else if (isString(L, 2)) {
@@ -1899,11 +1899,11 @@ int PlayerFunctions::luaPlayerShowTextDialog(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSendTextMessage(lua_State *L) {
+int PlayerFunctions::luaPlayerSendTextMessage(lua_State* L) {
 	// player:sendTextMessage(type, text[, position, primaryValue = 0, primaryColor = TEXTCOLOR_NONE[, secondaryValue = 0, secondaryColor = TEXTCOLOR_NONE]])
 	// player:sendTextMessage(type, text, channelId)
 
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -1914,7 +1914,7 @@ int PlayerFunctions::luaPlayerSendTextMessage(lua_State *L) {
 	TextMessage message(getNumber<MessageClasses>(L, 2), getString(L, 3));
 	if (parameters == 4) {
 		uint16_t channelId = getNumber<uint16_t>(L, 4);
-		ChatChannel *channel = g_chat().getChannel(*player, channelId);
+		ChatChannel* channel = g_chat().getChannel(*player, channelId);
 		if (!channel || !channel->hasUser(*player)) {
 			pushBoolean(L, false);
 			return 1;
@@ -1939,9 +1939,9 @@ int PlayerFunctions::luaPlayerSendTextMessage(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSendChannelMessage(lua_State *L) {
+int PlayerFunctions::luaPlayerSendChannelMessage(lua_State* L) {
 	// player:sendChannelMessage(author, text, type, channelId)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -1956,15 +1956,15 @@ int PlayerFunctions::luaPlayerSendChannelMessage(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSendPrivateMessage(lua_State *L) {
+int PlayerFunctions::luaPlayerSendPrivateMessage(lua_State* L) {
 	// player:sendPrivateMessage(speaker, text[, type])
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	const Player *speaker = getUserdata<const Player>(L, 2);
+	const Player* speaker = getUserdata<const Player>(L, 2);
 	const std::string &text = getString(L, 3);
 	SpeakClasses type = getNumber<SpeakClasses>(L, 4, TALKTYPE_PRIVATE_FROM);
 	player->sendPrivateMessage(speaker, type, text);
@@ -1972,15 +1972,15 @@ int PlayerFunctions::luaPlayerSendPrivateMessage(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerChannelSay(lua_State *L) {
+int PlayerFunctions::luaPlayerChannelSay(lua_State* L) {
 	// player:channelSay(speaker, type, text, channelId)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Creature *speaker = getCreature(L, 2);
+	Creature* speaker = getCreature(L, 2);
 	SpeakClasses type = getNumber<SpeakClasses>(L, 3);
 	const std::string &text = getString(L, 4);
 	uint16_t channelId = getNumber<uint16_t>(L, 5);
@@ -1989,10 +1989,10 @@ int PlayerFunctions::luaPlayerChannelSay(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerOpenChannel(lua_State *L) {
+int PlayerFunctions::luaPlayerOpenChannel(lua_State* L) {
 	// player:openChannel(channelId)
 	uint16_t channelId = getNumber<uint16_t>(L, 2);
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		g_game().playerOpenChannel(player->getID(), channelId);
 		pushBoolean(L, true);
@@ -2002,22 +2002,22 @@ int PlayerFunctions::luaPlayerOpenChannel(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetSlotItem(lua_State *L) {
+int PlayerFunctions::luaPlayerGetSlotItem(lua_State* L) {
 	// player:getSlotItem(slot)
-	const Player *player = getUserdata<const Player>(L, 1);
+	const Player* player = getUserdata<const Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
 	uint32_t slot = getNumber<uint32_t>(L, 2);
-	Thing *thing = player->getThing(slot);
+	Thing* thing = player->getThing(slot);
 	if (!thing) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Item *item = thing->getItem();
+	Item* item = thing->getItem();
 	if (item) {
 		pushUserdata<Item>(L, item);
 		setItemMetatable(L, -1, item);
@@ -2027,15 +2027,15 @@ int PlayerFunctions::luaPlayerGetSlotItem(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetParty(lua_State *L) {
+int PlayerFunctions::luaPlayerGetParty(lua_State* L) {
 	// player:getParty()
-	const Player *player = getUserdata<const Player>(L, 1);
+	const Player* player = getUserdata<const Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Party *party = player->getParty();
+	Party* party = player->getParty();
 	if (party) {
 		pushUserdata<Party>(L, party);
 		setMetatable(L, -1, "Party");
@@ -2045,9 +2045,9 @@ int PlayerFunctions::luaPlayerGetParty(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddOutfit(lua_State *L) {
+int PlayerFunctions::luaPlayerAddOutfit(lua_State* L) {
 	// player:addOutfit(lookType)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->addOutfit(getNumber<uint16_t>(L, 2), 0);
 		pushBoolean(L, true);
@@ -2057,9 +2057,9 @@ int PlayerFunctions::luaPlayerAddOutfit(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddOutfitAddon(lua_State *L) {
+int PlayerFunctions::luaPlayerAddOutfitAddon(lua_State* L) {
 	// player:addOutfitAddon(lookType, addon)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		uint16_t lookType = getNumber<uint16_t>(L, 2);
 		uint8_t addon = getNumber<uint8_t>(L, 3);
@@ -2071,9 +2071,9 @@ int PlayerFunctions::luaPlayerAddOutfitAddon(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerRemoveOutfit(lua_State *L) {
+int PlayerFunctions::luaPlayerRemoveOutfit(lua_State* L) {
 	// player:removeOutfit(lookType)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		uint16_t lookType = getNumber<uint16_t>(L, 2);
 		pushBoolean(L, player->removeOutfit(lookType));
@@ -2083,9 +2083,9 @@ int PlayerFunctions::luaPlayerRemoveOutfit(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerRemoveOutfitAddon(lua_State *L) {
+int PlayerFunctions::luaPlayerRemoveOutfitAddon(lua_State* L) {
 	// player:removeOutfitAddon(lookType, addon)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		uint16_t lookType = getNumber<uint16_t>(L, 2);
 		uint8_t addon = getNumber<uint8_t>(L, 3);
@@ -2096,9 +2096,9 @@ int PlayerFunctions::luaPlayerRemoveOutfitAddon(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerHasOutfit(lua_State *L) {
+int PlayerFunctions::luaPlayerHasOutfit(lua_State* L) {
 	// player:hasOutfit(lookType[, addon = 0])
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		uint16_t lookType = getNumber<uint16_t>(L, 2);
 		uint8_t addon = getNumber<uint8_t>(L, 3, 0);
@@ -2109,9 +2109,9 @@ int PlayerFunctions::luaPlayerHasOutfit(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSendOutfitWindow(lua_State *L) {
+int PlayerFunctions::luaPlayerSendOutfitWindow(lua_State* L) {
 	// player:sendOutfitWindow()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->sendOutfitWindow();
 		pushBoolean(L, true);
@@ -2121,9 +2121,9 @@ int PlayerFunctions::luaPlayerSendOutfitWindow(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddMount(lua_State *L) {
+int PlayerFunctions::luaPlayerAddMount(lua_State* L) {
 	// player:addMount(mountId or mountName)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -2133,7 +2133,7 @@ int PlayerFunctions::luaPlayerAddMount(lua_State *L) {
 	if (isNumber(L, 2)) {
 		mountId = getNumber<uint8_t>(L, 2);
 	} else {
-		Mount *mount = g_game().mounts.getMountByName(getString(L, 2));
+		Mount* mount = g_game().mounts.getMountByName(getString(L, 2));
 		if (!mount) {
 			lua_pushnil(L);
 			return 1;
@@ -2144,9 +2144,9 @@ int PlayerFunctions::luaPlayerAddMount(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerRemoveMount(lua_State *L) {
+int PlayerFunctions::luaPlayerRemoveMount(lua_State* L) {
 	// player:removeMount(mountId or mountName)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -2156,7 +2156,7 @@ int PlayerFunctions::luaPlayerRemoveMount(lua_State *L) {
 	if (isNumber(L, 2)) {
 		mountId = getNumber<uint8_t>(L, 2);
 	} else {
-		Mount *mount = g_game().mounts.getMountByName(getString(L, 2));
+		Mount* mount = g_game().mounts.getMountByName(getString(L, 2));
 		if (!mount) {
 			lua_pushnil(L);
 			return 1;
@@ -2167,15 +2167,15 @@ int PlayerFunctions::luaPlayerRemoveMount(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerHasMount(lua_State *L) {
+int PlayerFunctions::luaPlayerHasMount(lua_State* L) {
 	// player:hasMount(mountId or mountName)
-	const Player *player = getUserdata<const Player>(L, 1);
+	const Player* player = getUserdata<const Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Mount *mount = nullptr;
+	Mount* mount = nullptr;
 	if (isNumber(L, 2)) {
 		mount = g_game().mounts.getMountByID(getNumber<uint8_t>(L, 2));
 	} else {
@@ -2190,9 +2190,9 @@ int PlayerFunctions::luaPlayerHasMount(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddFamiliar(lua_State *L) {
+int PlayerFunctions::luaPlayerAddFamiliar(lua_State* L) {
 	// player:addFamiliar(lookType)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->addFamiliar(getNumber<uint16_t>(L, 2));
 		pushBoolean(L, true);
@@ -2202,9 +2202,9 @@ int PlayerFunctions::luaPlayerAddFamiliar(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerRemoveFamiliar(lua_State *L) {
+int PlayerFunctions::luaPlayerRemoveFamiliar(lua_State* L) {
 	// player:removeFamiliar(lookType)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		uint16_t lookType = getNumber<uint16_t>(L, 2);
 		pushBoolean(L, player->removeFamiliar(lookType));
@@ -2214,9 +2214,9 @@ int PlayerFunctions::luaPlayerRemoveFamiliar(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerHasFamiliar(lua_State *L) {
+int PlayerFunctions::luaPlayerHasFamiliar(lua_State* L) {
 	// player:hasFamiliar(lookType)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		uint16_t lookType = getNumber<uint16_t>(L, 2);
 		pushBoolean(L, player->canFamiliar(lookType));
@@ -2226,9 +2226,9 @@ int PlayerFunctions::luaPlayerHasFamiliar(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetFamiliarLooktype(lua_State *L) {
+int PlayerFunctions::luaPlayerSetFamiliarLooktype(lua_State* L) {
 	// player:setFamiliarLooktype(lookType)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->setFamiliarLooktype(getNumber<uint16_t>(L, 2));
 		pushBoolean(L, true);
@@ -2238,9 +2238,9 @@ int PlayerFunctions::luaPlayerSetFamiliarLooktype(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetFamiliarLooktype(lua_State *L) {
+int PlayerFunctions::luaPlayerGetFamiliarLooktype(lua_State* L) {
 	// player:getFamiliarLooktype()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->defaultOutfit.lookFamiliarsType);
 	} else {
@@ -2249,9 +2249,9 @@ int PlayerFunctions::luaPlayerGetFamiliarLooktype(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetPremiumDays(lua_State *L) {
+int PlayerFunctions::luaPlayerGetPremiumDays(lua_State* L) {
 	// player:getPremiumDays()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->premiumDays);
 	} else {
@@ -2260,9 +2260,9 @@ int PlayerFunctions::luaPlayerGetPremiumDays(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddPremiumDays(lua_State *L) {
+int PlayerFunctions::luaPlayerAddPremiumDays(lua_State* L) {
 	// player:addPremiumDays(days)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -2280,9 +2280,9 @@ int PlayerFunctions::luaPlayerAddPremiumDays(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerRemovePremiumDays(lua_State *L) {
+int PlayerFunctions::luaPlayerRemovePremiumDays(lua_State* L) {
 	// player:removePremiumDays(days)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -2300,9 +2300,9 @@ int PlayerFunctions::luaPlayerRemovePremiumDays(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetTibiaCoins(lua_State *L) {
+int PlayerFunctions::luaPlayerGetTibiaCoins(lua_State* L) {
 	// player:getTibiaCoins()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		account::Account account(player->getAccount());
 		account.LoadAccountDB();
@@ -2315,9 +2315,9 @@ int PlayerFunctions::luaPlayerGetTibiaCoins(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddTibiaCoins(lua_State *L) {
+int PlayerFunctions::luaPlayerAddTibiaCoins(lua_State* L) {
 	// player:addTibiaCoins(coins)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -2337,9 +2337,9 @@ int PlayerFunctions::luaPlayerAddTibiaCoins(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerRemoveTibiaCoins(lua_State *L) {
+int PlayerFunctions::luaPlayerRemoveTibiaCoins(lua_State* L) {
 	// player:removeTibiaCoins(coins)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -2359,10 +2359,10 @@ int PlayerFunctions::luaPlayerRemoveTibiaCoins(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerHasBlessing(lua_State *L) {
+int PlayerFunctions::luaPlayerHasBlessing(lua_State* L) {
 	// player:hasBlessing(blessing)
 	uint8_t blessing = getNumber<uint8_t>(L, 2);
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		pushBoolean(L, player->hasBlessing(blessing));
 	} else {
@@ -2371,9 +2371,9 @@ int PlayerFunctions::luaPlayerHasBlessing(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddBlessing(lua_State *L) {
+int PlayerFunctions::luaPlayerAddBlessing(lua_State* L) {
 	// player:addBlessing(blessing)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -2388,9 +2388,9 @@ int PlayerFunctions::luaPlayerAddBlessing(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerRemoveBlessing(lua_State *L) {
+int PlayerFunctions::luaPlayerRemoveBlessing(lua_State* L) {
 	// player:removeBlessing(blessing)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -2409,9 +2409,9 @@ int PlayerFunctions::luaPlayerRemoveBlessing(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetBlessingCount(lua_State *L) {
+int PlayerFunctions::luaPlayerGetBlessingCount(lua_State* L) {
 	// player:getBlessingCount(index)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	uint8_t index = getNumber<uint8_t>(L, 2);
 	if (index == 0) {
 		index = 1;
@@ -2425,16 +2425,16 @@ int PlayerFunctions::luaPlayerGetBlessingCount(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerCanLearnSpell(lua_State *L) {
+int PlayerFunctions::luaPlayerCanLearnSpell(lua_State* L) {
 	// player:canLearnSpell(spellName)
-	const Player *player = getUserdata<const Player>(L, 1);
+	const Player* player = getUserdata<const Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
 	const std::string &spellName = getString(L, 2);
-	const InstantSpell *spell = g_spells().getInstantSpellByName(spellName);
+	const InstantSpell* spell = g_spells().getInstantSpellByName(spellName);
 	if (!spell) {
 		reportErrorFunc("Spell \"" + spellName + "\" not found");
 		pushBoolean(L, false);
@@ -2459,9 +2459,9 @@ int PlayerFunctions::luaPlayerCanLearnSpell(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerLearnSpell(lua_State *L) {
+int PlayerFunctions::luaPlayerLearnSpell(lua_State* L) {
 	// player:learnSpell(spellName)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		const std::string &spellName = getString(L, 2);
 		player->learnInstantSpell(spellName);
@@ -2472,9 +2472,9 @@ int PlayerFunctions::luaPlayerLearnSpell(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerForgetSpell(lua_State *L) {
+int PlayerFunctions::luaPlayerForgetSpell(lua_State* L) {
 	// player:forgetSpell(spellName)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		const std::string &spellName = getString(L, 2);
 		player->forgetInstantSpell(spellName);
@@ -2485,9 +2485,9 @@ int PlayerFunctions::luaPlayerForgetSpell(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerHasLearnedSpell(lua_State *L) {
+int PlayerFunctions::luaPlayerHasLearnedSpell(lua_State* L) {
 	// player:hasLearnedSpell(spellName)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		const std::string &spellName = getString(L, 2);
 		pushBoolean(L, player->hasLearnedInstantSpell(spellName));
@@ -2497,9 +2497,9 @@ int PlayerFunctions::luaPlayerHasLearnedSpell(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSendTutorial(lua_State *L) {
+int PlayerFunctions::luaPlayerSendTutorial(lua_State* L) {
 	// player:sendTutorial(tutorialId)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		uint8_t tutorialId = getNumber<uint8_t>(L, 2);
 		player->sendTutorial(tutorialId);
@@ -2510,16 +2510,16 @@ int PlayerFunctions::luaPlayerSendTutorial(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerOpenImbuementWindow(lua_State *L) {
+int PlayerFunctions::luaPlayerOpenImbuementWindow(lua_State* L) {
 	// player:openImbuementWindow(item)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
 		return 1;
 	}
 
-	Item *item = getUserdata<Item>(L, 2);
+	Item* item = getUserdata<Item>(L, 2);
 	if (!item) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_ITEM_NOT_FOUND));
 		pushBoolean(L, false);
@@ -2530,9 +2530,9 @@ int PlayerFunctions::luaPlayerOpenImbuementWindow(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerCloseImbuementWindow(lua_State *L) {
+int PlayerFunctions::luaPlayerCloseImbuementWindow(lua_State* L) {
 	// player:closeImbuementWindow()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -2543,9 +2543,9 @@ int PlayerFunctions::luaPlayerCloseImbuementWindow(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddMapMark(lua_State *L) {
+int PlayerFunctions::luaPlayerAddMapMark(lua_State* L) {
 	// player:addMapMark(position, type, description)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		const Position &position = getPosition(L, 2);
 		uint8_t type = getNumber<uint8_t>(L, 3);
@@ -2558,9 +2558,9 @@ int PlayerFunctions::luaPlayerAddMapMark(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSave(lua_State *L) {
+int PlayerFunctions::luaPlayerSave(lua_State* L) {
 	// player:save()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->loginPosition = player->getPosition();
 		pushBoolean(L, IOLoginData::savePlayer(player));
@@ -2573,9 +2573,9 @@ int PlayerFunctions::luaPlayerSave(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerPopupFYI(lua_State *L) {
+int PlayerFunctions::luaPlayerPopupFYI(lua_State* L) {
 	// player:popupFYI(message)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		const std::string &message = getString(L, 2);
 		player->sendFYIBox(message);
@@ -2586,9 +2586,9 @@ int PlayerFunctions::luaPlayerPopupFYI(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerIsPzLocked(lua_State *L) {
+int PlayerFunctions::luaPlayerIsPzLocked(lua_State* L) {
 	// player:isPzLocked()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		pushBoolean(L, player->isPzLocked());
 	} else {
@@ -2597,9 +2597,9 @@ int PlayerFunctions::luaPlayerIsPzLocked(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetClient(lua_State *L) {
+int PlayerFunctions::luaPlayerGetClient(lua_State* L) {
 	// player:getClient()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_createtable(L, 0, 2);
 		setField(L, "version", player->getProtocolVersion());
@@ -2610,15 +2610,15 @@ int PlayerFunctions::luaPlayerGetClient(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetHouse(lua_State *L) {
+int PlayerFunctions::luaPlayerGetHouse(lua_State* L) {
 	// player:getHouse()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	House *house = g_game().map.houses.getHouseByPlayerId(player->getGUID());
+	House* house = g_game().map.houses.getHouseByPlayerId(player->getGUID());
 	if (house) {
 		pushUserdata<House>(L, house);
 		setMetatable(L, -1, "House");
@@ -2628,15 +2628,15 @@ int PlayerFunctions::luaPlayerGetHouse(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSendHouseWindow(lua_State *L) {
+int PlayerFunctions::luaPlayerSendHouseWindow(lua_State* L) {
 	// player:sendHouseWindow(house, listId)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	House *house = getUserdata<House>(L, 2);
+	House* house = getUserdata<House>(L, 2);
 	if (!house) {
 		lua_pushnil(L);
 		return 1;
@@ -2648,15 +2648,15 @@ int PlayerFunctions::luaPlayerSendHouseWindow(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetEditHouse(lua_State *L) {
+int PlayerFunctions::luaPlayerSetEditHouse(lua_State* L) {
 	// player:setEditHouse(house, listId)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	House *house = getUserdata<House>(L, 2);
+	House* house = getUserdata<House>(L, 2);
 	if (!house) {
 		lua_pushnil(L);
 		return 1;
@@ -2668,9 +2668,9 @@ int PlayerFunctions::luaPlayerSetEditHouse(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetGhostMode(lua_State *L) {
+int PlayerFunctions::luaPlayerSetGhostMode(lua_State* L) {
 	// player:setGhostMode(enabled)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -2684,13 +2684,13 @@ int PlayerFunctions::luaPlayerSetGhostMode(lua_State *L) {
 
 	player->switchGhostMode();
 
-	Tile *tile = player->getTile();
+	Tile* tile = player->getTile();
 	const Position &position = player->getPosition();
 
 	SpectatorHashSet spectators;
 	g_game().map.getSpectators(spectators, position, true, true);
-	for (Creature *spectator : spectators) {
-		Player *tmpPlayer = spectator->getPlayer();
+	for (Creature* spectator : spectators) {
+		Player* tmpPlayer = spectator->getPlayer();
 		if (tmpPlayer != player && !tmpPlayer->isAccessPlayer()) {
 			if (enabled) {
 				tmpPlayer->sendRemoveTileThing(position, tile->getStackposOfCreature(tmpPlayer, player));
@@ -2721,15 +2721,15 @@ int PlayerFunctions::luaPlayerSetGhostMode(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetContainerId(lua_State *L) {
+int PlayerFunctions::luaPlayerGetContainerId(lua_State* L) {
 	// player:getContainerId(container)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Container *container = getUserdata<Container>(L, 2);
+	Container* container = getUserdata<Container>(L, 2);
 	if (container) {
 		lua_pushnumber(L, player->getContainerID(container));
 	} else {
@@ -2738,15 +2738,15 @@ int PlayerFunctions::luaPlayerGetContainerId(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetContainerById(lua_State *L) {
+int PlayerFunctions::luaPlayerGetContainerById(lua_State* L) {
 	// player:getContainerById(id)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Container *container = player->getContainerByID(getNumber<uint8_t>(L, 2));
+	Container* container = player->getContainerByID(getNumber<uint8_t>(L, 2));
 	if (container) {
 		pushUserdata<Container>(L, container);
 		setMetatable(L, -1, "Container");
@@ -2756,9 +2756,9 @@ int PlayerFunctions::luaPlayerGetContainerById(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetContainerIndex(lua_State *L) {
+int PlayerFunctions::luaPlayerGetContainerIndex(lua_State* L) {
 	// player:getContainerIndex(id)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getContainerIndex(getNumber<uint8_t>(L, 2)));
 	} else {
@@ -2767,15 +2767,15 @@ int PlayerFunctions::luaPlayerGetContainerIndex(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetInstantSpells(lua_State *L) {
+int PlayerFunctions::luaPlayerGetInstantSpells(lua_State* L) {
 	// player:getInstantSpells()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	std::vector<const InstantSpell *> spells;
+	std::vector<const InstantSpell*> spells;
 	for (auto &[key, spell] : g_spells().getInstantSpells()) {
 		if (spell.canCast(player)) {
 			spells.push_back(&spell);
@@ -2792,10 +2792,10 @@ int PlayerFunctions::luaPlayerGetInstantSpells(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerCanCast(lua_State *L) {
+int PlayerFunctions::luaPlayerCanCast(lua_State* L) {
 	// player:canCast(spell)
-	Player *player = getUserdata<Player>(L, 1);
-	InstantSpell *spell = getUserdata<InstantSpell>(L, 2);
+	Player* player = getUserdata<Player>(L, 1);
+	InstantSpell* spell = getUserdata<InstantSpell>(L, 2);
 	if (player && spell) {
 		pushBoolean(L, spell->canCast(player));
 	} else {
@@ -2804,9 +2804,9 @@ int PlayerFunctions::luaPlayerCanCast(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerHasChaseMode(lua_State *L) {
+int PlayerFunctions::luaPlayerHasChaseMode(lua_State* L) {
 	// player:hasChaseMode()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		pushBoolean(L, player->chaseMode);
 	} else {
@@ -2815,9 +2815,9 @@ int PlayerFunctions::luaPlayerHasChaseMode(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerHasSecureMode(lua_State *L) {
+int PlayerFunctions::luaPlayerHasSecureMode(lua_State* L) {
 	// player:hasSecureMode()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		pushBoolean(L, player->secureMode);
 	} else {
@@ -2826,9 +2826,9 @@ int PlayerFunctions::luaPlayerHasSecureMode(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetFightMode(lua_State *L) {
+int PlayerFunctions::luaPlayerGetFightMode(lua_State* L) {
 	// player:getFightMode()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->fightMode);
 	} else {
@@ -2837,9 +2837,9 @@ int PlayerFunctions::luaPlayerGetFightMode(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetBaseXpGain(lua_State *L) {
+int PlayerFunctions::luaPlayerGetBaseXpGain(lua_State* L) {
 	// player:getBaseXpGain()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getBaseXpGain());
 	} else {
@@ -2848,9 +2848,9 @@ int PlayerFunctions::luaPlayerGetBaseXpGain(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetBaseXpGain(lua_State *L) {
+int PlayerFunctions::luaPlayerSetBaseXpGain(lua_State* L) {
 	// player:setBaseXpGain(value)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->setBaseXpGain(getNumber<uint16_t>(L, 2));
 		player->sendStats();
@@ -2861,9 +2861,9 @@ int PlayerFunctions::luaPlayerSetBaseXpGain(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetVoucherXpBoost(lua_State *L) {
+int PlayerFunctions::luaPlayerGetVoucherXpBoost(lua_State* L) {
 	// player:getVoucherXpBoost()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getVoucherXpBoost());
 	} else {
@@ -2872,9 +2872,9 @@ int PlayerFunctions::luaPlayerGetVoucherXpBoost(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetVoucherXpBoost(lua_State *L) {
+int PlayerFunctions::luaPlayerSetVoucherXpBoost(lua_State* L) {
 	// player:setVoucherXpBoost(value)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->setVoucherXpBoost(getNumber<uint16_t>(L, 2));
 		player->sendStats();
@@ -2885,9 +2885,9 @@ int PlayerFunctions::luaPlayerSetVoucherXpBoost(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetGrindingXpBoost(lua_State *L) {
+int PlayerFunctions::luaPlayerGetGrindingXpBoost(lua_State* L) {
 	// player:getGrindingXpBoost()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getGrindingXpBoost());
 	} else {
@@ -2896,9 +2896,9 @@ int PlayerFunctions::luaPlayerGetGrindingXpBoost(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetGrindingXpBoost(lua_State *L) {
+int PlayerFunctions::luaPlayerSetGrindingXpBoost(lua_State* L) {
 	// player:setGrindingXpBoost(value)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->setGrindingXpBoost(getNumber<uint16_t>(L, 2));
 		player->sendStats();
@@ -2909,9 +2909,9 @@ int PlayerFunctions::luaPlayerSetGrindingXpBoost(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetStoreXpBoost(lua_State *L) {
+int PlayerFunctions::luaPlayerGetStoreXpBoost(lua_State* L) {
 	// player:getStoreXpBoost()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getStoreXpBoost());
 	} else {
@@ -2920,9 +2920,9 @@ int PlayerFunctions::luaPlayerGetStoreXpBoost(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetStoreXpBoost(lua_State *L) {
+int PlayerFunctions::luaPlayerSetStoreXpBoost(lua_State* L) {
 	// player:setStoreXpBoost(value)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		uint16_t experience = getNumber<uint16_t>(L, 2);
 		player->setStoreXpBoost(experience);
@@ -2933,9 +2933,9 @@ int PlayerFunctions::luaPlayerSetStoreXpBoost(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetStaminaXpBoost(lua_State *L) {
+int PlayerFunctions::luaPlayerGetStaminaXpBoost(lua_State* L) {
 	// player:getStaminaXpBoost()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getStaminaXpBoost());
 	} else {
@@ -2944,9 +2944,9 @@ int PlayerFunctions::luaPlayerGetStaminaXpBoost(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetStaminaXpBoost(lua_State *L) {
+int PlayerFunctions::luaPlayerSetStaminaXpBoost(lua_State* L) {
 	// player:setStaminaXpBoost(value)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		player->setStaminaXpBoost(getNumber<uint16_t>(L, 2));
 		player->sendStats();
@@ -2957,9 +2957,9 @@ int PlayerFunctions::luaPlayerSetStaminaXpBoost(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetExpBoostStamina(lua_State *L) {
+int PlayerFunctions::luaPlayerSetExpBoostStamina(lua_State* L) {
 	// player:setExpBoostStamina(percent)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		uint16_t stamina = getNumber<uint16_t>(L, 2);
 		player->setExpBoostStamina(stamina);
@@ -2971,9 +2971,9 @@ int PlayerFunctions::luaPlayerSetExpBoostStamina(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetExpBoostStamina(lua_State *L) {
+int PlayerFunctions::luaPlayerGetExpBoostStamina(lua_State* L) {
 	// player:getExpBoostStamina()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getExpBoostStamina());
 	} else {
@@ -2982,9 +2982,9 @@ int PlayerFunctions::luaPlayerGetExpBoostStamina(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetIdleTime(lua_State *L) {
+int PlayerFunctions::luaPlayerGetIdleTime(lua_State* L) {
 	// player:getIdleTime()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		lua_pushnumber(L, player->getIdleTime());
 	} else {
@@ -2993,9 +2993,9 @@ int PlayerFunctions::luaPlayerGetIdleTime(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetFreeBackpackSlots(lua_State *L) {
+int PlayerFunctions::luaPlayerGetFreeBackpackSlots(lua_State* L) {
 	// player:getFreeBackpackSlots()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 	}
@@ -3004,8 +3004,8 @@ int PlayerFunctions::luaPlayerGetFreeBackpackSlots(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerIsOffline(lua_State *L) {
-	Player *player = getUserdata<Player>(L, 1);
+int PlayerFunctions::luaPlayerIsOffline(lua_State* L) {
+	Player* player = getUserdata<Player>(L, 1);
 	if (player) {
 		pushBoolean(L, player->isOffline());
 	} else {
@@ -3015,9 +3015,9 @@ int PlayerFunctions::luaPlayerIsOffline(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerOpenMarket(lua_State *L) {
+int PlayerFunctions::luaPlayerOpenMarket(lua_State* L) {
 	// player:openMarket()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
@@ -3029,9 +3029,9 @@ int PlayerFunctions::luaPlayerOpenMarket(lua_State *L) {
 }
 
 // Forge
-int PlayerFunctions::luaPlayerOpenForge(lua_State *L) {
+int PlayerFunctions::luaPlayerOpenForge(lua_State* L) {
 	// player:openForge()
-	const Player *player = getUserdata<Player>(L, 1);
+	const Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -3043,9 +3043,9 @@ int PlayerFunctions::luaPlayerOpenForge(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerCloseForge(lua_State *L) {
+int PlayerFunctions::luaPlayerCloseForge(lua_State* L) {
 	// player:closeForge()
-	const Player *player = getUserdata<Player>(L, 1);
+	const Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -3057,9 +3057,9 @@ int PlayerFunctions::luaPlayerCloseForge(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddForgeDusts(lua_State *L) {
+int PlayerFunctions::luaPlayerAddForgeDusts(lua_State* L) {
 	// player:addForgeDusts(amount)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -3071,9 +3071,9 @@ int PlayerFunctions::luaPlayerAddForgeDusts(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerRemoveForgeDusts(lua_State *L) {
+int PlayerFunctions::luaPlayerRemoveForgeDusts(lua_State* L) {
 	// player:removeForgeDusts(amount)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -3085,9 +3085,9 @@ int PlayerFunctions::luaPlayerRemoveForgeDusts(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetForgeDusts(lua_State *L) {
+int PlayerFunctions::luaPlayerGetForgeDusts(lua_State* L) {
 	// player:getForgeDusts()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -3098,9 +3098,9 @@ int PlayerFunctions::luaPlayerGetForgeDusts(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetForgeDusts(lua_State *L) {
+int PlayerFunctions::luaPlayerSetForgeDusts(lua_State* L) {
 	// player:setForgeDusts()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -3112,9 +3112,9 @@ int PlayerFunctions::luaPlayerSetForgeDusts(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddForgeDustLevel(lua_State *L) {
+int PlayerFunctions::luaPlayerAddForgeDustLevel(lua_State* L) {
 	// player:addForgeDustLevel(amount)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -3126,9 +3126,9 @@ int PlayerFunctions::luaPlayerAddForgeDustLevel(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerRemoveForgeDustLevel(lua_State *L) {
+int PlayerFunctions::luaPlayerRemoveForgeDustLevel(lua_State* L) {
 	// player:removeForgeDustLevel(amount)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -3140,9 +3140,9 @@ int PlayerFunctions::luaPlayerRemoveForgeDustLevel(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetForgeDustLevel(lua_State *L) {
+int PlayerFunctions::luaPlayerGetForgeDustLevel(lua_State* L) {
 	// player:getForgeDustLevel()
-	const Player *player = getUserdata<Player>(L, 1);
+	const Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -3153,9 +3153,9 @@ int PlayerFunctions::luaPlayerGetForgeDustLevel(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetForgeSlivers(lua_State *L) {
+int PlayerFunctions::luaPlayerGetForgeSlivers(lua_State* L) {
 	// player:getForgeSlivers()
-	const Player *player = getUserdata<Player>(L, 1);
+	const Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -3167,9 +3167,9 @@ int PlayerFunctions::luaPlayerGetForgeSlivers(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetForgeCores(lua_State *L) {
+int PlayerFunctions::luaPlayerGetForgeCores(lua_State* L) {
 	// player:getForgeCores()
-	const Player *player = getUserdata<Player>(L, 1);
+	const Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -3181,9 +3181,9 @@ int PlayerFunctions::luaPlayerGetForgeCores(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetFaction(lua_State *L) {
+int PlayerFunctions::luaPlayerSetFaction(lua_State* L) {
 	// player:setFaction(factionId)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (player == nullptr) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -3195,9 +3195,9 @@ int PlayerFunctions::luaPlayerSetFaction(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetFaction(lua_State *L) {
+int PlayerFunctions::luaPlayerGetFaction(lua_State* L) {
 	// player:getFaction()
-	const Player *player = getUserdata<Player>(L, 1);
+	const Player* player = getUserdata<Player>(L, 1);
 	if (player == nullptr) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -3208,9 +3208,9 @@ int PlayerFunctions::luaPlayerGetFaction(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerIsUIExhausted(lua_State *L) {
+int PlayerFunctions::luaPlayerIsUIExhausted(lua_State* L) {
 	// player:isUIExhausted()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -3222,9 +3222,9 @@ int PlayerFunctions::luaPlayerIsUIExhausted(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerUpdateUIExhausted(lua_State *L) {
+int PlayerFunctions::luaPlayerUpdateUIExhausted(lua_State* L) {
 	// player:updateUIExhausted(exhaustionTime = 250)
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -3236,11 +3236,11 @@ int PlayerFunctions::luaPlayerUpdateUIExhausted(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerAddBosstiaryKill(lua_State *L) {
+int PlayerFunctions::luaPlayerAddBosstiaryKill(lua_State* L) {
 	// player:addBosstiaryKill(name[, amount = 1])
-	if (Player *player = getUserdata<Player>(L, 1);
+	if (Player* player = getUserdata<Player>(L, 1);
 		player) {
-		const MonsterType *mtype = g_monsters().getMonsterType(getString(L, 2));
+		const MonsterType* mtype = g_monsters().getMonsterType(getString(L, 2));
 		if (mtype) {
 			g_ioBosstiary().addBosstiaryKill(player, mtype, getNumber<uint32_t>(L, 3, 1));
 			pushBoolean(L, true);
@@ -3253,9 +3253,9 @@ int PlayerFunctions::luaPlayerAddBosstiaryKill(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetBossPoints(lua_State *L) {
+int PlayerFunctions::luaPlayerSetBossPoints(lua_State* L) {
 	// player:setBossPoints()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -3267,9 +3267,9 @@ int PlayerFunctions::luaPlayerSetBossPoints(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerSetRemoveBossTime(lua_State *L) {
+int PlayerFunctions::luaPlayerSetRemoveBossTime(lua_State* L) {
 	// player:setRemoveBossTime()
-	Player *player = getUserdata<Player>(L, 1);
+	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -3281,9 +3281,9 @@ int PlayerFunctions::luaPlayerSetRemoveBossTime(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetSlotBossId(lua_State *L) {
+int PlayerFunctions::luaPlayerGetSlotBossId(lua_State* L) {
 	// player:getSlotBossId(slotId)
-	const Player *player = getUserdata<Player>(L, 1);
+	const Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);
@@ -3296,9 +3296,9 @@ int PlayerFunctions::luaPlayerGetSlotBossId(lua_State *L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetBossBonus(lua_State *L) {
+int PlayerFunctions::luaPlayerGetBossBonus(lua_State* L) {
 	// player:getBossBonus(slotId)
-	const Player *player = getUserdata<Player>(L, 1);
+	const Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
 		pushBoolean(L, false);

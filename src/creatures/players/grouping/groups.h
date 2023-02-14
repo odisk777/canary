@@ -14,7 +14,7 @@
 
 struct Group {
 	std::string name;
-	std::array<bool, magic_enum::enum_integer(PlayerFlags_t::FlagLast)> flags{false};
+	std::array<bool, magic_enum::enum_integer(PlayerFlags_t::FlagLast)> flags{ false };
 	uint32_t maxDepotItems;
 	uint32_t maxVipEntries;
 	uint16_t id;
@@ -27,7 +27,7 @@ public:
 	static PlayerFlags_t getFlagFromNumber(uint8_t value);
 	bool reload() const;
 	bool load();
-	Group *getGroup(uint16_t id);
+	Group* getGroup(uint16_t id);
 	std::vector<Group> &getGroups() {
 		return groups_vector;
 	}

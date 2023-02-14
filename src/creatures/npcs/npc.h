@@ -20,11 +20,11 @@ class SpawnNpc;
 
 class Npc final : public Creature {
 public:
-	static Npc *createNpc(const std::string &name);
+	static Npc* createNpc(const std::string &name);
 	static int32_t despawnRange;
 	static int32_t despawnRadius;
 
-	explicit Npc(NpcType *npcType);
+	explicit Npc(NpcType* npcType);
 	Npc() = default;
 	~Npc();
 
@@ -39,10 +39,10 @@ public:
 		return instance;
 	}
 
-	Npc *getNpc() override {
+	Npc* getNpc() override {
 		return this;
 	}
-	const Npc *getNpc() const override {
+	const Npc* getNpc() const override {
 		return this;
 	}
 
@@ -118,12 +118,12 @@ public:
 	RespawnType getRespawnType() const {
 		return npcType->info.respawnType;
 	}
-	void setSpawnNpc(SpawnNpc *newSpawn) {
+	void setSpawnNpc(SpawnNpc* newSpawn) {
 		this->spawnNpc = newSpawn;
 	}
 
 	void setPlayerInteraction(uint32_t playerId, uint16_t topicId = 0);
-	void updatePlayerInteractions(Player *player);
+	void updatePlayerInteractions(Player* player);
 	void removePlayerInteraction(uint32_t playerId);
 	void resetPlayerInteractions();
 
@@ -142,15 +142,15 @@ public:
 		return it->second == topicId;
 	}
 
-	void onCreatureAppear(Creature *creature, bool isLogin) override;
-	void onRemoveCreature(Creature *creature, bool isLogout) override;
-	void onCreatureMove(Creature *creature, const Tile *newTile, const Position &newPos, const Tile *oldTile, const Position &oldPos, bool teleport) override;
-	void onCreatureSay(Creature *creature, SpeakClasses type, const std::string &text) override;
+	void onCreatureAppear(Creature* creature, bool isLogin) override;
+	void onRemoveCreature(Creature* creature, bool isLogout) override;
+	void onCreatureMove(Creature* creature, const Tile* newTile, const Position &newPos, const Tile* oldTile, const Position &oldPos, bool teleport) override;
+	void onCreatureSay(Creature* creature, SpeakClasses type, const std::string &text) override;
 	void onThink(uint32_t interval) override;
-	void onPlayerBuyItem(Player *player, uint16_t itemid, uint8_t count, uint16_t amount, bool ignore, bool inBackpacks);
-	void onPlayerSellItem(Player *player, uint16_t itemid, uint8_t count, uint16_t amount, bool ignore);
-	void onPlayerCheckItem(Player *player, uint16_t itemid, uint8_t count);
-	void onPlayerCloseChannel(Creature *creature);
+	void onPlayerBuyItem(Player* player, uint16_t itemid, uint8_t count, uint16_t amount, bool ignore, bool inBackpacks);
+	void onPlayerSellItem(Player* player, uint16_t itemid, uint8_t count, uint16_t amount, bool ignore);
+	void onPlayerCheckItem(Player* player, uint16_t itemid, uint8_t count);
+	void onPlayerCloseChannel(Creature* creature);
 	void onPlacedCreature() override;
 
 	bool canWalkTo(const Position &fromPos, Direction dir) const;
@@ -161,8 +161,8 @@ public:
 		internalLight = npcType->info.light;
 	}
 
-	void addShopPlayer(Player *player);
-	void removeShopPlayer(Player *player);
+	void addShopPlayer(Player* player);
+	void removeShopPlayer(Player* player);
 	void closeAllShopWindows();
 
 	static uint32_t npcAutoID;
@@ -177,10 +177,10 @@ private:
 
 	std::map<uint32_t, uint16_t> playerInteractions;
 
-	std::set<Player *> shopPlayerSet;
+	std::set<Player*> shopPlayerSet;
 
-	NpcType *npcType;
-	SpawnNpc *spawnNpc = nullptr;
+	NpcType* npcType;
+	SpawnNpc* spawnNpc = nullptr;
 
 	uint8_t speechBubble;
 

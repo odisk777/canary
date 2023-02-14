@@ -77,7 +77,7 @@ const bool &CustomAttribute::getBool() const {
 	return emptyValue;
 }
 
-void CustomAttribute::pushToLua(lua_State *L) const {
+void CustomAttribute::pushToLua(lua_State* L) const {
 	if (hasValue<std::string>()) {
 		LuaScriptInterface::pushString(L, getString());
 	} else if (hasValue<int64_t>()) {

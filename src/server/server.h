@@ -20,7 +20,7 @@ public:
 	virtual bool is_single_socket() const = 0;
 	virtual bool is_checksummed() const = 0;
 	virtual uint8_t get_protocol_identifier() const = 0;
-	virtual const char *get_protocol_name() const = 0;
+	virtual const char* get_protocol_name() const = 0;
 
 	virtual Protocol_ptr make_protocol(const Connection_ptr &c) const = 0;
 };
@@ -37,7 +37,7 @@ public:
 	uint8_t get_protocol_identifier() const override {
 		return ProtocolType::PROTOCOL_IDENTIFIER;
 	}
-	const char *get_protocol_name() const override {
+	const char* get_protocol_name() const override {
 		return ProtocolType::protocol_name();
 	}
 
@@ -104,8 +104,8 @@ private:
 	phmap::flat_hash_map<uint16_t, ServicePort_ptr> acceptors;
 
 	asio::io_service io_service;
-	Signals signals{io_service};
-	asio::high_resolution_timer death_timer{io_service};
+	Signals signals{ io_service };
+	asio::high_resolution_timer death_timer{ io_service };
 	bool running = false;
 };
 

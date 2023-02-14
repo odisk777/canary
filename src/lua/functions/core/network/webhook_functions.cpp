@@ -12,7 +12,7 @@
 #include "lua/functions/core/network/webhook_functions.hpp"
 #include "server/network/webhook/webhook.h"
 
-int WebhookFunctions::webhookSend(lua_State *L) {
+int WebhookFunctions::webhookSend(lua_State* L) {
 	// Webhook.send(title, message, color, url)
 	std::string title = getString(L, 1);
 	std::string message = getString(L, 2);

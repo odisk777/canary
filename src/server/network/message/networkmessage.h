@@ -88,7 +88,7 @@ public:
 		info.length += sizeof(T);
 	}
 
-	void addBytes(const char *bytes, size_t size);
+	void addBytes(const char* bytes, size_t size);
 	void addPaddingBytes(size_t n);
 
 	void addString(const std::string &value);
@@ -124,15 +124,15 @@ public:
 		return info.overrun;
 	}
 
-	uint8_t *getBuffer() {
+	uint8_t* getBuffer() {
 		return buffer;
 	}
 
-	const uint8_t *getBuffer() const {
+	const uint8_t* getBuffer() const {
 		return buffer;
 	}
 
-	uint8_t *getBodyBuffer() {
+	uint8_t* getBodyBuffer() {
 		info.position = 2;
 		return buffer + HEADER_LENGTH;
 	}

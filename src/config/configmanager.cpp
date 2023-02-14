@@ -21,7 +21,7 @@
 
 namespace {
 
-std::string getGlobalString(lua_State *L, const char *identifier, const char *defaultValue) {
+std::string getGlobalString(lua_State* L, const char* identifier, const char* defaultValue) {
 	lua_getglobal(L, identifier);
 	if (!lua_isstring(L, -1)) {
 		return defaultValue;
@@ -33,7 +33,7 @@ std::string getGlobalString(lua_State *L, const char *identifier, const char *de
 	return ret;
 }
 
-int32_t getGlobalNumber(lua_State *L, const char *identifier, const int32_t defaultValue = 0) {
+int32_t getGlobalNumber(lua_State* L, const char* identifier, const int32_t defaultValue = 0) {
 	lua_getglobal(L, identifier);
 	if (!lua_isnumber(L, -1)) {
 		return defaultValue;
@@ -44,7 +44,7 @@ int32_t getGlobalNumber(lua_State *L, const char *identifier, const int32_t defa
 	return val;
 }
 
-bool getGlobalBoolean(lua_State *L, const char *identifier, const bool defaultValue) {
+bool getGlobalBoolean(lua_State* L, const char* identifier, const bool defaultValue) {
 	lua_getglobal(L, identifier);
 	if (!lua_isboolean(L, -1)) {
 		if (!lua_isstring(L, -1)) {
@@ -62,7 +62,7 @@ bool getGlobalBoolean(lua_State *L, const char *identifier, const bool defaultVa
 	return val != 0;
 }
 
-float getGlobalFloat(lua_State *L, const char *identifier, const float defaultValue = 0.0) {
+float getGlobalFloat(lua_State* L, const char* identifier, const float defaultValue = 0.0) {
 	lua_getglobal(L, identifier);
 	if (!lua_isnumber(L, -1)) {
 		return defaultValue;
@@ -76,7 +76,7 @@ float getGlobalFloat(lua_State *L, const char *identifier, const float defaultVa
 }
 
 bool ConfigManager::load() {
-	lua_State *L = luaL_newstate();
+	lua_State* L = luaL_newstate();
 	if (!L) {
 		throw std::runtime_error("Failed to allocate memory");
 	}

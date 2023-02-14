@@ -47,23 +47,24 @@ public:
 	const std::map<uint32_t, std::string> &getBosstiaryMap() const;
 
 	const std::map<BosstiaryRarity_t, std::vector<LevelInfo>> levelInfos = {
-		{BosstiaryRarity_t::RARITY_BANE, {{25, 5}, {100, 15}, {300, 30}}},
-		{BosstiaryRarity_t::RARITY_ARCHFOE, {{5, 10}, {20, 30}, {60, 60}}},
-		{BosstiaryRarity_t::RARITY_NEMESIS, {{1, 10}, {3, 30}, {5, 60}}}};
+		{ BosstiaryRarity_t::RARITY_BANE, { { 25, 5 }, { 100, 15 }, { 300, 30 } } },
+		{ BosstiaryRarity_t::RARITY_ARCHFOE, { { 5, 10 }, { 20, 30 }, { 60, 60 } } },
+		{ BosstiaryRarity_t::RARITY_NEMESIS, { { 1, 10 }, { 3, 30 }, { 5, 60 } } }
+	};
 
 	void setBossBoostedName(const std::string_view &name);
 	std::string getBoostedBossName() const;
 	void setBossBoostedId(uint32_t raceId);
 	uint32_t getBoostedBossId() const;
-	MonsterType *getMonsterTypeByBossRaceId(uint32_t raceId) const;
+	MonsterType* getMonsterTypeByBossRaceId(uint32_t raceId) const;
 
-	void addBosstiaryKill(Player *player, const MonsterType *mtype, uint32_t amount = 1) const;
+	void addBosstiaryKill(Player* player, const MonsterType* mtype, uint32_t amount = 1) const;
 	uint16_t calculateLootBonus(uint32_t bossPoints) const;
 	uint32_t calculateBossPoints(uint16_t lootBonus) const;
-	std::vector<uint32_t> getBosstiaryFinished(const Player *player, uint8_t level = 1) const;
-	uint8_t getBossCurrentLevel(const Player *player, uint32_t bossId) const;
+	std::vector<uint32_t> getBosstiaryFinished(const Player* player, uint8_t level = 1) const;
+	uint8_t getBossCurrentLevel(const Player* player, uint32_t bossId) const;
 	uint32_t calculteRemoveBoss(uint8_t removeTimes) const;
-	std::vector<uint32_t> getBosstiaryCooldown(const Player *player) const;
+	std::vector<uint32_t> getBosstiaryCooldown(const Player* player) const;
 
 private:
 	IOBosstiary() = default;

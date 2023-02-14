@@ -39,11 +39,11 @@ public:
 		return instance;
 	}
 
-	const Outfit *getOpositeSexOutfitByLookType(PlayerSex_t sex, uint16_t lookType);
+	const Outfit* getOpositeSexOutfitByLookType(PlayerSex_t sex, uint16_t lookType);
 
 	bool loadFromXml();
 
-	const Outfit *getOutfitByLookType(PlayerSex_t sex, uint16_t lookType) const;
+	const Outfit* getOutfitByLookType(PlayerSex_t sex, uint16_t lookType) const;
 	const std::vector<Outfit> &getOutfits(PlayerSex_t sex) const {
 		return outfits[sex];
 	}

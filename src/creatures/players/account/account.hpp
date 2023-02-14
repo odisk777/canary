@@ -96,7 +96,7 @@ public:
 	 * @param database Database Interface pointer to be used
 	 * @return error_t ERROR_NO(0) Success, otherwise Fail.
 	 */
-	error_t SetDatabaseInterface(Database *database);
+	error_t SetDatabaseInterface(Database* database);
 
 	/**
 	 * @brief Set the Database Tasks Interface used to schedule db update
@@ -104,7 +104,7 @@ public:
 	 * @param database Database Interface pointer to be used
 	 * @return error_t ERROR_NO(0) Success, otherwise Fail.
 	 */
-	error_t SetDatabaseTasksInterface(DatabaseTasks *db_tasks);
+	error_t SetDatabaseTasksInterface(DatabaseTasks* db_tasks);
 
 	/***************************************************************************
 	 * Coins Methods
@@ -117,7 +117,7 @@ public:
 	 * @param coins Pointer to return the number of coins
 	 * @return error_t ERROR_NO(0) Success, otherwise Fail.
 	 */
-	error_t GetCoins(uint32_t *coins);
+	error_t GetCoins(uint32_t* coins);
 
 	/**
 	 * @brief Add coins to the account and update database.
@@ -184,34 +184,34 @@ public:
 	 * Setters and Getters
 	 **************************************************************************/
 
-	error_t GetID(uint32_t *id);
+	error_t GetID(uint32_t* id);
 
 	error_t SetEmail(std::string name);
-	error_t GetEmail(std::string *name);
+	error_t GetEmail(std::string* name);
 
 	error_t SetPassword(std::string password);
-	error_t GetPassword(std::string *password);
+	error_t GetPassword(std::string* password);
 
 	error_t SetPremiumRemaningDays(uint32_t days);
-	error_t GetPremiumRemaningDays(uint32_t *days);
+	error_t GetPremiumRemaningDays(uint32_t* days);
 
 	error_t SetPremiumLastDay(time_t last_day);
-	error_t GetPremiumLastDay(time_t *last_day);
+	error_t GetPremiumLastDay(time_t* last_day);
 
 	error_t SetAccountType(AccountType account_type);
-	error_t GetAccountType(AccountType *account_type);
+	error_t GetAccountType(AccountType* account_type);
 
-	error_t GetAccountPlayer(Player *player, std::string &characterName);
-	error_t GetAccountPlayers(std::vector<Player> *players);
+	error_t GetAccountPlayer(Player* player, std::string &characterName);
+	error_t GetAccountPlayers(std::vector<Player>* players);
 
 private:
 	error_t SetID(uint32_t id);
 	error_t LoadAccountDB(std::ostringstream &query);
-	error_t LoadAccountPlayersDB(std::vector<Player> *players);
-	error_t LoadAccountPlayerDB(Player *player, std::string &characterName);
+	error_t LoadAccountPlayersDB(std::vector<Player>* players);
+	error_t LoadAccountPlayerDB(Player* player, std::string &characterName);
 
-	Database *db_;
-	DatabaseTasks *db_tasks_;
+	Database* db_;
+	DatabaseTasks* db_tasks_;
 
 	uint32_t id_;
 	std::string email_;

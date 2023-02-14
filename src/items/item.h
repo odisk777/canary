@@ -82,7 +82,7 @@ public:
 		}
 		return attributePtr->getCustomAttributeMap();
 	}
-	const CustomAttribute *getCustomAttribute(const std::string &attributeName) const {
+	const CustomAttribute* getCustomAttribute(const std::string &attributeName) const {
 		if (!attributePtr) {
 			return nullptr;
 		}
@@ -156,7 +156,7 @@ protected:
 	}
 	const std::unique_ptr<ItemAttribute> &initAttributePtr() const {
 		if (!attributePtr) {
-			std::bit_cast<ItemProperties *>(this)->attributePtr.reset(new ItemAttribute());
+			std::bit_cast<ItemProperties*>(this)->attributePtr.reset(new ItemAttribute());
 		}
 
 		return attributePtr;
@@ -211,63 +211,63 @@ private:
 class Item : virtual public Thing, public ItemProperties {
 public:
 	// Factory member to create item of right type based on type
-	static Item *CreateItem(const uint16_t type, uint16_t count = 0);
-	static Container *CreateItemAsContainer(const uint16_t type, uint16_t size);
-	static Item *CreateItem(PropStream &propStream);
+	static Item* CreateItem(const uint16_t type, uint16_t count = 0);
+	static Container* CreateItemAsContainer(const uint16_t type, uint16_t size);
+	static Item* CreateItem(PropStream &propStream);
 	static Items items;
 
 	// Constructor for items
 	Item(const uint16_t type, uint16_t count = 0);
 	Item(const Item &i);
-	virtual Item *clone() const;
+	virtual Item* clone() const;
 
 	virtual ~Item() = default;
 
 	// non-assignable
 	Item &operator=(const Item &) = delete;
 
-	bool equals(const Item *compareItem) const;
+	bool equals(const Item* compareItem) const;
 
-	Item *getItem() override final {
+	Item* getItem() override final {
 		return this;
 	}
-	const Item *getItem() const override final {
+	const Item* getItem() const override final {
 		return this;
 	}
-	virtual Teleport *getTeleport() {
+	virtual Teleport* getTeleport() {
 		return nullptr;
 	}
-	virtual const Teleport *getTeleport() const {
+	virtual const Teleport* getTeleport() const {
 		return nullptr;
 	}
-	virtual TrashHolder *getTrashHolder() {
+	virtual TrashHolder* getTrashHolder() {
 		return nullptr;
 	}
-	virtual const TrashHolder *getTrashHolder() const {
+	virtual const TrashHolder* getTrashHolder() const {
 		return nullptr;
 	}
-	virtual Mailbox *getMailbox() {
+	virtual Mailbox* getMailbox() {
 		return nullptr;
 	}
-	virtual const Mailbox *getMailbox() const {
+	virtual const Mailbox* getMailbox() const {
 		return nullptr;
 	}
-	virtual Door *getDoor() {
+	virtual Door* getDoor() {
 		return nullptr;
 	}
-	virtual const Door *getDoor() const {
+	virtual const Door* getDoor() const {
 		return nullptr;
 	}
-	virtual MagicField *getMagicField() {
+	virtual MagicField* getMagicField() {
 		return nullptr;
 	}
-	virtual const MagicField *getMagicField() const {
+	virtual const MagicField* getMagicField() const {
 		return nullptr;
 	}
-	virtual BedItem *getBed() {
+	virtual BedItem* getBed() {
 		return nullptr;
 	}
-	virtual const BedItem *getBed() const {
+	virtual const BedItem* getBed() const {
 		return nullptr;
 	}
 
@@ -279,13 +279,13 @@ public:
 		return isLootTrackeable;
 	}
 
-	static std::string parseImbuementDescription(const Item *item);
-	static std::string parseShowAttributesDescription(const Item *item, const uint16_t itemId);
-	static std::string parseClassificationDescription(const Item *item);
+	static std::string parseImbuementDescription(const Item* item);
+	static std::string parseShowAttributesDescription(const Item* item, const uint16_t itemId);
+	static std::string parseClassificationDescription(const Item* item);
 
-	static std::vector<std::pair<std::string, std::string>> getDescriptions(const ItemType &it, const Item *item = nullptr);
-	static std::string getDescription(const ItemType &it, int32_t lookDistance, const Item *item = nullptr, int32_t subType = -1, bool addArticle = true);
-	static std::string getNameDescription(const ItemType &it, const Item *item = nullptr, int32_t subType = -1, bool addArticle = true);
+	static std::vector<std::pair<std::string, std::string>> getDescriptions(const ItemType &it, const Item* item = nullptr);
+	static std::string getDescription(const ItemType &it, int32_t lookDistance, const Item* item = nullptr, int32_t subType = -1, bool addArticle = true);
+	static std::string getNameDescription(const ItemType &it, const Item* item = nullptr, int32_t subType = -1, bool addArticle = true);
 	static std::string getWeightDescription(const ItemType &it, uint32_t weight, uint32_t count = 1);
 
 	std::string getDescription(int32_t lookDistance) const override final;
@@ -312,7 +312,7 @@ public:
 	void setID(uint16_t newid);
 
 	// Returns the player that is holding this item in his inventory
-	Player *getHoldingPlayer() const;
+	Player* getHoldingPlayer() const;
 
 	WeaponType_t getWeaponType() const {
 		return items[id].weaponType;
@@ -459,7 +459,7 @@ public:
 		count = n;
 	}
 
-	static uint32_t countByType(const Item *item, int32_t subType) {
+	static uint32_t countByType(const Item* item, int32_t subType) {
 		if (subType == -1 || subType == item->getSubType()) {
 			return item->getItemCount();
 		}
@@ -495,7 +495,7 @@ public:
 		return true;
 	}
 	virtual void onRemoved();
-	virtual void onTradeEvent(TradeEvents_t, Player *) { }
+	virtual void onTradeEvent(TradeEvents_t, Player*) { }
 
 	virtual void startDecaying();
 	virtual void stopDecaying();
@@ -522,16 +522,16 @@ public:
 		}
 	}
 
-	Cylinder *getParent() const override {
+	Cylinder* getParent() const override {
 		return parent;
 	}
-	void setParent(Cylinder *cylinder) override {
+	void setParent(Cylinder* cylinder) override {
 		parent = cylinder;
 	}
-	Cylinder *getTopParent();
-	const Cylinder *getTopParent() const;
-	Tile *getTile() override;
-	const Tile *getTile() const override;
+	Cylinder* getTopParent();
+	const Cylinder* getTopParent() const;
+	Tile* getTile() override;
+	const Tile* getTile() const override;
 	bool isRemoved() const override {
 		return !parent || parent->isRemoved();
 	}
@@ -546,7 +546,7 @@ public:
 	 * @return true = duration is > 0 (info >> 8)
 	 * @return false
 	 */
-	bool getImbuementInfo(uint8_t slot, ImbuementInfo *imbuementInfo) const;
+	bool getImbuementInfo(uint8_t slot, ImbuementInfo* imbuementInfo) const;
 	void addImbuement(uint8_t slot, uint16_t imbuementId, uint32_t duration);
 	/**
 	 * @brief Decay imbuement time duration, only use this for decay the imbuement time
@@ -630,7 +630,7 @@ public:
 	}
 
 protected:
-	Cylinder *parent = nullptr;
+	Cylinder* parent = nullptr;
 
 	uint32_t referenceCounter = 0;
 
@@ -648,8 +648,8 @@ private:
 	friend class Decay;
 };
 
-using ItemList = std::list<Item *>;
-using ItemDeque = std::deque<Item *>;
-using StashContainerList = std::vector<std::pair<Item *, uint32_t>>;
+using ItemList = std::list<Item*>;
+using ItemDeque = std::deque<Item*>;
+using StashContainerList = std::vector<std::pair<Item*, uint32_t>>;
 
 #endif // SRC_ITEMS_ITEM_H_

@@ -11,7 +11,7 @@
 
 #include "io/functions/iologindata_load_player.hpp"
 
-void IOLoginDataLoad::loadPlayerForgeHistory(Player *player, DBResult_ptr result) {
+void IOLoginDataLoad::loadPlayerForgeHistory(Player* player, DBResult_ptr result) {
 	std::ostringstream query;
 	query << "SELECT * FROM `forge_history` WHERE `player_id` = " << player->getGUID();
 	if (result = Database::getInstance().storeQuery(query.str())) {
@@ -27,7 +27,7 @@ void IOLoginDataLoad::loadPlayerForgeHistory(Player *player, DBResult_ptr result
 	}
 }
 
-void IOLoginDataLoad::loadRewardItems(Player *player) {
+void IOLoginDataLoad::loadRewardItems(Player* player) {
 	ItemMap itemMap;
 	std::ostringstream query;
 	query.str(std::string());
@@ -40,13 +40,13 @@ void IOLoginDataLoad::loadRewardItems(Player *player) {
 	}
 }
 
-void IOLoginDataLoad::bindRewardBag(Player *player, IOLoginData::ItemMap &itemMap) {
+void IOLoginDataLoad::bindRewardBag(Player* player, IOLoginData::ItemMap &itemMap) {
 	for (auto &[id, itemPair] : itemMap) {
 		const auto [item, pid] = itemPair;
 		if (pid == 0) {
 			auto reward = player->getReward(item->getAttribute<uint64_t>(ItemAttribute_t::DATE), true);
 			if (reward) {
-				itemPair = std::pair<Item *, int32_t>(reward->getItem(), player->getRewardChest()->getID());
+				itemPair = std::pair<Item*, int32_t>(reward->getItem(), player->getRewardChest()->getID());
 			}
 		} else {
 			break;
@@ -56,8 +56,8 @@ void IOLoginDataLoad::bindRewardBag(Player *player, IOLoginData::ItemMap &itemMa
 
 void IOLoginDataLoad::insertItemsIntoRewardBag(const IOLoginData::ItemMap &itemMap) {
 	for (const auto &it : std::views::reverse(itemMap)) {
-		const std::pair<Item *, int32_t> &pair = it.second;
-		Item *item = pair.first;
+		const std::pair<Item*, int32_t> &pair = it.second;
+		Item* item = pair.first;
 		int32_t pid = pair.second;
 		if (pid == 0) {
 			break;
@@ -68,14 +68,14 @@ void IOLoginDataLoad::insertItemsIntoRewardBag(const IOLoginData::ItemMap &itemM
 			continue;
 		}
 
-		Container *container = it2->second.first->getContainer();
+		Container* container = it2->second.first->getContainer();
 		if (container) {
 			container->internalAddThing(item);
 		}
 	}
 }
 
-void IOLoginDataLoad::loadPlayerBosstiary(Player *player, DBResult_ptr result) {
+void IOLoginDataLoad::loadPlayerBosstiary(Player* player, DBResult_ptr result) {
 	std::ostringstream query;
 	query << "SELECT * FROM `player_bosstiary` WHERE `player_id` = " << player->getGUID();
 	if (result = Database::getInstance().storeQuery(query.str())) {

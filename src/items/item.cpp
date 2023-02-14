@@ -28,8 +28,8 @@
 
 Items Item::items;
 
-Item *Item::CreateItem(const uint16_t type, uint16_t count /*= 0*/) {
-	Item *newItem = nullptr;
+Item* Item::CreateItem(const uint16_t type, uint16_t count /*= 0*/) {
+	Item* newItem = nullptr;
 
 	const ItemType &it = Item::items[type];
 	if (it.stackable && count == 0) {
@@ -72,8 +72,8 @@ Item *Item::CreateItem(const uint16_t type, uint16_t count /*= 0*/) {
 	return newItem;
 }
 
-bool Item::getImbuementInfo(uint8_t slot, ImbuementInfo *imbuementInfo) const {
-	const CustomAttribute *attribute = getCustomAttribute(std::to_string(ITEM_IMBUEMENT_SLOT + slot));
+bool Item::getImbuementInfo(uint8_t slot, ImbuementInfo* imbuementInfo) const {
+	const CustomAttribute* attribute = getCustomAttribute(std::to_string(ITEM_IMBUEMENT_SLOT + slot));
 	auto info = attribute ? attribute->getAttribute<uint32_t>() : 0;
 	imbuementInfo->imbuement = g_imbuements().getImbuement(info & 0xFF);
 	imbuementInfo->duration = info >> 8;
@@ -86,19 +86,19 @@ void Item::setImbuement(uint8_t slot, uint16_t imbuementId, uint32_t duration) {
 }
 
 void Item::addImbuement(uint8_t slot, uint16_t imbuementId, uint32_t duration) {
-	Player *player = getHoldingPlayer();
+	Player* player = getHoldingPlayer();
 	if (!player) {
 		return;
 	}
 
 	// Get imbuement by the id
-	const Imbuement *imbuement = g_imbuements().getImbuement(imbuementId);
+	const Imbuement* imbuement = g_imbuements().getImbuement(imbuementId);
 	if (!imbuement) {
 		return;
 	}
 
 	// Get category imbuement for acess category id
-	const CategoryImbuement *categoryImbuement = g_imbuements().getCategoryByID(imbuement->getCategory());
+	const CategoryImbuement* categoryImbuement = g_imbuements().getCategoryByID(imbuement->getCategory());
 	if (!hasImbuementType(static_cast<ImbuementTypes_t>(categoryImbuement->id), imbuement->getBaseID())) {
 		return;
 	}
@@ -117,7 +117,7 @@ bool Item::hasImbuementCategoryId(uint16_t categoryId) const {
 	for (uint8_t slotid = 0; slotid < getImbuementSlot(); slotid++) {
 		ImbuementInfo imbuementInfo;
 		if (getImbuementInfo(slotid, &imbuementInfo)) {
-			const CategoryImbuement *categoryImbuement = g_imbuements().getCategoryByID(imbuementInfo.imbuement->getCategory());
+			const CategoryImbuement* categoryImbuement = g_imbuements().getCategoryByID(imbuementInfo.imbuement->getCategory());
 			if (categoryImbuement->id == categoryId) {
 				return true;
 			}
@@ -126,7 +126,7 @@ bool Item::hasImbuementCategoryId(uint16_t categoryId) const {
 	return false;
 }
 
-Container *Item::CreateItemAsContainer(const uint16_t type, uint16_t size) {
+Container* Item::CreateItemAsContainer(const uint16_t type, uint16_t size) {
 	if (const ItemType &it = Item::items[type];
 		it.id == 0
 		|| it.stackable
@@ -139,12 +139,12 @@ Container *Item::CreateItemAsContainer(const uint16_t type, uint16_t size) {
 		return nullptr;
 	}
 
-	Container *newItem = new Container(type, size);
+	Container* newItem = new Container(type, size);
 	newItem->incrementReferenceCounter();
 	return newItem;
 }
 
-Item *Item::CreateItem(PropStream &propStream) {
+Item* Item::CreateItem(PropStream &propStream) {
 	uint16_t id;
 	if (!propStream.read<uint16_t>(id)) {
 		return nullptr;
@@ -216,8 +216,8 @@ Item::Item(const Item &i) :
 	}
 }
 
-Item *Item::clone() const {
-	Item *item = Item::CreateItem(id, count);
+Item* Item::clone() const {
+	Item* item = Item::CreateItem(id, count);
 	if (item == nullptr) {
 		SPDLOG_ERROR("[{}] item is nullptr", __FUNCTION__);
 		return nullptr;
@@ -230,7 +230,7 @@ Item *Item::clone() const {
 	return item;
 }
 
-bool Item::equals(const Item *compareItem) const {
+bool Item::equals(const Item* compareItem) const {
 	if (!compareItem) {
 		return false;
 	}
@@ -306,9 +306,9 @@ void Item::setID(uint16_t newid) {
 	}
 }
 
-Cylinder *Item::getTopParent() {
-	Cylinder *aux = getParent();
-	Cylinder *prevaux = dynamic_cast<Cylinder *>(this);
+Cylinder* Item::getTopParent() {
+	Cylinder* aux = getParent();
+	Cylinder* prevaux = dynamic_cast<Cylinder*>(this);
 	if (!aux) {
 		return prevaux;
 	}
@@ -324,9 +324,9 @@ Cylinder *Item::getTopParent() {
 	return aux;
 }
 
-const Cylinder *Item::getTopParent() const {
-	const Cylinder *aux = getParent();
-	const Cylinder *prevaux = dynamic_cast<const Cylinder *>(this);
+const Cylinder* Item::getTopParent() const {
+	const Cylinder* aux = getParent();
+	const Cylinder* prevaux = dynamic_cast<const Cylinder*>(this);
 	if (!aux) {
 		return prevaux;
 	}
@@ -342,22 +342,22 @@ const Cylinder *Item::getTopParent() const {
 	return aux;
 }
 
-Tile *Item::getTile() {
-	Cylinder *cylinder = getTopParent();
+Tile* Item::getTile() {
+	Cylinder* cylinder = getTopParent();
 	// get root cylinder
 	if (cylinder && cylinder->getParent()) {
 		cylinder = cylinder->getParent();
 	}
-	return dynamic_cast<Tile *>(cylinder);
+	return dynamic_cast<Tile*>(cylinder);
 }
 
-const Tile *Item::getTile() const {
-	const Cylinder *cylinder = getTopParent();
+const Tile* Item::getTile() const {
+	const Cylinder* cylinder = getTopParent();
 	// get root cylinder
 	if (cylinder && cylinder->getParent()) {
 		cylinder = cylinder->getParent();
 	}
-	return dynamic_cast<const Tile *>(cylinder);
+	return dynamic_cast<const Tile*>(cylinder);
 }
 
 uint16_t Item::getSubType() const {
@@ -372,8 +372,8 @@ uint16_t Item::getSubType() const {
 	return static_cast<uint16_t>(count);
 }
 
-Player *Item::getHoldingPlayer() const {
-	Cylinder *p = getParent();
+Player* Item::getHoldingPlayer() const {
+	Cylinder* p = getParent();
 	while (p) {
 		if (p->getCreature()) {
 			return p->getCreature()->getPlayer();
@@ -989,7 +989,7 @@ uint32_t Item::getWeight() const {
 }
 
 std::vector<std::pair<std::string, std::string>>
-Item::getDescriptions(const ItemType &it, const Item *item /*= nullptr*/) {
+Item::getDescriptions(const ItemType &it, const Item* item /*= nullptr*/) {
 	std::ostringstream ss;
 	std::vector<std::pair<std::string, std::string>> descriptions;
 	descriptions.reserve(30);
@@ -1470,7 +1470,7 @@ Item::getDescriptions(const ItemType &it, const Item *item /*= nullptr*/) {
 	return descriptions;
 }
 
-std::string Item::parseImbuementDescription(const Item *item) {
+std::string Item::parseImbuementDescription(const Item* item) {
 	std::ostringstream s;
 	if (item && item->getImbuementSlot() >= 1) {
 		s << std::endl
@@ -1487,7 +1487,7 @@ std::string Item::parseImbuementDescription(const Item *item) {
 				continue;
 			}
 
-			const BaseImbuement *baseImbuement = g_imbuements().getBaseByID(imbuementInfo.imbuement->getBaseID());
+			const BaseImbuement* baseImbuement = g_imbuements().getBaseByID(imbuementInfo.imbuement->getBaseID());
 			if (!baseImbuement) {
 				continue;
 			}
@@ -1502,7 +1502,7 @@ std::string Item::parseImbuementDescription(const Item *item) {
 	return s.str();
 }
 
-std::string Item::parseClassificationDescription(const Item *item) {
+std::string Item::parseClassificationDescription(const Item* item) {
 	std::ostringstream string;
 	if (item && item->getClassification() >= 1) {
 		string << std::endl
@@ -1520,7 +1520,7 @@ std::string Item::parseClassificationDescription(const Item *item) {
 	return string.str();
 }
 
-std::string Item::parseShowAttributesDescription(const Item *item, const uint16_t itemId) {
+std::string Item::parseShowAttributesDescription(const Item* item, const uint16_t itemId) {
 	std::ostringstream itemDescription;
 	const ItemType &itemType = Item::items[itemId];
 	if (itemType.armor != 0 || (item && item->getArmor() != 0) || itemType.showAttributes) {
@@ -1691,8 +1691,8 @@ std::string Item::parseShowAttributesDescription(const Item *item, const uint16_
 	return itemDescription.str();
 }
 
-std::string Item::getDescription(const ItemType &it, int32_t lookDistance, const Item *item /*= nullptr*/, int32_t subType /*= -1*/, bool addArticle /*= true*/) {
-	const std::string *text = nullptr;
+std::string Item::getDescription(const ItemType &it, int32_t lookDistance, const Item* item /*= nullptr*/, int32_t subType /*= -1*/, bool addArticle /*= true*/) {
+	const std::string* text = nullptr;
 
 	std::ostringstream s;
 	s << getNameDescription(it, item, subType, addArticle);
@@ -1703,7 +1703,7 @@ std::string Item::getDescription(const ItemType &it, int32_t lookDistance, const
 
 	if (it.isRune()) {
 		if (it.runeLevel > 0 || it.runeMagLevel > 0) {
-			if (const RuneSpell *rune = g_spells().getRuneSpell(it.id)) {
+			if (const RuneSpell* rune = g_spells().getRuneSpell(it.id)) {
 				int32_t tmpSubType = subType;
 				if (item) {
 					tmpSubType = item->getSubType();
@@ -1711,7 +1711,7 @@ std::string Item::getDescription(const ItemType &it, int32_t lookDistance, const
 				s << " (\"" << it.runeSpellName << "\"). " << (it.stackable && tmpSubType > 1 ? "They" : "It") << " can only be used by ";
 
 				const VocSpellMap &vocMap = rune->getVocMap();
-				std::vector<Vocation *> showVocMap;
+				std::vector<Vocation*> showVocMap;
 
 				// vocations are usually listed with the unpromoted and promoted version, the latter being
 				// hidden from description, so `total / 2` is most likely the amount of vocations to be shown.
@@ -2362,7 +2362,7 @@ std::string Item::getDescription(int32_t lookDistance) const {
 	return getDescription(it, lookDistance, this);
 }
 
-std::string Item::getNameDescription(const ItemType &it, const Item *item /*= nullptr*/, int32_t subType /*= -1*/, bool addArticle /*= true*/) {
+std::string Item::getNameDescription(const ItemType &it, const Item* item /*= nullptr*/, int32_t subType /*= -1*/, bool addArticle /*= true*/) {
 	if (item) {
 		subType = item->getSubType();
 	}
@@ -2492,7 +2492,7 @@ uint32_t Item::getForgeCores() const {
 
 LightInfo Item::getLightInfo() const {
 	const ItemType &it = items[id];
-	return {it.lightLevel, it.lightColor};
+	return { it.lightLevel, it.lightColor };
 }
 
 void Item::startDecaying() {
@@ -2530,16 +2530,16 @@ bool Item::hasMarketAttributes() const {
 }
 
 bool Item::isInsideDepot(bool includeInbox /* = false*/) const {
-	if (const Container *thisContainer = getContainer(); thisContainer && (thisContainer->getDepotLocker() || thisContainer->isDepotChest() || (includeInbox && thisContainer->isInbox()))) {
+	if (const Container* thisContainer = getContainer(); thisContainer && (thisContainer->getDepotLocker() || thisContainer->isDepotChest() || (includeInbox && thisContainer->isInbox()))) {
 		return true;
 	}
 
-	const Cylinder *cylinder = getParent();
+	const Cylinder* cylinder = getParent();
 	if (!cylinder) {
 		return false;
 	}
 
-	const Container *container = cylinder->getContainer();
+	const Container* container = cylinder->getContainer();
 	if (!container) {
 		return false;
 	}

@@ -34,11 +34,11 @@ struct Node {
 };
 
 struct LoadError : std::exception {
-	const char *what() const noexcept override = 0;
+	const char* what() const noexcept override = 0;
 };
 
 struct InvalidOTBFormat final : LoadError {
-	const char *what() const noexcept override {
+	const char* what() const noexcept override {
 		return "Invalid OTBM file format";
 	}
 };
@@ -58,7 +58,7 @@ public:
 
 class PropStream {
 public:
-	void init(const char *a, size_t size) {
+	void init(const char* a, size_t size) {
 		p = a;
 		end = a + size;
 	}
@@ -88,7 +88,7 @@ public:
 			return false;
 		}
 
-		char *str = new char[strLen + 1];
+		char* str = new char[strLen + 1];
 		memcpy(str, p, strLen);
 		str[strLen] = 0;
 		ret.assign(str, strLen);
@@ -107,8 +107,8 @@ public:
 	}
 
 private:
-	const char *p = nullptr;
-	const char *end = nullptr;
+	const char* p = nullptr;
+	const char* end = nullptr;
 };
 
 class PropWriteStream {
@@ -119,7 +119,7 @@ public:
 	PropWriteStream(const PropWriteStream &) = delete;
 	PropWriteStream &operator=(const PropWriteStream &) = delete;
 
-	const char *getStream(size_t &size) const {
+	const char* getStream(size_t &size) const {
 		size = buffer.size();
 		return buffer.data();
 	}
@@ -130,7 +130,7 @@ public:
 
 	template <typename T>
 	void write(T add) {
-		char *addr = reinterpret_cast<char *>(&add);
+		char* addr = reinterpret_cast<char*>(&add);
 		std::copy(addr, addr + sizeof(T), std::back_inserter(buffer));
 	}
 

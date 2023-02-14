@@ -34,14 +34,14 @@ public:
 	bool reInitState();
 	bool closeState() override;
 
-	LuaScriptInterface *getTestInterface();
+	LuaScriptInterface* getTestInterface();
 
 	std::shared_ptr<Combat> getCombatObject(uint32_t id) const;
-	std::shared_ptr<Combat> createCombatObject(LuaScriptInterface *interface);
-	void clearCombatObjects(LuaScriptInterface *interface);
+	std::shared_ptr<Combat> createCombatObject(LuaScriptInterface* interface);
+	void clearCombatObjects(LuaScriptInterface* interface);
 
 	template <typename T>
-	std::shared_ptr<T> createWeaponObject(LuaScriptInterface *interface) {
+	std::shared_ptr<T> createWeaponObject(LuaScriptInterface* interface) {
 		auto weapon = std::make_shared<T>(interface);
 		int weaponId = ++lastWeaponId;
 		weaponMap[weaponId] = weapon;
@@ -58,7 +58,7 @@ public:
 		return it->second;
 	}
 
-	void clearWeaponObjects(LuaScriptInterface *interface) {
+	void clearWeaponObjects(LuaScriptInterface* interface) {
 		auto it = weaponIdMap.find(interface);
 		if (it == weaponIdMap.end()) {
 			return;
@@ -68,9 +68,9 @@ public:
 		weaponMap.clear();
 	}
 
-	AreaCombat *getAreaObject(uint32_t id) const;
-	uint32_t createAreaObject(LuaScriptInterface *interface);
-	void clearAreaObjects(LuaScriptInterface *interface);
+	AreaCombat* getAreaObject(uint32_t id) const;
+	uint32_t createAreaObject(LuaScriptInterface* interface);
+	void clearAreaObjects(LuaScriptInterface* interface);
 
 private:
 	void executeTimerEvent(uint32_t eventIndex);
@@ -78,19 +78,19 @@ private:
 	phmap::flat_hash_map<uint32_t, LuaTimerEventDesc> timerEvents;
 	uint32_t lastEventTimerId = 1;
 
-	phmap::flat_hash_map<uint32_t, AreaCombat *> areaMap;
-	phmap::flat_hash_map<LuaScriptInterface *, std::vector<uint32_t>> areaIdMap;
+	phmap::flat_hash_map<uint32_t, AreaCombat*> areaMap;
+	phmap::flat_hash_map<LuaScriptInterface*, std::vector<uint32_t>> areaIdMap;
 	uint32_t lastAreaId = 0;
 
 	phmap::flat_hash_map<uint32_t, std::shared_ptr<Combat>> combatMap;
-	phmap::flat_hash_map<LuaScriptInterface *, std::vector<uint32_t>> combatIdMap;
+	phmap::flat_hash_map<LuaScriptInterface*, std::vector<uint32_t>> combatIdMap;
 	uint32_t lastCombatId = 0;
 
 	phmap::flat_hash_map<uint32_t, std::shared_ptr<Weapon>> weaponMap;
-	phmap::flat_hash_map<LuaScriptInterface *, std::vector<uint32_t>> weaponIdMap;
+	phmap::flat_hash_map<LuaScriptInterface*, std::vector<uint32_t>> weaponIdMap;
 	uint32_t lastWeaponId = 0;
 
-	LuaScriptInterface *testInterface = nullptr;
+	LuaScriptInterface* testInterface = nullptr;
 
 	friend class LuaScriptInterface;
 	friend class GlobalFunctions;

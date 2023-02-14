@@ -43,17 +43,17 @@ struct OTBM_Tile_coords {
 #pragma pack()
 
 class IOMap {
-	static Tile *createTile(Item *&ground, Item *item, uint16_t x, uint16_t y, uint8_t z);
+	static Tile* createTile(Item*&ground, Item* item, uint16_t x, uint16_t y, uint8_t z);
 
 public:
-	bool loadMap(Map *map, const std::string &identifier, const Position &pos = Position(), bool unload = false);
+	bool loadMap(Map* map, const std::string &identifier, const Position &pos = Position(), bool unload = false);
 
 	/**
 	 * Load main map monsters
 	 * \param map Is the map class
 	 * \returns true if the monsters spawn map was loaded successfully
 	 */
-	static bool loadMonsters(Map *map) {
+	static bool loadMonsters(Map* map) {
 		if (map->monsterfile.empty()) {
 			// OTBM file doesn't tell us about the monsterfile,
 			// Lets guess it is mapname-monster.xml.
@@ -69,7 +69,7 @@ public:
 	 * \param map Is the map class
 	 * \returns true if the npcs spawn map was loaded successfully
 	 */
-	static bool loadNpcs(Map *map) {
+	static bool loadNpcs(Map* map) {
 		if (map->npcfile.empty()) {
 			// OTBM file doesn't tell us about the npcfile,
 			// Lets guess it is mapname-npc.xml.
@@ -85,7 +85,7 @@ public:
 	 * \param map Is the map class
 	 * \returns true if the main map houses was loaded successfully
 	 */
-	static bool loadHouses(Map *map) {
+	static bool loadHouses(Map* map) {
 		if (map->housefile.empty()) {
 			// OTBM file doesn't tell us about the housefile,
 			// Lets guess it is mapname-house.xml.
@@ -101,7 +101,7 @@ public:
 	 * \param map Is the map class
 	 * \returns true if the monsters spawn map custom was loaded successfully
 	 */
-	static bool loadMonstersCustom(Map *map) {
+	static bool loadMonstersCustom(Map* map) {
 		if (map->monsterfile.empty()) {
 			// OTBM file doesn't tell us about the monsterfile,
 			// Lets guess it is mapname-monster.xml.
@@ -117,7 +117,7 @@ public:
 	 * \param map Is the map class
 	 * \returns true if the npcs spawn map custom was loaded successfully
 	 */
-	static bool loadNpcsCustom(Map *map) {
+	static bool loadNpcsCustom(Map* map) {
 		if (map->npcfile.empty()) {
 			// OTBM file doesn't tell us about the npcfile,
 			// Lets guess it is mapname-npc.xml.
@@ -133,7 +133,7 @@ public:
 	 * \param map Is the map class
 	 * \returns true if the map custom houses was loaded successfully
 	 */
-	static bool loadHousesCustom(Map *map) {
+	static bool loadHousesCustom(Map* map) {
 		if (map->housefile.empty()) {
 			// OTBM file doesn't tell us about the housefile,
 			// Lets guess it is mapname-house.xml.

@@ -14,7 +14,7 @@
 
 class CreatureEventFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerClass(L, "CreatureEvent", "", CreatureEventFunctions::luaCreateCreatureEvent);
 		registerMethod(L, "CreatureEvent", "type", CreatureEventFunctions::luaCreatureEventType);
 		registerMethod(L, "CreatureEvent", "register", CreatureEventFunctions::luaCreatureEventRegister);
@@ -33,10 +33,10 @@ public:
 	}
 
 private:
-	static int luaCreateCreatureEvent(lua_State *L);
-	static int luaCreatureEventType(lua_State *L);
-	static int luaCreatureEventRegister(lua_State *L);
-	static int luaCreatureEventOnCallback(lua_State *L);
+	static int luaCreateCreatureEvent(lua_State* L);
+	static int luaCreatureEventType(lua_State* L);
+	static int luaCreatureEventRegister(lua_State* L);
+	static int luaCreatureEventOnCallback(lua_State* L);
 };
 
 #endif // SRC_LUA_FUNCTIONS_EVENTS_CREATURE_EVENT_FUNCTIONS_HPP_

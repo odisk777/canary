@@ -109,7 +109,7 @@ public:
 		actionIdMap.try_emplace(actionId, moveEventList);
 	}
 
-	MoveEvent *getEvent(Item &item, MoveEvent_t eventType);
+	MoveEvent* getEvent(Item &item, MoveEvent_t eventType);
 
 	bool registerLuaItemEvent(MoveEvent &moveEvent);
 	bool registerLuaActionEvent(MoveEvent &moveEvent);
@@ -124,9 +124,9 @@ private:
 
 	bool registerEvent(MoveEvent &moveEvent, int32_t id, std::map<int32_t, MoveEventList> &moveListMap) const;
 	bool registerEvent(MoveEvent &moveEvent, const Position &position, std::map<Position, MoveEventList> &moveListMap) const;
-	MoveEvent *getEvent(Tile &tile, MoveEvent_t eventType);
+	MoveEvent* getEvent(Tile &tile, MoveEvent_t eventType);
 
-	MoveEvent *getEvent(Item &item, MoveEvent_t eventType, Slots_t slot);
+	MoveEvent* getEvent(Item &item, MoveEvent_t eventType, Slots_t slot);
 
 	std::map<int32_t, MoveEventList> uniqueIdMap;
 	std::map<int32_t, MoveEventList> actionIdMap;
@@ -138,12 +138,12 @@ constexpr auto g_moveEvents = &MoveEvents::getInstance;
 
 class MoveEvent final : public Script {
 public:
-	explicit MoveEvent(LuaScriptInterface *interface);
+	explicit MoveEvent(LuaScriptInterface* interface);
 
 	MoveEvent_t getEventType() const;
 	void setEventType(MoveEvent_t type);
 
-	uint32_t fireStepEvent(Creature &creature, Item *item, const Position &pos) const;
+	uint32_t fireStepEvent(Creature &creature, Item* item, const Position &pos) const;
 	uint32_t fireAddRemItem(Item &item, Item &tileItem, const Position &pos) const;
 	uint32_t fireAddRemItem(Item &item, const Position &pos) const;
 	uint32_t fireEquip(Player &player, Item &item, Slots_t slot, bool isCheck);
@@ -153,7 +153,7 @@ public:
 	}
 
 	// Scripting to lua interface
-	bool executeStep(Creature &creature, Item *item, const Position &pos) const;
+	bool executeStep(Creature &creature, Item* item, const Position &pos) const;
 	bool executeEquip(Player &player, Item &item, Slots_t slot, bool isCheck) const;
 	bool executeAddRemItem(Item &item, Item &tileItem, const Position &pos) const;
 	// No have tile item
@@ -246,14 +246,14 @@ public:
 		wieldInfo |= info;
 	}
 
-	static uint32_t StepInField(Creature *creature, Item *item, const Position &pos);
-	static uint32_t StepOutField(Creature *creature, Item *item, const Position &pos);
+	static uint32_t StepInField(Creature* creature, Item* item, const Position &pos);
+	static uint32_t StepOutField(Creature* creature, Item* item, const Position &pos);
 
-	static uint32_t AddItemField(Item *item, Item *tileItem, const Position &pos);
-	static uint32_t RemoveItemField(Item *item, Item *tileItem, const Position &pos);
+	static uint32_t AddItemField(Item* item, Item* tileItem, const Position &pos);
+	static uint32_t RemoveItemField(Item* item, Item* tileItem, const Position &pos);
 
-	static uint32_t EquipItem(MoveEvent *moveEvent, Player *player, Item *item, Slots_t slot, bool boolean);
-	static uint32_t DeEquipItem(MoveEvent *moveEvent, Player *player, Item *item, Slots_t slot, bool boolean);
+	static uint32_t EquipItem(MoveEvent* moveEvent, Player* player, Item* item, Slots_t slot, bool boolean);
+	static uint32_t DeEquipItem(MoveEvent* moveEvent, Player* player, Item* item, Slots_t slot, bool boolean);
 
 private:
 	std::string getScriptTypeName() const override;
@@ -263,23 +263,23 @@ private:
 	MoveEvent_t eventType = MOVE_EVENT_NONE;
 	/// Step function
 	std::function<uint32_t(
-		Creature *creature,
-		Item *item,
+		Creature* creature,
+		Item* item,
 		const Position &pos
 	)>
 		stepFunction;
 	// Move function
 	std::function<uint32_t(
-		Item *item,
-		Item *tileItem,
+		Item* item,
+		Item* tileItem,
 		const Position &pos
 	)>
 		moveFunction;
 	// equipFunction
 	std::function<uint32_t(
-		MoveEvent *moveEvent,
-		Player *player,
-		Item *item,
+		MoveEvent* moveEvent,
+		Player* player,
+		Item* item,
 		Slots_t slot,
 		bool boolean
 	)>

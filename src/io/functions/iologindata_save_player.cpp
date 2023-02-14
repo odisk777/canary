@@ -11,7 +11,7 @@
 
 #include "io/functions/iologindata_save_player.hpp"
 
-bool IOLoginDataSave::savePlayerForgeHistory(Player *player) {
+bool IOLoginDataSave::savePlayerForgeHistory(Player* player) {
 	std::ostringstream query;
 	query << "DELETE FROM `forge_history` WHERE `player_id` = " << player->getGUID();
 	if (!Database::getInstance().executeQuery(query.str())) {
@@ -43,7 +43,7 @@ bool IOLoginDataSave::savePlayerForgeHistory(Player *player) {
 	return true;
 }
 
-bool IOLoginDataSave::saveRewardItems(Player *player) {
+bool IOLoginDataSave::saveRewardItems(Player* player) {
 	std::ostringstream query;
 	query << "DELETE FROM `player_rewards` WHERE `player_id` = " << player->getGUID();
 
@@ -72,7 +72,7 @@ bool IOLoginDataSave::saveRewardItems(Player *player) {
 	return true;
 }
 
-bool IOLoginDataSave::savePlayerBosstiary(const Player *player) {
+bool IOLoginDataSave::savePlayerBosstiary(const Player* player) {
 	std::ostringstream query;
 	query << "DELETE FROM `player_bosstiary` WHERE `player_id` = " << player->getGUID();
 	if (!Database::getInstance().executeQuery(query.str())) {

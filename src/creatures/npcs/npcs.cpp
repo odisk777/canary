@@ -30,7 +30,7 @@ bool NpcType::canSpawn(const Position &pos) {
 	return canSpawn;
 }
 
-bool NpcType::loadCallback(LuaScriptInterface *scriptInterface) {
+bool NpcType::loadCallback(LuaScriptInterface* scriptInterface) {
 	int32_t id = scriptInterface->getEvent();
 	if (id == -1) {
 		SPDLOG_WARN("[NpcType::loadCallback] - Event not found");
@@ -73,7 +73,7 @@ bool NpcType::loadCallback(LuaScriptInterface *scriptInterface) {
 	return true;
 }
 
-void NpcType::loadShop(NpcType *npcType, ShopBlock shopBlock) {
+void NpcType::loadShop(NpcType* npcType, ShopBlock shopBlock) {
 	ItemType &iType = Item::items.getItemType(shopBlock.itemId);
 
 	// Registering item prices globaly.
@@ -126,7 +126,7 @@ bool Npcs::reload() {
 	return false;
 }
 
-NpcType *Npcs::getNpcType(const std::string &name, bool create /* = false*/) {
+NpcType* Npcs::getNpcType(const std::string &name, bool create /* = false*/) {
 	std::string key = asLowerCaseString(name);
 	auto it = npcs.find(key);
 

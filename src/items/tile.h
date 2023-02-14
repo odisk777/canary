@@ -23,9 +23,9 @@ class MagicField;
 class QTreeLeafNode;
 class BedItem;
 
-using CreatureVector = std::vector<Creature *>;
-using ItemVector = std::vector<Item *>;
-using SpectatorHashSet = phmap::flat_hash_set<Creature *>;
+using CreatureVector = std::vector<Creature*>;
+using ItemVector = std::vector<Item*>;
+using SpectatorHashSet = phmap::flat_hash_set<Creature*>;
 
 class TileItemVector : private ItemVector {
 public:
@@ -77,13 +77,13 @@ public:
 	uint32_t getDownItemCount() const {
 		return downItemCount;
 	}
-	inline Item *getTopTopItem() const {
+	inline Item* getTopTopItem() const {
 		if (getTopItemCount() == 0) {
 			return nullptr;
 		}
 		return *(getEndTopItem() - 1);
 	}
-	inline Item *getTopDownItem() const {
+	inline Item* getTopDownItem() const {
 		if (downItemCount == 0) {
 			return nullptr;
 		}
@@ -113,13 +113,13 @@ public:
 	Tile(const Tile &) = delete;
 	Tile &operator=(const Tile &) = delete;
 
-	virtual TileItemVector *getItemList() = 0;
-	virtual const TileItemVector *getItemList() const = 0;
-	virtual TileItemVector *makeItemList() = 0;
+	virtual TileItemVector* getItemList() = 0;
+	virtual const TileItemVector* getItemList() const = 0;
+	virtual TileItemVector* makeItemList() = 0;
 
-	virtual CreatureVector *getCreatures() = 0;
-	virtual const CreatureVector *getCreatures() const = 0;
-	virtual CreatureVector *makeCreatures() = 0;
+	virtual CreatureVector* getCreatures() = 0;
+	virtual const CreatureVector* getCreatures() const = 0;
+	virtual CreatureVector* makeCreatures() = 0;
 
 	int32_t getThrowRange() const override final {
 		return 0;
@@ -128,21 +128,21 @@ public:
 		return false;
 	}
 
-	MagicField *getFieldItem() const;
-	Teleport *getTeleportItem() const;
-	TrashHolder *getTrashHolder() const;
-	Mailbox *getMailbox() const;
-	BedItem *getBedItem() const;
+	MagicField* getFieldItem() const;
+	Teleport* getTeleportItem() const;
+	TrashHolder* getTrashHolder() const;
+	Mailbox* getMailbox() const;
+	BedItem* getBedItem() const;
 
-	Creature *getTopCreature() const;
-	const Creature *getBottomCreature() const;
-	Creature *getTopVisibleCreature(const Creature *creature) const;
-	const Creature *getBottomVisibleCreature(const Creature *creature) const;
-	Item *getTopTopItem() const;
-	Item *getTopDownItem() const;
+	Creature* getTopCreature() const;
+	const Creature* getBottomCreature() const;
+	Creature* getTopVisibleCreature(const Creature* creature) const;
+	const Creature* getBottomVisibleCreature(const Creature* creature) const;
+	Item* getTopTopItem() const;
+	Item* getTopDownItem() const;
 	bool isMoveableBlocking() const;
-	Thing *getTopVisibleThing(const Creature *creature);
-	Item *getItemByTopOrder(int32_t topOrder);
+	Thing* getTopVisibleThing(const Creature* creature);
+	Item* getItemByTopOrder(int32_t topOrder);
 
 	size_t getThingCount() const {
 		size_t thingCount = getCreatureCount() + getItemCount();
@@ -158,7 +158,7 @@ public:
 	uint32_t getDownItemCount() const;
 
 	bool hasProperty(ItemProperty prop) const;
-	bool hasProperty(const Item *exclude, ItemProperty prop) const;
+	bool hasProperty(const Item* exclude, ItemProperty prop) const;
 
 	bool hasFlag(uint32_t flag) const {
 		return hasBitSet(flag, this->flags);
@@ -188,37 +188,37 @@ public:
 
 	std::string getDescription(int32_t lookDistance) const override final;
 
-	int32_t getClientIndexOfCreature(const Player *player, const Creature *creature) const;
-	int32_t getStackposOfCreature(const Player *player, const Creature *creature) const;
-	int32_t getStackposOfItem(const Player *player, const Item *item) const;
+	int32_t getClientIndexOfCreature(const Player* player, const Creature* creature) const;
+	int32_t getStackposOfCreature(const Player* player, const Creature* creature) const;
+	int32_t getStackposOfItem(const Player* player, const Item* item) const;
 
 	// cylinder implementations
-	ReturnValue queryAdd(int32_t index, const Thing &thing, uint32_t count, uint32_t flags, Creature *actor = nullptr) const override;
+	ReturnValue queryAdd(int32_t index, const Thing &thing, uint32_t count, uint32_t flags, Creature* actor = nullptr) const override;
 	ReturnValue queryMaxCount(int32_t index, const Thing &thing, uint32_t count, uint32_t &maxQueryCount, uint32_t flags) const override final;
-	ReturnValue queryRemove(const Thing &thing, uint32_t count, uint32_t tileFlags, Creature *actor = nullptr) const override;
-	Tile *queryDestination(int32_t &index, const Thing &thing, Item **destItem, uint32_t &flags) override;
+	ReturnValue queryRemove(const Thing &thing, uint32_t count, uint32_t tileFlags, Creature* actor = nullptr) const override;
+	Tile* queryDestination(int32_t &index, const Thing &thing, Item** destItem, uint32_t &flags) override;
 
-	void addThing(Thing *thing) override final;
-	void addThing(int32_t index, Thing *thing) override;
+	void addThing(Thing* thing) override final;
+	void addThing(int32_t index, Thing* thing) override;
 
-	void updateThing(Thing *thing, uint16_t itemId, uint32_t count) override final;
-	void replaceThing(uint32_t index, Thing *thing) override final;
+	void updateThing(Thing* thing, uint16_t itemId, uint32_t count) override final;
+	void replaceThing(uint32_t index, Thing* thing) override final;
 
-	void removeThing(Thing *thing, uint32_t count) override final;
+	void removeThing(Thing* thing, uint32_t count) override final;
 
-	void removeCreature(Creature *creature);
+	void removeCreature(Creature* creature);
 
-	int32_t getThingIndex(const Thing *thing) const override final;
+	int32_t getThingIndex(const Thing* thing) const override final;
 	size_t getFirstIndex() const override final;
 	size_t getLastIndex() const override final;
 	uint32_t getItemTypeCount(uint16_t itemId, int32_t subType = -1) const override final;
-	Thing *getThing(size_t index) const override final;
+	Thing* getThing(size_t index) const override final;
 
-	void postAddNotification(Thing *thing, const Cylinder *oldParent, int32_t index, CylinderLink_t link = LINK_OWNER) override final;
-	void postRemoveNotification(Thing *thing, const Cylinder *newParent, int32_t index, CylinderLink_t link = LINK_OWNER) override final;
+	void postAddNotification(Thing* thing, const Cylinder* oldParent, int32_t index, CylinderLink_t link = LINK_OWNER) override final;
+	void postRemoveNotification(Thing* thing, const Cylinder* newParent, int32_t index, CylinderLink_t link = LINK_OWNER) override final;
 
-	void internalAddThing(Thing *thing) override;
-	void virtual internalAddThing(uint32_t index, Thing *thing) override;
+	void internalAddThing(Thing* thing) override;
+	void virtual internalAddThing(uint32_t index, Thing* thing) override;
 
 	const Position &getPosition() const override final {
 		return tilePos;
@@ -228,29 +228,29 @@ public:
 		return false;
 	}
 
-	Item *getUseItem(int32_t index) const;
-	Item *getDoorItem() const;
+	Item* getUseItem(int32_t index) const;
+	Item* getDoorItem() const;
 
-	Item *getGround() const {
+	Item* getGround() const {
 		return ground;
 	}
-	void setGround(Item *item) {
+	void setGround(Item* item) {
 		ground = item;
 	}
 
 private:
-	void onAddTileItem(Item *item);
-	void onUpdateTileItem(Item *oldItem, const ItemType &oldType, Item *newItem, const ItemType &newType);
-	void onRemoveTileItem(const SpectatorHashSet &spectators, const std::vector<int32_t> &oldStackPosVector, Item *item);
+	void onAddTileItem(Item* item);
+	void onUpdateTileItem(Item* oldItem, const ItemType &oldType, Item* newItem, const ItemType &newType);
+	void onRemoveTileItem(const SpectatorHashSet &spectators, const std::vector<int32_t> &oldStackPosVector, Item* item);
 	void onUpdateTile(const SpectatorHashSet &spectators);
 
-	void setTileFlags(const Item *item);
-	void resetTileFlags(const Item *item);
+	void setTileFlags(const Item* item);
+	void resetTileFlags(const Item* item);
 	bool hasHarmfulField() const;
 	ReturnValue checkNpcCanWalkIntoTile() const;
 
 protected:
-	Item *ground = nullptr;
+	Item* ground = nullptr;
 	Position tilePos;
 	uint32_t flags = 0;
 };
@@ -266,7 +266,7 @@ public:
 	DynamicTile(uint16_t x, uint16_t y, uint8_t z) :
 		Tile(x, y, z) { }
 	~DynamicTile() {
-		for (Item *item : items) {
+		for (Item* item : items) {
 			item->decrementReferenceCounter();
 		}
 	}
@@ -275,23 +275,23 @@ public:
 	DynamicTile(const DynamicTile &) = delete;
 	DynamicTile &operator=(const DynamicTile &) = delete;
 
-	TileItemVector *getItemList() override {
+	TileItemVector* getItemList() override {
 		return &items;
 	}
-	const TileItemVector *getItemList() const override {
+	const TileItemVector* getItemList() const override {
 		return &items;
 	}
-	TileItemVector *makeItemList() override {
+	TileItemVector* makeItemList() override {
 		return &items;
 	}
 
-	CreatureVector *getCreatures() override {
+	CreatureVector* getCreatures() override {
 		return &creatures;
 	}
-	const CreatureVector *getCreatures() const override {
+	const CreatureVector* getCreatures() const override {
 		return &creatures;
 	}
-	CreatureVector *makeCreatures() override {
+	CreatureVector* makeCreatures() override {
 		return &creatures;
 	}
 };
@@ -307,7 +307,7 @@ public:
 		Tile(x, y, z) { }
 	~StaticTile() {
 		if (items) {
-			for (Item *item : *items) {
+			for (Item* item : *items) {
 				item->decrementReferenceCounter();
 			}
 		}
@@ -317,26 +317,26 @@ public:
 	StaticTile(const StaticTile &) = delete;
 	StaticTile &operator=(const StaticTile &) = delete;
 
-	TileItemVector *getItemList() override {
+	TileItemVector* getItemList() override {
 		return items.get();
 	}
-	const TileItemVector *getItemList() const override {
+	const TileItemVector* getItemList() const override {
 		return items.get();
 	}
-	TileItemVector *makeItemList() override {
+	TileItemVector* makeItemList() override {
 		if (!items) {
 			items.reset(new TileItemVector);
 		}
 		return items.get();
 	}
 
-	CreatureVector *getCreatures() override {
+	CreatureVector* getCreatures() override {
 		return creatures.get();
 	}
-	const CreatureVector *getCreatures() const override {
+	const CreatureVector* getCreatures() const override {
 		return creatures.get();
 	}
-	CreatureVector *makeCreatures() override {
+	CreatureVector* makeCreatures() override {
 		if (!creatures) {
 			creatures.reset(new CreatureVector);
 		}

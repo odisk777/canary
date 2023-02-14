@@ -19,7 +19,7 @@ using CreatureEvent_ptr = std::unique_ptr<CreatureEvent>;
 
 class CreatureEvent final : public Script {
 public:
-	explicit CreatureEvent(LuaScriptInterface *interface);
+	explicit CreatureEvent(LuaScriptInterface* interface);
 
 	CreatureEventType_t getEventType() const {
 		return type;
@@ -41,21 +41,21 @@ public:
 	}
 
 	void clearEvent();
-	void copyEvent(const CreatureEvent *creatureEvent);
+	void copyEvent(const CreatureEvent* creatureEvent);
 
 	// scripting
-	bool executeOnLogin(Player *player) const;
-	bool executeOnLogout(Player *player) const;
-	bool executeOnThink(Creature *creature, uint32_t interval) const;
-	bool executeOnPrepareDeath(Creature *creature, Creature *killer) const;
-	bool executeOnDeath(Creature *creature, Item *corpse, Creature *killer, Creature *mostDamageKiller, bool lastHitUnjustified, bool mostDamageUnjustified) const;
-	void executeOnKill(Creature *creature, Creature *target, bool lastHit) const;
-	bool executeAdvance(Player *player, skills_t, uint32_t, uint32_t) const;
-	void executeModalWindow(Player *player, uint32_t modalWindowId, uint8_t buttonId, uint8_t choiceId) const;
-	bool executeTextEdit(Player *player, Item *item, const std::string &text) const;
-	void executeHealthChange(Creature *creature, Creature *attacker, CombatDamage &damage) const;
-	void executeManaChange(Creature *creature, Creature *attacker, CombatDamage &damage) const;
-	void executeExtendedOpcode(Player *player, uint8_t opcode, const std::string &buffer) const;
+	bool executeOnLogin(Player* player) const;
+	bool executeOnLogout(Player* player) const;
+	bool executeOnThink(Creature* creature, uint32_t interval) const;
+	bool executeOnPrepareDeath(Creature* creature, Creature* killer) const;
+	bool executeOnDeath(Creature* creature, Item* corpse, Creature* killer, Creature* mostDamageKiller, bool lastHitUnjustified, bool mostDamageUnjustified) const;
+	void executeOnKill(Creature* creature, Creature* target, bool lastHit) const;
+	bool executeAdvance(Player* player, skills_t, uint32_t, uint32_t) const;
+	void executeModalWindow(Player* player, uint32_t modalWindowId, uint8_t buttonId, uint8_t choiceId) const;
+	bool executeTextEdit(Player* player, Item* item, const std::string &text) const;
+	void executeHealthChange(Creature* creature, Creature* attacker, CombatDamage &damage) const;
+	void executeManaChange(Creature* creature, Creature* attacker, CombatDamage &damage) const;
+	void executeExtendedOpcode(Player* player, uint8_t opcode, const std::string &buffer) const;
 	//
 
 private:
@@ -82,13 +82,13 @@ public:
 	}
 
 	// global events
-	bool playerLogin(Player *player) const;
-	bool playerLogout(Player *player) const;
-	bool playerAdvance(Player *player, skills_t, uint32_t, uint32_t) const;
+	bool playerLogin(Player* player) const;
+	bool playerLogout(Player* player) const;
+	bool playerAdvance(Player* player, skills_t, uint32_t, uint32_t) const;
 
-	CreatureEvent *getEventByName(const std::string &name, bool forceLoaded = true);
+	CreatureEvent* getEventByName(const std::string &name, bool forceLoaded = true);
 
-	bool registerLuaEvent(CreatureEvent *event);
+	bool registerLuaEvent(CreatureEvent* event);
 	void removeInvalidEvents();
 	void clear();
 

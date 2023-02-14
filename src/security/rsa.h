@@ -26,12 +26,12 @@ public:
 		return instance;
 	}
 
-	void setKey(const char *pString, const char *qString, int base = 10);
-	void decrypt(char *msg) const;
+	void setKey(const char* pString, const char* qString, int base = 10);
+	void decrypt(char* msg) const;
 
 	std::string base64Decrypt(const std::string &input) const;
-	uint16_t decodeLength(char *&pos) const;
-	void readHexString(char *&pos, uint16_t length, std::string &output) const;
+	uint16_t decodeLength(char*&pos) const;
+	void readHexString(char*&pos, uint16_t length, std::string &output) const;
 	bool loadPEM(const std::string &filename);
 
 private:

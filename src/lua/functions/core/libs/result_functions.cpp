@@ -11,7 +11,7 @@
 
 #include "lua/functions/core/libs/result_functions.hpp"
 
-int ResultFunctions::luaResultGetNumber(lua_State *L) {
+int ResultFunctions::luaResultGetNumber(lua_State* L) {
 	DBResult_ptr res = ScriptEnvironment::getResultByID(getNumber<uint32_t>(L, 1));
 	if (!res) {
 		pushBoolean(L, false);
@@ -23,7 +23,7 @@ int ResultFunctions::luaResultGetNumber(lua_State *L) {
 	return 1;
 }
 
-int ResultFunctions::luaResultGetString(lua_State *L) {
+int ResultFunctions::luaResultGetString(lua_State* L) {
 	DBResult_ptr res = ScriptEnvironment::getResultByID(getNumber<uint32_t>(L, 1));
 	if (!res) {
 		pushBoolean(L, false);
@@ -35,7 +35,7 @@ int ResultFunctions::luaResultGetString(lua_State *L) {
 	return 1;
 }
 
-int ResultFunctions::luaResultGetStream(lua_State *L) {
+int ResultFunctions::luaResultGetStream(lua_State* L) {
 	DBResult_ptr res = ScriptEnvironment::getResultByID(getNumber<uint32_t>(L, 1));
 	if (!res) {
 		pushBoolean(L, false);
@@ -43,13 +43,13 @@ int ResultFunctions::luaResultGetStream(lua_State *L) {
 	}
 
 	unsigned long length;
-	const char *stream = res->getStream(getString(L, 2), length);
+	const char* stream = res->getStream(getString(L, 2), length);
 	lua_pushlstring(L, stream, length);
 	lua_pushnumber(L, length);
 	return 2;
 }
 
-int ResultFunctions::luaResultNext(lua_State *L) {
+int ResultFunctions::luaResultNext(lua_State* L) {
 	DBResult_ptr res = ScriptEnvironment::getResultByID(getNumber<uint32_t>(L, -1));
 	if (!res) {
 		pushBoolean(L, false);
@@ -60,7 +60,7 @@ int ResultFunctions::luaResultNext(lua_State *L) {
 	return 1;
 }
 
-int ResultFunctions::luaResultFree(lua_State *L) {
+int ResultFunctions::luaResultFree(lua_State* L) {
 	pushBoolean(L, ScriptEnvironment::removeResult(getNumber<uint32_t>(L, -1)));
 	return 1;
 }

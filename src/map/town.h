@@ -40,7 +40,7 @@ private:
 	Position templePosition;
 };
 
-using TownMap = std::map<uint32_t, Town *>;
+using TownMap = std::map<uint32_t, Town*>;
 
 class Towns {
 public:
@@ -55,11 +55,11 @@ public:
 	Towns(const Towns &) = delete;
 	Towns &operator=(const Towns &) = delete;
 
-	bool addTown(uint32_t townId, Town *town) {
+	bool addTown(uint32_t townId, Town* town) {
 		return townMap.emplace(townId, town).second;
 	}
 
-	Town *getTown(const std::string &townName) const {
+	Town* getTown(const std::string &townName) const {
 		for (const auto &it : townMap) {
 			if (strcasecmp(townName.c_str(), it.second->getName().c_str()) == 0) {
 				return it.second;
@@ -68,7 +68,7 @@ public:
 		return nullptr;
 	}
 
-	Town *getTown(uint32_t townId) const {
+	Town* getTown(uint32_t townId) const {
 		auto it = townMap.find(townId);
 		if (it == townMap.end()) {
 			return nullptr;

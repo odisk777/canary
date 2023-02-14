@@ -24,17 +24,17 @@ public:
 		return instance;
 	}
 
-	void startDecay(Item *item);
-	void stopDecay(Item *item);
+	void startDecay(Item* item);
+	void stopDecay(Item* item);
 
 private:
 	Decay() = default;
 
 	void checkDecay();
-	void internalDecayItem(Item *item);
+	void internalDecayItem(Item* item);
 
-	uint32_t eventId{0};
-	std::map<int64_t, std::vector<Item *>> decayMap;
+	uint32_t eventId{ 0 };
+	std::map<int64_t, std::vector<Item*>> decayMap;
 };
 
 constexpr auto g_decay = &Decay::getInstance;

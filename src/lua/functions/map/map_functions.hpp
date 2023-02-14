@@ -19,7 +19,7 @@
 
 class MapFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		HouseFunctions::init(L);
 		PositionFunctions::init(L);
 		TeleportFunctions::init(L);

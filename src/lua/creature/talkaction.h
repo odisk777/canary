@@ -41,7 +41,7 @@ public:
 	}
 
 	// scripting
-	bool executeSay(Player *player, const std::string &words, const std::string &param, SpeakClasses type) const;
+	bool executeSay(Player* player, const std::string &words, const std::string &param, SpeakClasses type) const;
 	//
 
 private:
@@ -70,9 +70,9 @@ public:
 		return instance;
 	}
 
-	TalkActionResult_t playerSaySpell(Player *player, SpeakClasses type, const std::string &words) const;
+	TalkActionResult_t playerSaySpell(Player* player, SpeakClasses type, const std::string &words) const;
 
-	bool registerLuaEvent(TalkAction *event);
+	bool registerLuaEvent(TalkAction* event);
 	void clear();
 
 private:

@@ -13,9 +13,9 @@
 #include "lua/functions/events/creature_event_functions.hpp"
 #include "utils/tools.h"
 
-int CreatureEventFunctions::luaCreateCreatureEvent(lua_State *L) {
+int CreatureEventFunctions::luaCreateCreatureEvent(lua_State* L) {
 	// CreatureEvent(eventName)
-	CreatureEvent *creature = new CreatureEvent(getScriptEnv()->getScriptInterface());
+	CreatureEvent* creature = new CreatureEvent(getScriptEnv()->getScriptInterface());
 	if (creature) {
 		creature->setName(getString(L, 2));
 		pushUserdata<CreatureEvent>(L, creature);
@@ -26,9 +26,9 @@ int CreatureEventFunctions::luaCreateCreatureEvent(lua_State *L) {
 	return 1;
 }
 
-int CreatureEventFunctions::luaCreatureEventType(lua_State *L) {
+int CreatureEventFunctions::luaCreatureEventType(lua_State* L) {
 	// creatureevent:type(callback)
-	CreatureEvent *creature = getUserdata<CreatureEvent>(L, 1);
+	CreatureEvent* creature = getUserdata<CreatureEvent>(L, 1);
 	if (creature) {
 		std::string typeName = getString(L, 2);
 		std::string tmpStr = asLowerCaseString(typeName);
@@ -70,9 +70,9 @@ int CreatureEventFunctions::luaCreatureEventType(lua_State *L) {
 	return 1;
 }
 
-int CreatureEventFunctions::luaCreatureEventRegister(lua_State *L) {
+int CreatureEventFunctions::luaCreatureEventRegister(lua_State* L) {
 	// creatureevent:register()
-	CreatureEvent *creature = getUserdata<CreatureEvent>(L, 1);
+	CreatureEvent* creature = getUserdata<CreatureEvent>(L, 1);
 	if (creature) {
 		if (!creature->isLoadedCallback()) {
 			pushBoolean(L, false);
@@ -85,9 +85,9 @@ int CreatureEventFunctions::luaCreatureEventRegister(lua_State *L) {
 	return 1;
 }
 
-int CreatureEventFunctions::luaCreatureEventOnCallback(lua_State *L) {
+int CreatureEventFunctions::luaCreatureEventOnCallback(lua_State* L) {
 	// creatureevent:onLogin / logout / etc. (callback)
-	CreatureEvent *creature = getUserdata<CreatureEvent>(L, 1);
+	CreatureEvent* creature = getUserdata<CreatureEvent>(L, 1);
 	if (creature) {
 		if (!creature->loadCallback()) {
 			pushBoolean(L, false);

@@ -69,7 +69,7 @@ bool LuaEnvironment::closeState() {
 	return true;
 }
 
-LuaScriptInterface *LuaEnvironment::getTestInterface() {
+LuaScriptInterface* LuaEnvironment::getTestInterface() {
 	if (!testInterface) {
 		testInterface = new LuaScriptInterface("Test Interface");
 		testInterface->initState();
@@ -85,14 +85,14 @@ std::shared_ptr<Combat> LuaEnvironment::getCombatObject(uint32_t id) const {
 	return it->second;
 }
 
-std::shared_ptr<Combat> LuaEnvironment::createCombatObject(LuaScriptInterface *interface) {
+std::shared_ptr<Combat> LuaEnvironment::createCombatObject(LuaScriptInterface* interface) {
 	auto combat = std::make_shared<Combat>();
 	combatMap[++lastCombatId] = combat;
 	combatIdMap[interface].push_back(lastCombatId);
 	return combat;
 }
 
-void LuaEnvironment::clearCombatObjects(LuaScriptInterface *interface) {
+void LuaEnvironment::clearCombatObjects(LuaScriptInterface* interface) {
 	auto it = combatIdMap.find(interface);
 	if (it == combatIdMap.end()) {
 		return;
@@ -102,7 +102,7 @@ void LuaEnvironment::clearCombatObjects(LuaScriptInterface *interface) {
 	combatMap.clear();
 }
 
-AreaCombat *LuaEnvironment::getAreaObject(uint32_t id) const {
+AreaCombat* LuaEnvironment::getAreaObject(uint32_t id) const {
 	auto it = areaMap.find(id);
 	if (it == areaMap.end()) {
 		return nullptr;
@@ -110,13 +110,13 @@ AreaCombat *LuaEnvironment::getAreaObject(uint32_t id) const {
 	return it->second;
 }
 
-uint32_t LuaEnvironment::createAreaObject(LuaScriptInterface *interface) {
+uint32_t LuaEnvironment::createAreaObject(LuaScriptInterface* interface) {
 	areaMap[++lastAreaId] = new AreaCombat;
 	areaIdMap[interface].push_back(lastAreaId);
 	return lastAreaId;
 }
 
-void LuaEnvironment::clearAreaObjects(LuaScriptInterface *interface) {
+void LuaEnvironment::clearAreaObjects(LuaScriptInterface* interface) {
 	auto it = areaIdMap.find(interface);
 	if (it == areaIdMap.end()) {
 		return;
@@ -151,7 +151,7 @@ void LuaEnvironment::executeTimerEvent(uint32_t eventIndex) {
 
 	// call the function
 	if (reserveScriptEnv()) {
-		ScriptEnvironment *env = getScriptEnv();
+		ScriptEnvironment* env = getScriptEnv();
 		env->setTimerEvent();
 		env->setScriptId(timerEventDesc.scriptId, this);
 		callFunction(timerEventDesc.parameters.size());

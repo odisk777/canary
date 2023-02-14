@@ -14,7 +14,7 @@
 
 class TownFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerClass(L, "Town", "", TownFunctions::luaTownCreate);
 		registerMetaMethod(L, "Town", "__eq", TownFunctions::luaUserdataCompare);
 
@@ -24,11 +24,11 @@ public:
 	}
 
 private:
-	static int luaTownCreate(lua_State *L);
+	static int luaTownCreate(lua_State* L);
 
-	static int luaTownGetId(lua_State *L);
-	static int luaTownGetName(lua_State *L);
-	static int luaTownGetTemplePosition(lua_State *L);
+	static int luaTownGetId(lua_State* L);
+	static int luaTownGetName(lua_State* L);
+	static int luaTownGetTemplePosition(lua_State* L);
 };
 
 #endif // SRC_LUA_FUNCTIONS_MAP_TOWN_FUNCTIONS_HPP_

@@ -13,7 +13,7 @@
 #include "server/network/protocol/protocol.h"
 #include "game/scheduling/scheduler.h"
 
-const std::chrono::milliseconds OUTPUTMESSAGE_AUTOSEND_DELAY{10};
+const std::chrono::milliseconds OUTPUTMESSAGE_AUTOSEND_DELAY{ 10 };
 
 void OutputMessagePool::scheduleSendAll() {
 	auto function = std::bind_front(&OutputMessagePool::sendAll, this);

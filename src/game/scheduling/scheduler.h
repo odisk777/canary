@@ -34,13 +34,13 @@ private:
 
 	uint32_t eventId = 0;
 
-	friend SchedulerTask *createSchedulerTask(uint32_t, std::function<void(void)>);
+	friend SchedulerTask* createSchedulerTask(uint32_t, std::function<void(void)>);
 };
 
-SchedulerTask *createSchedulerTask(uint32_t delay, std::function<void(void)> f);
+SchedulerTask* createSchedulerTask(uint32_t delay, std::function<void(void)> f);
 
 struct TaskComparator {
-	bool operator()(const SchedulerTask *lhs, const SchedulerTask *rhs) const {
+	bool operator()(const SchedulerTask* lhs, const SchedulerTask* rhs) const {
 		return lhs->getCycle() > rhs->getCycle();
 	}
 };
@@ -59,7 +59,7 @@ public:
 		return instance;
 	}
 
-	uint32_t addEvent(SchedulerTask *task);
+	uint32_t addEvent(SchedulerTask* task);
 	bool stopEvent(uint32_t eventId);
 
 	void shutdown();
@@ -71,8 +71,8 @@ private:
 	std::mutex eventLock;
 	std::condition_variable eventSignal;
 
-	uint32_t lastEventId{0};
-	std::priority_queue<SchedulerTask *, std::deque<SchedulerTask *>, TaskComparator> eventList;
+	uint32_t lastEventId{ 0 };
+	std::priority_queue<SchedulerTask*, std::deque<SchedulerTask*>, TaskComparator> eventList;
 	phmap::flat_hash_set<uint32_t> eventIds;
 };
 

@@ -20,7 +20,7 @@
 
 class EventFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		ActionFunctions::init(L);
 		CreatureEventFunctions::init(L);
 		EventsSchedulerFunctions::init(L);

@@ -54,14 +54,14 @@ public:
 		return started;
 	}
 
-	Raid *getRunning() {
+	Raid* getRunning() {
 		return running;
 	}
-	void setRunning(Raid *newRunning) {
+	void setRunning(Raid* newRunning) {
 		running = newRunning;
 	}
 
-	Raid *getRaidByName(const std::string &name);
+	Raid* getRaidByName(const std::string &name);
 
 	uint64_t getLastRaidEnd() const {
 		return lastRaidEnd;
@@ -77,10 +77,10 @@ public:
 	}
 
 private:
-	LuaScriptInterface scriptInterface{"Raid Interface"};
+	LuaScriptInterface scriptInterface{ "Raid Interface" };
 
-	std::list<Raid *> raidList;
-	Raid *running = nullptr;
+	std::list<Raid*> raidList;
+	Raid* running = nullptr;
 	uint64_t lastRaidEnd = 0;
 	uint32_t checkRaidsEvent = 0;
 	bool loaded = false;
@@ -101,10 +101,10 @@ public:
 
 	void startRaid();
 
-	void executeRaidEvent(RaidEvent *raidEvent);
+	void executeRaidEvent(RaidEvent* raidEvent);
 	void resetRaid();
 
-	RaidEvent *getNextRaidEvent();
+	RaidEvent* getNextRaidEvent();
 	void setState(RaidState_t newState) {
 		state = newState;
 	}
@@ -128,7 +128,7 @@ public:
 	void stopEvents();
 
 private:
-	std::vector<RaidEvent *> raidEvents;
+	std::vector<RaidEvent*> raidEvents;
 	std::string name;
 	uint32_t interval;
 	uint32_t nextEvent = 0;
@@ -191,7 +191,7 @@ private:
 
 class ScriptEvent final : public RaidEvent, public Event {
 public:
-	explicit ScriptEvent(LuaScriptInterface *interface) :
+	explicit ScriptEvent(LuaScriptInterface* interface) :
 		Event(interface) { }
 
 	bool configureRaidEvent(const pugi::xml_node &eventNode) override;

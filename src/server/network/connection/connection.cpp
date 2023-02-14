@@ -131,8 +131,8 @@ void Connection::parseProxyIdentification(const std::error_code &error) {
 		return;
 	}
 
-	uint8_t *msgBuffer = msg.getBuffer();
-	auto charData = static_cast<char *>(static_cast<void *>(msgBuffer));
+	uint8_t* msgBuffer = msg.getBuffer();
+	auto charData = static_cast<char*>(static_cast<void*>(msgBuffer));
 	std::string serverName = g_configManager().getString(SERVER_NAME) + "\n";
 	if (connectionState == CONNECTION_STATE_IDENTIFYING) {
 		if (msgBuffer[1] == 0x00 || strncasecmp(charData, &serverName[0], 2) != 0) {

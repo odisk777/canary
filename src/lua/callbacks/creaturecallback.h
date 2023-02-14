@@ -17,19 +17,19 @@ class Creature;
 
 class CreatureCallback {
 public:
-	CreatureCallback(LuaScriptInterface *scriptInterface, Creature *targetCreature) :
+	CreatureCallback(LuaScriptInterface* scriptInterface, Creature* targetCreature) :
 		scriptInterface(scriptInterface), targetCreature(targetCreature){};
 	~CreatureCallback() { }
 
 	bool startScriptInterface(int32_t scriptId);
 
-	void pushSpecificCreature(Creature *creature);
+	void pushSpecificCreature(Creature* creature);
 
 	bool persistLuaState() {
 		return params > 0 && scriptInterface->callFunction(params);
 	}
 
-	void pushCreature(Creature *creature) {
+	void pushCreature(Creature* creature) {
 		params++;
 		LuaScriptInterface::pushUserdata<Creature>(L, creature);
 		LuaScriptInterface::setCreatureMetatable(L, -1, creature);
@@ -56,13 +56,13 @@ public:
 	}
 
 protected:
-	static std::string getCreatureClass(Creature *creature);
+	static std::string getCreatureClass(Creature* creature);
 
 private:
-	LuaScriptInterface *scriptInterface;
-	Creature *targetCreature;
+	LuaScriptInterface* scriptInterface;
+	Creature* targetCreature;
 	uint32_t params = 0;
-	lua_State *L = nullptr;
+	lua_State* L = nullptr;
 };
 
 #endif // SRC_LUA_CALLBACKS_CREATURECALLBACK_H_

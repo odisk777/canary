@@ -125,7 +125,7 @@ public:
 	// CustomAttribute map methods
 	const std::map<std::string, CustomAttribute, std::less<>> &getCustomAttributeMap() const;
 	// CustomAttribute object methods
-	const CustomAttribute *getCustomAttribute(const std::string &attributeName) const;
+	const CustomAttribute* getCustomAttribute(const std::string &attributeName) const;
 
 	void setCustomAttribute(const std::string &key, const int64_t value);
 	void setCustomAttribute(const std::string &key, const std::string &value);
@@ -153,7 +153,7 @@ public:
 		return (type & static_cast<ItemAttribute_t>(attributeBits)) != 0;
 	}
 
-	const Attributes *getAttribute(ItemAttribute_t type) const;
+	const Attributes* getAttribute(ItemAttribute_t type) const;
 
 	Attributes &getAttributesByType(ItemAttribute_t type);
 

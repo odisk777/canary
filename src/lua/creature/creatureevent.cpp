@@ -19,8 +19,8 @@ void CreatureEvents::clear() {
 	}
 }
 
-bool CreatureEvents::registerLuaEvent(CreatureEvent *event) {
-	CreatureEvent_ptr creatureEvent{event};
+bool CreatureEvents::registerLuaEvent(CreatureEvent* event) {
+	CreatureEvent_ptr creatureEvent{ event };
 	if (creatureEvent->getEventType() == CREATURE_EVENT_NONE) {
 		SPDLOG_ERROR(
 			"[{}] - Trying to register event without type for script: {}",
@@ -30,7 +30,7 @@ bool CreatureEvents::registerLuaEvent(CreatureEvent *event) {
 		return false;
 	}
 
-	CreatureEvent *oldEvent = getEventByName(creatureEvent->getName(), false);
+	CreatureEvent* oldEvent = getEventByName(creatureEvent->getName(), false);
 	if (oldEvent) {
 		// if there was an event with the same that is not loaded
 		//(happens when realoading), it is reused
@@ -46,7 +46,7 @@ bool CreatureEvents::registerLuaEvent(CreatureEvent *event) {
 	}
 }
 
-CreatureEvent *CreatureEvents::getEventByName(const std::string &name, bool forceLoaded /*= true*/) {
+CreatureEvent* CreatureEvents::getEventByName(const std::string &name, bool forceLoaded /*= true*/) {
 	auto it = creatureEvents.find(name);
 	if (it != creatureEvents.end()) {
 		if (!forceLoaded || it->second.isLoaded()) {
@@ -56,7 +56,7 @@ CreatureEvent *CreatureEvents::getEventByName(const std::string &name, bool forc
 	return nullptr;
 }
 
-bool CreatureEvents::playerLogin(Player *player) const {
+bool CreatureEvents::playerLogin(Player* player) const {
 	// fire global event if is registered
 	for (const auto &it : creatureEvents) {
 		if (it.second.getEventType() == CREATURE_EVENT_LOGIN) {
@@ -68,7 +68,7 @@ bool CreatureEvents::playerLogin(Player *player) const {
 	return true;
 }
 
-bool CreatureEvents::playerLogout(Player *player) const {
+bool CreatureEvents::playerLogout(Player* player) const {
 	// fire global event if is registered
 	for (const auto &it : creatureEvents) {
 		if (it.second.getEventType() == CREATURE_EVENT_LOGOUT) {
@@ -81,7 +81,7 @@ bool CreatureEvents::playerLogout(Player *player) const {
 }
 
 bool CreatureEvents::playerAdvance(
-	Player *player,
+	Player* player,
 	skills_t skill,
 	uint32_t oldLevel,
 	uint32_t newLevel
@@ -102,7 +102,7 @@ bool CreatureEvents::playerAdvance(
  =======================
 */
 
-CreatureEvent::CreatureEvent(LuaScriptInterface *interface) :
+CreatureEvent::CreatureEvent(LuaScriptInterface* interface) :
 	Script(interface) { }
 
 void CreatureEvents::removeInvalidEvents() {
@@ -158,7 +158,7 @@ std::string CreatureEvent::getScriptTypeName() const {
 	}
 }
 
-void CreatureEvent::copyEvent(const CreatureEvent *creatureEvent) {
+void CreatureEvent::copyEvent(const CreatureEvent* creatureEvent) {
 	setScriptId(creatureEvent->getScriptId());
 	setScriptInterface(creatureEvent->getScriptInterface());
 	setLoadedCallback(creatureEvent->isLoadedCallback());
@@ -172,7 +172,7 @@ void CreatureEvent::clearEvent() {
 	loaded = false;
 }
 
-bool CreatureEvent::executeOnLogin(Player *player) const {
+bool CreatureEvent::executeOnLogin(Player* player) const {
 	// onLogin(player)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[CreatureEvent::executeOnLogin - Player {} event {}]"
@@ -181,10 +181,10 @@ bool CreatureEvent::executeOnLogin(Player *player) const {
 		return false;
 	}
 
-	ScriptEnvironment *env = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment* env = getScriptInterface()->getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State *L = getScriptInterface()->getLuaState();
+	lua_State* L = getScriptInterface()->getLuaState();
 
 	getScriptInterface()->pushFunction(getScriptId());
 	LuaScriptInterface::pushUserdata(L, player);
@@ -192,7 +192,7 @@ bool CreatureEvent::executeOnLogin(Player *player) const {
 	return getScriptInterface()->callFunction(1);
 }
 
-bool CreatureEvent::executeOnLogout(Player *player) const {
+bool CreatureEvent::executeOnLogout(Player* player) const {
 	// onLogout(player)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[CreatureEvent::executeOnLogout - Player {} event {}] "
@@ -201,10 +201,10 @@ bool CreatureEvent::executeOnLogout(Player *player) const {
 		return false;
 	}
 
-	ScriptEnvironment *env = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment* env = getScriptInterface()->getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State *L = getScriptInterface()->getLuaState();
+	lua_State* L = getScriptInterface()->getLuaState();
 
 	getScriptInterface()->pushFunction(getScriptId());
 	LuaScriptInterface::pushUserdata(L, player);
@@ -212,7 +212,7 @@ bool CreatureEvent::executeOnLogout(Player *player) const {
 	return getScriptInterface()->callFunction(1);
 }
 
-bool CreatureEvent::executeOnThink(Creature *creature, uint32_t interval) const {
+bool CreatureEvent::executeOnThink(Creature* creature, uint32_t interval) const {
 	// onThink(creature, interval)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[CreatureEvent::executeOnThink - Creature {} event {}] "
@@ -221,10 +221,10 @@ bool CreatureEvent::executeOnThink(Creature *creature, uint32_t interval) const 
 		return false;
 	}
 
-	ScriptEnvironment *env = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment* env = getScriptInterface()->getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State *L = getScriptInterface()->getLuaState();
+	lua_State* L = getScriptInterface()->getLuaState();
 
 	getScriptInterface()->pushFunction(getScriptId());
 	LuaScriptInterface::pushUserdata<Creature>(L, creature);
@@ -234,7 +234,7 @@ bool CreatureEvent::executeOnThink(Creature *creature, uint32_t interval) const 
 	return getScriptInterface()->callFunction(2);
 }
 
-bool CreatureEvent::executeOnPrepareDeath(Creature *creature, Creature *killer) const {
+bool CreatureEvent::executeOnPrepareDeath(Creature* creature, Creature* killer) const {
 	// onPrepareDeath(creature, killer)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[CreatureEvent::executeOnPrepareDeath - Creature {} killer {}"
@@ -243,10 +243,10 @@ bool CreatureEvent::executeOnPrepareDeath(Creature *creature, Creature *killer) 
 		return false;
 	}
 
-	ScriptEnvironment *env = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment* env = getScriptInterface()->getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State *L = getScriptInterface()->getLuaState();
+	lua_State* L = getScriptInterface()->getLuaState();
 
 	getScriptInterface()->pushFunction(getScriptId());
 
@@ -263,7 +263,7 @@ bool CreatureEvent::executeOnPrepareDeath(Creature *creature, Creature *killer) 
 	return getScriptInterface()->callFunction(2);
 }
 
-bool CreatureEvent::executeOnDeath(Creature *creature, Item *corpse, Creature *killer, Creature *mostDamageKiller, bool lastHitUnjustified, bool mostDamageUnjustified) const {
+bool CreatureEvent::executeOnDeath(Creature* creature, Item* corpse, Creature* killer, Creature* mostDamageKiller, bool lastHitUnjustified, bool mostDamageUnjustified) const {
 	// onDeath(creature, corpse, lasthitkiller, mostdamagekiller, lasthitunjustified, mostdamageunjustified)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[CreatureEvent::executeOnDeath - Creature {} killer {} event {}] "
@@ -272,10 +272,10 @@ bool CreatureEvent::executeOnDeath(Creature *creature, Item *corpse, Creature *k
 		return false;
 	}
 
-	ScriptEnvironment *env = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment* env = getScriptInterface()->getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State *L = getScriptInterface()->getLuaState();
+	lua_State* L = getScriptInterface()->getLuaState();
 
 	getScriptInterface()->pushFunction(getScriptId());
 	LuaScriptInterface::pushUserdata<Creature>(L, creature);
@@ -303,7 +303,7 @@ bool CreatureEvent::executeOnDeath(Creature *creature, Item *corpse, Creature *k
 	return getScriptInterface()->callFunction(6);
 }
 
-bool CreatureEvent::executeAdvance(Player *player, skills_t skill, uint32_t oldLevel, uint32_t newLevel) const {
+bool CreatureEvent::executeAdvance(Player* player, skills_t skill, uint32_t oldLevel, uint32_t newLevel) const {
 	// onAdvance(player, skill, oldLevel, newLevel)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[CreatureEvent::executeAdvance - Player {} event {}] "
@@ -312,10 +312,10 @@ bool CreatureEvent::executeAdvance(Player *player, skills_t skill, uint32_t oldL
 		return false;
 	}
 
-	ScriptEnvironment *env = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment* env = getScriptInterface()->getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State *L = getScriptInterface()->getLuaState();
+	lua_State* L = getScriptInterface()->getLuaState();
 
 	getScriptInterface()->pushFunction(getScriptId());
 	LuaScriptInterface::pushUserdata(L, player);
@@ -327,7 +327,7 @@ bool CreatureEvent::executeAdvance(Player *player, skills_t skill, uint32_t oldL
 	return getScriptInterface()->callFunction(4);
 }
 
-void CreatureEvent::executeOnKill(Creature *creature, Creature *target, bool lastHit) const {
+void CreatureEvent::executeOnKill(Creature* creature, Creature* target, bool lastHit) const {
 	// onKill(creature, target, lastHit)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[CreatureEvent::executeOnKill - Creature {} target {} event {}] "
@@ -336,10 +336,10 @@ void CreatureEvent::executeOnKill(Creature *creature, Creature *target, bool las
 		return;
 	}
 
-	ScriptEnvironment *env = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment* env = getScriptInterface()->getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State *L = getScriptInterface()->getLuaState();
+	lua_State* L = getScriptInterface()->getLuaState();
 
 	getScriptInterface()->pushFunction(getScriptId());
 	LuaScriptInterface::pushUserdata<Creature>(L, creature);
@@ -350,7 +350,7 @@ void CreatureEvent::executeOnKill(Creature *creature, Creature *target, bool las
 	getScriptInterface()->callVoidFunction(3);
 }
 
-void CreatureEvent::executeModalWindow(Player *player, uint32_t modalWindowId, uint8_t buttonId, uint8_t choiceId) const {
+void CreatureEvent::executeModalWindow(Player* player, uint32_t modalWindowId, uint8_t buttonId, uint8_t choiceId) const {
 	// onModalWindow(player, modalWindowId, buttonId, choiceId)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[CreatureEvent::executeModalWindow - "
@@ -360,10 +360,10 @@ void CreatureEvent::executeModalWindow(Player *player, uint32_t modalWindowId, u
 		return;
 	}
 
-	ScriptEnvironment *env = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment* env = getScriptInterface()->getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State *L = getScriptInterface()->getLuaState();
+	lua_State* L = getScriptInterface()->getLuaState();
 	getScriptInterface()->pushFunction(getScriptId());
 
 	LuaScriptInterface::pushUserdata(L, player);
@@ -376,7 +376,7 @@ void CreatureEvent::executeModalWindow(Player *player, uint32_t modalWindowId, u
 	getScriptInterface()->callVoidFunction(4);
 }
 
-bool CreatureEvent::executeTextEdit(Player *player, Item *item, const std::string &text) const {
+bool CreatureEvent::executeTextEdit(Player* player, Item* item, const std::string &text) const {
 	// onTextEdit(player, item, text)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[CreatureEvent::executeTextEdit - Player {} event {}] "
@@ -385,10 +385,10 @@ bool CreatureEvent::executeTextEdit(Player *player, Item *item, const std::strin
 		return false;
 	}
 
-	ScriptEnvironment *env = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment* env = getScriptInterface()->getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State *L = getScriptInterface()->getLuaState();
+	lua_State* L = getScriptInterface()->getLuaState();
 	getScriptInterface()->pushFunction(getScriptId());
 
 	LuaScriptInterface::pushUserdata(L, player);
@@ -400,7 +400,7 @@ bool CreatureEvent::executeTextEdit(Player *player, Item *item, const std::strin
 	return getScriptInterface()->callFunction(3);
 }
 
-void CreatureEvent::executeHealthChange(Creature *creature, Creature *attacker, CombatDamage &damage) const {
+void CreatureEvent::executeHealthChange(Creature* creature, Creature* attacker, CombatDamage &damage) const {
 	// onHealthChange(creature, attacker, primaryDamage, primaryType, secondaryDamage, secondaryType, origin)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[CreatureEvent::executeHealthChange - "
@@ -410,10 +410,10 @@ void CreatureEvent::executeHealthChange(Creature *creature, Creature *attacker, 
 		return;
 	}
 
-	ScriptEnvironment *env = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment* env = getScriptInterface()->getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State *L = getScriptInterface()->getLuaState();
+	lua_State* L = getScriptInterface()->getLuaState();
 	getScriptInterface()->pushFunction(getScriptId());
 
 	LuaScriptInterface::pushUserdata(L, creature);
@@ -445,7 +445,7 @@ void CreatureEvent::executeHealthChange(Creature *creature, Creature *attacker, 
 	getScriptInterface()->resetScriptEnv();
 }
 
-void CreatureEvent::executeManaChange(Creature *creature, Creature *attacker, CombatDamage &damage) const {
+void CreatureEvent::executeManaChange(Creature* creature, Creature* attacker, CombatDamage &damage) const {
 	// onManaChange(creature, attacker, primaryDamage, primaryType, secondaryDamage, secondaryType, origin)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[CreatureEvent::executeManaChange - "
@@ -455,10 +455,10 @@ void CreatureEvent::executeManaChange(Creature *creature, Creature *attacker, Co
 		return;
 	}
 
-	ScriptEnvironment *env = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment* env = getScriptInterface()->getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State *L = getScriptInterface()->getLuaState();
+	lua_State* L = getScriptInterface()->getLuaState();
 	getScriptInterface()->pushFunction(getScriptId());
 
 	LuaScriptInterface::pushUserdata(L, creature);
@@ -485,7 +485,7 @@ void CreatureEvent::executeManaChange(Creature *creature, Creature *attacker, Co
 	getScriptInterface()->resetScriptEnv();
 }
 
-void CreatureEvent::executeExtendedOpcode(Player *player, uint8_t opcode, const std::string &buffer) const {
+void CreatureEvent::executeExtendedOpcode(Player* player, uint8_t opcode, const std::string &buffer) const {
 	// onExtendedOpcode(player, opcode, buffer)
 	if (!getScriptInterface()->reserveScriptEnv()) {
 		SPDLOG_ERROR("[CreatureEvent::executeExtendedOpcode - "
@@ -495,10 +495,10 @@ void CreatureEvent::executeExtendedOpcode(Player *player, uint8_t opcode, const 
 		return;
 	}
 
-	ScriptEnvironment *env = getScriptInterface()->getScriptEnv();
+	ScriptEnvironment* env = getScriptInterface()->getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
 
-	lua_State *L = getScriptInterface()->getLuaState();
+	lua_State* L = getScriptInterface()->getLuaState();
 
 	getScriptInterface()->pushFunction(getScriptId());
 

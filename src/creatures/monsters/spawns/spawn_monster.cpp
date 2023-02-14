@@ -147,7 +147,7 @@ void SpawnMonster::startSpawnMonsterCheck() {
 
 SpawnMonster::~SpawnMonster() {
 	for (const auto &it : spawnedMonsterMap) {
-		Monster *monster = it.second;
+		Monster* monster = it.second;
 		monster->setSpawnMonster(nullptr);
 		monster->decrementReferenceCounter();
 	}
@@ -156,7 +156,7 @@ SpawnMonster::~SpawnMonster() {
 bool SpawnMonster::findPlayer(const Position &pos) {
 	SpectatorHashSet spectators;
 	g_game().map.getSpectators(spectators, pos, false, true);
-	for (Creature *spectator : spectators) {
+	for (Creature* spectator : spectators) {
 		if (!spectator->getPlayer()->hasFlag(PlayerFlags_t::IgnoredByMonsters)) {
 			return true;
 		}
@@ -168,7 +168,7 @@ bool SpawnMonster::isInSpawnMonsterZone(const Position &pos) {
 	return SpawnsMonster::isInZone(centerPos, radius, pos);
 }
 
-bool SpawnMonster::spawnMonster(uint32_t spawnMonsterId, MonsterType *monsterType, const Position &pos, Direction dir, bool startup /*= false*/) {
+bool SpawnMonster::spawnMonster(uint32_t spawnMonsterId, MonsterType* monsterType, const Position &pos, Direction dir, bool startup /*= false*/) {
 	std::unique_ptr<Monster> monster_ptr(new Monster(monsterType));
 	if (startup) {
 		// No need to send out events to the surrounding since there is no one out there to listen!
@@ -181,7 +181,7 @@ bool SpawnMonster::spawnMonster(uint32_t spawnMonsterId, MonsterType *monsterTyp
 		}
 	}
 
-	Monster *monster = monster_ptr.release();
+	Monster* monster = monster_ptr.release();
 	monster->setDirection(dir);
 	monster->setSpawnMonster(this);
 	monster->setMasterPos(pos);
@@ -256,7 +256,7 @@ void SpawnMonster::cleanup() {
 	auto it = spawnedMonsterMap.begin();
 	while (it != spawnedMonsterMap.end()) {
 		uint32_t spawnMonsterId = it->first;
-		Monster *monster = it->second;
+		Monster* monster = it->second;
 		if (monster->isRemoved()) {
 			spawnMonsterMap[spawnMonsterId].lastSpawn = OTSYS_TIME();
 			monster->decrementReferenceCounter();
@@ -268,7 +268,7 @@ void SpawnMonster::cleanup() {
 }
 
 bool SpawnMonster::addMonster(const std::string &name, const Position &pos, Direction dir, uint32_t scheduleInterval) {
-	MonsterType *monsterType = g_monsters().getMonsterType(name);
+	MonsterType* monsterType = g_monsters().getMonsterType(name);
 	if (!monsterType) {
 		SPDLOG_ERROR("Can not find {}", name);
 		return false;
@@ -288,7 +288,7 @@ bool SpawnMonster::addMonster(const std::string &name, const Position &pos, Dire
 	return true;
 }
 
-void SpawnMonster::removeMonster(Monster *monster) {
+void SpawnMonster::removeMonster(Monster* monster) {
 	for (auto it = spawnedMonsterMap.begin(), end = spawnedMonsterMap.end(); it != end; ++it) {
 		if (it->second == monster) {
 			monster->decrementReferenceCounter();

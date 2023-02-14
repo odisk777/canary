@@ -37,7 +37,7 @@ public:
 		return instance;
 	}
 
-	bool SetDatabaseInterface(Database *database);
+	bool SetDatabaseInterface(Database* database);
 	void start();
 	void startThread();
 	void flush();
@@ -50,7 +50,7 @@ public:
 private:
 	void runTask(const DatabaseTask &task);
 
-	Database *db_;
+	Database* db_;
 	std::thread thread;
 	std::list<DatabaseTask> tasks;
 	std::mutex taskLock;

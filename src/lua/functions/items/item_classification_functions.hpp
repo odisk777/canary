@@ -14,7 +14,7 @@
 
 class ItemClassificationFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerClass(L, "ItemClassification", "", ItemClassificationFunctions::luaItemClassificationCreate);
 		registerMetaMethod(L, "ItemClassification", "__eq", ItemClassificationFunctions::luaUserdataCompare);
 
@@ -22,8 +22,8 @@ public:
 	}
 
 private:
-	static int luaItemClassificationCreate(lua_State *L);
-	static int luaItemClassificationAddTier(lua_State *L);
+	static int luaItemClassificationCreate(lua_State* L);
+	static int luaItemClassificationAddTier(lua_State* L);
 };
 
 #endif // SRC_LUA_FUNCTIONS_ITEMS_ITEM_CLASSIFICATION_FUNCTIONS_HPP_

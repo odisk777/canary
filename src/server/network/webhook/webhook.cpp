@@ -16,7 +16,7 @@
 // Go back while you still can.
 
 static bool init = false;
-static curl_slist *headers = NULL;
+static curl_slist* headers = NULL;
 
 void webhook_init() {
 	if (curl_global_init(CURL_GLOBAL_ALL) != 0) {
@@ -34,7 +34,7 @@ void webhook_init() {
 	init = true;
 }
 
-static int webhook_send_message_(const char *url, const char *payload, std::string *response_body);
+static int webhook_send_message_(const char* url, const char* payload, std::string* response_body);
 static std::string get_payload(std::string title, std::string message, int color);
 
 void webhook_send_message(std::string title, std::string message, int color, std::string url) {
@@ -112,8 +112,8 @@ static std::string get_payload(std::string title, std::string message, int color
 	return out.str();
 }
 
-static int webhook_send_message_(const char *url, const char *payload, std::string *response_body) {
-	CURL *curl = curl_easy_init();
+static int webhook_send_message_(const char* url, const char* payload, std::string* response_body) {
+	CURL* curl = curl_easy_init();
 	if (!curl) {
 		SPDLOG_ERROR("Failed to send webhook message; curl_easy_init failed");
 		return -1;
@@ -123,7 +123,7 @@ static int webhook_send_message_(const char *url, const char *payload, std::stri
 	curl_easy_setopt(curl, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_3);
 	curl_easy_setopt(curl, CURLOPT_POST, 1L);
 	curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload);
-	curl_easy_setopt(curl, CURLOPT_WRITEDATA, reinterpret_cast<void *>(&response_body));
+	curl_easy_setopt(curl, CURLOPT_WRITEDATA, reinterpret_cast<void*>(&response_body));
 	curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 	curl_easy_setopt(curl, CURLOPT_USERAGENT, "canary (https://github.com/Hydractify/canary)");
 

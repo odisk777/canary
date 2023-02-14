@@ -445,7 +445,7 @@ enum ItemParseAttributes_t {
 };
 
 struct ImbuementInfo {
-	Imbuement *imbuement;
+	Imbuement* imbuement;
 	uint32_t duration = 0;
 };
 

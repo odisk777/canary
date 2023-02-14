@@ -74,7 +74,7 @@ int32_t DatabaseManager::getDatabaseVersion() {
 }
 
 void DatabaseManager::updateDatabase() {
-	lua_State *L = luaL_newstate();
+	lua_State* L = luaL_newstate();
 	if (!L) {
 		return;
 	}

@@ -59,11 +59,11 @@ public:
 		return instance;
 	}
 
-	Imbuement *getImbuement(uint16_t id);
+	Imbuement* getImbuement(uint16_t id);
 
-	BaseImbuement *getBaseByID(uint16_t id);
-	CategoryImbuement *getCategoryByID(uint16_t id);
-	std::vector<Imbuement *> getImbuements(const Player *player, Item *item);
+	BaseImbuement* getBaseByID(uint16_t id);
+	CategoryImbuement* getCategoryByID(uint16_t id);
+	std::vector<Imbuement*> getImbuements(const Player* player, Item* item);
 
 protected:
 	friend class Imbuement;

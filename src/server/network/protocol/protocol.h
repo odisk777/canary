@@ -65,7 +65,7 @@ protected:
 	void enableXTEAEncryption() {
 		encryptionEnabled = true;
 	}
-	void setXTEAKey(const uint32_t *newKey) {
+	void setXTEAKey(const uint32_t* newKey) {
 		memcpy(this->key.data(), newKey, sizeof(*newKey) * 4);
 	}
 	void setChecksumMethod(ChecksumMethods_t method) {

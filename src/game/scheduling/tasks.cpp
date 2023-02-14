@@ -12,11 +12,11 @@
 #include "game/game.h"
 #include "game/scheduling/tasks.h"
 
-Task *createTask(std::function<void(void)> f) {
+Task* createTask(std::function<void(void)> f) {
 	return new Task(std::move(f));
 }
 
-Task *createTask(uint32_t expiration, std::function<void(void)> f) {
+Task* createTask(uint32_t expiration, std::function<void(void)> f) {
 	return new Task(expiration, std::move(f));
 }
 
@@ -37,7 +37,7 @@ void Dispatcher::threadMain() {
 
 		if (!taskList.empty()) {
 			// take the first task
-			Task *task = taskList.front();
+			Task* task = taskList.front();
 			taskList.pop_front();
 			taskLockUnique.unlock();
 
@@ -53,7 +53,7 @@ void Dispatcher::threadMain() {
 	}
 }
 
-void Dispatcher::addTask(Task *task, bool push_front /*= false*/) {
+void Dispatcher::addTask(Task* task, bool push_front /*= false*/) {
 	bool do_signal = false;
 
 	taskLock.lock();
@@ -79,7 +79,7 @@ void Dispatcher::addTask(Task *task, bool push_front /*= false*/) {
 }
 
 void Dispatcher::shutdown() {
-	Task *task = createTask([this]() {
+	Task* task = createTask([this]() {
 		setState(THREAD_STATE_TERMINATED);
 		taskSignal.notify_one();
 	});

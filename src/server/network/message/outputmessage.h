@@ -24,7 +24,7 @@ public:
 	OutputMessage(const OutputMessage &) = delete;
 	OutputMessage &operator=(const OutputMessage &) = delete;
 
-	uint8_t *getOutputBuffer() {
+	uint8_t* getOutputBuffer() {
 		return buffer + outputBufferStart;
 	}
 

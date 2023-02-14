@@ -18,7 +18,7 @@
 
 class CoreLibsFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		BitFunctions::init(L);
 		DBFunctions::init(L);
 		ResultFunctions::init(L);

@@ -135,7 +135,7 @@ void SpawnNpc::startSpawnNpcCheck() {
 
 SpawnNpc::~SpawnNpc() {
 	for (const auto &it : spawnedNpcMap) {
-		Npc *npc = it.second;
+		Npc* npc = it.second;
 		npc->setSpawnNpc(nullptr);
 		npc->decrementReferenceCounter();
 	}
@@ -144,7 +144,7 @@ SpawnNpc::~SpawnNpc() {
 bool SpawnNpc::findPlayer(const Position &pos) {
 	SpectatorHashSet spectators;
 	g_game().map.getSpectators(spectators, pos, false, true);
-	for (Creature *spectator : spectators) {
+	for (Creature* spectator : spectators) {
 		if (!spectator->getPlayer()->hasFlag(PlayerFlags_t::IgnoredByNpcs)) {
 			return true;
 		}
@@ -156,7 +156,7 @@ bool SpawnNpc::isInSpawnNpcZone(const Position &pos) {
 	return SpawnsNpc::isInZone(centerPos, radius, pos);
 }
 
-bool SpawnNpc::spawnNpc(uint32_t spawnId, NpcType *npcType, const Position &pos, Direction dir, bool startup /*= false*/) {
+bool SpawnNpc::spawnNpc(uint32_t spawnId, NpcType* npcType, const Position &pos, Direction dir, bool startup /*= false*/) {
 	std::unique_ptr<Npc> npc_ptr(new Npc(npcType));
 	if (startup) {
 		// No need to send out events to the surrounding since there is no one out there to listen!
@@ -169,7 +169,7 @@ bool SpawnNpc::spawnNpc(uint32_t spawnId, NpcType *npcType, const Position &pos,
 		}
 	}
 
-	Npc *npc = npc_ptr.release();
+	Npc* npc = npc_ptr.release();
 	npc->setDirection(dir);
 	npc->setSpawnNpc(this);
 	npc->setMasterPos(pos);
@@ -234,7 +234,7 @@ void SpawnNpc::cleanup() {
 	auto it = spawnedNpcMap.begin();
 	while (it != spawnedNpcMap.end()) {
 		uint32_t spawnId = it->first;
-		Npc *npc = it->second;
+		Npc* npc = it->second;
 		if (npc->isRemoved()) {
 			spawnNpcMap[spawnId].lastSpawnNpc = OTSYS_TIME();
 			npc->decrementReferenceCounter();
@@ -246,7 +246,7 @@ void SpawnNpc::cleanup() {
 }
 
 bool SpawnNpc::addNpc(const std::string &name, const Position &pos, Direction dir, uint32_t scheduleInterval) {
-	NpcType *npcType = g_npcs().getNpcType(name);
+	NpcType* npcType = g_npcs().getNpcType(name);
 	if (!npcType) {
 		SPDLOG_ERROR("Can not find {}", name);
 		return false;
@@ -266,7 +266,7 @@ bool SpawnNpc::addNpc(const std::string &name, const Position &pos, Direction di
 	return true;
 }
 
-void SpawnNpc::removeNpc(Npc *npc) {
+void SpawnNpc::removeNpc(Npc* npc) {
 	for (auto it = spawnedNpcMap.begin(), end = spawnedNpcMap.end(); it != end; ++it) {
 		if (it->second == npc) {
 			npc->decrementReferenceCounter();

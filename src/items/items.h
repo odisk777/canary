@@ -21,22 +21,22 @@ public:
 	uint32_t conditionSuppressions = 0;
 
 	// stats modifiers
-	int32_t stats[STAT_LAST + 1] = {0};
-	int32_t statsPercent[STAT_LAST + 1] = {0};
+	int32_t stats[STAT_LAST + 1] = { 0 };
+	int32_t statsPercent[STAT_LAST + 1] = { 0 };
 
 	// extra skill modifiers
-	int32_t skills[SKILL_LAST + 1] = {0};
+	int32_t skills[SKILL_LAST + 1] = { 0 };
 
 	int32_t speed = 0;
 
 	// field damage abilities modifiers
-	int16_t fieldAbsorbPercent[COMBAT_COUNT] = {0};
+	int16_t fieldAbsorbPercent[COMBAT_COUNT] = { 0 };
 
 	// damage abilities modifiers
-	int16_t absorbPercent[COMBAT_COUNT] = {0};
+	int16_t absorbPercent[COMBAT_COUNT] = { 0 };
 
 	// relfect abilities modifires
-	int16_t reflectPercent[COMBAT_COUNT] = {0};
+	int16_t reflectPercent[COMBAT_COUNT] = { 0 };
 
 	// elemental damage
 	uint16_t elementDamage = 0;
@@ -230,7 +230,7 @@ public:
 
 	CombatType_t combatType = COMBAT_NONE;
 
-	uint16_t transformToOnUse[2] = {0, 0};
+	uint16_t transformToOnUse[2] = { 0, 0 };
 	uint16_t transformToFree = 0;
 	uint16_t destroyTo = 0;
 	uint16_t maxTextLen = 0;

@@ -73,7 +73,7 @@ public:
 		return std::holds_alternative<T>(value);
 	}
 
-	void pushToLua(lua_State *L) const;
+	void pushToLua(lua_State* L) const;
 
 	void serialize(PropWriteStream &propWriteStream) const;
 	bool unserialize(PropStream &propStream, const std::string &function);

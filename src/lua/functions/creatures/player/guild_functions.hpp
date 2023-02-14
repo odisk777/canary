@@ -14,7 +14,7 @@
 
 class GuildFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerClass(L, "Guild", "", GuildFunctions::luaGuildCreate);
 		registerMetaMethod(L, "Guild", "__eq", GuildFunctions::luaUserdataCompare);
 
@@ -34,21 +34,21 @@ public:
 	}
 
 private:
-	static int luaGuildCreate(lua_State *L);
+	static int luaGuildCreate(lua_State* L);
 
-	static int luaGuildGetId(lua_State *L);
-	static int luaGuildGetName(lua_State *L);
-	static int luaGuildGetMembersOnline(lua_State *L);
+	static int luaGuildGetId(lua_State* L);
+	static int luaGuildGetName(lua_State* L);
+	static int luaGuildGetMembersOnline(lua_State* L);
 
-	static int luaGuildGetBankBalance(lua_State *L);
-	static int luaGuildSetBankBalance(lua_State *L);
+	static int luaGuildGetBankBalance(lua_State* L);
+	static int luaGuildSetBankBalance(lua_State* L);
 
-	static int luaGuildAddRank(lua_State *L);
-	static int luaGuildGetRankById(lua_State *L);
-	static int luaGuildGetRankByLevel(lua_State *L);
+	static int luaGuildAddRank(lua_State* L);
+	static int luaGuildGetRankById(lua_State* L);
+	static int luaGuildGetRankByLevel(lua_State* L);
 
-	static int luaGuildGetMotd(lua_State *L);
-	static int luaGuildSetMotd(lua_State *L);
+	static int luaGuildGetMotd(lua_State* L);
+	static int luaGuildSetMotd(lua_State* L);
 };
 
 #endif // SRC_LUA_FUNCTIONS_CREATURES_PLAYER_GUILD_FUNCTIONS_HPP_

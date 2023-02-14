@@ -14,7 +14,7 @@
 
 class GlobalEventFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerClass(L, "GlobalEvent", "", GlobalEventFunctions::luaCreateGlobalEvent);
 		registerMethod(L, "GlobalEvent", "type", GlobalEventFunctions::luaGlobalEventType);
 		registerMethod(L, "GlobalEvent", "register", GlobalEventFunctions::luaGlobalEventRegister);
@@ -29,12 +29,12 @@ public:
 	}
 
 private:
-	static int luaCreateGlobalEvent(lua_State *L);
-	static int luaGlobalEventType(lua_State *L);
-	static int luaGlobalEventRegister(lua_State *L);
-	static int luaGlobalEventOnCallback(lua_State *L);
-	static int luaGlobalEventTime(lua_State *L);
-	static int luaGlobalEventInterval(lua_State *L);
+	static int luaCreateGlobalEvent(lua_State* L);
+	static int luaGlobalEventType(lua_State* L);
+	static int luaGlobalEventRegister(lua_State* L);
+	static int luaGlobalEventOnCallback(lua_State* L);
+	static int luaGlobalEventTime(lua_State* L);
+	static int luaGlobalEventInterval(lua_State* L);
 };
 
 #endif // SRC_LUA_FUNCTIONS_EVENTS_GLOBAL_EVENT_FUNCTIONS_HPP_

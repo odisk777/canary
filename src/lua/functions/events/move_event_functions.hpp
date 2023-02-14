@@ -14,7 +14,7 @@
 
 class MoveEventFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerClass(L, "MoveEvent", "", MoveEventFunctions::luaCreateMoveEvent);
 		registerMethod(L, "MoveEvent", "type", MoveEventFunctions::luaMoveEventType);
 		registerMethod(L, "MoveEvent", "register", MoveEventFunctions::luaMoveEventRegister);
@@ -36,19 +36,19 @@ public:
 	}
 
 private:
-	static int luaCreateMoveEvent(lua_State *L);
-	static int luaMoveEventType(lua_State *L);
-	static int luaMoveEventRegister(lua_State *L);
-	static int luaMoveEventOnCallback(lua_State *L);
-	static int luaMoveEventLevel(lua_State *L);
-	static int luaMoveEventSlot(lua_State *L);
-	static int luaMoveEventMagLevel(lua_State *L);
-	static int luaMoveEventPremium(lua_State *L);
-	static int luaMoveEventVocation(lua_State *L);
-	static int luaMoveEventItemId(lua_State *L);
-	static int luaMoveEventActionId(lua_State *L);
-	static int luaMoveEventUniqueId(lua_State *L);
-	static int luaMoveEventPosition(lua_State *L);
+	static int luaCreateMoveEvent(lua_State* L);
+	static int luaMoveEventType(lua_State* L);
+	static int luaMoveEventRegister(lua_State* L);
+	static int luaMoveEventOnCallback(lua_State* L);
+	static int luaMoveEventLevel(lua_State* L);
+	static int luaMoveEventSlot(lua_State* L);
+	static int luaMoveEventMagLevel(lua_State* L);
+	static int luaMoveEventPremium(lua_State* L);
+	static int luaMoveEventVocation(lua_State* L);
+	static int luaMoveEventItemId(lua_State* L);
+	static int luaMoveEventActionId(lua_State* L);
+	static int luaMoveEventUniqueId(lua_State* L);
+	static int luaMoveEventPosition(lua_State* L);
 };
 
 #endif // SRC_LUA_FUNCTIONS_EVENTS_MOVE_EVENT_FUNCTIONS_HPP_

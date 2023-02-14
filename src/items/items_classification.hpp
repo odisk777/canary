@@ -26,7 +26,7 @@ public:
 			}
 		}
 
-		tiers.push_back(std::pair<uint8_t, uint64_t>({tierId, tierPrice}));
+		tiers.push_back(std::pair<uint8_t, uint64_t>({ tierId, tierPrice }));
 	}
 
 	uint8_t id;

@@ -107,11 +107,11 @@ enum Supply_Stash_Actions_t : uint8_t {
 
 // Structs
 struct HighscoreCategory {
-	HighscoreCategory(const char *name, uint8_t id) :
+	HighscoreCategory(const char* name, uint8_t id) :
 		name(name),
 		id(id) { }
 
-	const char *name;
+	const char* name;
 	uint8_t id;
 };
 

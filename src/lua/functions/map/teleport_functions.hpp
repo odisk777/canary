@@ -14,7 +14,7 @@
 
 class TeleportFunctions final : LuaScriptInterface {
 public:
-	static void init(lua_State *L) {
+	static void init(lua_State* L) {
 		registerClass(L, "Teleport", "Item", TeleportFunctions::luaTeleportCreate);
 		registerMetaMethod(L, "Teleport", "__eq", TeleportFunctions::luaUserdataCompare);
 
@@ -23,9 +23,9 @@ public:
 	}
 
 private:
-	static int luaTeleportCreate(lua_State *L);
-	static int luaTeleportGetDestination(lua_State *L);
-	static int luaTeleportSetDestination(lua_State *L);
+	static int luaTeleportCreate(lua_State* L);
+	static int luaTeleportGetDestination(lua_State* L);
+	static int luaTeleportSetDestination(lua_State* L);
 };
 
 #endif // SRC_LUA_FUNCTIONS_MAP_TELEPORT_FUNCTIONS_HPP_

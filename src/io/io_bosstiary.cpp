@@ -59,7 +59,7 @@ void IOBosstiary::loadBoostedBoss() {
 			continue;
 		}
 
-		const MonsterType *mType = getMonsterTypeByBossRaceId(mapBossRaceId);
+		const MonsterType* mType = getMonsterTypeByBossRaceId(mapBossRaceId);
 		if (!mType) {
 			continue;
 		}
@@ -78,7 +78,7 @@ void IOBosstiary::loadBoostedBoss() {
 	query << "UPDATE `boosted_boss` SET ";
 	query << "`date` = '" << today << "',";
 	query << "`boostname` = " << database.escapeString(bossName) << ",";
-	if (const MonsterType *bossType = getMonsterTypeByBossRaceId(bossId);
+	if (const MonsterType* bossType = getMonsterTypeByBossRaceId(bossId);
 		bossType) {
 		query << "`looktype` = " << static_cast<int>(bossType->info.outfit.lookType) << ",";
 		query << "`lookfeet` = " << static_cast<int>(bossType->info.outfit.lookFeet) << ",";
@@ -130,10 +130,10 @@ uint32_t IOBosstiary::getBoostedBossId() const {
 	return boostedBossId;
 }
 
-MonsterType *IOBosstiary::getMonsterTypeByBossRaceId(uint32_t raceId) const {
+MonsterType* IOBosstiary::getMonsterTypeByBossRaceId(uint32_t raceId) const {
 	for ([[maybe_unused]] const auto &[bossRaceId, bossName] : getBosstiaryMap()) {
 		if (bossRaceId == raceId) {
-			MonsterType *monsterType = g_monsters().getMonsterType(bossName);
+			MonsterType* monsterType = g_monsters().getMonsterType(bossName);
 			if (!monsterType) {
 				SPDLOG_ERROR("[{}] Boss with id not found in boss map", raceId);
 				continue;
@@ -146,7 +146,7 @@ MonsterType *IOBosstiary::getMonsterTypeByBossRaceId(uint32_t raceId) const {
 	return nullptr;
 }
 
-void IOBosstiary::addBosstiaryKill(Player *player, const MonsterType *mtype, uint32_t amount /*= 1*/) const {
+void IOBosstiary::addBosstiaryKill(Player* player, const MonsterType* mtype, uint32_t amount /*= 1*/) const {
 	if (!player || !mtype) {
 		return;
 	}
@@ -210,7 +210,7 @@ uint32_t IOBosstiary::calculateBossPoints(uint16_t lootBonus) const {
 	return static_cast<uint32_t>((2.5 * lootBonus * lootBonus) - (477.5 * lootBonus) + 24000);
 }
 
-std::vector<uint32_t> IOBosstiary::getBosstiaryFinished(const Player *player, uint8_t level /* = 1*/) const {
+std::vector<uint32_t> IOBosstiary::getBosstiaryFinished(const Player* player, uint8_t level /* = 1*/) const {
 	std::vector<uint32_t> unlockedMonsters;
 	if (!player) {
 		return unlockedMonsters;
@@ -223,7 +223,7 @@ std::vector<uint32_t> IOBosstiary::getBosstiaryFinished(const Player *player, ui
 			continue;
 		}
 
-		const MonsterType *mType = g_monsters().getMonsterType(bossName);
+		const MonsterType* mType = g_monsters().getMonsterType(bossName);
 		if (!mType) {
 			continue;
 		}
@@ -244,7 +244,7 @@ std::vector<uint32_t> IOBosstiary::getBosstiaryFinished(const Player *player, ui
 	return unlockedMonsters;
 }
 
-uint8_t IOBosstiary::getBossCurrentLevel(const Player *player, uint32_t bossId) const {
+uint8_t IOBosstiary::getBossCurrentLevel(const Player* player, uint32_t bossId) const {
 	if (bossId == 0 || !player) {
 		return 0;
 	}
@@ -278,7 +278,7 @@ uint32_t IOBosstiary::calculteRemoveBoss(uint8_t removeTimes) const {
 	return 300000 * removeTimes - 500000;
 }
 
-std::vector<uint32_t> IOBosstiary::getBosstiaryCooldown(const Player *player) const {
+std::vector<uint32_t> IOBosstiary::getBosstiaryCooldown(const Player* player) const {
 	std::vector<uint32_t> bossesCooldown;
 	if (!player) {
 		return bossesCooldown;
@@ -291,7 +291,7 @@ std::vector<uint32_t> IOBosstiary::getBosstiaryCooldown(const Player *player) co
 			continue;
 		}
 
-		const MonsterType *mType = g_monsters().getMonsterType(bossName);
+		const MonsterType* mType = g_monsters().getMonsterType(bossName);
 		if (!mType) {
 			continue;
 		}

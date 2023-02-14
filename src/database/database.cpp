@@ -43,7 +43,7 @@ bool Database::connect() {
 	return true;
 }
 
-bool Database::connect(const char *host, const char *user, const char *password, const char *database, uint32_t port, const char *sock) {
+bool Database::connect(const char* host, const char* user, const char* password, const char* database, uint32_t port, const char* sock) {
 	// connection handle initialization
 	handle = mysql_init(nullptr);
 	if (!handle) {
@@ -131,7 +131,7 @@ bool Database::executeQuery(const std::string &query) {
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
 
-	MYSQL_RES *m_res = mysql_store_result(handle);
+	MYSQL_RES* m_res = mysql_store_result(handle);
 	databaseLock.unlock();
 
 	if (m_res) {
@@ -162,7 +162,7 @@ retry:
 
 	// we should call that every time as someone would call executeQuery('SELECT...')
 	// as it is described in MySQL manual: "it doesn't hurt" :P
-	MYSQL_RES *res = mysql_store_result(handle);
+	MYSQL_RES* res = mysql_store_result(handle);
 	if (res == nullptr) {
 		SPDLOG_ERROR("Query: {}", query);
 		SPDLOG_ERROR("Message: {}", mysql_error(handle));
@@ -187,7 +187,7 @@ std::string Database::escapeString(const std::string &s) const {
 	return escapeBlob(s.c_str(), s.length());
 }
 
-std::string Database::escapeBlob(const char *s, uint32_t length) const {
+std::string Database::escapeBlob(const char* s, uint32_t length) const {
 	// the worst case is 2n + 1
 	size_t maxLength = (length * 2) + 1;
 
@@ -196,7 +196,7 @@ std::string Database::escapeBlob(const char *s, uint32_t length) const {
 	escaped.push_back('\'');
 
 	if (length != 0) {
-		char *output = new char[maxLength];
+		char* output = new char[maxLength];
 		mysql_real_escape_string(handle, output, s, length);
 		escaped.append(output);
 		delete[] output;
@@ -206,12 +206,12 @@ std::string Database::escapeBlob(const char *s, uint32_t length) const {
 	return escaped;
 }
 
-DBResult::DBResult(MYSQL_RES *res) {
+DBResult::DBResult(MYSQL_RES* res) {
 	handle = res;
 
 	size_t i = 0;
 
-	MYSQL_FIELD *field = mysql_fetch_field(handle);
+	MYSQL_FIELD* field = mysql_fetch_field(handle);
 	while (field) {
 		listNames[field->name] = i++;
 		field = mysql_fetch_field(handle);
@@ -238,7 +238,7 @@ std::string DBResult::getString(const std::string &s) const {
 	return std::string(row[it->second]);
 }
 
-const char *DBResult::getStream(const std::string &s, unsigned long &size) const {
+const char* DBResult::getStream(const std::string &s, unsigned long &size) const {
 	auto it = listNames.find(s);
 	if (it == listNames.end()) {
 		SPDLOG_ERROR("Column '{}' doesn't exist in the result set", s);

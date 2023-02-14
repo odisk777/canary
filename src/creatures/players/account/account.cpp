@@ -51,7 +51,7 @@ Account::Account(const std::string &email) :
  * Interfaces
  ******************************************************************************/
 
-error_t Account::SetDatabaseInterface(Database *database) {
+error_t Account::SetDatabaseInterface(Database* database) {
 	if (database == nullptr) {
 		return ERROR_NULLPTR;
 	}
@@ -60,7 +60,7 @@ error_t Account::SetDatabaseInterface(Database *database) {
 	return ERROR_NO;
 }
 
-error_t Account::SetDatabaseTasksInterface(DatabaseTasks *database_tasks) {
+error_t Account::SetDatabaseTasksInterface(DatabaseTasks* database_tasks) {
 	if (database_tasks == nullptr) {
 		return ERROR_NULLPTR;
 	}
@@ -73,7 +73,7 @@ error_t Account::SetDatabaseTasksInterface(DatabaseTasks *database_tasks) {
  * Coins Methods
  ******************************************************************************/
 
-error_t Account::GetCoins(uint32_t *coins) {
+error_t Account::GetCoins(uint32_t* coins) {
 	if (db_ == nullptr || coins == nullptr || id_ == 0) {
 		return ERROR_NOT_INITIALIZED;
 	}
@@ -202,7 +202,7 @@ error_t Account::LoadAccountDB(std::ostringstream &query) {
 	return ERROR_NO;
 }
 
-error_t Account::LoadAccountPlayerDB(Player *player, std::string &characterName) {
+error_t Account::LoadAccountPlayerDB(Player* player, std::string &characterName) {
 	if (id_ == 0) {
 		return ERROR_NOT_INITIALIZED;
 	}
@@ -222,7 +222,7 @@ error_t Account::LoadAccountPlayerDB(Player *player, std::string &characterName)
 	return ERROR_NO;
 }
 
-error_t Account::LoadAccountPlayersDB(std::vector<Player> *players) {
+error_t Account::LoadAccountPlayersDB(std::vector<Player>* players) {
 	if (id_ == 0) {
 		return ERROR_NOT_INITIALIZED;
 	}
@@ -281,7 +281,7 @@ error_t Account::SetID(uint32_t id) {
 	return ERROR_NO;
 }
 
-error_t Account::GetID(uint32_t *id) {
+error_t Account::GetID(uint32_t* id) {
 	if (id == nullptr) {
 		return ERROR_NULLPTR;
 	}
@@ -298,7 +298,7 @@ error_t Account::SetEmail(std::string email) {
 	return ERROR_NO;
 }
 
-error_t Account::GetEmail(std::string *email) {
+error_t Account::GetEmail(std::string* email) {
 	if (email == nullptr) {
 		return ERROR_NULLPTR;
 	}
@@ -315,7 +315,7 @@ error_t Account::SetPassword(std::string password) {
 	return ERROR_NO;
 }
 
-error_t Account::GetPassword(std::string *password) {
+error_t Account::GetPassword(std::string* password) {
 	if (password == nullptr) {
 		return ERROR_NULLPTR;
 	}
@@ -329,7 +329,7 @@ error_t Account::SetPremiumRemaningDays(uint32_t days) {
 	return ERROR_NO;
 }
 
-error_t Account::GetPremiumRemaningDays(uint32_t *days) {
+error_t Account::GetPremiumRemaningDays(uint32_t* days) {
 	if (days == nullptr) {
 		return ERROR_NULLPTR;
 	}
@@ -346,7 +346,7 @@ error_t Account::SetPremiumLastDay(time_t last_day) {
 	return ERROR_NO;
 }
 
-error_t Account::GetPremiumLastDay(time_t *last_day) {
+error_t Account::GetPremiumLastDay(time_t* last_day) {
 	if (last_day == nullptr) {
 		return ERROR_NULLPTR;
 	}
@@ -363,7 +363,7 @@ error_t Account::SetAccountType(AccountType account_type) {
 	return ERROR_NO;
 }
 
-error_t Account::GetAccountType(AccountType *account_type) {
+error_t Account::GetAccountType(AccountType* account_type) {
 	if (account_type == nullptr) {
 		return ERROR_NULLPTR;
 	}
@@ -372,7 +372,7 @@ error_t Account::GetAccountType(AccountType *account_type) {
 	return ERROR_NO;
 }
 
-error_t Account::GetAccountPlayer(Player *player, std::string &characterName) {
+error_t Account::GetAccountPlayer(Player* player, std::string &characterName) {
 	if (player == nullptr) {
 		return ERROR_NULLPTR;
 	}
@@ -380,7 +380,7 @@ error_t Account::GetAccountPlayer(Player *player, std::string &characterName) {
 	return this->LoadAccountPlayerDB(player, characterName);
 }
 
-error_t Account::GetAccountPlayers(std::vector<Player> *players) {
+error_t Account::GetAccountPlayers(std::vector<Player>* players) {
 	if (players == nullptr) {
 		return ERROR_NULLPTR;
 	}

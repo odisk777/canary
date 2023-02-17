@@ -106,7 +106,7 @@ void House::setOwner(uint32_t guid, bool updateDatabase /* = true*/, Player* pla
 		if (!name.empty()) {
 			owner = guid;
 			ownerName = std::move(name);
-			ownerAccountId =  result->getNumber<uint32_t>("account_id");
+			ownerAccountId = result->getNumber<uint32_t>("account_id");
 		}
 	}
 
@@ -576,9 +576,8 @@ void Door::onRemoved() {
 	}
 }
 
-House* Houses::getHouseByPlayerId(uint32_t playerId)
-{
-	for (auto& [key, value] : houseMap) {
+House* Houses::getHouseByPlayerId(uint32_t playerId) {
+	for (auto &[key, value] : houseMap) {
 		if (value.getOwner() == playerId) {
 			return &value;
 		}
@@ -636,7 +635,7 @@ void Houses::payHouses(RentPeriod_t rentPeriod) const {
 	}
 
 	time_t currentTime = time(nullptr);
-	for (auto& [key, value] : houseMap) {
+	for (auto &[key, value] : houseMap) {
 		auto house = const_cast<House*>(&value);
 		if (house->getOwner() == 0) {
 			continue;

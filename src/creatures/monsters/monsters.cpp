@@ -13,6 +13,7 @@
 
 #include "creatures/combat/spells.h"
 #include "creatures/combat/combat.h"
+#include "creatures/combat/functions/condition_speed.hpp"
 #include "game/game.h"
 #include "items/weapons/weapons.h"
 
@@ -127,6 +128,8 @@ bool Monsters::deserializeSpell(MonsterSpell* spell, spellBlock_t &sb, const std
 		combatPtr->setParam(COMBAT_PARAM_TYPE, spell->combatType);
 	} else if (spellName == "speed") {
 		int32_t speedChange = 0;
+		int32_t speedChangeValue = 0;
+		int32_t speedChangeRange = 0;
 		int32_t duration = 10000;
 
 		if (spell->duration != 0) {
@@ -150,7 +153,9 @@ bool Monsters::deserializeSpell(MonsterSpell* spell, spellBlock_t &sb, const std
 		}
 
 		ConditionSpeed* condition = static_cast<ConditionSpeed*>(Condition::createCondition(CONDITIONID_COMBAT, conditionType, duration, 0));
-		condition->setFormulaVars(speedChange / 1000.0, 0, speedChange / 1000.0, 0);
+		speedChangeRange = speedChange / 2;
+		speedChangeValue = uniform_random(speedChangeRange, speedChange);
+		condition->setFormulaVars(speedChangeValue / 1000.0, 40, speedChangeValue / 1000.0, 40);
 		combatPtr->addCondition(condition);
 	} else if (spellName == "outfit") {
 		int32_t duration = 10000;

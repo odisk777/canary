@@ -27,6 +27,7 @@
 #include <regex>
 #include <set>
 #include <queue>
+#include <variant>
 #include <vector>
 
 #include <asio.hpp>

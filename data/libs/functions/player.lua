@@ -453,18 +453,28 @@ function Player.getFinalBaseRateExperience(self)
 end
 
 function Player.setExhaustion(self, value, time)
-	self:setStorageValue(value, time + os.time())
+    time = time + os.time()
+    self:setStorageValue(value, time)
 end
 
 function Player.getExhaustion(self, value)
-	local storage = self:getStorageValue(value)
-	if not storage or storage <= os.time() then
-		return 0
-	end
+    local storage = self:getStorageValue(value)
+    if not storage or storage <= os.time() then
+        return 0
+    end
 
-	return storage - os.time()
+    return storage - os.time()
 end
 
-function Player:hasExhaustion(value)
-	return self:getExhaustion(value) >= os.time() and true or false
+function Player.hasExhaustion(self,value)
+    return self:getExhaustion(value) > 0 and true or false
+end
+
+function Player:handleExhaustion(value, delay)
+    if self:hasExhaustion(value) then
+        return true
+    else
+        self:setExhaustion(100001, delay)
+        return false
+    end
 end

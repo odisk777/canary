@@ -22,7 +22,7 @@
     },
     {
       "name": "dpp",
-      "platform": "linux"
+      "platform": "!windows"
     },
     {
       "name": "mpir",

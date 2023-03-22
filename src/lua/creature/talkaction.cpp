@@ -20,8 +20,8 @@ void TalkActions::clear() {
 	talkActions.clear();
 }
 
-bool TalkActions::registerLuaEvent(const TalkAction_ptr& event) {
-	TalkAction_ptr talkAction{ event };
+bool TalkActions::registerLuaEvent(const TalkAction_ptr &event) {
+	TalkAction_ptr talkAction { event };
 	std::vector<std::string> words = talkAction->getWordsMap();
 
 	for (size_t i = 0; i < words.size(); i++) {

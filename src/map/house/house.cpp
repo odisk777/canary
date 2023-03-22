@@ -18,8 +18,7 @@
 House::House(uint32_t houseId) :
 	id(houseId) { }
 
-void House::addTile(HouseTile* tile)
-{
+void House::addTile(HouseTile* tile) {
 	houseTiles.push_back(tile);
 	houseTiles.shrink_to_fit();
 	tile->setFlag(TILESTATE_PROTECTIONZONE);

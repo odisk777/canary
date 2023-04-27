@@ -117,25 +117,35 @@ bool Database::executeQuery(const std::string &query) {
 
 	bool success = true;
 
-	// executes the query
-	databaseLock.lock();
+	// Use um std::unique_lock para proteger o acesso ao recurso compartilhado
+	// std::unique_lock<std::recursive_mutex> lock(databaseLock);
 
-	while (mysql_real_query(handle, query.c_str(), query.length()) != 0) {
-		SPDLOG_ERROR("Query: {}", query.substr(0, 256));
-		SPDLOG_ERROR("Message: {}", mysql_error(handle));
-		auto error = mysql_errno(handle);
-		if (error != CR_SERVER_LOST && error != CR_SERVER_GONE_ERROR && error != CR_CONN_HOST_ERROR && error != 1053 /*ER_SERVER_SHUTDOWN*/ && error != CR_CONNECTION_ERROR) {
-			success = false;
-			break;
+	// Executa a consulta em uma thread separada usando std::async
+	std::future<int> result = std::async(std::launch::async, [this, &query]() {
+		while (mysql_real_query(handle, query.c_str(), query.length()) != 0) {
+			SPDLOG_ERROR("Query: {}", query.substr(0, 256));
+			SPDLOG_ERROR("Message: {}", mysql_error(handle));
+			auto error = mysql_errno(handle);
+			if (error != CR_SERVER_LOST && error != CR_SERVER_GONE_ERROR && error != CR_CONN_HOST_ERROR && error != 1053 /*ER_SERVER_SHUTDOWN*/ && error != CR_CONNECTION_ERROR) {
+				return 0;
+			}
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
-		std::this_thread::sleep_for(std::chrono::seconds(1));
-	}
+		MYSQL_RES* res = mysql_store_result(handle);
+		if (res) {
+			mysql_free_result(res);
+		}
+		return 1;
+	});
 
-	MYSQL_RES* m_res = mysql_store_result(handle);
-	databaseLock.unlock();
+	// Continuar a execução da thread principal enquanto aguarda o resultado
+	// da consulta usando o objeto future
+	// ...
 
-	if (m_res) {
-		mysql_free_result(m_res);
+	// Obter o resultado da consulta e usá-lo conforme necessário
+	int res = result.get();
+	if (res == 0) {
+		success = false;
 	}
 
 	return success;
@@ -147,9 +157,10 @@ DBResult_ptr Database::storeQuery(const std::string &query) {
 		return nullptr;
 	}
 
-	std::unique_lock<std::recursive_mutex> lock(databaseLock);
+	// std::unique_lock<std::recursive_mutex> lock(databaseLock);
 
-	auto retryQuery = [this, &query]() -> MYSQL_RES* {
+	// Executar a consulta em uma thread separada usando std::async
+	std::future<MYSQL_RES*> future_result = std::async(std::launch::async, [this, &query]() -> MYSQL_RES* {
 		while (mysql_real_query(handle, query.c_str(), query.length()) != 0) {
 			auto error = mysql_errno(handle);
 			SPDLOG_ERROR("Query: {}", query);
@@ -160,16 +171,19 @@ DBResult_ptr Database::storeQuery(const std::string &query) {
 			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 		return mysql_store_result(handle);
-	};
+	});
 
-	MYSQL_RES* res = nullptr;
-	while ((res = retryQuery()) == nullptr) {
+	// Continuar a execução da thread principal enquanto aguarda o resultado
+	// da consulta usando o objeto future
+	// ...
+
+	// Obter o resultado da consulta e usá-lo conforme necessário
+	MYSQL_RES* res = future_result.get();
+	if (res == nullptr) {
 		auto error = mysql_errno(handle);
-		if (error != CR_SERVER_LOST && error != CR_SERVER_GONE_ERROR && error != CR_CONN_HOST_ERROR && error != 1053 /*ER_SERVER_SHUTDOWN*/ && error != CR_CONNECTION_ERROR) {
-			SPDLOG_ERROR("Query: {}", query);
-			SPDLOG_ERROR("Message: {} ({})", mysql_error(handle), error);
-			return nullptr;
-		}
+		SPDLOG_ERROR("Query: {}", query);
+		SPDLOG_ERROR("Message: {} ({})", mysql_error(handle), error);
+		return nullptr;
 	}
 	DBResult_ptr result = std::make_shared<DBResult>(res);
 	if (!result->hasNext()) {

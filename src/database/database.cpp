@@ -147,35 +147,30 @@ DBResult_ptr Database::storeQuery(const std::string &query) {
 		return nullptr;
 	}
 
-	databaseLock.lock();
+	std::unique_lock<std::recursive_mutex> lock(databaseLock);
 
-retry:
-	while (mysql_real_query(handle, query.c_str(), query.length()) != 0) {
-		SPDLOG_ERROR("Query: {}", query);
-		SPDLOG_ERROR("Message: {}", mysql_error(handle));
-		auto error = mysql_errno(handle);
-		if (error != CR_SERVER_LOST && error != CR_SERVER_GONE_ERROR && error != CR_CONN_HOST_ERROR && error != 1053 /*ER_SERVER_SHUTDOWN*/ && error != CR_CONNECTION_ERROR) {
-			break;
+	auto retryQuery = [this, &query]() -> MYSQL_RES* {
+		while (mysql_real_query(handle, query.c_str(), query.length()) != 0) {
+			auto error = mysql_errno(handle);
+			SPDLOG_ERROR("Query: {}", query);
+			SPDLOG_ERROR("Message: {} ({})", mysql_error(handle), error);
+			if (error != CR_SERVER_LOST && error != CR_SERVER_GONE_ERROR && error != CR_CONN_HOST_ERROR && error != 1053 /*ER_SERVER_SHUTDOWN*/ && error != CR_CONNECTION_ERROR) {
+				return nullptr;
+			}
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
-		std::this_thread::sleep_for(std::chrono::seconds(1));
-	}
+		return mysql_store_result(handle);
+	};
 
-	// we should call that every time as someone would call executeQuery('SELECT...')
-	// as it is described in MySQL manual: "it doesn't hurt" :P
-	MYSQL_RES* res = mysql_store_result(handle);
-	if (res == nullptr) {
-		SPDLOG_ERROR("Query: {}", query);
-		SPDLOG_ERROR("Message: {}", mysql_error(handle));
+	MYSQL_RES* res = nullptr;
+	while ((res = retryQuery()) == nullptr) {
 		auto error = mysql_errno(handle);
 		if (error != CR_SERVER_LOST && error != CR_SERVER_GONE_ERROR && error != CR_CONN_HOST_ERROR && error != 1053 /*ER_SERVER_SHUTDOWN*/ && error != CR_CONNECTION_ERROR) {
-			databaseLock.unlock();
+			SPDLOG_ERROR("Query: {}", query);
+			SPDLOG_ERROR("Message: {} ({})", mysql_error(handle), error);
 			return nullptr;
 		}
-		goto retry;
 	}
-	databaseLock.unlock();
-
-	// retrieving results of query
 	DBResult_ptr result = std::make_shared<DBResult>(res);
 	if (!result->hasNext()) {
 		return nullptr;
@@ -188,22 +183,17 @@ std::string Database::escapeString(const std::string &s) const {
 }
 
 std::string Database::escapeBlob(const char* s, uint32_t length) const {
-	// the worst case is 2n + 1
-	size_t maxLength = (length * 2) + 1;
-
-	std::string escaped;
-	escaped.reserve(maxLength + 2);
-	escaped.push_back('\'');
-
-	if (length != 0) {
-		char* output = new char[maxLength];
-		mysql_real_escape_string(handle, output, s, length);
-		escaped.append(output);
-		delete[] output;
+	if (length == 0) {
+		return "''";
 	}
 
-	escaped.push_back('\'');
-	return escaped;
+	std::vector<char> buffer((length * 2) + 3);
+
+	buffer[0] = '\'';
+	size_t position = mysql_real_escape_string(handle, &buffer[1], s, length) + 1;
+	buffer[position] = '\'';
+
+	return std::string(buffer.begin(), buffer.begin() + position + 1);
 }
 
 DBResult::DBResult(MYSQL_RES* res) {

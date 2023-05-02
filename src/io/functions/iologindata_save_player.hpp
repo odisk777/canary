@@ -14,9 +14,9 @@
 
 class IOLoginDataSave : public IOLoginData {
 	public:
-		static bool savePlayerForgeHistory(Player* player);
-		static bool saveRewardItems(Player* player);
-		static bool savePlayerBosstiary(const Player* player);
+		static bool savePlayerForgeHistory(std::shared_ptr<Player> player);
+		static bool saveRewardItems(std::shared_ptr<Player> player);
+		static bool savePlayerBosstiary(const std::shared_ptr<Player> player);
 };
 
 #endif // SRC_IO__FUNCTIONS_IOLOGINDATASAVE_HPP_

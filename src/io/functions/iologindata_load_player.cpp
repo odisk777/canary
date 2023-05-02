@@ -11,7 +11,7 @@
 
 #include "io/functions/iologindata_load_player.hpp"
 
-void IOLoginDataLoad::loadPlayerForgeHistory(Player* player, DBResult_ptr result) {
+void IOLoginDataLoad::loadPlayerForgeHistory(std::shared_ptr<Player> player, DBResult_ptr result) {
 	std::ostringstream query;
 	query << "SELECT * FROM `forge_history` WHERE `player_id` = " << player->getGUID();
 	if (result = Database::getInstance().storeQuery(query.str())) {
@@ -27,7 +27,7 @@ void IOLoginDataLoad::loadPlayerForgeHistory(Player* player, DBResult_ptr result
 	}
 }
 
-void IOLoginDataLoad::loadRewardItems(Player* player) {
+void IOLoginDataLoad::loadRewardItems(std::shared_ptr<Player> player) {
 	ItemMap itemMap;
 	std::ostringstream query;
 	query.str(std::string());
@@ -40,7 +40,7 @@ void IOLoginDataLoad::loadRewardItems(Player* player) {
 	}
 }
 
-void IOLoginDataLoad::bindRewardBag(Player* player, IOLoginData::ItemMap &itemMap) {
+void IOLoginDataLoad::bindRewardBag(std::shared_ptr<Player> player, IOLoginData::ItemMap &itemMap) {
 	for (auto &[id, itemPair] : itemMap) {
 		const auto [item, pid] = itemPair;
 		if (pid == 0) {
@@ -75,7 +75,7 @@ void IOLoginDataLoad::insertItemsIntoRewardBag(const IOLoginData::ItemMap &itemM
 	}
 }
 
-void IOLoginDataLoad::loadPlayerBosstiary(Player* player, DBResult_ptr result) {
+void IOLoginDataLoad::loadPlayerBosstiary(std::shared_ptr<Player> player, DBResult_ptr result) {
 	std::ostringstream query;
 	query << "SELECT * FROM `player_bosstiary` WHERE `player_id` = " << player->getGUID();
 	if (result = Database::getInstance().storeQuery(query.str())) {

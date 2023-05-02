@@ -16,8 +16,8 @@ class WaitingList {
 	public:
 		static WaitingList &getInstance();
 
-		bool clientLogin(const Player* player);
-		std::size_t getClientSlot(const Player* player);
+		bool clientLogin(const std::shared_ptr<Player> player);
+		std::size_t getClientSlot(const std::shared_ptr<Player> player);
 		static std::size_t getTime(std::size_t slot);
 
 	private:

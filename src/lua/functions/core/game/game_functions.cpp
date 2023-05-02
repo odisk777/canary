@@ -601,7 +601,7 @@ int GameFunctions::luaGameGetOfflinePlayer(lua_State* L) {
 	uint32_t playerId = getNumber<uint32_t>(L, 1);
 
 	Player* offlinePlayer = new Player(nullptr);
-	if (!IOLoginData::loadPlayerById(offlinePlayer, playerId)) {
+	if (!IOLoginData::loadPlayerById(std::shared_ptr<Player>(offlinePlayer), playerId)) {
 		delete offlinePlayer;
 		lua_pushnil(L);
 	} else {

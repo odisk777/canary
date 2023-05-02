@@ -92,7 +92,7 @@ bool BedItem::canUse(Player* player) {
 	}
 
 	Player sleeper(nullptr);
-	if (!IOLoginData::loadPlayerById(&sleeper, sleeperGUID)) {
+	if (!IOLoginData::loadPlayerById(std::shared_ptr<Player>(&sleeper), sleeperGUID)) {
 		return false;
 	}
 
@@ -165,9 +165,9 @@ void BedItem::wakeUp(Player* player) {
 	if (sleeperGUID != 0) {
 		if (player == nullptr) {
 			Player regenPlayer(nullptr);
-			if (IOLoginData::loadPlayerById(&regenPlayer, sleeperGUID)) {
+			if (IOLoginData::loadPlayerById(std::shared_ptr<Player>(&regenPlayer), sleeperGUID)) {
 				regeneratePlayer(&regenPlayer);
-				IOLoginData::savePlayer(&regenPlayer);
+				IOLoginData::savePlayer(std::shared_ptr<Player>(&regenPlayer));
 			}
 		} else {
 			regeneratePlayer(player);

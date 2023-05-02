@@ -219,12 +219,12 @@ bool House::transferToDepot() const {
 		transferToDepot(player);
 	} else {
 		Player tmpPlayer(nullptr);
-		if (!IOLoginData::loadPlayerById(&tmpPlayer, owner)) {
+		if (!IOLoginData::loadPlayerById(std::shared_ptr<Player>(&tmpPlayer), owner)) {
 			return false;
 		}
 
 		transferToDepot(&tmpPlayer);
-		IOLoginData::savePlayer(&tmpPlayer);
+		IOLoginData::savePlayer(std::shared_ptr<Player>(&tmpPlayer));
 	}
 	return true;
 }
@@ -648,7 +648,7 @@ void Houses::payHouses(RentPeriod_t rentPeriod) const {
 		}
 
 		Player player(nullptr);
-		if (!IOLoginData::loadPlayerById(&player, ownerId)) {
+		if (!IOLoginData::loadPlayerById(std::shared_ptr<Player>(&player), ownerId)) {
 			// Player doesn't exist, reset house owner
 			house->setOwner(0);
 			continue;
@@ -714,6 +714,6 @@ void Houses::payHouses(RentPeriod_t rentPeriod) const {
 			}
 		}
 
-		IOLoginData::savePlayer(&player);
+		IOLoginData::savePlayer(std::shared_ptr<Player>(&player));
 	}
 }

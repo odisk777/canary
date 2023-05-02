@@ -98,7 +98,7 @@ bool Mailbox::sendItem(Item* item) const {
 		}
 	} else {
 		Player tmpPlayer(nullptr);
-		if (!IOLoginData::loadPlayerByName(&tmpPlayer, receiver)) {
+		if (!IOLoginData::loadPlayerByName(std::shared_ptr<Player>(&tmpPlayer), receiver)) {
 			return false;
 		}
 
@@ -109,7 +109,7 @@ bool Mailbox::sendItem(Item* item) const {
 				newItem->setAttribute(ItemAttribute_t::DATE, date);
 				newItem->setAttribute(ItemAttribute_t::TEXT, text);
 			}
-			IOLoginData::savePlayer(&tmpPlayer);
+			IOLoginData::savePlayer(std::shared_ptr<Player>(&tmpPlayer));
 			return true;
 		}
 	}

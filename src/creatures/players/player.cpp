@@ -1624,7 +1624,7 @@ void Player::onRemoveCreature(Creature* creature, bool isLogout) {
 
 		bool saved = false;
 		for (uint32_t tries = 0; tries < 3; ++tries) {
-			if (IOLoginData::savePlayer(this)) {
+			if (IOLoginData::savePlayer(shared_from_this())) {
 				saved = true;
 				break;
 			}

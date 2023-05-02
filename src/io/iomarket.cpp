@@ -134,7 +134,7 @@ void IOMarket::processExpiredOffers(DBResult_ptr result, bool) {
 			Player* player = g_game().getPlayerByGUID(playerId);
 			if (!player) {
 				player = new Player(nullptr);
-				if (!IOLoginData::loadPlayerById(player, playerId)) {
+				if (!IOLoginData::loadPlayerById(std::shared_ptr<Player>(player), playerId)) {
 					delete player;
 					continue;
 				}
@@ -179,7 +179,7 @@ void IOMarket::processExpiredOffers(DBResult_ptr result, bool) {
 			}
 
 			if (player->isOffline()) {
-				IOLoginData::savePlayer(player);
+				IOLoginData::savePlayer(std::shared_ptr<Player>(player));
 				delete player;
 			}
 		} else {

@@ -76,7 +76,7 @@ void IOLoginData::updateOnlineStatus(uint32_t guid, bool login) {
 	Database::getInstance().executeQuery(query.str());
 }
 
-bool IOLoginData::preloadPlayer(Player* player, const std::string &name) {
+bool IOLoginData::preloadPlayer(std::shared_ptr<Player> player, const std::string &name) {
 	Database &db = Database::getInstance();
 
 	std::ostringstream query;
@@ -111,21 +111,21 @@ bool IOLoginData::preloadPlayer(Player* player, const std::string &name) {
 	return true;
 }
 
-bool IOLoginData::loadPlayerById(Player* player, uint32_t id) {
+bool IOLoginData::loadPlayerById(std::shared_ptr<Player> player, uint32_t id) {
 	Database &db = Database::getInstance();
 	std::ostringstream query;
 	query << "SELECT * FROM `players` WHERE `id` = " << id;
 	return loadPlayer(player, db.storeQuery(query.str()));
 }
 
-bool IOLoginData::loadPlayerByName(Player* player, const std::string &name) {
+bool IOLoginData::loadPlayerByName(std::shared_ptr<Player> player, const std::string &name) {
 	Database &db = Database::getInstance();
 	std::ostringstream query;
 	query << "SELECT * FROM `players` WHERE `name` = " << db.escapeString(name);
 	return loadPlayer(player, db.storeQuery(query.str()));
 }
 
-bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result) {
+bool IOLoginData::loadPlayer(std::shared_ptr<Player> player, DBResult_ptr result) {
 	if (!result || !player) {
 		return false;
 	}
@@ -683,7 +683,7 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result) {
 	return true;
 }
 
-bool IOLoginData::saveItems(const Player* player, const ItemBlockList &itemList, DBInsert &query_insert, PropWriteStream &propWriteStream) {
+bool IOLoginData::saveItems(const std::shared_ptr<Player> player, const ItemBlockList &itemList, DBInsert &query_insert, PropWriteStream &propWriteStream) {
 	Database &db = Database::getInstance();
 
 	std::ostringstream ss;
@@ -775,7 +775,7 @@ bool IOLoginData::saveItems(const Player* player, const ItemBlockList &itemList,
 	return query_insert.execute();
 }
 
-bool IOLoginData::savePlayer(Player* player) {
+bool IOLoginData::savePlayer(std::shared_ptr<Player> player) {
 	if (player->getHealth() <= 0) {
 		player->changeHealth(1);
 	}
@@ -1283,7 +1283,7 @@ void IOLoginData::loadItems(ItemMap &itemMap, DBResult_ptr result, Player &playe
 		if (item) {
 			if (!item->unserializeAttr(propStream)) {
 				SPDLOG_WARN("[IOLoginData::loadItems] - Failed to unserialize attributes of item {}, of player {}, from account id {}", item->getID(), player.getName(), player.getAccount());
-				savePlayer(&player);
+				savePlayer(std::shared_ptr<Player>(&player, [](Player*) {}));
 			}
 
 			std::pair<Item*, uint32_t> pair(item, pid);

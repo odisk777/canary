@@ -256,7 +256,7 @@ void Game::saveGameState() {
 
 	for (const auto &it : players) {
 		it.second->loginPosition = it.second->getPosition();
-		IOLoginData::savePlayer(it.second);
+		IOLoginData::savePlayer(std::shared_ptr<Player>(it.second));
 	}
 
 	for (const auto &it : guilds) {
@@ -7696,7 +7696,7 @@ void Game::playerCreateMarketOffer(uint32_t playerId, uint8_t type, uint16_t ite
 
 	// Exhausted for create offert in the market
 	player->updateUIExhausted();
-	IOLoginData::savePlayer(player);
+	IOLoginData::savePlayer(std::shared_ptr<Player>(player));
 }
 
 void Game::playerCancelMarketOffer(uint32_t playerId, uint32_t timestamp, uint16_t counter) {
@@ -7780,7 +7780,7 @@ void Game::playerCancelMarketOffer(uint32_t playerId, uint32_t timestamp, uint16
 	player->sendMarketEnter(player->getLastDepotId());
 	// Exhausted for cancel offer in the market
 	player->updateUIExhausted();
-	IOLoginData::savePlayer(player);
+	IOLoginData::savePlayer(std::shared_ptr<Player>(player));
 }
 
 void Game::playerAcceptMarketOffer(uint32_t playerId, uint32_t timestamp, uint16_t counter, uint16_t amount) {
@@ -7832,7 +7832,7 @@ void Game::playerAcceptMarketOffer(uint32_t playerId, uint32_t timestamp, uint16
 		Player* buyerPlayer = getPlayerByGUID(offer.playerId);
 		if (!buyerPlayer) {
 			buyerPlayer = new Player(nullptr);
-			if (!IOLoginData::loadPlayerById(buyerPlayer, offer.playerId)) {
+			if (!IOLoginData::loadPlayerById(std::shared_ptr<Player>(buyerPlayer), offer.playerId)) {
 				delete buyerPlayer;
 				offerStatus << "Failed to load buyer player " << player->getName();
 				return;
@@ -7923,14 +7923,14 @@ void Game::playerAcceptMarketOffer(uint32_t playerId, uint32_t timestamp, uint16
 		}
 
 		if (buyerPlayer->isOffline()) {
-			IOLoginData::savePlayer(buyerPlayer);
+			IOLoginData::savePlayer(std::shared_ptr<Player>(buyerPlayer));
 			delete buyerPlayer;
 		}
 	} else if (offer.type == MARKETACTION_SELL) {
 		Player* sellerPlayer = getPlayerByGUID(offer.playerId);
 		if (!sellerPlayer) {
 			sellerPlayer = new Player(nullptr);
-			if (!IOLoginData::loadPlayerById(sellerPlayer, offer.playerId)) {
+			if (!IOLoginData::loadPlayerById(std::shared_ptr<Player>(sellerPlayer), offer.playerId)) {
 				offerStatus << "Failed to load seller player";
 				delete sellerPlayer;
 				return;
@@ -8023,7 +8023,7 @@ void Game::playerAcceptMarketOffer(uint32_t playerId, uint32_t timestamp, uint16
 		}
 
 		if (sellerPlayer->isOffline()) {
-			IOLoginData::savePlayer(sellerPlayer);
+			IOLoginData::savePlayer(std::shared_ptr<Player>(sellerPlayer));
 			delete sellerPlayer;
 		}
 	}
@@ -8055,7 +8055,7 @@ void Game::playerAcceptMarketOffer(uint32_t playerId, uint32_t timestamp, uint16
 	player->sendMarketAcceptOffer(offer);
 	// Exhausted for accept offer in the market
 	player->updateUIExhausted();
-	IOLoginData::savePlayer(player);
+	IOLoginData::savePlayer(std::shared_ptr<Player>(player));
 }
 
 void Game::parsePlayerExtendedOpcode(uint32_t playerId, uint8_t opcode, const std::string &buffer) {

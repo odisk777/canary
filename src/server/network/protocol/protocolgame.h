@@ -460,7 +460,7 @@ class ProtocolGame final : public Protocol {
 		friend class Player;
 
 		phmap::flat_hash_set<uint32_t> knownCreatureSet;
-		Player* player = nullptr;
+		std::shared_ptr<Player> player;
 
 		uint32_t eventConnect = 0;
 		uint32_t challengeTimestamp = 0;

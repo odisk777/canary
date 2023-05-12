@@ -1152,7 +1152,7 @@ void Player::sendPing() {
 		setAttackedCreature(nullptr);
 	}
 
-	if (noPongTime >= 60000 && canLogout() && g_creatureEvents().playerLogout(this)) {
+	if (noPongTime >= 60000 && canLogout() && g_creatureEvents().playerLogout(shared_from_this())) {
 		if (client) {
 			client->logout(true, true);
 		} else {
@@ -2755,7 +2755,7 @@ void Player::addList() {
 }
 
 void Player::removePlayer(bool displayEffect, bool forced /*= true*/) {
-	g_creatureEvents().playerLogout(this);
+	g_creatureEvents().playerLogout(shared_from_this());
 	if (client) {
 		client->logout(displayEffect, forced);
 	} else {

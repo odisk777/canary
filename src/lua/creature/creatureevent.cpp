@@ -68,11 +68,11 @@ bool CreatureEvents::playerLogin(Player* player) const {
 	return true;
 }
 
-bool CreatureEvents::playerLogout(Player* player) const {
+bool CreatureEvents::playerLogout(std::shared_ptr<Player> player) const {
 	// fire global event if is registered
 	for (const auto &it : creatureEvents) {
 		if (it.second.getEventType() == CREATURE_EVENT_LOGOUT) {
-			if (!it.second.executeOnLogout(player)) {
+			if (!it.second.executeOnLogout(player.get())) {
 				return false;
 			}
 		}

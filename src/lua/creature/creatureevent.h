@@ -83,7 +83,7 @@ class CreatureEvents final : public Scripts {
 
 		// global events
 		bool playerLogin(Player* player) const;
-		bool playerLogout(Player* player) const;
+		bool playerLogout(std::shared_ptr<Player> player) const;
 		bool playerAdvance(Player* player, skills_t, uint32_t, uint32_t) const;
 
 		CreatureEvent* getEventByName(const std::string &name, bool forceLoaded = true);

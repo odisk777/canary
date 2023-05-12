@@ -274,13 +274,13 @@ class ProtocolGame final : public Protocol {
 		void sendMagicEffect(const Position &pos, uint8_t type);
 		void sendRestingStatus(uint8_t protection);
 		void sendCreatureHealth(const Creature* creature);
-		void sendPartyCreatureUpdate(const Creature* target);
-		void sendPartyCreatureShield(const Creature* target);
-		void sendPartyCreatureSkull(const Creature* target);
-		void sendPartyCreatureHealth(const Creature* target, uint8_t healthPercent);
-		void sendPartyPlayerMana(const Player* target, uint8_t manaPercent);
-		void sendPartyCreatureShowStatus(const Creature* target, bool showStatus);
-		void sendPartyPlayerVocation(const Player* target);
+		void sendPartyCreatureUpdate(const std::shared_ptr<Creature> target);
+		void sendPartyCreatureShield(const std::shared_ptr<Creature> target);
+		void sendPartyCreatureSkull(const std::shared_ptr<Creature> target);
+		void sendPartyCreatureHealth(const std::shared_ptr<Creature> target, uint8_t healthPercent);
+		void sendPartyPlayerMana(const std::shared_ptr<Player> target, uint8_t manaPercent);
+		void sendPartyCreatureShowStatus(const std::shared_ptr<Creature> target, bool showStatus);
+		void sendPartyPlayerVocation(const std::shared_ptr<Player> target);
 		void sendPlayerVocation(const Player* target);
 		void sendSkills();
 		void sendPing();
@@ -319,7 +319,7 @@ class ProtocolGame final : public Protocol {
 
 		void sendCreatureWalkthrough(const Creature* creature, bool walkthrough);
 		void sendCreatureShield(const Creature* creature);
-		void sendCreatureEmblem(const Creature* creature);
+		void sendCreatureEmblem(const std::shared_ptr<Creature> creature);
 		void sendCreatureSkull(const Creature* creature);
 		void sendCreatureType(const Creature* creature, uint8_t creatureType);
 
@@ -359,7 +359,7 @@ class ProtocolGame final : public Protocol {
 
 		void sendCreatureLight(const Creature* creature);
 		void sendCreatureIcon(const Creature* creature);
-		void sendUpdateCreature(const Creature* creature);
+		void sendUpdateCreature(const std::shared_ptr<Creature> creature);
 		void sendWorldLight(const LightInfo &lightInfo);
 		void sendTibiaTime(int32_t time);
 
@@ -383,8 +383,8 @@ class ProtocolGame final : public Protocol {
 		void sendRemoveTileThing(const Position &pos, uint32_t stackpos);
 		void sendUpdateTile(const Tile* tile, const Position &pos);
 
-		void sendAddCreature(const Creature* creature, const Position &pos, int32_t stackpos, bool isLogin);
-		void sendMoveCreature(const Creature* creature, const Position &newPos, int32_t newStackPos, const Position &oldPos, int32_t oldStackPos, bool teleport);
+		void sendAddCreature(const std::shared_ptr<Creature> creature, const Position &pos, int32_t stackpos, bool isLogin);
+		void sendMoveCreature(const std::shared_ptr<Creature> creature, const Position &newPos, int32_t newStackPos, const Position &oldPos, int32_t oldStackPos, bool teleport);
 
 		// containers
 		void sendAddContainerItem(uint8_t cid, uint16_t slot, const Item* item);
@@ -424,7 +424,7 @@ class ProtocolGame final : public Protocol {
 		// translate a map area to clientreadable format
 		void GetMapDescription(int32_t x, int32_t y, int32_t z, int32_t width, int32_t height, NetworkMessage &msg);
 
-		void AddCreature(NetworkMessage &msg, const Creature* creature, bool known, uint32_t remove);
+		void AddCreature(NetworkMessage &msg, const std::shared_ptr<Creature> creature, bool known, uint32_t remove);
 		void AddPlayerStats(NetworkMessage &msg);
 		void AddOutfit(NetworkMessage &msg, const Outfit_t &outfit, bool addMount = true);
 		void AddPlayerSkills(NetworkMessage &msg);
@@ -453,7 +453,7 @@ class ProtocolGame final : public Protocol {
 		void sendInventoryImbuements(const std::map<Slots_t, Item*> items);
 
 		// reloadCreature
-		void reloadCreature(const Creature* creature);
+		void reloadCreature(const std::shared_ptr<Creature> creature);
 
 		void getForgeInfoMap(const Item* item, std::map<uint16_t, std::map<uint8_t, uint16_t>> &itemsMap) const;
 

@@ -857,7 +857,8 @@ class Player final : public Creature, public Cylinder, public std::enable_shared
 		void addUnjustifiedDead(const Player* attacked);
 		void sendCreatureEmblem(const Creature* creature) const {
 			if (client) {
-				client->sendCreatureEmblem(creature);
+				std::shared_ptr<Creature> temp_creature(const_cast<Creature*>(creature)); // const_cast is used to cast away the constness
+				client->sendCreatureEmblem(temp_creature);
 			}
 		}
 		void sendCreatureSkull(const Creature* creature) const {
@@ -929,12 +930,14 @@ class Player final : public Creature, public Cylinder, public std::enable_shared
 		}
 		void sendCreatureAppear(const Creature* creature, const Position &pos, bool isLogin) {
 			if (client) {
-				client->sendAddCreature(creature, pos, creature->getTile()->getStackposOfCreature(this, creature), isLogin);
+				std::shared_ptr<Creature> temp_creature(const_cast<Creature*>(creature));
+				client->sendAddCreature(temp_creature, pos, creature->getTile()->getStackposOfCreature(this, creature), isLogin);
 			}
 		}
 		void sendCreatureMove(const Creature* creature, const Position &newPos, int32_t newStackPos, const Position &oldPos, int32_t oldStackPos, bool teleport) {
 			if (client) {
-				client->sendMoveCreature(creature, newPos, newStackPos, oldPos, oldStackPos, teleport);
+				std::shared_ptr<Creature> temp_creature(const_cast<Creature*>(creature));
+				client->sendMoveCreature(temp_creature, newPos, newStackPos, oldPos, oldStackPos, teleport);
 			}
 		}
 		void sendCreatureTurn(const Creature* creature) {
@@ -952,7 +955,8 @@ class Player final : public Creature, public Cylinder, public std::enable_shared
 		}
 		void sendCreatureReload(const Creature* creature) {
 			if (client) {
-				client->reloadCreature(creature);
+				std::shared_ptr<Creature> temp_creature(const_cast<Creature*>(creature));
+				client->reloadCreature(temp_creature);
 			}
 		}
 		void sendPrivateMessage(const Player* speaker, SpeakClasses type, const std::string &text) {
@@ -991,7 +995,8 @@ class Player final : public Creature, public Cylinder, public std::enable_shared
 				}
 
 				if (visible) {
-					client->sendAddCreature(creature, creature->getPosition(), stackpos, false);
+					std::shared_ptr<Creature> temp_creature(const_cast<Creature*>(creature));
+					client->sendAddCreature(temp_creature, creature->getPosition(), stackpos, false);
 				} else {
 					client->sendRemoveTileThing(creature->getPosition(), stackpos);
 				}
@@ -1009,7 +1014,8 @@ class Player final : public Creature, public Cylinder, public std::enable_shared
 		}
 		void sendUpdateCreature(const Creature* creature) const {
 			if (client) {
-				client->sendUpdateCreature(creature);
+				std::shared_ptr<Creature> temp_creature(const_cast<Creature*>(creature));
+				client->sendUpdateCreature(temp_creature);
 			}
 		}
 		void sendCreatureWalkthrough(const Creature* creature, bool walkthrough) {
@@ -1044,7 +1050,8 @@ class Player final : public Creature, public Cylinder, public std::enable_shared
 		}
 		void reloadCreature(const Creature* creature) {
 			if (client) {
-				client->reloadCreature(creature);
+				std::shared_ptr<Creature> temp_creature(const_cast<Creature*>(creature));
+				client->reloadCreature(temp_creature);
 			}
 		}
 		void sendModalWindow(const ModalWindow &modalWindow);
@@ -1153,37 +1160,44 @@ class Player final : public Creature, public Cylinder, public std::enable_shared
 		}
 		void sendPartyCreatureUpdate(const Creature* creature) const {
 			if (client) {
-				client->sendPartyCreatureUpdate(creature);
+				std::shared_ptr<Creature> temp_creature(const_cast<Creature*>(creature));
+				client->sendPartyCreatureUpdate(temp_creature);
 			}
 		}
 		void sendPartyCreatureShield(const Creature* creature) const {
 			if (client) {
-				client->sendPartyCreatureShield(creature);
+				std::shared_ptr<Creature> temp_creature(const_cast<Creature*>(creature));
+				client->sendPartyCreatureShield(temp_creature);
 			}
 		}
 		void sendPartyCreatureSkull(const Creature* creature) const {
 			if (client) {
-				client->sendPartyCreatureSkull(creature);
+				std::shared_ptr<Creature> temp_creature(const_cast<Creature*>(creature));
+				client->sendPartyCreatureSkull(temp_creature);
 			}
 		}
 		void sendPartyCreatureHealth(const Creature* creature, uint8_t healthPercent) const {
 			if (client) {
-				client->sendPartyCreatureHealth(creature, healthPercent);
+				std::shared_ptr<Creature> temp_creature(const_cast<Creature*>(creature));
+				client->sendPartyCreatureHealth(temp_creature, healthPercent);
 			}
 		}
 		void sendPartyPlayerMana(const Player* player, uint8_t manaPercent) const {
 			if (client) {
-				client->sendPartyPlayerMana(player, manaPercent);
+				std::shared_ptr<Player> temp_creature(const_cast<Player*>(player));
+				client->sendPartyPlayerMana(temp_creature, manaPercent);
 			}
 		}
 		void sendPartyCreatureShowStatus(const Creature* creature, bool showStatus) const {
 			if (client) {
-				client->sendPartyCreatureShowStatus(creature, showStatus);
+				std::shared_ptr<Creature> temp_creature(const_cast<Creature*>(creature));
+				client->sendPartyCreatureShowStatus(temp_creature, showStatus);
 			}
 		}
 		void sendPartyPlayerVocation(const Player* player) const {
 			if (client) {
-				client->sendPartyPlayerVocation(player);
+				std::shared_ptr<Player> temp_creature(const_cast<Player*>(player));
+				client->sendPartyPlayerVocation(temp_creature);
 			}
 		}
 		void sendPlayerVocation(const Player* player) const {

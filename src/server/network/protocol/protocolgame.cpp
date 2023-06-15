@@ -29,6 +29,7 @@
 #include "creatures/combat/spells.h"
 #include "creatures/players/management/waitlist.h"
 #include "items/weapons/weapons.h"
+#include "security/TOTPAuthenticator.hpp"
 
 /*
  * NOTE: This namespace is used so that we can add functions without having to declare them in the ".hpp/.h" file
@@ -531,12 +532,24 @@ void ProtocolGame::onRecvFirstMessage(NetworkMessage &msg) {
 
 	std::ostringstream ss;
 	std::string sessionKey = msg.getString();
-	size_t pos = sessionKey.find('\n');
-	if (pos == std::string::npos) {
+	std::istringstream sessionStream(sessionKey);
+	std::string accountIdentifier, sessionOrPassword, token, timeToken;
+
+	if (!std::getline(sessionStream, accountIdentifier, '\n')) {
 		ss << "You must enter your " << (oldProtocol ? "username" : "email") << ".";
 		disconnectClient(ss.str());
 		return;
 	}
+
+	if (!std::getline(sessionStream, sessionOrPassword, '\n')) {
+		ss << "You must enter your password"
+		   << ".";
+		disconnectClient(ss.str());
+		return;
+	}
+
+	std::getline(sessionStream, token, '\n');
+	std::getline(sessionStream, timeToken, '\n');
 
 	if (!oldProtocol && operatingSystem == CLIENTOS_NEW_LINUX) {
 		// TODO: check what new info for linux is send
@@ -544,15 +557,6 @@ void ProtocolGame::onRecvFirstMessage(NetworkMessage &msg) {
 		msg.getString();
 	}
 
-	std::string accountIdentifier = sessionKey.substr(0, pos);
-	if (accountIdentifier.empty()) {
-		ss.str(std::string());
-		ss << "You must enter your " << (oldProtocol ? "username" : "email") << ".";
-		disconnectClient(ss.str());
-		return;
-	}
-
-	std::string password = sessionKey.substr(pos + 1);
 	std::string characterName = msg.getString();
 
 	const Player* foundPlayer = g_game().getPlayerUniqueLogin(characterName);
@@ -602,11 +606,25 @@ void ProtocolGame::onRecvFirstMessage(NetworkMessage &msg) {
 	}
 
 	uint32_t accountId;
-	if (!IOLoginData::gameWorldAuthentication(accountIdentifier, password, characterName, &accountId, oldProtocol)) {
+	if (!IOLoginData::gameWorldAuthentication(accountIdentifier, sessionOrPassword, characterName, &accountId, oldProtocol)) {
 		ss.str(std::string());
 		ss << (oldProtocol ? "Username" : "Email") << " or password is not correct.";
 		disconnectClient(ss.str());
 		return;
+	}
+
+	uint32_t tokenTime = static_cast<uint64_t>(std::time(nullptr) / 30); // = timeToken;
+	if (!token.empty() && tokenTime > 0) {
+		TOTPAuthenticator authenticator;
+		bool checkToken = token == authenticator.verifyToken(accountId, tokenTime)
+			|| token == authenticator.verifyToken(accountId, tokenTime - 1)
+			|| token == authenticator.verifyToken(accountId, tokenTime + 1);
+
+		if (!checkToken) {
+			std::stringstream ss;
+			ss << "Token inválido.";
+			disconnectClient(ss.str());
+		}
 	}
 
 	g_dispatcher().addTask(createTask(std::bind(&ProtocolGame::login, getThis(), characterName, accountId, operatingSystem)));

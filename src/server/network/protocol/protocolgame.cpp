@@ -533,7 +533,7 @@ void ProtocolGame::onRecvFirstMessage(NetworkMessage &msg) {
 	std::ostringstream ss;
 	std::string sessionKey = msg.getString();
 	std::istringstream sessionStream(sessionKey);
-	std::string accountIdentifier, sessionOrPassword, token, timeToken;
+	std::string accountIdentifier, password, token, timeToken;
 
 	if (!std::getline(sessionStream, accountIdentifier, '\n')) {
 		ss << "You must enter your " << (oldProtocol ? "username" : "email") << ".";
@@ -541,7 +541,7 @@ void ProtocolGame::onRecvFirstMessage(NetworkMessage &msg) {
 		return;
 	}
 
-	if (!std::getline(sessionStream, sessionOrPassword, '\n')) {
+	if (!std::getline(sessionStream, password, '\n')) {
 		ss << "You must enter your password"
 		   << ".";
 		disconnectClient(ss.str());
@@ -606,7 +606,7 @@ void ProtocolGame::onRecvFirstMessage(NetworkMessage &msg) {
 	}
 
 	uint32_t accountId;
-	if (!IOLoginData::gameWorldAuthentication(accountIdentifier, sessionOrPassword, characterName, &accountId, oldProtocol)) {
+	if (!IOLoginData::gameWorldAuthentication(accountIdentifier, password, characterName, &accountId, oldProtocol)) {
 		ss.str(std::string());
 		ss << (oldProtocol ? "Username" : "Email") << " or password is not correct.";
 		disconnectClient(ss.str());

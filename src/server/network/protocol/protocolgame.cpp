@@ -613,17 +613,42 @@ void ProtocolGame::onRecvFirstMessage(NetworkMessage &msg) {
 		return;
 	}
 
-	uint32_t tokenTime = static_cast<uint64_t>(std::time(nullptr) / 30); // = timeToken;
-	if (!token.empty() && tokenTime > 0) {
-		TOTPAuthenticator authenticator;
-		bool checkToken = token == authenticator.verifyToken(accountId, tokenTime)
-			|| token == authenticator.verifyToken(accountId, tokenTime - 1)
-			|| token == authenticator.verifyToken(accountId, tokenTime + 1);
+	static phmap::flat_hash_map<uint32_t, time_t> lastTokenCheck;
+	time_t currentTime = std::time(nullptr);
+	int timeValueInt = std::stoi(timeToken);
+	time_t oneHour = static_cast<time_t>(timeValueInt);
 
-		if (!checkToken) {
+	// Se o accountId não estiver no mapa, faça a autenticação
+	if (lastTokenCheck.find(accountId) == lastTokenCheck.end()) {
+		if (!token.empty()) {
 			std::stringstream ss;
-			ss << "Token inválido.";
-			disconnectClient(ss.str());
+			TOTPAuthenticator authenticator;
+			uint32_t tokenTime = static_cast<uint64_t>(std::time(nullptr) / AUTHENTICATOR_PERIOD);
+			bool checkToken = token == authenticator.verifyToken(accountId, tokenTime)
+				|| token == authenticator.verifyToken(accountId, tokenTime - 1)
+				|| token == authenticator.verifyToken(accountId, tokenTime + 1);
+
+			if (!checkToken) {
+				ss << "Token invalido.";
+				disconnectClient(ss.str());
+				return;
+			}
+
+			// Adicione o accountId ao mapa com o tempo atual
+			lastTokenCheck[accountId] = currentTime;
+		}
+	} else {
+		// Verifique se já passou uma hora desde a última verificação para este accountId
+		if ((currentTime - lastTokenCheck[accountId]) >= oneHour) {
+			std::stringstream ss;
+			ss << "Token expirado, faca login novamente.";
+			auto output = OutputMessagePool::getOutputMessage();
+			output->addByte(0x14);
+			output->addString(ss.str());
+			send(output);
+			lastTokenCheck.erase(accountId);
+			g_scheduler().addEvent(createSchedulerTask(1000, std::bind(&ProtocolGame::disconnect, getThis())));
+			return;
 		}
 	}
 

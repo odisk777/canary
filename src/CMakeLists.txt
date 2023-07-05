@@ -143,6 +143,7 @@ find_package(magic_enum CONFIG REQUIRED)
 find_package(Protobuf REQUIRED)
 find_package(pugixml CONFIG REQUIRED)
 find_package(spdlog REQUIRED)
+find_package(unofficial-argon2 CONFIG REQUIRED)
 find_package(unofficial-libmariadb CONFIG REQUIRED)
 find_package(mio REQUIRED)
 find_package(Threads REQUIRED)
@@ -287,6 +288,7 @@ PRIVATE
 	map/map.cpp
 	otserv.cpp
 	security/rsa.cpp
+	security/argon.cpp
 	server/network/connection/connection.cpp
 	server/network/message/networkmessage.cpp
 	server/network/message/outputmessage.cpp
@@ -348,6 +350,7 @@ if (MSVC)
 			protobuf::libprotobuf
 			pugixml::pugixml
 			spdlog::spdlog
+      unofficial::argon2::libargon2
 			unofficial::libmariadb
 			unofficial::mariadbclient
 			ZLIB::ZLIB
@@ -376,6 +379,7 @@ else()
 			protobuf::libprotobuf
 			pugixml::pugixml
 			spdlog::spdlog
+      unofficial::argon2::libargon2
 			unofficial::libmariadb
 			unofficial::mariadbclient
 			ZLIB::ZLIB

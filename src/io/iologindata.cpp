@@ -15,6 +15,7 @@
 #include "game/game.h"
 #include "creatures/monsters/monster.h"
 #include "io/ioprey.h"
+#include "security/argon.hpp"
 
 bool IOLoginData::authenticateAccountPassword(const std::string &accountIdentifier, const std::string &password, account::Account* account) {
 	if (account::ERROR_NO != account->LoadAccountDB(accountIdentifier)) {
@@ -24,9 +25,13 @@ bool IOLoginData::authenticateAccountPassword(const std::string &accountIdentifi
 
 	std::string accountPassword;
 	account->GetPassword(&accountPassword);
-	if (transformToSHA1(password) != accountPassword) {
-		SPDLOG_ERROR("Password '{}' doesn't match any account", transformToSHA1(password));
-		return false;
+
+	Argon2 argon2;
+	if (!argon2.argon(password.c_str(), accountPassword)) {
+		if (transformToSHA1(password) != accountPassword) {
+			SPDLOG_ERROR("Password '{}' doesn't match any account", accountPassword);
+			return false;
+		}
 	}
 
 	return true;

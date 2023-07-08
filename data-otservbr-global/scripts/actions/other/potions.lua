@@ -259,10 +259,12 @@ function flaskPotion.onUse(player, item, fromPosition, target, toPosition, isHot
 			potion.combat:execute(target, Variant(target:getId()))
 		end
 
-		if not potion.effect then
-			target:getPosition():sendMagicEffect(CONST_ME_MAGIC_BLUE)
+		if target and not potion.effect then
+    local position = target:getPosition()
+    if position then
+        position:sendMagicEffect(CONST_ME_MAGIC_BLUE)
+    end
 		end
-
 		player:addAchievementProgress('Potion Addict', 100000)
 		target:say("Aaaah...", MESSAGE_POTION)
 		if fromPosition.x == CONTAINER_POSITION and not container == store_inbox then

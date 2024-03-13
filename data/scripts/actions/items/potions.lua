@@ -92,7 +92,7 @@ function flaskPotion.onUse(player, item, fromPosition, target, toPosition, isHot
 			local inbox = player:getSlotItem(CONST_SLOT_STORE_INBOX)
 
 			if fromPosition.x == CONTAINER_POSITION and container ~= inbox and container:getEmptySlots() ~= 0 then
-				container:addItem(potion.flask, 1)
+				
 			else
 				Game.createItem(potion.flask, 1, fromPosition)
 			end
